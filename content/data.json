@@ -1,0 +1,24 @@
+{
+  "thoughts": [
+    {
+      "type": "thought",
+      "ts": 1779782400000,
+      "text_zh": "做 Typevoise 之前，我以为难点是识别。\n\n后来花了几周时间死磕识别，模型从 Whisper 换到 Apple Speech 再换回来，输出还是「啊那个就是嗯然后我觉得」。我才反应过来：语音输入的瓶颈从来不是「听得清不清」，是「能不能给我一段像键盘打出来的话」。\n\n于是我加了一步：把识别结果丢给 Claude 润色一下。\n\n整个 App 突然就能用了。\n\n市面上大多数语音工具死在了这一步。识别准确率从 93% 卷到 95%，没人愿意多花那 0.2 秒去润色。\n\n但用户要的从来不是「准」，是「我说一段话，出来一段能直接发出去的字」。",
+      "text_en": "Before I built Typevoise, I thought the hard part was recognition.\n\nI burned weeks on it — swapped Whisper for Apple's Speech framework and back, tuned the models. The output was still \"uh you know like um yeah I think.\" That's when it hit me: the bottleneck in voice input has never been \"can the machine hear me.\" It's \"can it give me back a paragraph that reads like I typed it.\"\n\nSo I added one step: pipe the transcript through Claude to clean it up.\n\nThe app instantly became usable.\n\nMost voice tools die at this last mile. They grind recognition accuracy from 93% to 95% — nobody wants to spend the extra 0.2 seconds on polishing.\n\nBut what users want has never been \"accurate.\" It's \"I speak, and what comes out is something I can ship.\""
+    },
+    {
+      "type": "thought",
+      "ts": 1748246400000,
+      "text_zh": "网站搭起来了。\n\n后面我想把这里当成自己的「数字花园」—— 记一些做 AI 课程时的观察，写一些独立开发路上的小笔记，发一些觉得值得留下来的截图。\n\n更新频率不打算定，写到哪算哪。",
+      "text_en": "The site is up.\n\nI'd like to treat this place as my digital garden — notes from teaching AI courses, scraps from the indie hacker road, and screenshots worth keeping.\n\nNo posting schedule. Whenever I feel like it."
+    },
+    {
+      "type": "thought",
+      "ts": 1748160000000,
+      "text_zh": "今天教学员一个事：写代码之前先把「想清楚」的部分用文字写出来。\n\n你以为自己想清楚了，等到要用文字描述给 AI 听的时候，才会发现哪里其实没想清楚。\n\n写不出来的，不是 AI 的问题，是自己的问题。",
+      "text_en": "Lesson I taught today: before writing code, write out the part you've thought through.\n\nYou think you have it figured out, until you try to describe it to AI in words — that's when you find the gaps.\n\nIf you can't write it down, it's not the AI's problem."
+    }
+  ],
+  "images": [],
+  "writing": []
+}
