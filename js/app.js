@@ -535,3 +535,21 @@ document.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('.col-loader').forEach(el => { el.textContent = msg; });
     });
 });
+
+// ──────────────────────────────────────────────
+// 性能：tab 切走时暂停背景视频, 切回时恢复（仅之前在播的）
+// 避免后台 tab 持续解码 leaves/moon/rain.mp4 占用 CPU/GPU
+// ──────────────────────────────────────────────
+document.addEventListener('visibilitychange', () => {
+  document.querySelectorAll('video[loop]').forEach(v => {
+    if (document.hidden) {
+      if (!v.paused) {
+        v.dataset.wasPlaying = '1';
+        v.pause();
+      }
+    } else if (v.dataset.wasPlaying === '1') {
+      delete v.dataset.wasPlaying;
+      v.play().catch(() => {});
+    }
+  });
+});
