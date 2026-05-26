@@ -19,6 +19,31 @@
       "text_en": "Lesson I taught today: before writing code, write out the part you've thought through.\n\nYou think you have it figured out, until you try to describe it to AI in words — that's when you find the gaps.\n\nIf you can't write it down, it's not the AI's problem."
     }
   ],
-  "images": [],
+  "images": [
+    {
+      "url": "https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=1200&q=80&auto=format&fit=crop",
+      "ts": 1779717600000,
+      "caption_zh": "深夜 · 银河流星",
+      "caption_en": "Night · meteor through the milky way"
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1200&q=80&auto=format&fit=crop",
+      "ts": 1779609600000,
+      "caption_zh": "晚夏 · 林间斜光",
+      "caption_en": "Late summer · light through the woods"
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1428592953211-077101b2021b?w=1200&q=80&auto=format&fit=crop",
+      "ts": 1779516000000,
+      "caption_zh": "雨天 · 雨落成纹",
+      "caption_en": "Rain · ripples on dark water"
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?w=1200&q=80&auto=format&fit=crop",
+      "ts": 1779411600000,
+      "caption_zh": "白昼 · 雪线之上",
+      "caption_en": "Dawn · above the snowline"
+    }
+  ],
   "writing": []
 }
