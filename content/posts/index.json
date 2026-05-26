@@ -6,5 +6,29 @@
     "title_en": "Typevoise's Last Mile",
     "excerpt_zh": "做 Typevoise 之前我以为难点是识别。后来发现真正的瓶颈在另一个地方。",
     "excerpt_en": "Before Typevoise I thought the hard part was recognition. The real bottleneck was somewhere else."
+  },
+  {
+    "slug": "not-using-it-right",
+    "ts": 1779696000000,
+    "title_zh": "AI 时代最危险的不是不会用",
+    "title_en": "The Real Risk in the AI Era Isn't That You Don't Use It",
+    "excerpt_zh": "教零基础学员的时候我观察到三种「假装会用 AI」的姿势。哪一种都能让聪明人陷在原地。",
+    "excerpt_en": "Teaching beginners, I noticed three postures of pretending to use AI. Any one of them can trap a smart person in place."
+  },
+  {
+    "slug": "metaphor-budget",
+    "ts": 1779609600000,
+    "title_zh": "一门课的比喻预算",
+    "title_en": "A Course's Metaphor Budget",
+    "excerpt_zh": "做课的人总想给每个概念配比喻。但学员的脑子里只有三个槽位。多了不是加分，是互相冲撞。",
+    "excerpt_en": "Course designers want a metaphor for every concept. But students only have three slots. More than that, metaphors don't add — they collide."
+  },
+  {
+    "slug": "why-i-self-host",
+    "ts": 1779523200000,
+    "title_zh": "为什么自建一个 Claude Code 中转网关",
+    "title_en": "Why I Self-Host a Claude Code Gateway",
+    "excerpt_zh": "朋友问我为什么不直接订 Claude Pro。一开始我以为是为了省钱，做完之后才明白不是。",
+    "excerpt_en": "A friend asked why I don't just subscribe to Claude Pro. I thought it was about money. Turns out it wasn't."
   }
 ]

@@ -68,6 +68,15 @@ async function showPost(slug) {
   }
   const lang = window.CURRENT_LANG || 'zh';
 
+  // 立即进入阅读模式 + 显示 loading（content opacity 0, .post-loading opacity 1）
+  document.body.classList.remove('post-ready');
+  document.body.classList.add('reading');
+  const view = document.getElementById('post-view');
+  view.hidden = false;
+
+  const t0 = Date.now();
+  const MIN_LOADING = 380;  // 保证 loading 至少展示 380ms, 节奏更舒服
+
   let md = '';
   try {
     const res = await fetch(`content/posts/${slug}.${lang}.md`);
@@ -90,7 +99,6 @@ async function showPost(slug) {
     md = lines.slice(1).join('\n').trim();
   }
 
-  const view = document.getElementById('post-view');
   view.querySelector('.post-title').textContent = title;
   view.querySelector('.post-body').innerHTML = marked.parse(md);
 
@@ -100,15 +108,28 @@ async function showPost(slug) {
     year: 'numeric', month: 'short', day: 'numeric',
   });
 
+  // 等够 MIN_LOADING, 让 loading 动画呼吸一下再切到内容
+  const elapsed = Date.now() - t0;
+  if (elapsed < MIN_LOADING) {
+    await new Promise(r => setTimeout(r, MIN_LOADING - elapsed));
+  }
+
   view.scrollTop = 0;
-  document.body.classList.add('reading');
-  view.hidden = false;
+  // 路由切换时如果当前 slug 已经变了, 不要覆盖 (防快速点击竞态)
+  if (currentSlug !== slug) return;
+  document.body.classList.add('post-ready');
 }
 
 function hidePost() {
   document.body.classList.remove('reading');
+  document.body.classList.remove('post-ready');
   const view = document.getElementById('post-view');
-  if (view) view.hidden = true;
+  if (view) {
+    // 等淡出过渡跑完再 hidden, 避免突然消失
+    setTimeout(() => {
+      if (!document.body.classList.contains('reading')) view.hidden = true;
+    }, 360);
+  }
   currentSlug = null;
 }
 
