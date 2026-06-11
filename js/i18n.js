@@ -17,10 +17,11 @@ window.I18N = {
       { label: 'Claude 登录常见问题 · FAQ', href: '#/p/claude-login-faq' }
     ],
     artifacts: [
-      { label: 'Ghostty 终端配置 · 课件总览', href: '/ghostty-terminal/' },
+      // 暂时隐藏：Ghostty 终端配置 / AI Gateway / VPN Fleet
+      // { label: 'Ghostty 终端配置 · 课件总览', href: '/ghostty-terminal/' },
       { label: '分账计算器 · 课程收入按比例分账', href: 'https://coding.chengbei.org' },
-      { label: 'AI Gateway · Claude Code 中转', href: 'https://gw.diaoye.org' },
-      { label: 'VPN Fleet · 节点调度面板', href: 'https://vpn.chengbei.org' },
+      // { label: 'AI Gateway · Claude Code 中转', href: 'https://gw.diaoye.org' },
+      // { label: 'VPN Fleet · 节点调度面板', href: 'https://vpn.chengbei.org' },
       { label: 'App Store · 上架完整指南', href: 'https://news.diaoye.org' },
       { label: 'cc-doctor · 一键拯救 Claude Code', href: 'https://www.ccswitch.io' },
       { label: 'Balatro Web · 8 轮课程演示', href: 'https://diaojz.github.io/balatro-game/' },
@@ -70,10 +71,11 @@ window.I18N = {
       { label: 'Claude login · FAQ', href: '#/p/claude-login-faq' }
     ],
     artifacts: [
-      { label: 'Ghostty Terminal Setup · course deck', href: '/ghostty-terminal/' },
+      // Temporarily hidden: Ghostty Terminal Setup / AI Gateway / VPN Fleet
+      // { label: 'Ghostty Terminal Setup · course deck', href: '/ghostty-terminal/' },
       { label: 'Profit Calculator · revenue split tool', href: 'https://coding.chengbei.org' },
-      { label: 'AI Gateway · Claude Code relay', href: 'https://gw.diaoye.org' },
-      { label: 'VPN Fleet · node dispatch panel', href: 'https://vpn.chengbei.org' },
+      // { label: 'AI Gateway · Claude Code relay', href: 'https://gw.diaoye.org' },
+      // { label: 'VPN Fleet · node dispatch panel', href: 'https://vpn.chengbei.org' },
       { label: 'App Store · launch guide', href: 'https://news.diaoye.org' },
       { label: 'cc-doctor · one-click Claude Code fix', href: 'https://www.ccswitch.io' },
       { label: 'Balatro Web · 8-lesson course demo', href: 'https://diaojz.github.io/balatro-game/' },
