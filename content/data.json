@@ -2,21 +2,51 @@
   "thoughts": [
     {
       "type": "thought",
+      "ts": 1781078400000,
+      "text_zh": "AI 没有降低做软件的门槛，它把门槛搬了个地方。\n\n过去难在执行：记语法、配环境、读报错。现在这些 AI 全包了，难的变成另外三件事——能不能把问题说清楚，能不能把任务拆清楚，能不能判断 AI 给的结果对不对。\n\n所以同样用 AI，人和人的差距不是缩小了，是被放大了。工具一样，杠杆不一样。\n\n不是「谁都能轻松做成」，是「谁都有机会开始做」。这两句话差得很远。",
+      "text_en": "AI didn't lower the bar for building software. It moved the bar.\n\nThe hard part used to be execution: memorizing syntax, configuring environments, deciphering errors. AI absorbed all of that. What's hard now is three other things — can you state the problem clearly, can you break the work down, can you tell whether what AI gave you is right.\n\nSo with everyone using the same AI, the gap between people isn't shrinking. It's being amplified. Same tool, different leverage.\n\nIt's not \"anyone can pull it off easily now.\" It's \"anyone gets to start now.\" Those are very different sentences."
+    },
+    {
+      "type": "thought",
+      "ts": 1780905600000,
+      "text_zh": "上周一个完全不会写代码的设计师，两天做出了一个团队真在用的内部工具。\n\n她做的事只有三件：把痛点讲清楚、对每一版说「对」或「不对」、在关键决策点拍板。代码一行没碰。\n\n很多人以为 AI 编程的学习曲线是六个月——学语法、学 Debug、学读 Stack Overflow。其实是两天，因为要学的根本不是那些，是怎么当一个合格的 CEO：定义问题，授权执行，验收结果。\n\n零基础的「基础」，从来不是代码基础。",
+      "text_en": "Last week a designer who can't write a line of code shipped an internal tool in two days. Her team actually uses it.\n\nShe did exactly three things: described the pain point clearly, said \"right\" or \"wrong\" to each iteration, and made the calls at key decision points. Never touched the code.\n\nPeople assume the learning curve for AI coding is six months — syntax, debugging, Stack Overflow. It's two days, because what you need to learn isn't any of that. It's how to be a competent CEO: define the problem, delegate the execution, review the result.\n\nThe \"basics\" in \"zero-basics\" were never about code."
+    },
+    {
+      "type": "thought",
+      "ts": 1780646400000,
+      "text_zh": "做产品的人喜欢给用户贴标签：极客、专家、小白。\n\n但同一个人，写代码的时候是极客，处理法务的时候就是小白，写文案的时候又成了要求「指哪打哪」的专家。\n\n用户分层从来不该按人分，该按场景分。\n\n所以一个真正普适的生产力工具，同一个功能要有三层入口：给极客的 API，给专家的精确控制，给大众的一键完成。以前做不到是因为成本，现在 AI 把这件事第一次变成了可能。",
+      "text_en": "Product people love labeling users: geek, expert, novice.\n\nBut the same person is a geek when coding, a novice when facing legal paperwork, and an expert demanding pixel-level control when writing copy.\n\nUser segmentation should never cut by person. It cuts by scenario.\n\nThat's why a truly universal productivity tool needs three entrances to the same feature: an API for geeks, precise controls for experts, one click with sane defaults for everyone else. This used to be prohibitively expensive to build. AI just made it possible for the first time."
+    },
+    {
+      "type": "thought",
+      "ts": 1780387200000,
+      "text_zh": "给提示词加了几个换行，执行准确率明显上去了。\n\n这件事提醒我：提示词就是代码，只不过运行它的不是编译器，是模型。代码讲究可读性，提示词也一样——结构清楚的指令，误执行率就是低。\n\n很多人把提示词当聊天，想到哪写到哪，然后抱怨 AI 不听话。\n\n你对提示词有多严谨，AI 就对你的需求有多严谨。",
+      "text_en": "I added a few line breaks to a prompt, and execution accuracy visibly improved.\n\nIt was a reminder: prompts are code. The only difference is the runtime — a model instead of a compiler. Code values readability, and so do prompts: well-structured instructions simply get misexecuted less.\n\nMost people treat prompts like casual chat — write whatever comes to mind, then complain the AI doesn't listen.\n\nThe rigor you put into your prompt is the rigor AI puts into your request."
+    },
+    {
+      "type": "thought",
+      "ts": 1780128000000,
+      "text_zh": "和 AI 协作久了，我改掉了一个习惯：不再追求一口气干完。\n\n网络会断，上下文会爆，任务会跑偏。真正稳的做法是把活拆成原子块——每块独立可验证，断在哪，就能从哪续上。\n\n这其实不是 AI 的事，是所有不可靠环境下做事的通用解法：你没法保证过程不中断，但你可以保证每次中断都不归零。\n\n系统的好坏，不看顺风时跑多快，看断电后还剩多少。",
+      "text_en": "After enough time working with AI, I dropped a habit: trying to finish everything in one go.\n\nNetworks drop. Context windows overflow. Tasks drift. The robust way is to cut work into atomic blocks — each one independently verifiable, so wherever things break, you resume right there.\n\nThis isn't really about AI. It's the universal strategy for unreliable environments: you can't guarantee the process won't be interrupted, but you can guarantee no interruption resets you to zero.\n\nJudge a system not by how fast it runs downwind, but by how much survives a power cut."
+    },
+    {
+      "type": "thought",
+      "ts": 1779955200000,
+      "text_zh": "教零基础学员一年，我把课程改成了和所有教科书相反的顺序：先做项目，再补知识。\n\n传统路径是「学好了再做」，结果学员死在第三周的语法课里，连自己当初为什么想学都忘了。\n\n现在我让他们第一节课就跑通一个能用的东西。粗糙没关系，能跑就行。因为「我做出来了」这个感觉，比任何知识点都值钱——它会逼着你回头把该懂的东西一个个补上。\n\n不求一次全懂，求逐步打通。",
+      "text_en": "After a year of teaching beginners, I flipped my course into the exact opposite order of every textbook: build the project first, backfill the knowledge later.\n\nThe traditional path is \"learn properly, then build.\" Students die in week three, somewhere in the syntax chapters, having forgotten why they signed up at all.\n\nNow everyone gets something working in lesson one. Rough is fine — running is what matters. Because the feeling of \"I made this\" is worth more than any knowledge point: it forces you to go back and pick up everything you actually need to understand.\n\nDon't aim to understand it all at once. Aim to break through, step by step."
+    },
+    {
+      "type": "thought",
       "ts": 1779782400000,
       "text_zh": "做 Typevoise 之前，我以为难点是识别。\n\n后来花了几周时间死磕识别，模型从 Whisper 换到 Apple Speech 再换回来，输出还是「啊那个就是嗯然后我觉得」。我才反应过来：语音输入的瓶颈从来不是「听得清不清」，是「能不能给我一段像键盘打出来的话」。\n\n于是我加了一步：把识别结果丢给 Claude 润色一下。\n\n整个 App 突然就能用了。\n\n市面上大多数语音工具死在了这一步。识别准确率从 93% 卷到 95%，没人愿意多花那 0.2 秒去润色。\n\n但用户要的从来不是「准」，是「我说一段话，出来一段能直接发出去的字」。",
       "text_en": "Before I built Typevoise, I thought the hard part was recognition.\n\nI burned weeks on it — swapped Whisper for Apple's Speech framework and back, tuned the models. The output was still \"uh you know like um yeah I think.\" That's when it hit me: the bottleneck in voice input has never been \"can the machine hear me.\" It's \"can it give me back a paragraph that reads like I typed it.\"\n\nSo I added one step: pipe the transcript through Claude to clean it up.\n\nThe app instantly became usable.\n\nMost voice tools die at this last mile. They grind recognition accuracy from 93% to 95% — nobody wants to spend the extra 0.2 seconds on polishing.\n\nBut what users want has never been \"accurate.\" It's \"I speak, and what comes out is something I can ship.\""
     },
     {
       "type": "thought",
-      "ts": 1748246400000,
+      "ts": 1779760800000,
       "text_zh": "网站搭起来了。\n\n后面我想把这里当成自己的「数字花园」—— 记一些做 AI 课程时的观察，写一些独立开发路上的小笔记，发一些觉得值得留下来的截图。\n\n更新频率不打算定，写到哪算哪。",
       "text_en": "The site is up.\n\nI'd like to treat this place as my digital garden — notes from teaching AI courses, scraps from the indie hacker road, and screenshots worth keeping.\n\nNo posting schedule. Whenever I feel like it."
-    },
-    {
-      "type": "thought",
-      "ts": 1748160000000,
-      "text_zh": "今天教学员一个事：写代码之前先把「想清楚」的部分用文字写出来。\n\n你以为自己想清楚了，等到要用文字描述给 AI 听的时候，才会发现哪里其实没想清楚。\n\n写不出来的，不是 AI 的问题，是自己的问题。",
-      "text_en": "Lesson I taught today: before writing code, write out the part you've thought through.\n\nYou think you have it figured out, until you try to describe it to AI in words — that's when you find the gaps.\n\nIf you can't write it down, it's not the AI's problem."
     }
   ],
   "images": [
