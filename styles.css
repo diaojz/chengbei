@@ -209,6 +209,34 @@ a:hover { color: #e0e0e0; text-decoration-color: #606060; }
 .entry-caption { color: var(--text); margin-top: 8px; word-break: break-word; }
 .entry-img[loading="lazy"] { background: var(--line); }
 
+/* 中栏文章摘要卡：整卡可点进详情页，与左侧 Writing 链接同路由 */
+.entry-article {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+.entry-article-title {
+  color: var(--text);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.entry-article .entry-text { color: var(--mid); }
+.entry-article-more {
+  margin-top: 10px;
+  font-size: 11px;
+  color: var(--mid);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  transition: color 160ms var(--ease-out);
+}
+.entry-article:hover .entry-article-title {
+  text-decoration: underline;
+  text-decoration-color: var(--mid);
+  text-underline-offset: 3px;
+}
+.entry-article:hover .entry-article-more { color: var(--text); }
+
 /* Shader 未 ready 时 CSS 点阵占位：SVG hex pattern + #2B2B2B 硬编码匹配 shader colorFront
    盖住原图，避免首屏看到清晰原图再"粘"上 shader。点色不跟主题（shader 本身也不跟主题） */
 .img-wrap:not([data-shader-init="1"])::after {

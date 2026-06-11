@@ -27,8 +27,37 @@ async function loadPostsIndex() {
     console.warn('[posts] index 加载失败', e);
     postsIndex = [];
   }
+  // 先注入中栏（内部会触发 rerenderSiteData，它用 data.json 的空 writing 清掉左栏列表），
+  // 再渲染 Writing 列表覆盖回来，顺序不能反
+  injectThoughtArticles();
   renderWritingList();
   handleRoute();
+}
+
+// 把 thought 类文章作为「摘要卡」注入中栏时间线（点击进详情，与左侧链接同路由）
+function injectThoughtArticles() {
+  const data = window.__siteData;
+  if (!data || data._thoughtsInjected) return;
+  const cards = postsIndex
+    .filter(p => p.category === 'thought' && !p.hidden)
+    .map(p => ({
+      type: 'thought_article',
+      slug: p.slug,
+      ts: p.ts,
+      title_zh: p.title_zh,
+      title_en: p.title_en,
+      excerpt_zh: p.excerpt_zh,
+      excerpt_en: p.excerpt_en,
+    }));
+  if (!cards.length) return;
+  data.col2Items = [...data.col2Items, ...cards].sort((a, b) => {
+    if (a.featured && !b.featured) return -1;
+    if (!a.featured && b.featured) return 1;
+    if (a.featured && b.featured) return (b.featured_ts || 0) - (a.featured_ts || 0);
+    return b.ts - a.ts;
+  });
+  data._thoughtsInjected = true;
+  if (typeof window.rerenderSiteData === 'function') window.rerenderSiteData();
 }
 
 // 合并 posts + data.json 的 writing[] 渲染到左侧 WRITING 区
@@ -50,7 +79,7 @@ function renderWritingList() {
     ...writingData,
   ]
     .sort((a, b) => (b.ts || 0) - (a.ts || 0))
-    .slice(0, 5);
+    .slice(0, 8);
 
   // 一篇都没有时整个 Writing 板块（含标题）一起藏掉
   const section = container.closest('.section');

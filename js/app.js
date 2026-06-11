@@ -66,6 +66,17 @@ function renderCol2(items) {
         `<button class="video-btn btn-play">PLAY</button>` +
         `<button class="video-btn btn-mute">UNMUTE</button>` +
         `</div></div>`;
+    } else if (item.type === 'thought_article') {
+      // 文章摘要卡：标题 + 精华摘录，整卡可点进详情页（与左侧 Writing 链接同路由）
+      const lang = window.CURRENT_LANG || 'zh';
+      const title   = item['title_' + lang] || item.title_zh || '';
+      const excerpt = item['excerpt_' + lang] || item.excerpt_zh || '';
+      const more    = (window.I18N[lang] && window.I18N[lang].read_more) || '阅读全文 →';
+      html = `<a class="entry-article" href="#/p/${escapeHtml(item.slug)}">` +
+        `<div class="entry-article-title">${escapeHtml(title)}</div>` +
+        `<div class="entry-text">${escapeHtml(excerpt)}</div>` +
+        `<div class="entry-article-more">${escapeHtml(more)}</div>` +
+        `</a>`;
     } else {
       const lang = window.CURRENT_LANG || 'zh';
       const rawHtml = item['html_' + lang] || item.html;
