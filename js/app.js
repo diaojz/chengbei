@@ -472,13 +472,28 @@ function initVoice(player) {
   col3.addEventListener('mouseenter', () => hovered = col3);
   col3.addEventListener('mouseleave', () => hovered = null);
 
-  document.addEventListener('wheel', function(e) {
-    if (!desktop()) return;
-    e.preventDefault();
+  function normalizedDy(e) {
     let dy = e.deltaY;
     if (e.deltaMode === 1) dy *= 24;
     if (e.deltaMode === 2) dy *= window.innerHeight;
+    return dy;
+  }
 
+  document.addEventListener('wheel', function(e) {
+    if (!desktop()) return;
+
+    // 阅读模式：显式接管，把 wheel 滚动直接 apply 到 #post-view
+    if (document.body.classList.contains('reading')) {
+      const view = document.getElementById('post-view');
+      if (view) {
+        e.preventDefault();
+        view.scrollTop += normalizedDy(e);
+      }
+      return;
+    }
+
+    e.preventDefault();
+    const dy = normalizedDy(e);
     if (hovered === col2 || hovered === col3) {
       hovered.scrollTop += dy;
     } else {
