@@ -38,20 +38,22 @@
     });
   }
 
-  // 进入 quiet：清主题相关 class + 停所有媒体
+  // 进入 quiet：清主题相关 class + 停所有媒体 + 卸载全部图片 shader
   function enterQuiet() {
     html.classList.add('quiet');
     const cls = document.body.classList;
     cls.remove('leaves', 'midnight', 'rain');
     stopAllMedia();
+    if (window.__shaders) window.__shaders.unmountAll();
     syncSwitch();
     try { localStorage.setItem(KEY, '1'); } catch (_) {}
   }
 
-  // 退出 quiet：恢复 src（默认不开主题，用户自己按 S/M/R）
+  // 退出 quiet：恢复 src（默认不开主题，用户自己按 S/M/R）+ 重挂图片 shader
   function exitQuiet() {
     html.classList.remove('quiet');
     restoreMediaSrc();
+    if (window.__shaders) window.__shaders.mountAll();
     syncSwitch();
     try { localStorage.removeItem(KEY); } catch (_) {}
   }
