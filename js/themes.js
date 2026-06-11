@@ -34,10 +34,15 @@
 
   const isQuiet = () => document.documentElement.classList.contains('quiet');
 
+  // 中文输入法下 e.key 是 'Process' 不是字母，改用 e.code 物理键位判断（输入法无关）
+  const hotkey = e => (e.code && /^Key[A-Z]$/.test(e.code))
+    ? e.code.slice(3).toLowerCase()
+    : (e.key || '').toLowerCase();
+
   // ── 键盘快捷键 ─────────────────────────
   document.addEventListener('keydown', e => {
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-    const k = e.key.toLowerCase();
+    const k = hotkey(e);
 
     // quiet 模式下只允许 D（白底）/ N（黑底）等纯换色操作，氛围模式短路
     if (isQuiet() && (k === 's' || k === 'm' || k === 'r' || k === 'c')) return;

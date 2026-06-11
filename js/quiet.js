@@ -88,10 +88,11 @@
     else exitQuiet();
   });
 
-  // 快捷键 Q 切换
+  // 快捷键 Q 切换（用 e.code 物理键位判断，中文输入法下 e.key 是 'Process' 会失灵）
   document.addEventListener('keydown', e => {
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-    if (e.key.toLowerCase() === 'q') toggleQuiet();
+    const k = (e.code === 'KeyQ') ? 'q' : (e.key || '').toLowerCase();
+    if (k === 'q') toggleQuiet();
   });
 
   if (document.readyState === 'loading') {
