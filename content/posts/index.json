@@ -1,5 +1,68 @@
 [
   {
+    "slug": "bar-moved",
+    "ts": 1781078400000,
+    "category": "thought",
+    "title_zh": "门槛没有消失，只是搬了家",
+    "title_en": "The Bar Didn't Drop. It Moved.",
+    "excerpt_zh": "过去难在执行：记语法、配环境、读报错。现在难的变成另外三件事——说清楚问题、拆清楚任务、判断结果对不对。同样用 AI，人和人的差距不是缩小了，是被放大了。",
+    "excerpt_en": "The hard part used to be execution: syntax, environments, errors. Now it's three other things — stating the problem, breaking down the work, judging the result. Same AI, and the gap between people is being amplified, not shrunk."
+  },
+  {
+    "slug": "zero-basics",
+    "ts": 1780905600000,
+    "category": "thought",
+    "title_zh": "零基础的「基础」，从来不是代码基础",
+    "title_en": "The \"Basics\" Were Never About Code",
+    "excerpt_zh": "一个完全不会写代码的设计师，两天做出了团队真在用的内部工具。她只做了三件事：把痛点讲清楚、对每一版说「对」或「不对」、在关键决策点拍板。",
+    "excerpt_en": "A designer who can't write a line of code shipped a tool her team actually uses — in two days. She did exactly three things: described the pain clearly, said \"right\" or \"wrong\" to each iteration, made the calls at decision points."
+  },
+  {
+    "slug": "segment-by-scenario",
+    "ts": 1780646400000,
+    "category": "thought",
+    "title_zh": "用户分层，按场景不按人",
+    "title_en": "Segment by Scenario, Not by Person",
+    "excerpt_zh": "同一个人，写代码的时候是极客，处理法务的时候就是小白，写文案的时候又成了要求「指哪打哪」的专家。用户分层从来不该按人分，该按场景分。",
+    "excerpt_en": "The same person is a geek when coding, a novice when facing legal paperwork, and an expert demanding pixel-level control when writing copy. Segmentation should never cut by person — it cuts by scenario."
+  },
+  {
+    "slug": "prompts-are-code",
+    "ts": 1780387200000,
+    "category": "thought",
+    "title_zh": "提示词就是代码",
+    "title_en": "Prompts Are Code",
+    "excerpt_zh": "提示词就是代码，只不过运行它的不是编译器，是模型。结构清楚的指令，误执行率就是低。你对提示词有多严谨，AI 就对你的需求有多严谨。",
+    "excerpt_en": "Prompts are code — the runtime just happens to be a model, not a compiler. Well-structured instructions get misexecuted less. The rigor you put into your prompt is the rigor AI puts into your request."
+  },
+  {
+    "slug": "atomic-delivery",
+    "ts": 1780128000000,
+    "category": "thought",
+    "title_zh": "断电之后还剩多少",
+    "title_en": "What Survives a Power Cut",
+    "excerpt_zh": "网络会断，上下文会爆，任务会跑偏。把活拆成原子块，断在哪就能从哪续上。系统的好坏，不看顺风时跑多快，看断电后还剩多少。",
+    "excerpt_en": "Networks drop, context overflows, tasks drift. Cut work into atomic blocks and you resume wherever it broke. Judge a system not by how fast it runs downwind, but by how much survives a power cut."
+  },
+  {
+    "slug": "build-first",
+    "ts": 1779955200000,
+    "category": "thought",
+    "title_zh": "先做项目，再补知识",
+    "title_en": "Build First, Learn Later",
+    "excerpt_zh": "传统路径是「学好了再做」，结果学员死在第三周的语法课里。现在我让他们第一节课就跑通一个能用的东西。不求一次全懂，求逐步打通。",
+    "excerpt_en": "The traditional path is \"learn properly, then build\" — and students die in week three, somewhere in the syntax chapters. Now everyone gets something working in lesson one. Don't aim to understand it all at once; aim to break through, step by step."
+  },
+  {
+    "slug": "voice-input-bottleneck",
+    "ts": 1779782400000,
+    "category": "thought",
+    "title_zh": "语音输入的瓶颈，不在识别",
+    "title_en": "The Bottleneck in Voice Input Isn't Recognition",
+    "excerpt_zh": "识别准确率从 93% 卷到 95%，没人愿意多花那 0.2 秒去润色。但用户要的从来不是「准」，是「我说一段话，出来一段能直接发出去的字」。",
+    "excerpt_en": "Voice tools grind recognition from 93% to 95%; nobody spends the extra 0.2 seconds on polishing. But what users want has never been \"accurate\" — it's \"I speak, and what comes out is something I can ship.\""
+  },
+  {
     "slug": "claude-login-guide",
     "ts": 1779926400000,
     "category": "help",
