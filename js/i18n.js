@@ -52,8 +52,7 @@ window.I18N = {
       '* 没声音？先点一下屏幕' +
       '</div>',
     social: [
-      { label: 'GitHub/diaojz', href: 'https://github.com/diaojz' },
-      { label: 'mail/hi@chengbei.org', href: 'mailto:hi@chengbei.org' }
+      { label: 'GitHub/diaojz', href: 'https://github.com/diaojz' }
     ],
     error_loading: '内容加载失败'
   },
@@ -106,8 +105,7 @@ window.I18N = {
       '* silent? tap the screen once' +
       '</div>',
     social: [
-      { label: 'GitHub/diaojz', href: 'https://github.com/diaojz' },
-      { label: 'mail/hi@chengbei.org', href: 'mailto:hi@chengbei.org' }
+      { label: 'GitHub/diaojz', href: 'https://github.com/diaojz' }
     ],
     error_loading: 'failed to load content'
   }
