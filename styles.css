@@ -505,14 +505,17 @@ a:hover { color: #e0e0e0; text-decoration-color: #606060; }
 @media (max-width: 768px) {
   .social-fixed { position: static; margin-top: 28px; }
 }
-.lang-switch {
+.lang-switch,
+.motion-switch {
   display: flex; align-items: center; gap: 4px;
   margin-bottom: 16px;
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 0.07em;
 }
-.lang-btn {
+.motion-switch { margin-bottom: 8px; }
+.lang-btn,
+.motion-btn {
   background: none; border: none;
   color: var(--mid);
   font-family: 'Fragment Mono', monospace;
@@ -522,9 +525,31 @@ a:hover { color: #e0e0e0; text-decoration-color: #606060; }
   letter-spacing: 0.07em;
   transition: color 160ms var(--ease-out);
 }
-.lang-btn.active { color: var(--text); }
-.lang-btn:hover { color: var(--text); }
+.lang-btn.active,
+.motion-btn.active { color: var(--text); }
+.lang-btn:hover,
+.motion-btn:hover { color: var(--text); }
 .lang-sep { color: var(--mid); }
+
+/* ──────────────────────────────────────────────
+   Quiet 模式 · 性能优先
+   关闭所有氛围视频/音频 + CSS 动画与过渡
+   ────────────────────────────────────────────── */
+html.quiet #leaves-overlay,
+html.quiet #moon-overlay,
+html.quiet #rain-overlay { display: none !important; }
+
+html.quiet *,
+html.quiet *::before,
+html.quiet *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  transition-delay: 0ms !important;
+}
+
+/* shader-overlay 在 quiet 下不再透出，永远走 CSS hex 点阵占位 */
+html.quiet .shader-overlay { display: none !important; }
 
 /* ──────────────────────────────────────────────
    Logo 字母（mobile tap）

@@ -29,6 +29,15 @@
   <link rel="modulepreload" href="https://esm.sh/react@18.3.1" crossorigin>
   <link rel="modulepreload" href="https://esm.sh/react-dom@18.3.1/client" crossorigin>
   <link rel="modulepreload" href="https://esm.sh/@paper-design/shaders-react@0.0.72?deps=react@18.3.1,react-dom@18.3.1" crossorigin>
+
+  <!-- Quiet 模式：进站前提前打 html.quiet 防闪烁 -->
+  <script>
+    try {
+      if (localStorage.getItem('chengbei-quiet') === '1') {
+        document.documentElement.classList.add('quiet');
+      }
+    } catch (_) {}
+  </script>
 </head>
 <body class="light leaves">
   <div class="page">
@@ -69,6 +78,11 @@
       </div>
 
       <div class="social-fixed">
+        <div class="motion-switch">
+          <button type="button" class="motion-btn" data-motion="motion" data-i18n="motion_btn"></button>
+          <span class="lang-sep">/</span>
+          <button type="button" class="motion-btn" data-motion="quiet" data-i18n="quiet_btn"></button>
+        </div>
         <div class="lang-switch">
           <button type="button" class="lang-btn" data-lang="zh">中</button>
           <span class="lang-sep">/</span>
@@ -113,6 +127,7 @@
   <audio id="rain-audio"     src="assets/rain.mp3"   loop preload="none"></audio>
 
   <script src="js/i18n.js"></script>
+  <script src="js/quiet.js"></script>
   <script src="js/app.js"></script>
   <script src="js/themes.js"></script>
   <script src="js/chaos.js"></script>

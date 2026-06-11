@@ -10,6 +10,8 @@ window.I18N = {
     help_title: 'Help · 学员答疑',
     writing_title: 'Writing',
     social_title: 'Social',
+    motion_btn: '动效',
+    quiet_btn: '安静',
     help: [
       { label: 'Claude 账号登录问题 · 完整解决方案', href: '#/p/claude-login-guide' },
       { label: 'Claude 登录常见问题 · FAQ', href: '#/p/claude-login-faq' }
@@ -34,7 +36,8 @@ window.I18N = {
       '  S — 晚夏 · 飘叶 + 森林音\n' +
       '  M — 深夜 · 月色 + 虫鸣\n' +
       '  R — 雨天 · 冷灰底 + 雨声\n' +
-      '  C — 混沌 · 一切坍塌，再按归位\n\n' +
+      '  C — 混沌 · 一切坍塌，再按归位\n' +
+      '  Q — 安静 · 关掉所有动效（省电）\n\n' +
       '* 没声音？点一下页面' +
       '</div>',
     howto_mobile:
@@ -60,6 +63,8 @@ window.I18N = {
     help_title: 'Help · Student Support',
     writing_title: 'Writing',
     social_title: 'Social',
+    motion_btn: 'motion',
+    quiet_btn: 'quiet',
     help: [
       { label: 'Claude account login · full guide', href: '#/p/claude-login-guide' },
       { label: 'Claude login · FAQ', href: '#/p/claude-login-faq' }
@@ -84,7 +89,8 @@ window.I18N = {
       '  S — summer · falling leaves + forest\n' +
       '  M — midnight · moon + night sounds\n' +
       '  R — rain · cold grey + raindrops\n' +
-      '  C — chaos · collapse all; press to restore\n\n' +
+      '  C — chaos · collapse all; press to restore\n' +
+      '  Q — quiet · kill all motion (save power)\n\n' +
       '* silent? click the page once' +
       '</div>',
     howto_mobile:

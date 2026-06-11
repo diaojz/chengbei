@@ -31,6 +31,8 @@ const SUPPORTS_HOVER = window.matchMedia('(hover: hover)').matches;
 
 async function mountShader(wrap, props) {
   if (wrap._shaderStarted) return;
+  // quiet 模式下不挂 shader，永远用 CSS hex 点阵占位
+  if (document.documentElement.classList.contains('quiet')) return;
   const slide = wrap.closest('.gallery-slide');
   if (slide && !slide.classList.contains('active')) return;
   wrap._shaderStarted = true;

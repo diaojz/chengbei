@@ -32,10 +32,15 @@
   // 暴露给 chaos 使用
   window.__themes = { stopSummer, stopMidnight, stopRain };
 
+  const isQuiet = () => document.documentElement.classList.contains('quiet');
+
   // ── 键盘快捷键 ─────────────────────────
   document.addEventListener('keydown', e => {
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
     const k = e.key.toLowerCase();
+
+    // quiet 模式下只允许 D（白底）/ N（黑底）等纯换色操作，氛围模式短路
+    if (isQuiet() && (k === 's' || k === 'm' || k === 'r' || k === 'c')) return;
 
     if (k === 'd') {
       // Day: light 模式，清叠加层
@@ -86,6 +91,9 @@
       const mode = el.dataset.mode;
       const cls  = document.body.classList;
 
+      // quiet 模式下 logo 字母只允许 day（白底）切换，其余氛围模式短路
+      if (isQuiet() && mode !== 'day') return;
+
       if (mode === 'day') {
         cls.add('light');
         stopSummer(); stopMidnight(); stopRain();
@@ -118,6 +126,7 @@
 
   // ── 默认夏夜模式：首次用户交互后启动森林音（视频已 autoplay + muted）─────────────
   function bootstrapLeavesAudio() {
+    if (isQuiet()) return;
     if (!document.body.classList.contains('leaves')) return;
     safePlay(v()); // 保险：若 autoplay 被挡，此刻补一次 play（已有用户交互）
     safePlay(a());
