@@ -7,9 +7,15 @@ window.I18N = {
     title: '城北 · 个人站',
     intro: '城北<span class="intro-sub">AI Coding 讲师 · 独立开发者<br>把 AI 开发带给零基础学员</span>',
     artifacts_title: 'Ships',
+    help_title: 'Help · 学员答疑',
     writing_title: 'Writing',
     social_title: 'Social',
+    help: [
+      { label: 'Claude 账号登录问题 · 完整解决方案', href: '#/p/claude-login-guide' },
+      { label: 'Claude 登录常见问题 · FAQ', href: '#/p/claude-login-faq' }
+    ],
     artifacts: [
+      { label: 'Ghostty 终端配置 · 课件总览', href: '/ghostty-terminal/' },
       { label: '分账计算器 · 课程收入按比例分账', href: 'https://coding.chengbei.org' },
       { label: 'AI Gateway · Claude Code 中转', href: 'https://gw.diaoye.org' },
       { label: 'VPN Fleet · 节点调度面板', href: 'https://vpn.chengbei.org' },
@@ -51,9 +57,15 @@ window.I18N = {
     title: 'Chengbei · Personal Site',
     intro: 'Chengbei<span class="intro-sub">AI Coding Instructor · Indie Hacker<br>Teaching AI development to beginners</span>',
     artifacts_title: 'Ships',
+    help_title: 'Help · Student Support',
     writing_title: 'Writing',
     social_title: 'Social',
+    help: [
+      { label: 'Claude account login · full guide', href: '#/p/claude-login-guide' },
+      { label: 'Claude login · FAQ', href: '#/p/claude-login-faq' }
+    ],
     artifacts: [
+      { label: 'Ghostty Terminal Setup · course deck', href: '/ghostty-terminal/' },
       { label: 'Profit Calculator · revenue split tool', href: 'https://coding.chengbei.org' },
       { label: 'AI Gateway · Claude Code relay', href: 'https://gw.diaoye.org' },
       { label: 'VPN Fleet · node dispatch panel', href: 'https://vpn.chengbei.org' },
@@ -113,6 +125,7 @@ function applyI18n(lang) {
   });
 
   renderLinks('artifacts-links', dict.artifacts);
+  renderLinks('help-links', dict.help);
   renderLinks('social-links', dict.social);
 
   document.querySelectorAll('.lang-btn').forEach(btn => {

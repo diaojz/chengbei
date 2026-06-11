@@ -39,12 +39,14 @@ function renderWritingList() {
   const writingData = (window.__siteData && window.__siteData.writing) || [];
 
   const all = [
-    ...postsIndex.map(p => ({
-      url: '#/p/' + p.slug,
-      title_zh: p.title_zh,
-      title_en: p.title_en,
-      ts: p.ts,
-    })),
+    ...postsIndex
+      .filter(p => p.category !== 'help')
+      .map(p => ({
+        url: '#/p/' + p.slug,
+        title_zh: p.title_zh,
+        title_en: p.title_en,
+        ts: p.ts,
+      })),
     ...writingData,
   ]
     .sort((a, b) => (b.ts || 0) - (a.ts || 0))

@@ -1,5 +1,23 @@
 [
   {
+    "slug": "claude-login-guide",
+    "ts": 1779926400000,
+    "category": "help",
+    "title_zh": "Claude 账号登录问题 · 完整解决方案",
+    "title_en": "Claude Login · Full Guide",
+    "excerpt_zh": "学员里十个有八个卡在登录这一步。这篇把所有可能的卡点和对应方案讲清楚。",
+    "excerpt_en": "Most students get stuck at login. Every common failure point and the matching fix."
+  },
+  {
+    "slug": "claude-login-faq",
+    "ts": 1779840000000,
+    "category": "help",
+    "title_zh": "Claude 登录常见问题 · FAQ",
+    "title_en": "Claude Login · FAQ",
+    "excerpt_zh": "按报错现象查。找到一样的就照着做。",
+    "excerpt_en": "Symptom-based troubleshooting list for Claude login & Claude Code."
+  },
+  {
     "slug": "typevoise-last-mile",
     "ts": 1779782400000,
     "title_zh": "Typevoise 的最后一公里",
