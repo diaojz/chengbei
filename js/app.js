@@ -531,16 +531,32 @@ window.rerenderSiteData = function() {
   setupReveal(col3);
 };
 
-// 拉取静态内容 JSON
+// 拉取静态内容 JSON（data.json 和文章索引并行取齐后只渲染一次，避免二次重渲）
 document.addEventListener('DOMContentLoaded', () => {
-  fetch('content/data.json')
-    .then(r => r.json())
-    .then(({ thoughts, images, writing }) => {
+  Promise.all([
+    fetch('content/data.json').then(r => r.json()),
+    fetch('content/posts/index.json').then(r => r.ok ? r.json() : []).catch(() => []),
+  ])
+    .then(([{ thoughts, images, writing }, postsIndex]) => {
+      postsIndex.sort((a, b) => (b.ts || 0) - (a.ts || 0));
+      window.__postsIndex = postsIndex;  // posts.js 复用，避免二次请求
+      // thought 类文章 → 中栏摘要卡
+      const articleCards = postsIndex
+        .filter(p => p.category === 'thought' && !p.hidden)
+        .map(p => ({
+          type: 'thought_article',
+          slug: p.slug,
+          ts: p.ts,
+          title_zh: p.title_zh,
+          title_en: p.title_en,
+          excerpt_zh: p.excerpt_zh,
+          excerpt_en: p.excerpt_en,
+        }));
       const col2Media = images.filter(i => i.type === 'voice' || i.type === 'video' || i.type === 'video_note');
       const col3Media = images
         .filter(i => !i.type || i.type === 'image' || i.type === 'gallery' || i.type === 'gif')
         .sort((a, b) => (b.ts || 0) - (a.ts || 0));
-      const col2Items = [...thoughts, ...col2Media].sort((a, b) => {
+      const col2Items = [...thoughts, ...articleCards, ...col2Media].sort((a, b) => {
         if (a.featured && !b.featured) return -1;
         if (!a.featured && b.featured) return 1;
         if (a.featured && b.featured) return (b.featured_ts || 0) - (a.featured_ts || 0);

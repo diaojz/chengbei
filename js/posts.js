@@ -4,9 +4,17 @@
 // 文件: content/posts/<slug>.{zh,en}.md
 // 索引: content/posts/index.json
 // ──────────────────────────────────────────────
-import { marked } from 'https://esm.sh/marked@12';
-
-marked.setOptions({ gfm: true, breaks: false });
+// marked 按需加载：不开文章不下载（esm.sh 在弱网环境下拖慢首屏）
+let markedPromise = null;
+function getMarked() {
+  if (!markedPromise) {
+    markedPromise = import('https://esm.sh/marked@12').then(m => {
+      m.marked.setOptions({ gfm: true, breaks: false });
+      return m.marked;
+    });
+  }
+  return markedPromise;
+}
 
 let postsIndex = [];
 let currentSlug = null;
@@ -18,46 +26,23 @@ function esc(s) {
 }
 
 async function loadPostsIndex() {
-  try {
-    const res = await fetch('content/posts/index.json');
-    if (!res.ok) throw new Error(res.statusText);
-    postsIndex = await res.json();
-    postsIndex.sort((a, b) => (b.ts || 0) - (a.ts || 0));
-  } catch (e) {
-    console.warn('[posts] index 加载失败', e);
-    postsIndex = [];
+  // app.js 已在首屏把 index.json 和 data.json 一起拉好（window.__postsIndex），
+  // 这里直接复用，避免二次请求和中栏二次渲染
+  if (Array.isArray(window.__postsIndex)) {
+    postsIndex = window.__postsIndex;
+  } else {
+    try {
+      const res = await fetch('content/posts/index.json');
+      if (!res.ok) throw new Error(res.statusText);
+      postsIndex = await res.json();
+      postsIndex.sort((a, b) => (b.ts || 0) - (a.ts || 0));
+    } catch (e) {
+      console.warn('[posts] index 加载失败', e);
+      postsIndex = [];
+    }
   }
-  // 先注入中栏（内部会触发 rerenderSiteData，它用 data.json 的空 writing 清掉左栏列表），
-  // 再渲染 Writing 列表覆盖回来，顺序不能反
-  injectThoughtArticles();
   renderWritingList();
   handleRoute();
-}
-
-// 把 thought 类文章作为「摘要卡」注入中栏时间线（点击进详情，与左侧链接同路由）
-function injectThoughtArticles() {
-  const data = window.__siteData;
-  if (!data || data._thoughtsInjected) return;
-  const cards = postsIndex
-    .filter(p => p.category === 'thought' && !p.hidden)
-    .map(p => ({
-      type: 'thought_article',
-      slug: p.slug,
-      ts: p.ts,
-      title_zh: p.title_zh,
-      title_en: p.title_en,
-      excerpt_zh: p.excerpt_zh,
-      excerpt_en: p.excerpt_en,
-    }));
-  if (!cards.length) return;
-  data.col2Items = [...data.col2Items, ...cards].sort((a, b) => {
-    if (a.featured && !b.featured) return -1;
-    if (!a.featured && b.featured) return 1;
-    if (a.featured && b.featured) return (b.featured_ts || 0) - (a.featured_ts || 0);
-    return b.ts - a.ts;
-  });
-  data._thoughtsInjected = true;
-  if (typeof window.rerenderSiteData === 'function') window.rerenderSiteData();
 }
 
 // 合并 posts + data.json 的 writing[] 渲染到左侧 WRITING 区
@@ -112,18 +97,23 @@ async function showPost(slug) {
   const t0 = Date.now();
   const MIN_LOADING = 380;  // 保证 loading 至少展示 380ms, 节奏更舒服
 
-  let md = '';
-  try {
-    const res = await fetch(`content/posts/${slug}.${lang}.md`);
-    if (!res.ok) throw new Error(res.statusText);
-    md = await res.text();
-  } catch (e) {
-    try {
-      const fallback = await fetch(`content/posts/${slug}.zh.md`);
-      md = await fallback.text();
-    } catch (e2) {
-      md = '# 加载失败\n\n找不到这篇文章。';
+  // 弱网容错：每个 URL 试两次（第二次绕 HTTP 缓存，避免缓存住的 404/失败响应）
+  async function fetchMd(url) {
+    for (let i = 0; i < 2; i++) {
+      try {
+        const res = await fetch(url, i ? { cache: 'reload' } : undefined);
+        if (res.ok) return await res.text();
+      } catch (_) {}
     }
+    return null;
+  }
+
+  let md = await fetchMd(`content/posts/${slug}.${lang}.md`);
+  if (md == null && lang !== 'zh') md = await fetchMd(`content/posts/${slug}.zh.md`);
+  if (md == null) {
+    md = lang === 'zh'
+      ? '# 加载失败\n\n网络不太顺畅，正文没拉下来。请刷新页面重试。'
+      : '# Failed to load\n\nThe network hiccuped and the article body didn\'t come through. Please refresh and try again.';
   }
 
   // 第一行 # 标题单独提取，避免和 .post-title 重复
@@ -135,7 +125,14 @@ async function showPost(slug) {
   }
 
   view.querySelector('.post-title').textContent = title;
-  view.querySelector('.post-body').innerHTML = marked.parse(md);
+  let bodyHtml;
+  try {
+    bodyHtml = (await getMarked()).parse(md);
+  } catch (_) {
+    // marked 没拉下来（CDN 不通）也不能白屏：按纯文本段落兜底渲染
+    bodyHtml = md.split(/\n{2,}/).map(p => `<p>${esc(p)}</p>`).join('');
+  }
+  view.querySelector('.post-body').innerHTML = bodyHtml;
 
   const dt = new Date(post.ts);
   const lc = lang === 'zh' ? 'zh-CN' : 'en-GB';
