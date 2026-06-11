@@ -40,7 +40,7 @@ function renderWritingList() {
 
   const all = [
     ...postsIndex
-      .filter(p => p.category !== 'help')
+      .filter(p => p.category !== 'help' && !p.hidden)
       .map(p => ({
         url: '#/p/' + p.slug,
         title_zh: p.title_zh,
@@ -51,6 +51,10 @@ function renderWritingList() {
   ]
     .sort((a, b) => (b.ts || 0) - (a.ts || 0))
     .slice(0, 5);
+
+  // 一篇都没有时整个 Writing 板块（含标题）一起藏掉
+  const section = container.closest('.section');
+  if (section) section.style.display = all.length ? '' : 'none';
 
   container.innerHTML = all.map(item => {
     const title = item['title_' + lang] || item.title_zh || item.title || '';
