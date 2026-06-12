@@ -758,3 +758,47 @@ body.reading:not(.post-ready) .post-loading {
 .visit-stats .stats-sep { margin: 0 6px; opacity: 0.5; }
 .visit-stats a { color: var(--mid); }
 .visit-stats a:hover { color: var(--text); }
+
+/* ──────────────────────────────────────────────
+   全屏目录页（#/all · Ships 精选之外的全量列表）
+   ────────────────────────────────────────────── */
+.more-link {
+  display: block;
+  margin-top: 10px;
+  color: var(--mid);
+  text-decoration-color: transparent;
+}
+.more-link:hover { color: var(--text); }
+
+.archive-sec { margin-bottom: 52px; }
+.archive-sec-title {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 10px;
+}
+.archive-sec-title b { font-weight: 400; color: var(--text); margin-left: 10px; }
+
+.archive-row {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: 13px 2px;
+  border-top: 1px solid var(--line);
+  text-decoration: none;
+  color: var(--text);
+  transition: transform 250ms var(--ease-out), color 200ms;
+}
+.archive-sec .archive-row:last-child { border-bottom: 1px solid var(--line); }
+.archive-idx { font-size: 11px; color: var(--mid); min-width: 22px; flex-shrink: 0; }
+.archive-name { flex: 1; min-width: 0; }
+.archive-meta { font-size: 11px; color: var(--mid); white-space: nowrap; }
+.archive-row:hover { transform: translateX(6px); color: #fff; }
+.archive-row:hover .archive-idx { color: var(--text); }
+body.light .archive-row:hover { color: #000; }
+
+@media (max-width: 720px) {
+  .archive-row { gap: 10px; padding: 12px 0; }
+  .archive-meta { font-size: 10px; }
+}

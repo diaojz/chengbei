@@ -152,6 +152,53 @@ async function showPost(slug) {
   document.body.classList.add('post-ready');
 }
 
+// ── 全屏目录页（#/all）— Ships 全量 + 全部文章，Awwwards 式列表行 ──
+let archiveOpen = false;
+
+function showArchive() {
+  currentSlug = null;
+  archiveOpen = true;
+  const lang = window.CURRENT_LANG || 'zh';
+  const dict = (window.I18N && window.I18N[lang]) || {};
+  const view = document.getElementById('post-view');
+  document.body.classList.add('reading');
+  view.hidden = false;
+
+  const ships = dict.artifacts || [];
+  const posts = (postsIndex || []).filter(p => !p.hidden)
+    .slice().sort((a, b) => (b.ts || 0) - (a.ts || 0));
+  const lc = lang === 'zh' ? 'zh-CN' : 'en-GB';
+  const fmt = ts => new Date(ts).toLocaleDateString(lc, { year: 'numeric', month: 'short', day: 'numeric' });
+  const pad = i => String(i + 1).padStart(2, '0');
+
+  const shipRows = ships.map((s, i) => {
+    const ext = /^https?:\/\//.test(s.href);
+    return `<a class="archive-row" href="${esc(s.href)}"${ext ? ' target="_blank" rel="noopener noreferrer"' : ''}>` +
+      `<span class="archive-idx">${pad(i)}</span>` +
+      `<span class="archive-name">${esc(s.label)}</span>` +
+      `<span class="archive-meta">${ext ? '↗' : (lang === 'zh' ? '站内' : 'on-site')}</span></a>`;
+  }).join('');
+
+  const postRows = posts.map((p, i) =>
+    `<a class="archive-row" href="#/p/${esc(p.slug)}">` +
+      `<span class="archive-idx">${pad(i)}</span>` +
+      `<span class="archive-name">${esc(p['title_' + lang] || p.title_zh || '')}</span>` +
+      `<span class="archive-meta">${p.ts ? fmt(p.ts) : ''}</span></a>`
+  ).join('');
+
+  view.querySelector('.post-title').textContent =
+    dict.archive_title || (lang === 'zh' ? '目录 · 全部作品' : 'Index · All Work');
+  view.querySelector('.post-meta').textContent = lang === 'zh'
+    ? `${ships.length} 项作品 · ${posts.length} 篇文章`
+    : `${ships.length} ships · ${posts.length} posts`;
+  view.querySelector('.post-body').innerHTML =
+    `<div class="archive-sec"><div class="archive-sec-title">${esc(dict.archive_ships || 'Ships')}<b>${ships.length}</b></div>${shipRows}</div>` +
+    `<div class="archive-sec"><div class="archive-sec-title">${esc(dict.archive_posts || 'Writing')}<b>${posts.length}</b></div>${postRows}</div>`;
+
+  view.scrollTop = 0;
+  document.body.classList.add('post-ready');
+}
+
 function hidePost() {
   document.body.classList.remove('reading');
   document.body.classList.remove('post-ready');
@@ -163,11 +210,13 @@ function hidePost() {
     }, 360);
   }
   currentSlug = null;
+  archiveOpen = false;
 }
 
 function handleRoute() {
   const m = /^#\/p\/([\w-]+)$/.exec(location.hash);
-  if (m) showPost(m[1]);
+  if (m) { archiveOpen = false; showPost(m[1]); }
+  else if (location.hash === '#/all') showArchive();
   else hidePost();
 }
 
@@ -195,6 +244,7 @@ document.addEventListener('click', e => {
   setTimeout(() => {
     renderWritingList();
     if (currentSlug) showPost(currentSlug);
+    else if (archiveOpen) showArchive();
   }, 60);
 });
 

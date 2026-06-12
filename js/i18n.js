@@ -15,6 +15,10 @@ window.I18N = {
     stats_total: '总访问',
     stats_today: '今日',
     stats_link: '统计 ↗',
+    ships_more: '全部作品 →',
+    archive_title: '目录 · 全部作品',
+    archive_ships: 'Ships · 作品',
+    archive_posts: '随笔与答疑',
     read_more: '阅读全文 →',
     help: [
       { label: 'Claude 账号登录问题 · 完整解决方案', href: '#/p/claude-login-guide' },
@@ -72,6 +76,10 @@ window.I18N = {
     stats_total: 'views',
     stats_today: 'today',
     stats_link: 'stats ↗',
+    ships_more: 'all work →',
+    archive_title: 'Index · All Work',
+    archive_ships: 'Ships',
+    archive_posts: 'Writing & Help',
     read_more: 'Read more →',
     help: [
       { label: 'Claude account login · full guide', href: '#/p/claude-login-guide' },
@@ -138,7 +146,9 @@ function applyI18n(lang) {
     el.innerHTML = dict[key];
   });
 
-  renderLinks('artifacts-links', dict.artifacts);
+  renderLinks('artifacts-links', dict.artifacts, {
+    limit: 5, moreHref: '#/all', moreLabel: dict.ships_more,
+  });
   renderLinks('help-links', dict.help);
   renderLinks('social-links', dict.social);
 
@@ -151,14 +161,21 @@ function applyI18n(lang) {
   }
 }
 
-function renderLinks(containerId, list) {
+function renderLinks(containerId, list, opts) {
   const c = document.getElementById(containerId);
   if (!c || !Array.isArray(list)) return;
-  c.innerHTML = list.map(item => {
+  let items = list;
+  let moreHtml = '';
+  // 超过 limit 只展示前几条精选，余下收进 #/all 全屏目录页
+  if (opts && opts.limit && list.length > opts.limit) {
+    items = list.slice(0, opts.limit);
+    moreHtml = `<a class="more-link" href="${opts.moreHref}">${opts.moreLabel}</a>`;
+  }
+  c.innerHTML = items.map(item => {
     const isExternal = /^https?:\/\//.test(item.href);
     const attrs = isExternal ? ' target="_blank" rel="noopener noreferrer"' : '';
     return `<a href="${item.href}"${attrs}>${item.label}</a>`;
-  }).join('');
+  }).join('') + moreHtml;
 }
 
 if (document.readyState === 'loading') {
