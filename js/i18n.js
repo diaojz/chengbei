@@ -54,7 +54,8 @@ window.I18N = {
       '* 没声音？先点一下屏幕' +
       '</div>',
     social: [
-      { label: 'GitHub/diaojz', href: 'https://github.com/diaojz' }
+      { label: 'GitHub/diaojz', href: 'https://github.com/diaojz' },
+      { label: '小红书/城北', href: 'https://www.xiaohongshu.com/user/profile/5c15f5c50000000005012559' }
     ],
     error_loading: '内容加载失败'
   },
@@ -109,7 +110,8 @@ window.I18N = {
       '* silent? tap the screen once' +
       '</div>',
     social: [
-      { label: 'GitHub/diaojz', href: 'https://github.com/diaojz' }
+      { label: 'GitHub/diaojz', href: 'https://github.com/diaojz' },
+      { label: 'RedNote/城北', href: 'https://www.xiaohongshu.com/user/profile/5c15f5c50000000005012559' }
     ],
     error_loading: 'failed to load content'
   }
