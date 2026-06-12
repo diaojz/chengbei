@@ -204,7 +204,8 @@ a:hover { color: #e0e0e0; text-decoration-color: #606060; }
 }
 .entry-text   { color: var(--text); white-space: pre-wrap; word-break: break-word; }
 .entry-time   { font-size: 11px; color: var(--mid); margin-top: 6px; }
-#col-images .entry-time { display: none; }
+/* Col 3 日期：photo journal 式小字时间戳 */
+#col-images .entry-time { font-size: 10px; margin-top: 3px; }
 .entry-img    { display: block; width: 100%; height: auto; }
 .entry-caption { color: var(--text); margin-top: 8px; word-break: break-word; }
 .entry-img[loading="lazy"] { background: var(--line); }
@@ -333,14 +334,31 @@ a:hover { color: #e0e0e0; text-decoration-color: #606060; }
   .lightbox-close { top: 12px; right: 12px; }
 }
 
-/* Col 3 图片上下间距 = col padding 24px，和离左侧分割线等宽 */
-/* max-width 防大屏图片无限变宽；要看大图有点击 lightbox */
-#col-images .entry { margin-bottom: 24px; max-width: 560px; }
+/* ── Col 3 · 编辑式照片日志（photo journal）──
+   编号图说 + 奇偶交错宽度 + hairline 边框 + 悬停微缩放
+   图片铺满栏宽（栏比例 1.5fr 控制整体大小，不单独限宽避免右侧死空白） */
+#col-images { counter-reset: photo; }
+#col-images .entry { margin-bottom: 44px; }
+/* 偶数条目缩窄右靠，制造编辑排版的节奏感 */
+#col-images .entry:nth-of-type(even) { width: 84%; margin-left: auto; }
 
-/* Col 3 图片统一长方形（3:2），避免正方形占屏过多 */
 #col-images .entry > .img-wrap,
 #col-images .gallery-slide .img-wrap {
   overflow: hidden;
+  border: 1px solid var(--line);
+}
+/* 悬停：图片缓慢微放大（shader 同时淡出，露出彩色原图） */
+#col-images .img-wrap .entry-img { transition: transform 900ms var(--ease-out); }
+#col-images .img-wrap:hover .entry-img { transform: scale(1.03); }
+
+/* 图说：编号 + 文字，摄影书图版式 */
+#col-images .entry-caption { margin-top: 10px; font-size: 12px; }
+#col-images .entry-caption::before {
+  counter-increment: photo;
+  content: counter(photo, decimal-leading-zero);
+  color: var(--mid);
+  font-size: 11px;
+  margin-right: 10px;
 }
 /* aspect-ratio 设在 img 本身：img 元素进 DOM 浏览器立刻知道它是 3:2，
    不依赖 parent 尺寸计算，避免布局跳动 */
@@ -577,8 +595,9 @@ html.quiet *::after {
   transition-delay: 0ms !important;
 }
 
-/* shader-overlay 在 quiet 下不再透出，永远走 CSS hex 点阵占位 */
+/* quiet 下 shader 与点阵占位全部隐藏：直接显示彩色原图 */
 html.quiet .shader-overlay { display: none !important; }
+html.quiet .img-wrap::after { display: none !important; }
 
 /* ──────────────────────────────────────────────
    Logo 字母（mobile tap）
