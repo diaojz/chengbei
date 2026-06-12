@@ -139,6 +139,10 @@ async function showPost(slug) {
   view.querySelector('.post-meta').textContent =
     (lang === 'zh' ? '发布于 ' : 'Published ') +
     dt.toLocaleDateString(lc, { year: 'numeric', month: 'short', day: 'numeric' });
+  // 角落水印：站点 + ISO 发布日期
+  const iso = `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, '0')}-${String(dt.getDate()).padStart(2, '0')}`;
+  const wm = view.querySelector('.post-watermark');
+  if (wm) wm.textContent = `chengbei.org · ${iso}`;
 
   // 等够 MIN_LOADING, 让 loading 动画呼吸一下再切到内容
   const elapsed = Date.now() - t0;
@@ -173,10 +177,12 @@ function showArchive() {
 
   const shipRows = ships.map((s, i) => {
     const ext = /^https?:\/\//.test(s.href);
+    // 有 date 显示发布日期（站内文章页都有），否则外链 ↗ / 站内徽标兜底
+    const meta = s.date ? esc(s.date) : (ext ? '↗' : (lang === 'zh' ? '站内' : 'on-site'));
     return `<a class="archive-row" href="${esc(s.href)}"${ext ? ' target="_blank" rel="noopener noreferrer"' : ''}>` +
       `<span class="archive-idx">${pad(i)}</span>` +
       `<span class="archive-name">${esc(s.label)}</span>` +
-      `<span class="archive-meta">${ext ? '↗' : (lang === 'zh' ? '站内' : 'on-site')}</span></a>`;
+      `<span class="archive-meta">${meta}</span></a>`;
   }).join('');
 
   const postRows = posts.map((p, i) =>
@@ -194,6 +200,9 @@ function showArchive() {
   view.querySelector('.post-body').innerHTML =
     `<div class="archive-sec"><div class="archive-sec-title">${esc(dict.archive_ships || 'Ships')}<b>${ships.length}</b></div>${shipRows}</div>` +
     `<div class="archive-sec"><div class="archive-sec-title">${esc(dict.archive_posts || 'Writing')}<b>${posts.length}</b></div>${postRows}</div>`;
+
+  const wm = view.querySelector('.post-watermark');
+  if (wm) wm.textContent = '';  // 目录页不带具体日期，水印留空
 
   view.scrollTop = 0;
   document.body.classList.add('post-ready');

@@ -115,6 +115,9 @@ footer{text-align:center;margin-top:60px;font-family:'JetBrains Mono',monospace;
 @media(max-width:820px){.howto{grid-template-columns:1fr}.item-top .role{margin-left:0;text-align:left}.layer-head .sub{margin-left:0}}
 .back-home{display:inline-block;margin-top:28px;font-family:'JetBrains Mono',monospace;font-size:.85rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);text-decoration:none;transition:color .2s;}
 .back-home:hover{color:var(--text);}
+
+/* 角落水印：站点 + 发布日期，常驻（投影/截图均在场） */
+.cb-watermark{position:fixed;left:18px;bottom:14px;z-index:300;font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:600;letter-spacing:.5px;color:var(--text-dim);opacity:.55;pointer-events:none;}
 </style>
 </head>
 <body>
@@ -408,5 +411,6 @@ document.querySelectorAll('.btn-copy').forEach(btn=>{
 });
 </script>
 <script data-goatcounter="https://chengbei.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<div class="cb-watermark">chengbei.org · 2026-06-12</div>
 </body>
 </html>

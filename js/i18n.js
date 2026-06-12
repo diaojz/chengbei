@@ -25,11 +25,11 @@ window.I18N = {
       { label: 'Claude 登录常见问题 · FAQ', href: '#/p/claude-login-faq' }
     ],
     artifacts: [
-      { label: 'Ghostty 终端配置 · 课件总览', href: '/ghostty-terminal/' },
-      { label: 'Ghostty 配置清单 · 照抄即用', href: '/ghostty-checklist/' },
-      { label: 'mini-harness · Harness 代码精讲', href: '/mini-harness/' },
-      { label: '换电脑 · 苹果开发者账号迁移指南', href: '/apple-dev-migration/' },
-      { label: '置身钉内 · 钉钉 ONE 复盘', href: '/dingtalk-one/' },
+      { label: 'Ghostty 终端配置 · 课件总览', href: '/ghostty-terminal/', date: '2026-06-12' },
+      { label: 'Ghostty 配置清单 · 照抄即用', href: '/ghostty-checklist/', date: '2026-06-12' },
+      { label: 'mini-harness · Harness 代码精讲', href: '/mini-harness/', date: '2026-06-12' },
+      { label: '换电脑 · 苹果开发者账号迁移指南', href: '/apple-dev-migration/', date: '2026-06-12' },
+      { label: '置身钉内 · 钉钉 ONE 复盘', href: '/dingtalk-one/', date: '2026-06-12' },
       { label: 'App Store · 上架完整指南', href: 'https://news.diaoye.org' },
       { label: 'cc-doctor · 一键拯救 Claude Code', href: 'https://www.ccswitch.io' },
       { label: 'Balatro Web · 8 轮课程演示', href: 'https://diaojz.github.io/balatro-game/' },
@@ -87,11 +87,11 @@ window.I18N = {
       { label: 'Claude login · FAQ', href: '#/p/claude-login-faq' }
     ],
     artifacts: [
-      { label: 'Ghostty Terminal Setup · course deck', href: '/ghostty-terminal/' },
-      { label: 'Ghostty Setup Checklist · copy & run', href: '/ghostty-checklist/' },
-      { label: 'mini-harness · code deep-dive', href: '/mini-harness/' },
-      { label: 'Apple Dev Migration · new Mac guide', href: '/apple-dev-migration/' },
-      { label: 'Inside DingTalk · ONE postmortem', href: '/dingtalk-one/' },
+      { label: 'Ghostty Terminal Setup · course deck', href: '/ghostty-terminal/', date: '2026-06-12' },
+      { label: 'Ghostty Setup Checklist · copy & run', href: '/ghostty-checklist/', date: '2026-06-12' },
+      { label: 'mini-harness · code deep-dive', href: '/mini-harness/', date: '2026-06-12' },
+      { label: 'Apple Dev Migration · new Mac guide', href: '/apple-dev-migration/', date: '2026-06-12' },
+      { label: 'Inside DingTalk · ONE postmortem', href: '/dingtalk-one/', date: '2026-06-12' },
       { label: 'App Store · launch guide', href: 'https://news.diaoye.org' },
       { label: 'cc-doctor · one-click Claude Code fix', href: 'https://www.ccswitch.io' },
       { label: 'Balatro Web · 8-lesson course demo', href: 'https://diaojz.github.io/balatro-game/' },

@@ -167,6 +167,9 @@ html.projection { scroll-snap-type:y mandatory; scroll-behavior:smooth; }
 
 @media (max-width:1100px){ .steps{grid-template-columns:1fr} .cc{grid-template-columns:1fr;gap:28px} .bd-grid{grid-template-columns:1fr} }
 @media (max-width:640px){ .container{padding:0 18px 70px} }
+
+/* 角落水印：站点 + 发布日期，常驻（投影/截图均在场） */
+.cb-watermark{position:fixed;left:18px;bottom:14px;z-index:300;font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:600;letter-spacing:.5px;color:var(--text-dim);opacity:.55;pointer-events:none;}
 </style>
 </head>
 <body>
@@ -791,5 +794,6 @@ document.querySelectorAll('.code-widget .cw-bar').forEach(b => { const s = docum
 document.querySelectorAll('.term .cw-bar').forEach(b => { const s = document.createElement('span'); s.className = 'lang'; s.textContent = 'SHELL'; b.appendChild(s); });
 </script>
 <script data-goatcounter="https://chengbei.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<div class="cb-watermark">chengbei.org · 2026-06-12</div>
 </body>
 </html>
