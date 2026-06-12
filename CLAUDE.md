@@ -41,7 +41,7 @@ gh run watch --repo diaojz/chengbei
 
 ## 关键纪律
 
-1. **发布日期不可篡改**：`content/posts/index.json` 的 `ts` 和课件页 hero 的「发布于 YYYY-MM-DD」一经发布**永不修改**（修订正文可以）。背书 = 本仓库公开 git 历史。
+1. **发布日期不可篡改**：`content/posts/index.json` 的 `ts` 和课件页 hero 的「发布于 YYYY-MM-DD」一经定下**永不修改**（修订正文可以）。课件页日期 = **创作日期**而非上站日（取证：课程仓库 git 首提 > 源文件出生时间），同一日期同步出现在 hero 行、角落水印、`i18n.js` 的 `date` 字段三处。背书 = 本仓库公开 git 历史。
 2. **i18n 双语对齐**：见上，zh/en 必须同步改。
 3. **课件 HTML 上站**：走 README「把课件 HTML 集成上站的固定套路」七步（复制 → meta → 返回链接 → 清「讲师」→ 发布日期 → GoatCounter 脚本 → Ships 入口）。只挑**文章式滚动页**，PPT 翻页形态的课件不上站。
 4. **终端/代码块配色**：浅色方案 = 用户 Ghostty 的 `GitHub Light Default`（bg `#ffffff` / fg `#1f2328` / 注释 `#6e7781` / 绿 `#116329`，嵌在白卡内的命令条用 `#f6f8fa` + 边框 `#d0d7de`）。不要用纯黑底（用户明确否决过 `#12161c`）。

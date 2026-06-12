@@ -39,7 +39,7 @@
 2. `<title>` 加 ` · 城北` 后缀，补 `meta description` + 四条 `og:` 标签（`og:url` 写最终地址）
 3. 加返回链接 `← 城北 · chengbei.org`（带投影模式的页面记得 `.projection .back-home{display:none}`）
 4. 全文检查并清掉「讲师」等字眼（站点身份是独立开发者）
-5. hero 区加发布日期行 `发布于 YYYY-MM-DD`（上站当天，发布后不改）
+5. hero 区加发布日期行 `发布于 YYYY-MM-DD` + 左下角水印 —— 日期用**创作日期**而非上站日（取证顺序：课程仓库 git 首次提交 > 源文件出生时间 `stat -f %SB`），定了之后不改
 6. `</body>` 前加 GoatCounter 计数脚本（抄首页那行 `data-goatcounter`）
 7. `js/i18n.js` zh / en 两个 `artifacts` 数组加入口 + 更新本 README 的 Ships 表
 8. 页面若依赖 mermaid 等本地库：改用站点共享 `/lib/`（绝对路径 `<script src="/lib/mermaid.min.js">`），不要每页塞一份副本
