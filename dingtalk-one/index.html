@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>置身钉内 · 钉钉 ONE 项目深度复盘 · 城北</title>
+<meta name="description" content="一位亲历全程的产品经理在钉钉「飞行」三百多天后写下的项目手记：AI 原生产品 ONE 的理想如何被翻译成目标、拆成需求，在组织里变形、落地、进入真实用户现场，最终走向收缩。">
+<meta property="og:title" content="置身钉内 · 钉钉 ONE 项目深度复盘">
+<meta property="og:description" content="AI 原生产品 ONE 三百多天的完整复盘：理想 → 目标 → 需求 → 变形 → 落地 → 收缩。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chengbei.org/dingtalk-one/">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root {
+  --bg:#ece7de; --card:#fff; --card-alt:#f7f4ef;
+  --border:#2a2a2a; --border-light:#d5d0c7;
+  --text:#1a1a1a; --text-dim:#6b6560; --radius:22px;
+  --orange:#e8682a; --blue:#2563a8; --purple:#7c3aad; --green:#2d8a56; --red:#c93545; --cyan:#0e7490;
+
+  --fs-hero:        clamp(4.2rem, 5.2vw, 5.6rem);
+  --fs-h2:          3.0rem;
+  --fs-card-title:  1.9rem;
+  --fs-body:        1.7rem;
+  --fs-label:       1.35rem;
+  --fs-chip:        1.2rem;
+  --lh-body:        1.58;
+  --lh-heading:     1.16;
+  --ls-heading:     -0.015em;
+  --ls-label:       0.04em;
+
+  --shadow-card:    0 1px 2px rgba(60,45,30,.06), 0 18px 40px -12px rgba(120,90,55,.18);
+  --shadow-hover:   0 1px 2px rgba(60,45,30,.06), 0 28px 56px -14px rgba(120,90,55,.26);
+  --border-card:    1px solid rgba(180,150,110,.28);
+  --hl-top:         rgba(255,250,240,.7);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; scroll-snap-type:y proximity; }
+[id^="sec-"] { scroll-margin-top:104px; }
+body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; -webkit-font-smoothing:antialiased; }
+h1,h2,h3 { font-family:'Playfair Display',serif; font-weight:900; letter-spacing:var(--ls-heading); }
+.container { max-width:1600px; margin:0 auto; padding:0 48px 120px; }
+.mono { font-family:'JetBrains Mono',monospace; }
+
+/* nav */
+.topnav { position:sticky; top:0; z-index:100; background:rgba(236,231,222,0.92); backdrop-filter:blur(8px); border-bottom:1px solid var(--border-light); }
+.topnav-inner { max-width:1600px; margin:0 auto; padding:16px 48px; display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+.topnav .brand { font-family:'JetBrains Mono',monospace; font-size:var(--fs-label); font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--text-dim); margin-right:auto; }
+.topnav a.brand { text-decoration:none; transition:color .2s; }
+.topnav a.brand:hover { color:var(--text); }
+.nav-tag { padding:10px 20px; border-radius:30px; border:1px solid var(--border); font-size:var(--fs-label); font-weight:600; background:var(--card); color:var(--text); text-decoration:none; transition:all .25s; }
+.nav-tag:hover,.nav-tag.active { background:var(--text); color:#fff; border-color:var(--text); }
+
+/* hero */
+.hero { padding:80px 0 60px; border-bottom:1px solid var(--border-light); margin-bottom:72px; }
+.hero .eyebrow { font-family:'JetBrains Mono',monospace; font-size:var(--fs-label); font-weight:700; letter-spacing:var(--ls-label); text-transform:uppercase; color:var(--orange); margin-bottom:22px; }
+.hero h1 { font-size:var(--fs-hero); line-height:var(--lh-heading); }
+.hero h1 .dot { display:inline-block; width:22px; height:22px; border-radius:50%; background:var(--orange); margin-left:12px; }
+.hero-desc { font-size:var(--fs-body); color:var(--text-dim); line-height:var(--lh-body); margin-top:28px; max-width:1080px; }
+.hero-desc strong { color:var(--text); font-weight:600; }
+.hero-stats { display:flex; gap:18px; margin-top:46px; flex-wrap:wrap; }
+.hstat { border:1px solid var(--border); border-radius:40px; background:var(--card); padding:18px 30px; text-align:center; box-shadow:var(--shadow-card); }
+.hstat .n { font-family:'Playfair Display',serif; font-size:2.6rem; font-weight:900; display:block; font-variant-numeric:tabular-nums; line-height:1; }
+.hstat .l { font-family:'JetBrains Mono',monospace; font-size:1.05rem; font-weight:600; letter-spacing:.04em; text-transform:uppercase; color:var(--text-dim); margin-top:8px; display:block; }
+
+/* section title */
+.sec-title { display:flex; align-items:baseline; gap:22px; margin:0 0 34px; flex-wrap:wrap; }
+.sec-title .sn { font-family:'JetBrains Mono',monospace; font-size:1.5rem; font-weight:700; color:#fff; background:var(--text); padding:5px 14px; border-radius:8px; }
+.sec-title h2 { font-size:var(--fs-h2); line-height:var(--lh-heading); }
+.sec-title .sub { font-size:var(--fs-label); color:var(--text-dim); margin-left:auto; }
+.section { margin-bottom:96px; }
+
+/* steps */
+.steps { display:grid; grid-template-columns:repeat(2,1fr); gap:24px; }
+.steps.cols-3 { grid-template-columns:repeat(3,1fr); }
+.steps.cols-4 { grid-template-columns:repeat(4,1fr); }
+.step { background:var(--card); border:var(--border-card); border-top:1px solid var(--hl-top); border-radius:22px; padding:30px 34px; box-shadow:var(--shadow-card); transition:transform .2s ease-out, box-shadow .2s ease-out; }
+.step:hover { transform:translateY(-4px); box-shadow:var(--shadow-hover); }
+.step .n { font-family:'JetBrains Mono',monospace; font-size:var(--fs-label); font-weight:700; color:var(--orange); margin-bottom:10px; }
+.step .t { font-weight:700; font-size:var(--fs-card-title); margin-bottom:10px; line-height:1.25; }
+.step .d { font-size:var(--fs-body); color:var(--text-dim); line-height:var(--lh-body); }
+.step .d strong { color:var(--text); font-weight:600; }
+.steps.compact .step { padding:24px 26px; }
+.steps.compact .step .t { font-size:1.6rem; }
+.steps.compact .step .d { font-size:1.42rem; line-height:1.5; }
+
+/* agent-full */
+.agent { background:var(--card); border:var(--border-card); border-radius:22px; box-shadow:var(--shadow-card); }
+.agent-full { display:grid; grid-template-columns:1fr 1.15fr; gap:52px; padding:48px 56px; border-top:6px solid var(--ac); }
+.agent-head { display:flex; align-items:center; gap:22px; margin-bottom:8px; }
+.agent-icon { width:74px; height:74px; border-radius:18px; display:flex; align-items:center; justify-content:center; font-size:2.2rem; background:var(--ac-bg); flex-shrink:0; }
+.agent-role { font-family:'JetBrains Mono',monospace; font-size:var(--fs-label); font-weight:700; letter-spacing:var(--ls-label); text-transform:uppercase; color:var(--ac); }
+.agent-name { font-size:var(--fs-card-title); font-family:'Playfair Display',serif; font-weight:900; line-height:1.12; }
+.agent-one { font-size:1.78rem; line-height:1.6; color:var(--text-dim); margin:22px 0 0; }
+.agent-one strong { color:var(--text); font-weight:600; }
+.agent-col:last-child { border-left:1px solid var(--border-light); padding-left:52px; }
+.block-label { font-family:'JetBrains Mono',monospace; font-size:var(--fs-label); font-weight:700; letter-spacing:var(--ls-label); text-transform:uppercase; color:var(--ac); margin:30px 0 14px; }
+.chips { display:flex; flex-wrap:wrap; gap:10px; }
+.chip { font-family:'JetBrains Mono',monospace; font-size:var(--fs-chip); font-weight:600; padding:7px 15px; border-radius:24px; background:var(--ac-bg); color:var(--ac); border:1px solid var(--ac-bd); }
+.changes { list-style:none; margin-top:4px; }
+.changes li { font-size:1.62rem; color:var(--text-dim); line-height:1.5; padding:10px 0 10px 30px; position:relative; }
+.changes li::before { content:''; position:absolute; left:0; top:17px; width:11px; height:11px; border-radius:3px; background:var(--ac); }
+.changes li strong { color:var(--text); font-weight:600; }
+.changes li .src { font-family:'JetBrains Mono',monospace; font-size:1.15rem; color:var(--cyan); }
+.keep { margin-top:28px; padding-top:24px; border-top:1px dashed var(--border-light); font-size:1.55rem; color:var(--text-dim); line-height:1.55; }
+.keep b { color:var(--text); font-weight:600; }
+
+/* themes */
+.a-orange { --ac:var(--orange); --ac-bg:#fde8d8; --ac-bd:#f5c5a3; }
+.a-blue   { --ac:var(--blue);   --ac-bg:#dbe9f7; --ac-bd:#b3cef0; }
+.a-green  { --ac:var(--green);  --ac-bg:#d8efe1; --ac-bd:#a9dcc0; }
+.a-purple { --ac:var(--purple); --ac-bg:#ece0f7; --ac-bd:#d3bdee; }
+.a-red    { --ac:var(--red);    --ac-bg:#f9dadd; --ac-bd:#eeb4ba; }
+.a-cyan   { --ac:var(--cyan);   --ac-bg:#d3eaf0; --ac-bd:#a5d4e0; }
+
+/* pipe */
+.pipe-lead { font-size:1.95rem; line-height:1.5; color:var(--text); max-width:1380px; margin-bottom:40px; }
+.pipe-lead b { color:var(--ac, var(--orange)); font-weight:700; }
+.pipe { display:flex; align-items:stretch; gap:0; flex-wrap:wrap; }
+.pipe .st { flex:1; min-width:200px; background:var(--card); border:var(--border-card); border-top:1px solid var(--hl-top); border-radius:16px; padding:24px 22px; box-shadow:var(--shadow-card); }
+.pipe .st .k { font-family:'JetBrains Mono',monospace; font-size:1.2rem; font-weight:700; color:var(--ac, var(--purple)); margin-bottom:9px; }
+.pipe .st .v { font-size:1.45rem; color:var(--text-dim); line-height:1.45; }
+.pipe .st .v strong { color:var(--text); font-weight:600; }
+.pipe .ar { display:flex; align-items:center; color:var(--ac, var(--purple)); font-size:2rem; padding:0 8px; font-weight:700; }
+
+/* foot */
+.foot { border:1px solid var(--border); border-top:1px solid var(--hl-top); border-radius:22px; background:var(--card); padding:50px 56px; box-shadow:var(--shadow-card); }
+.foot h2 { font-size:var(--fs-h2); margin-bottom:8px; line-height:var(--lh-heading); }
+.foot .fsub { font-size:var(--fs-body); color:var(--text-dim); margin-bottom:30px; line-height:1.5; }
+.bd-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
+.bd { background:var(--card-alt); border:1px solid var(--border-light); border-radius:18px; padding:26px 28px; }
+.bd .q { font-family:'JetBrains Mono',monospace; font-size:1.1rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--orange); margin-bottom:12px; }
+.bd .p { font-size:1.5rem; color:var(--text-dim); line-height:1.52; }
+.bd .p b { color:var(--text); font-weight:700; }
+footer.pf { text-align:center; margin-top:52px; font-family:'JetBrains Mono',monospace; font-size:var(--fs-label); color:var(--text-dim); letter-spacing:.5px; }
+
+/* 大金句卡 */
+.quote-block { background:var(--text); color:#fff; border-radius:22px; padding:44px 52px; box-shadow:var(--shadow-card); margin-bottom:34px; }
+.quote-block .qmark { font-family:'Playfair Display',serif; font-size:2.6rem; color:var(--orange); line-height:1; margin-bottom:10px; }
+.quote-block .qtext { font-family:'Playfair Display',serif; font-size:2.5rem; font-weight:900; line-height:1.35; }
+.quote-block .qtext em { color:var(--orange); font-style:normal; }
+
+/* 投影提示徽标 */
+.proj-hint { position:fixed; right:24px; bottom:24px; z-index:200; background:var(--text); color:#fff; font-family:'JetBrains Mono',monospace; font-size:1.05rem; font-weight:600; padding:10px 18px; border-radius:24px; box-shadow:0 8px 24px rgba(0,0,0,.18); opacity:.82; }
+.proj-hint b { color:var(--orange); }
+
+/* mermaid 图卡 + 灯箱 */
+.diagram-card { position:relative; cursor:zoom-in; background:var(--card); border:var(--border-card); border-top:1px solid var(--hl-top); border-radius:20px; padding:24px; box-shadow:var(--shadow-card); text-align:center; overflow:auto; }
+.diagram-card .mermaid { min-height:40px; }
+.diagram-card .mermaid:not([data-processed]) { visibility:hidden; }
+.diagram-card svg { max-width:100%; height:auto; }
+.diagram-card::after { content:'🔍 点击放大'; position:absolute; top:12px; right:16px; font-family:'JetBrains Mono',monospace; font-size:.92rem; color:var(--text-dim); background:var(--card-alt); border:1px solid var(--border-light); padding:2px 11px; border-radius:8px; pointer-events:none; }
+.projection .diagram-card svg { max-height:62vh; }
+.diagram-legend { display:flex; gap:22px; justify-content:center; flex-wrap:wrap; margin-top:16px; font-family:'JetBrains Mono',monospace; font-size:1.1rem; color:var(--text-dim); }
+.diagram-legend i { display:inline-block; width:13px; height:13px; border-radius:4px; margin-right:7px; vertical-align:middle; }
+.lightbox { position:fixed; inset:0; z-index:1000; background:rgba(28,22,14,.86); display:none; align-items:center; justify-content:center; cursor:zoom-out; }
+.lightbox.show { display:flex; }
+.lightbox-inner { background:#fff; border-radius:14px; padding:24px; max-width:96vw; max-height:94vh; overflow:auto; box-shadow:0 24px 70px rgba(0,0,0,.45); cursor:default; }
+.lightbox-inner svg { max-width:none !important; height:auto !important; display:block; }
+.lightbox-hint { position:fixed; top:20px; right:26px; color:#fff; font-family:'JetBrains Mono',monospace; font-size:1.05rem; opacity:.85; }
+
+/* 投影一屏一页 */
+.slide { padding-block:0; scroll-snap-align:start; }
+html.projection { scroll-snap-type:y mandatory; scroll-behavior:smooth; }
+.projection .topnav { display:none; }
+.projection .container { padding-bottom:0; }
+.projection .section, .projection .hero { margin-bottom:0; }
+.projection .slide { height:100vh; scroll-snap-align:start; scroll-snap-stop:always; display:flex; flex-direction:column; justify-content:center; padding-block:2.2vh; box-sizing:border-box; overflow:hidden; }
+/* 投影态紧凑覆盖 */
+.projection .sec-title { margin-bottom:clamp(18px,2.4vh,34px); }
+.projection .agent-full { padding-block:clamp(28px,3.2vh,48px); }
+.projection .changes li { padding-top:clamp(5px,0.8vh,10px); padding-bottom:clamp(5px,0.8vh,10px); }
+.projection .steps { gap:clamp(14px,1.8vh,24px); }
+.projection .step { padding:clamp(20px,2.4vh,30px) clamp(24px,2vw,34px); }
+.projection .quote-block { padding:clamp(28px,3.4vh,44px) 52px; margin-bottom:clamp(18px,2.4vh,34px); }
+.projection .pipe-lead { margin-bottom:clamp(20px,2.8vh,40px); }
+.projection .foot { padding:clamp(30px,3.6vh,50px) 56px; }
+.projection .keep { margin-top:clamp(14px,2vh,28px); padding-top:clamp(12px,1.8vh,24px); }
+.projection .hero { padding:0; border-bottom:none; }
+
+@media (max-width:1100px){ .steps,.steps.cols-3,.steps.cols-4{grid-template-columns:1fr} .agent-full{grid-template-columns:1fr!important} .agent-col:last-child{border-left:none;padding-left:0;border-top:1px solid var(--border-light);padding-top:30px} .bd-grid{grid-template-columns:1fr} }
+@media (max-width:640px){ .container{padding:0 20px 80px} }
+</style>
+</head>
+<body>
+
+<div class="topnav">
+  <div class="topnav-inner">
+    <a class="brand" href="/">← 城北 · chengbei.org</a>
+    <a class="nav-tag active" href="#sec-top">封面</a>
+    <a class="nav-tag" href="#sec-map">八卷</a>
+    <a class="nav-tag" href="#sec-prologue">楔子</a>
+    <a class="nav-tag" href="#sec-faxin">发心</a>
+    <a class="nav-tag" href="#sec-dingwei">定位</a>
+    <a class="nav-tag" href="#sec-sheji">设计</a>
+    <a class="nav-tag" href="#sec-yonghu">用户</a>
+    <a class="nav-tag" href="#sec-minjie">敏捷</a>
+    <a class="nav-tag" href="#sec-zhixu">秩序</a>
+    <a class="nav-tag" href="#sec-junzheng">军争</a>
+    <a class="nav-tag" href="#sec-changqi">长期</a>
+    <a class="nav-tag" href="#sec-take">速记</a>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- P1 封面 -->
+  <section class="slide">
+  <div class="hero" id="sec-top">
+    <div class="eyebrow">AI Product Postmortem · 一款战略级 AI 产品的生老病死</div>
+    <h1>置身钉内：<br>钉钉 ONE 深度复盘<span class="dot"></span></h1>
+    <p class="hero-desc">一位亲历全程的产品经理，在钉钉「飞行」三百多天后写下的项目手记——记录 ONE 这款 AI 原生产品，理想如何被翻译成目标，目标如何被拆成需求，需求如何在组织里<strong>变形、落地、进入真实的用户现场，最终走向收缩</strong>。</p>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:.85rem;color:var(--text-dim);margin-top:16px;letter-spacing:.5px;">发布于 2026-06-12</div>
+    <div class="hero-stats">
+      <div class="hstat"><span class="n">300万</span><span class="l">DAU 峰值</span></div>
+      <div class="hstat"><span class="n">300+天</span><span class="l">亲历周期</span></div>
+      <div class="hstat"><span class="n">8 卷</span><span class="l">复盘架构</span></div>
+      <div class="hstat"><span class="n">45%→18%</span><span class="l">次日留存</span></div>
+    </div>
+  </div>
+  </section>
+
+  <!-- P2 八卷导览 -->
+  <section class="slide">
+  <div class="section" id="sec-map">
+    <div class="sec-title"><span class="sn">导览</span><h2>八卷架构：一款 AI 产品的完整生命周期</h2><span class="sub">凡历术在于常数，而不在于变行</span></div>
+    <div class="steps cols-4 compact">
+      <div class="step"><div class="n">卷一</div><div class="t">发心</div><div class="d">产品的出发点是什么？<strong>贪心的产品什么都得不到</strong></div></div>
+      <div class="step"><div class="n">卷二</div><div class="t">定位</div><div class="d">为谁服务没闭环，<strong>两大矛盾立项时就埋雷</strong></div></div>
+      <div class="step"><div class="n">卷三</div><div class="t">设计</div><div class="d">理想原型被四股外力<strong>层层折损，只剩外壳</strong></div></div>
+      <div class="step"><div class="n">卷四</div><div class="t">用户</div><div class="d">内测完美假象 → 全量崩盘，<strong>三类用户全输</strong></div></div>
+      <div class="step"><div class="n">卷五</div><div class="t">敏捷</div><div class="d">发布会倒排一切，<strong>全力以赴地做错事</strong></div></div>
+      <div class="step"><div class="n">卷六</div><div class="t">秩序</div><div class="d">权责割裂、资源博弈，<strong>内耗转嫁给产品</strong></div></div>
+      <div class="step"><div class="n">卷七</div><div class="t">军争</div><div class="d">被行业竞速绑架，<strong>赢了发布会输了长线</strong></div></div>
+      <div class="step"><div class="n">卷八</div><div class="t">长期</div><div class="d">得失结算 + 给 SaaS 与 AI 行业的<strong>三条长期启示</strong></div></div>
+    </div>
+  </div>
+  </section>
+
+  <!-- P3 楔子 -->
+  <section class="slide">
+  <div class="section" id="sec-prologue">
+    <div class="sec-title"><span class="sn">楔子</span><h2>钉钉是一只雨燕</h2><span class="sub">apus apus · 字面意义上「没有脚的鸟」</span></div>
+    <div class="agent a-cyan agent-full">
+      <div class="agent-col">
+        <div class="agent-head">
+          <div class="agent-icon">🕊️</div>
+          <div><div class="agent-role">隐喻 · Prologue</div><div class="agent-name">一只不落地的<br>尖尾雨燕</div></div>
+        </div>
+        <div class="agent-one">钉钉的形象「钉三多」是一只尖尾雨燕——世界上平飞最快的鸟类之一，吃喝、睡眠都在空中完成，<strong>最多连续飞行三百多天不落地</strong>。作者在钉钉「飞行」了 300 多天，完整体验了一款大用户量级 AI 产品的生老病死。</div>
+        <div class="block-label">项目档案</div>
+        <div class="chips"><span class="chip">2025.04 孕育</span><span class="chip">08.25 发布会官宣</span><span class="chip">DAU 峰值 300 万</span><span class="chip">核心保密「0 项目」</span></div>
+        <div class="keep"><b>「凡历术在于常数，而不在于变行。」</b>复盘既要记录亲历的「变行」，更要凝练反复受挫后得到的「常数」——规律。</div>
+      </div>
+      <div class="agent-col">
+        <div class="block-label">ONE 是一个怎样的项目</div>
+        <ul class="changes">
+          <li><strong>战略级 AI 原生项目</strong>：无招回归后第一个主推产品，「0」代表 ONE，立项即站在风口</li>
+          <li><strong>设计基因极重</strong>：第一任一号位出身设计中心，设计深度参与甚至主导产品决策</li>
+          <li><strong>流动性极大</strong>：作者入职第二周设计 leader 离开，第四周引荐人被调离——<strong>在 ONE 超过 3 个月的产品经理只有 3 人</strong></li>
+          <li><strong>完整走完生命周期</strong>：立项 → 发布 → 共创 → 收缩，十个月内全程压缩上演</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  </section>
+
+  <!-- P4 卷一 · 发心 -->
+  <section class="slide">
+  <div class="section" id="sec-faxin">
+    <div class="sec-title"><span class="sn">卷一</span><h2>发心：ONE 从一开始就不纯粹</h2><span class="sub">好产品只有一个主发心 · 大道至简</span></div>
+    <p class="pipe-lead" style="--ac:var(--orange)">发心是产品发起人最原始的出发点。当一个产品的发心<b>又多又没有主次</b>，就会成为一个贪心而焦虑的产品——什么都想要，容易什么都得不到。ONE 同时背着四层发心：</p>
+    <div class="steps cols-4 compact">
+      <div class="step"><div class="n">第一层 · 用户发心</div><div class="t">替用户减负</div><div class="d">工作信息太散，让重要的事自己浮上来，<strong>少遗漏、少翻找</strong></div></div>
+      <div class="step"><div class="n">第二层 · 产品发心</div><div class="t">替钉钉换代</div><div class="d">需要一个 AI 时代的新入口，把消息、日程、待办、文档<strong>重新摆一次</strong></div></div>
+      <div class="step"><div class="n">第三层 · 组织发心</div><div class="t">替组织提气</div><div class="d">无招回归后需要一场新战役来<strong>聚人心、提士气、改形象</strong></div></div>
+      <div class="step"><div class="n">第四层 · 商业发心</div><div class="t">替模型找场景</div><div class="d">AI 要消耗 token，钉钉的海量工作场景是<strong>完美的发动机试验场</strong></div></div>
+    </div>
+    <p class="pipe-lead" style="--ac:var(--orange); margin-top:34px; margin-bottom:0;">既想替用户减负，也想替钉钉换代；有理想，也有指标；有用户价值，也有组织意志——<b>三重使命压在一个产品上，定位必然失准</b>。</p>
+  </div>
+  </section>
+
+  <!-- P5 卷一 · 外部环境 -->
+  <section class="slide">
+  <div class="section">
+    <div class="sec-title"><span class="sn">卷一</span><h2>2025 年的风向：风口在旧城中央</h2><span class="sub">AI 叙事从「会聊天」换挡到「进工作流」</span></div>
+    <p class="pipe-lead" style="--ac:var(--orange)">行业不再惊叹模型会聊天、会总结，而是关心 AI 怎样<b>调用工具、完成任务、进入真实工作流</b>：</p>
+    <div class="pipe" style="--ac:var(--orange)">
+      <div class="st"><div class="k">2025.05 · Google I/O</div><div class="v">Search 强推 AI Mode，发布 Agent Development Kit、Agent2Agent，<strong>重心转向应用生态</strong></div></div>
+      <div class="ar">→</div>
+      <div class="st"><div class="k">2025.07 · OpenAI</div><div class="v">发布 ChatGPT Agent：用自己的工具和计算机<strong>完成研究、预订、做幻灯片</strong></div></div>
+      <div class="ar">→</div>
+      <div class="st"><div class="k">2025.09 · Anthropic</div><div class="v">发布 Claude Sonnet 4.5，重点落在 <strong>complex agents 与 computer use</strong></div></div>
+      <div class="ar">→</div>
+      <div class="st"><div class="k">钉钉的位置</div><div class="v">有组织关系 + 消息/日程/待办/审批，<strong>AI 进工作现场的天然入口</strong></div></div>
+    </div>
+    <p class="pipe-lead" style="--ac:var(--orange); margin-top:36px; margin-bottom:0;">但钉钉不是白纸：多年积下的产品逻辑、权限系统、端侧差异、客户定制——AI 要在这里做事，必须穿过旧系统的技术债。<b>这个风口，正处在一片难以改造的旧城中央。</b></p>
+  </div>
+  </section>
+
+  <!-- P6 卷一 · 无招回归 -->
+  <section class="slide">
+  <div class="section">
+    <div class="sec-title"><span class="sn">卷一</span><h2>无招回归：成功留下的手感</h2><span class="sub">一个非常奇特的内部变量</span></div>
+    <div class="agent a-red agent-full">
+      <div class="agent-col">
+        <div class="agent-head">
+          <div class="agent-icon">🔥</div>
+          <div><div class="agent-role">人物 · 内部环境</div><div class="agent-name">绕了一大圈，<br>回到迦密山</div></div>
+        </div>
+        <div class="agent-one">来往失败后，无招在湖畔花园从败局里做出钉钉：DING、已读未读、企业通讯录、审批——回答了企业最朴素的焦虑：<strong>「我说的话对方看见没有，我交代的事有没有往前走」</strong>。本质是解决了管理者、也就是愿意付钱的人的问题。</div>
+        <div class="block-label">回归后的高压新政</div>
+        <div class="chips"><span class="chip">9 点上班 + 晨晚会</span><span class="chip">周末单休</span><span class="chip">全员 Python 考试</span><span class="chip">「对不起我只用钉钉」</span></div>
+        <div class="keep"><b>「产品经理最难摆脱的不是失败，而是成功。失败留下伤口，成功留下手感。」</b></div>
+      </div>
+      <div class="agent-col">
+        <div class="block-label">旧手感如何进入 ONE</div>
+        <ul class="changes">
+          <li><strong>身体记忆</strong>：站在发信人一侧，替组织争取确定性，<strong>用强触达把事情往前推</strong>——这套记忆原封不动进入了 ONE</li>
+          <li><strong>急于证明</strong>：离开钉钉、再离开阿里去做「两氢一氧」未跑出来——再蒙旧主召回，<strong>很难只是一次普通任命</strong></li>
+          <li><strong>三股「气味」</strong>：急着做成新入口、急着证明钉钉没有老、急着把 AI 落进消息日程审批里</li>
+          <li><strong>布道者型 CEO</strong>：乔布斯式的极具煽动力的布道者，把审美、野心、控制欲全部压进一套系统</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  </section>
+
+  <!-- P7 卷二 · 定位四问 -->
+  <section class="slide">
+  <div class="section" id="sec-dingwei">
+    <div class="sec-title"><span class="sn">卷二</span><h2>定位四问：「让人找事，变成事找人」</h2><span class="sub">发布会口径：以 Agent 驱动的工作信息流</span></div>
+    <div class="steps">
+      <div class="step"><div class="n" style="color:var(--blue)">为谁 · WHO</div><div class="t">高信息密度的钉钉用户</div><div class="d">高协作负担、对消息/日程/任务闭环负责的人——<strong>但「员工还是老板」始终没闭环</strong></div></div>
+      <div class="step"><div class="n" style="color:var(--blue)">在哪用 · WHERE</div><div class="t">三个高焦虑时刻</div><div class="d">长会后的<strong>补课跟进</strong>、下班前的<strong>查漏补缺</strong>、晨间的<strong>排兵布阵与发现</strong>——后来 ChatGPT Pulse 印证了这个场景直觉</div></div>
+      <div class="step"><div class="n" style="color:var(--blue)">解决什么 · WHAT</div><div class="t">信息过载</div><div class="d">消息太多、事项太散、重点不清、容易漏回、<strong>任务难闭环</strong></div></div>
+      <div class="step"><div class="n" style="color:var(--blue)">为什么是我们 · WHY US</div><div class="t">context 壁垒</div><div class="d">钉钉掌握组织关系与协作链路，<strong>比通用 AI 更贴近真实工作现场</strong></div></div>
+    </div>
+    <p class="pipe-lead" style="--ac:var(--blue); margin-top:34px; margin-bottom:0;">分析是清晰的，现实是泥泞的。「事找人」入口一旦运行，就要替组织回答：<b>谁的事算「事」？AI 替谁省时间，又替谁加可见度？</b>——判断本身携带权力属性。</p>
+  </div>
+  </section>
+
+  <!-- P8 卷二 · 两大底层矛盾 -->
+  <section class="slide">
+  <div class="section">
+    <div class="sec-title"><span class="sn">卷二</span><h2>立项即埋雷：两个没闭环的矛盾</h2><span class="sub">后续一切设计变形的根源</span></div>
+    <div class="steps">
+      <div class="step" style="border-top:6px solid var(--red)">
+        <div class="n" style="color:var(--red)">矛盾一</div>
+        <div class="t">老板 vs 员工</div>
+        <div class="d"><strong>优先服务员工</strong> → 做大 DAU，全员效率才是 SaaS 长期价值；<strong>优先服务老板</strong> → 付费主体是管理者，「机要秘书」定位天花板低但能收钱。<br><br>结果：用户究竟是普通员工还是老板，<strong>在定位阶段始终没有答案</strong>。</div>
+      </div>
+      <div class="step" style="border-top:6px solid var(--red)">
+        <div class="n" style="color:var(--red)">矛盾二</div>
+        <div class="t">发信人 vs 收信人</div>
+        <div class="d">微信站「收信人」立场——为保护不被打扰，克制地不做已读未读；钉钉的基因从第一天起就站「发信人」立场，<strong>为发信人所驱策</strong>。<br><br>骨子里流着强控制基因，对外却想扮演体贴收信人的超级秘书——<strong>员工感受到的不是「智能的平权」，而是「被凝视的加剧」</strong>。</div>
+      </div>
+    </div>
+  </div>
+  </section>
+
+  <!-- P9 卷三 · 设计 -->
+  <section class="slide">
+  <div class="section" id="sec-sheji">
+    <div class="sec-title"><span class="sn">卷三</span><h2>设计：一张卡片 = 一件工作事项</h2><span class="sub">理想设定 vs 三大落地摩擦</span></div>
+    <div class="agent a-purple agent-full">
+      <div class="agent-col">
+        <div class="agent-head">
+          <div class="agent-icon">🃏</div>
+          <div><div class="agent-role">理想设定 · Card</div><div class="agent-name">信息流卡片化<br>三大原则</div></div>
+        </div>
+        <div class="agent-one">全产品以卡片为最小信息单元：<strong>信息收敛</strong>（大模型把几百字群聊压缩成单卡）、<strong>生命周期闭环</strong>（生成→触达→已读→完成→归档全自动流转）、<strong>权限锚定</strong>（卡片严格跟随组织权限——钉钉对通用 AI 独一无二的壁垒）。</div>
+        <div class="keep"><b>顶层原型全部站在用户效率角度</b>——但落地中接连撞上现实，根源仍是「发信人-收信人」「管理者-员工」双重矛盾。</div>
+      </div>
+      <div class="agent-col">
+        <div class="block-label">三大落地摩擦</div>
+        <ul class="changes">
+          <li><strong>① 已读规则拉锯战</strong>：员工要心理缓冲，管理层坚持「已读溯源是付费刚需」。折中：付费版实时已读统计，免费版隐藏上报<strong>但后台仍留痕可导出</strong>——内测吐槽集中爆发：「AI 变成老板的监工助手」</li>
+          <li><strong>② 优先级算法的官本位</strong>：「关联人职级」权重从 20% 仅微调到 18%。基层首页被上级通知占满，<strong>平级协作被折叠进二级菜单</strong>，反而多了操作步骤</li>
+          <li><strong>③ 卡片边界失控</strong>：审批、会议、文档各业务线为 KPI 强行接入，卡片从单一事项载体变成全系统消息聚合口——<strong>日推送从 10-20 条膨胀到 50+ 条</strong>，信息过载不降反升</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  </section>
+
+  <!-- P10 卷三 · 理想层层折损 mermaid -->
+  <section class="slide">
+  <div class="section">
+    <div class="sec-title"><span class="sn">卷三</span><h2>理想落地，层层折损</h2><span class="sub">四股不可抗外力 · 最后只剩原型的外壳</span></div>
+    <div class="diagram-card">
+      <div class="mermaid">
+flowchart LR
+  classDef ideal fill:#d8efe1,stroke:#2d8a56,color:#143d28;
+  classDef force fill:#faf0d8,stroke:#b8860b,color:#5a3c08;
+  classDef dead fill:#f9dadd,stroke:#c93545,color:#5e1420;
+  A["理想原型<br/>站在用户效率角度"]:::ideal -->|历史产品基因| B["已读·发信人优先<br/>绑定老商业模式"]:::force
+  B -->|集团成本指标| C["token 计费红线<br/>免费摘要砍到 300 字"]:::force
+  C -->|业务线导流诉求| D["全模块强行接入<br/>卡片日推 50+ 条"]:::force
+  D -->|商业化变现压力| E["发现页植入广告<br/>默认开启 3-5 条/天"]:::force
+  E --> F["落地成品<br/>只剩外壳·内核持续缩水"]:::dead
+      </div>
+      <div class="diagram-legend">
+        <span><i style="background:#d8efe1;border:1px solid #2d8a56"></i>理想设计</span>
+        <span><i style="background:#faf0d8;border:1px solid #b8860b"></i>不可抗外力侵蚀</span>
+        <span><i style="background:#f9dadd;border:1px solid #c93545"></i>最终结果</span>
+      </div>
+    </div>
+    <p class="pipe-lead" style="--ac:var(--purple); margin-top:30px; margin-bottom:0;">发现页是跑偏最严重的板块：从「默认关闭的行业资讯推荐」变成「默认开启的信息流广告入口」，设计团队多次抵制无效——<b>大量用户为屏蔽广告，直接关闭整个 ONE 的推送权限</b>。</p>
+  </div>
+  </section>
+
+  <!-- P11 卷四 · 灰度三阶段 mermaid -->
+  <section class="slide">
+  <div class="section" id="sec-yonghu">
+    <div class="sec-title"><span class="sn">卷四</span><h2>灰度三阶段：从封闭自嗨到公开翻车</h2><span class="sub">内部内测是最大的陷阱</span></div>
+    <div class="diagram-card">
+      <div class="mermaid">
+flowchart LR
+  classDef ok fill:#d8efe1,stroke:#2d8a56,color:#143d28;
+  classDef warn fill:#faf0d8,stroke:#b8860b,color:#5a3c08;
+  classDef bad fill:#f9dadd,stroke:#c93545,color:#5e1420;
+  A["① 内部内测 · 完美假象<br/>产研+阿里员工+头部客户<br/>使用率极高·好评如潮"]:::ok -->|"温室数据全是假的"| B["② 大客户灰度 · 隐患初现<br/>管理层满分好评<br/>基层员工大面积抵触"]:::warn
+  B -->|"误判：抵触=用户适应问题"| C["③ 全量发布 · 口碑崩盘<br/>第1周 DAU 冲 300 万<br/>第4周 百万用户主动关闭"]:::bad
+      </div>
+      <div class="diagram-legend">
+        <span><i style="background:#d8efe1;border:1px solid #2d8a56"></i>虚假繁荣</span>
+        <span><i style="background:#faf0d8;border:1px solid #b8860b"></i>信号被无视</span>
+        <span><i style="background:#f9dadd;border:1px solid #c93545"></i>全面崩塌</span>
+      </div>
+    </div>
+    <p class="pipe-lead" style="--ac:var(--red); margin-top:30px; margin-bottom:0;">内测用户懂产品、肯包容、信息噪音低——团队由此建立巨大认知幻觉：「我们真的完成了 AI 办公革命」。但真正的钉钉用户不是产品经理、不是工程师，<b>是千千万万普通职场打工人</b>。把基层抵触归因为「人性惰性、不习惯新工具」，是 ONE 全程最致命的一次误判。</p>
+  </div>
+  </section>
+
+  <!-- P12 卷四 · 崩盘数据 -->
+  <section class="slide">
+  <div class="section">
+    <div class="sec-title"><span class="sn">卷四</span><h2>冰冷的后台数据</h2><span class="sub">8.25 全量发布后四周</span></div>
+    <div class="steps">
+      <div class="step" style="border-top:6px solid var(--red)"><div class="n" style="color:var(--red)">次日留存</div><div class="t">45% → 18%</div><div class="d">第一周虚假狂欢后，<strong>第二周留存断崖式下跌</strong>，7 日留存跌破个位数</div></div>
+      <div class="step" style="border-top:6px solid var(--red)"><div class="n" style="color:var(--red)">永久流失</div><div class="t">60%+ 三次内弃用</div><div class="d">打开三次以内就<strong>永久关闭 ONE 卡片推送</strong>的用户超过六成</div></div>
+      <div class="step" style="border-top:6px solid var(--red)"><div class="n" style="color:var(--red)">主动抵制</div><div class="t">百万级关闭入口</div><div class="d">第三周负面舆情全面爆发，<strong>第四周主动关闭入口用户超百万</strong></div></div>
+      <div class="step" style="border-top:6px solid var(--red)"><div class="n" style="color:var(--red)">差评关键词</div><div class="t">监视 · 内卷 · 压迫</div><div class="d">「窒息」「打工人噩梦」——从战略级 AI 革命产品到<strong>全网打工人集体抵制工具</strong></div></div>
+    </div>
+  </div>
+  </section>
+
+  <!-- P13 卷四 · 三类用户 -->
+  <section class="slide">
+  <div class="section">
+    <div class="sec-title"><span class="sn">卷四</span><h2>三类用户，需求天然互斥</h2><span class="sub">一款「没人真的需要」的产品</span></div>
+    <div class="steps cols-3">
+      <div class="step" style="border-top:6px solid var(--blue)"><div class="n" style="color:var(--blue)">高层管理者</div><div class="t">要管控——但低频</div><div class="d">AI 替他盯所有人、所有事、所有进度，对老板是神器。但老板只看结果和报表，<strong>不会天天刷信息流</strong>。低频锦上添花。</div></div>
+      <div class="step" style="border-top:6px solid var(--orange)"><div class="n" style="color:var(--orange)">中层骨干</div><div class="t">想要效率——但不敢用</div><div class="d">消息最爆炸，理论上是唯一精准目标用户。但 AI 帮你梳理工作的同时，也帮上级梳理了你所有的漏洞和摸鱼空隙——<strong>宁可手动整理，也不要透明裸奔</strong>。</div></div>
+      <div class="step" style="border-top:6px solid var(--red)"><div class="n" style="color:var(--red)">基层员工</div><div class="t">要喘息——零容忍</div><div class="d">打工人最大的刚需是<strong>模糊空间、缓冲地带、容错余地</strong>。ONE 用 AI 把所有模糊空间清零：没看的消息替老板高亮，没跟进的事项自动公示。<strong>不是工具，是枷锁</strong>。</div></div>
+    </div>
+    <p class="pipe-lead" style="--ac:var(--red); margin-top:34px; margin-bottom:0;">结算：付费用户低频、核心用户不敢用、海量用户拒绝用——<b>不可能活</b>。</p>
+  </div>
+  </section>
+
+  <!-- P14 卷四 · B端死结 -->
+  <section class="slide">
+  <div class="section">
+    <div class="sec-title"><span class="sn">卷四</span><h2>B 端死结：从「人管人」到「算法管人」</h2><span class="sub">大家抵制的不是 AI，是算法化的极致内卷</span></div>
+    <div class="agent a-red agent-full">
+      <div class="agent-col">
+        <div class="agent-head">
+          <div class="agent-icon">⛓️</div>
+          <div><div class="agent-role">核心悖论 · To B</div><div class="agent-name">付费的要管控，<br>使用的要自由</div></div>
+        </div>
+        <div class="agent-one">To B 产品付费的是老板，使用的是员工，两者需求 <strong>100% 互斥，没有折中解</strong>。早年钉钉能赢，是因为只解决「确定性触达」，功能克制、边界清晰；而 ONE 用 AI 无限放大了管控能力，把隐性的管理张力变成<strong>显性的、算法化的、无死角的系统凝视</strong>。</div>
+        <div class="keep"><b>人管人尚有情面、容错、沟通余地；算法管人只有绝对量化、绝对透明、绝对压迫。</b></div>
+      </div>
+      <div class="agent-col">
+        <div class="block-label">用户弃用的三大真实痛点</div>
+        <ul class="changes">
+          <li><strong>① 职场缓冲灰度被清零</strong>：延后回复、选择性忽略、事后补闭环——这些不是摸鱼，是普通人维持心理健康的必要缓冲。<strong>ONE 不允许灰度</strong>，全部量化、记录、曝光</li>
+          <li><strong>② 官本位算法碾压</strong>：职级权重让基层失去话语权。用户原话：「这个 AI 不是帮我工作，<strong>是帮领导统治工位</strong>」——算法没有感情，但算法有立场</li>
+          <li><strong>③ 增量噪音大于增量价值</strong>：原有消息体系 + 全新卡片体系 = <strong>双重轰炸</strong>，再加发现页广告乱入——净负体验</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  </section>
+
+  <!-- P15 卷五 · 反敏捷 -->
+  <section class="slide">
+  <div class="section" id="sec-minjie">
+    <div class="sec-title"><span class="sn">卷五</span><h2>反敏捷：发布会倒排一切</h2><span class="sub">敏捷的天敌：高举高打、舆论先行</span></div>
+    <div class="quote-block">
+      <div class="qmark">“</div>
+      <div class="qtext">产品最大的浪费，不是偷懒，<br>是<em>全力以赴地做错事</em>。</div>
+    </div>
+    <div class="steps cols-3 compact">
+      <div class="step"><div class="n">畸形模式一</div><div class="t">需求无冻结</div><div class="d">8.25 官宣日不可改、规格不可降。越临近越焦虑：上午定的方案下午推翻，<strong>全员陷入无尽的无效返工</strong></div></div>
+      <div class="step"><div class="n">畸形模式二</div><div class="t">MVP 彻底消失</div><div class="d">没有最小闭环、没有单点验证，立项即对标终极形态——<strong>还没学会走路，直接冲刺百米决赛</strong></div></div>
+      <div class="step"><div class="n">畸形模式三</div><div class="t">军事化透支</div><div class="d">晨会晚会、单休、逐行审核文案配色。所有人极度忙碌，<strong>却没有机制校验产出是否正确</strong>——用体力透支掩盖方向迷茫</div></div>
+    </div>
+  </div>
+  </section>
+
+  <!-- P16 卷五 · 无止损机制 -->
+  <section class="slide">
+  <div class="section">
+    <div class="sec-title"><span class="sn">卷五</span><h2>致命缺失：没有止损机制</h2><span class="sub">坏数据即止损、坏反馈即纠偏——ONE 全程没做到一次</span></div>
+    <div class="steps">
+      <div class="step"><div class="n" style="color:var(--red)">信号一 · 内测期</div><div class="t">员工抵触已读规则</div><div class="d">项目组反应：<strong>压下，优先发布会</strong></div></div>
+      <div class="step"><div class="n" style="color:var(--red)">信号二 · 灰度期</div><div class="t">员工反馈集中爆发</div><div class="d">项目组反应：<strong>无视，归因为「用户习惯问题」</strong></div></div>
+      <div class="step"><div class="n" style="color:var(--red)">信号三 · 留存下跌</div><div class="t">次日留存 45% 跌至 18%</div><div class="d">项目组反应：<strong>加码运营、加码推送、强行拉活</strong></div></div>
+      <div class="step"><div class="n" style="color:var(--red)">信号四 · 舆情爆发</div><div class="t">全网差评、百万用户关闭</div><div class="d">项目组反应：<strong>公关压制、删帖控评、内部维稳</strong></div></div>
+    </div>
+    <p class="pipe-lead" style="--ac:var(--red); margin-top:34px; margin-bottom:0;">全程没有一次因为负面真实数据修正顶层定位。<b>小错不纠酿成大错，大错不纠最终全盘崩塌。</b>当项目开始敬畏发布会、敬畏 KPI、敬畏上级预期——敏捷就已经死亡。</p>
+  </div>
+  </section>
+
+  <!-- P17 卷六 · 秩序 -->
+  <section class="slide">
+  <div class="section" id="sec-zhixu">
+    <div class="sec-title"><span class="sn">卷六</span><h2>秩序失序：内耗全部转嫁给产品</h2><span class="sub">顶层架构仓促搭建的必然结果</span></div>
+    <div class="agent a-purple agent-full">
+      <div class="agent-col">
+        <div class="agent-head">
+          <div class="agent-icon">🏛️</div>
+          <div><div class="agent-role">组织 · Order</div><div class="agent-name">双线管控，<br>没有终审仲裁人</div></div>
+        </div>
+        <div class="agent-one">产品线、设计线两条汇报线互不隶属，核心功能需两边共同签字。设计拥有等同甚至高于产品的决策权，分歧反复上会拉扯——<strong>同一卡片交互往返修订 17 版、耗时 21 天</strong>。研发无专属编制，从三个部门按需抽调，ONE 的需求永远排在各部门存量 KPI 之后。</div>
+        <div class="keep"><b>良性秩序是用来锚定用户价值的；ONE 的秩序被 KPI、部门利益、顶层个人诉求拆得支离破碎。</b></div>
+      </div>
+      <div class="agent-col">
+        <div class="block-label">四笔数字账</div>
+        <ul class="changes">
+          <li><strong>42 项接入申请，仅 8 项经过用户论证</strong>：集团 AI 考核下，接入 ONE 是各业务线最低成本完成指标的路径，产品组无权驳回</li>
+          <li><strong>算力成本全部归集 ONE</strong>：各部门免费享受 AI 落地成果，成本风险 ONE 独自承担——后期被迫阉割免费用户摘要权限</li>
+          <li><strong>近千条基层反馈 → 压缩到百字</strong>：层层上报中负面被精简淡化，上层被美化报表包裹，错把管理者需求当普适痛点</li>
+          <li><strong>产品离职 7 人、前端离职 5 人</strong>：荣誉归顶层，问责落一线——奖惩错配消磨掉团队骨干</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  </section>
+
+  <!-- P18 卷七 · 军争 -->
+  <section class="slide">
+  <div class="section" id="sec-junzheng">
+    <div class="sec-title"><span class="sn">卷七</span><h2>军争：一场仓促集结的战役</h2><span class="sub">兵忌冒进 · ONE 把兵法忌讳悉数踩中</span></div>
+    <div class="steps">
+      <div class="step"><div class="n" style="color:var(--cyan)">忌一 · 未备粮草先出兵</div><div class="t">被迫起兵</div><div class="d">Office Copilot、Workspace Agent、飞书 AI 接连上新，集团把 AI 办公定为一号战略、绑死 8.25 节点——<strong>没有 6-12 个月试错周期，直接全链路研发</strong></div></div>
+      <div class="step"><div class="n" style="color:var(--cyan)">忌二 · 教条对标</div><div class="t">复刻式内卷</div><div class="d">「竞品有的必须有，竞品没有的要独创造势」。大量功能沦为发布会演示专用——<strong>脱离预埋数据的演示环境，日常可用率不足四成</strong></div></div>
+      <div class="step"><div class="n" style="color:var(--cyan)">忌三 · 分兵四线</div><div class="t">资源稀释</div><div class="d">移动端、PC 端、硬件录音卡、政企私有化四线并行；通用版、企业版、政企版<strong>三套代码分叉，维护成本成倍攀升</strong>，核心「事找人」主功能反而没人打磨</div></div>
+      <div class="step"><div class="n" style="color:var(--cyan)">忌四 · 重宣发轻落地</div><div class="t">舆论战 &gt; 产品战</div><div class="d">发布会前三个月全网铺「下一代 AI 办公入口」，用户实测经费近乎没有——<strong>宣发拉高预期，上线预期落空，加速口碑崩塌</strong>；战后核算成本又紧急阉割免费能力，体验前后割裂</div></div>
+    </div>
+  </div>
+  </section>
+
+  <!-- P19 卷八 · 长期得失 -->
+  <section class="slide">
+  <div class="section" id="sec-changqi">
+    <div class="sec-title"><span class="sn">卷八</span><h2>长期：客观得失结算</h2><span class="sub">方向没有错，错的是抵达方向的方式</span></div>
+    <div class="agent a-green agent-full">
+      <div class="agent-col">
+        <div class="agent-head">
+          <div class="agent-icon">⚖️</div>
+          <div><div class="agent-role">可取之处 · Gains</div><div class="agent-name">三笔留下的资产</div></div>
+        </div>
+        <ul class="changes" style="margin-top:24px">
+          <li><strong>方向踩中大势</strong>：「主动式 AI 工作信息流、事找人」是全球公认的演化方向，ChatGPT Pulse、Workspace Agent 同思路迭代——<strong>顶层理念没有根本性错误</strong></li>
+          <li><strong>沉淀 AI 基建</strong>：跨模块消息抓取、组织权限绑定大模型、多端 AI 卡片渲染，技术资产可复用</li>
+          <li><strong>完成用户教育</strong>：海量用户直观感受了主动式办公 AI 形态，为后续轻量化迭代铺垫认知</li>
+        </ul>
+      </div>
+      <div class="agent-col">
+        <div class="block-label" style="--ac:var(--red); color:var(--red)">无法规避的系统性败因</div>
+        <ul class="changes" style="--ac:var(--red)">
+          <li><strong>基因矛盾无解</strong>：「发信人优先、强管控」的基因，和「帮员工减负」的初心天然对冲——老板付费的商业逻辑下，单一产品调和不了双边诉求</li>
+          <li><strong>节奏错配</strong>：用短期发布会 KPI 倒逼长线 AI 产品，强行压缩研发周期必然落地变形</li>
+          <li><strong>目标过载</strong>：品牌升级、商业变现、集团考核、用户效率四重目标互相拉扯——<strong>最终没有任何一个圆满落地</strong></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  </section>
+
+  <!-- P20 速记收尾 -->
+  <section class="slide">
+  <div class="section" id="sec-take" style="margin-bottom:0">
+    <div class="foot">
+      <h2>给 SaaS + AI 行业的速记</h2>
+      <p class="fsub">尖尾雨燕无法永久翱翔，终有落地的一天——过往踩过的弯路，若能成为后来者的前车之鉴，便是这份复盘存在的全部意义。</p>
+      <div class="bd-grid">
+        <div class="bd"><div class="q">底线 · Bottom Line</div><div class="p">办公 AI 的第一底线：<b>绝不强化管控，绝不放大内卷</b>。正道是消灭重复劳动、抹平信息差；靠算法压缩员工缓冲空间的产品，终将被用脚投票。</div></div>
+        <div class="bd"><div class="q">取舍 · Trade-off</div><div class="p">B 端天然双边：未来要<b>分层设计两套体系</b>——管理者管控做增值付费模块，员工效率工具做独立轻量版，别用一套产品满足两种对立需求。</div></div>
+        <div class="bd"><div class="q">节奏 · Pace</div><div class="p">AI 落地切忌运动式上马：从<b>单点极小切口做 MVP</b>，验证价值后再扩张。摒弃高举高打的发布会立项模式——发布会是迭代起点，不是作战终点。</div></div>
+        <div class="bd"><div class="q">常数 · Constant</div><div class="p">产品是商业、组织、人性、技术共同作用的产物。脱离真实人性与客观规律的顶层构想，<b>只会悬浮在发布会的 PPT 之上</b>。</div></div>
+        <div class="bd"><div class="q">手感 · Muscle Memory</div><div class="p">失败留下伤口，<b>成功留下手感</b>。最难摆脱的不是失败而是成功——旧手感会把新产品推向深渊。</div></div>
+        <div class="bd"><div class="q">浪费 · Waste</div><div class="p">产品最大的浪费不是偷懒，是<b>全力以赴地做错事</b>。捷径式赶工短期撑起场面，长期一定在用户数据里还本付息。</div></div>
+      </div>
+      <footer class="pf">置身钉内 · 钉钉 ONE 项目深度复盘 · 2026-06</footer>
+    </div>
+  </div>
+  </section>
+
+</div>
+
+<div class="proj-hint">按 <b>P</b> 切换投影一屏一页模式</div>
+
+<script src="/lib/mermaid.min.js"></script>
+<script>
+if (window.mermaid) {
+  mermaid.initialize({
+    startOnLoad:false, theme:'base', securityLevel:'loose',
+    fontFamily:'-apple-system,"PingFang SC","Microsoft YaHei",sans-serif',
+    themeVariables:{
+      background:'#fff', primaryColor:'#f7f4ef', primaryBorderColor:'#e8682a', primaryTextColor:'#1a1a1a',
+      lineColor:'#6b6560', secondaryColor:'#d8efe1', tertiaryColor:'#ece0f7',
+      noteBkgColor:'#faf0d8', noteBorderColor:'#b8860b', noteTextColor:'#5a3c08'
+    },
+    flowchart:{ useMaxWidth:true, htmlLabels:true, curve:'basis', nodeSpacing:38, rankSpacing:56 }
+  });
+  try { mermaid.run({ querySelector:'.diagram-card .mermaid' }); } catch(e){ console.warn('mermaid render failed', e); }
+}
+</script>
+<script>
+// 投影模式 + 键盘整页翻页（滚动落在 <html>，window.scrollTo 驱动）
+const slides = [...document.querySelectorAll('.slide')];
+let cur = 0;
+const root = document.documentElement;
+function isProjection(){ return root.classList.contains('projection'); }
+function scrollYpos(){ return window.scrollY || root.scrollTop || 0; }
+function goTo(i){ cur = Math.max(0, Math.min(slides.length - 1, i)); window.scrollTo({ top: slides[cur].offsetTop, behavior:'smooth' }); }
+function syncCurrentSlide(){ const y = scrollYpos() + 1; cur = 0; for (let i=0;i<slides.length;i++) if (slides[i].offsetTop <= y) cur = i; }
+addEventListener('keydown', e => {
+  if (e.key === 'p' || e.key === 'P') { root.classList.toggle('projection'); if (isProjection()) syncCurrentSlide(); return; }
+  if (!isProjection()) return;
+  const next = ['ArrowDown','ArrowRight','PageDown',' ','Spacebar'];
+  const prev = ['ArrowUp','ArrowLeft','PageUp'];
+  if (next.includes(e.key)) { e.preventDefault(); goTo(cur + 1); }
+  else if (prev.includes(e.key)) { e.preventDefault(); goTo(cur - 1); }
+  else if (e.key === 'Home') { e.preventDefault(); goTo(0); }
+  else if (e.key === 'End') { e.preventDefault(); goTo(slides.length - 1); }
+  else if (e.key === 'Escape') { root.classList.remove('projection'); }
+});
+const navTags = document.querySelectorAll('.nav-tag');
+const obs = new IntersectionObserver(es => { es.forEach(en => { if (en.isIntersecting) { const id='#'+en.target.id; navTags.forEach(t => { if (t.getAttribute('href')===id){ navTags.forEach(x=>x.classList.remove('active')); t.classList.add('active'); } }); } }); }, { rootMargin:'-12% 0px -75% 0px' });
+document.querySelectorAll('[id^="sec-"]').forEach(s => obs.observe(s));
+
+// 图卡点击放大灯箱
+const lb = document.createElement('div'); lb.className = 'lightbox';
+lb.innerHTML = '<div class="lightbox-hint">点击空白处 / Esc 关闭 · 可滚动看细节</div><div class="lightbox-inner"></div>';
+document.body.appendChild(lb);
+const lbInner = lb.querySelector('.lightbox-inner');
+function openLb(svg){
+  const c = svg.cloneNode(true);
+  const vb = svg.viewBox && svg.viewBox.baseVal;
+  const natW = (vb && vb.width) ? vb.width : svg.getBoundingClientRect().width;
+  c.style.maxWidth = 'none'; c.style.width = Math.round(natW * 1.4) + 'px'; c.style.height = 'auto';
+  lbInner.innerHTML = ''; lbInner.appendChild(c); lb.classList.add('show'); lbInner.scrollTop = 0; lbInner.scrollLeft = 0;
+}
+document.querySelectorAll('.diagram-card').forEach(card => {
+  card.addEventListener('click', () => { const svg = card.querySelector('svg'); if (svg) openLb(svg); });
+});
+lb.addEventListener('click', e => { if (!lbInner.contains(e.target)) lb.classList.remove('show'); });
+addEventListener('keydown', e => { if (e.key === 'Escape' && lb.classList.contains('show')) { e.stopPropagation(); lb.classList.remove('show'); } }, true);
+</script>
+<script data-goatcounter="https://chengbei.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

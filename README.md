@@ -19,7 +19,8 @@
 | Ghostty 终端配置 | /ghostty-terminal/ | 课件总览 · 站内独立页（`ghostty-terminal/index.html`）|
 | Ghostty 配置清单 | /ghostty-checklist/ | 照抄即用清单 · 站内独立页，与课件总览互链 |
 | mini-harness 代码精讲 | /mini-harness/ | Harness 是什么 · 三件套带可跑代码逐段精讲 |
-| 苹果开发者迁移指南 | /apple-dev-migration/ | 换电脑证书迁移 · 三条路线（自带 `lib/mermaid.min.js` 画流程图，3.3M 本地依赖随目录走）|
+| 苹果开发者迁移指南 | /apple-dev-migration/ | 换电脑证书迁移 · 三条路线（流程图依赖站点共享 `/lib/mermaid.min.js`）|
+| 置身钉内 | /dingtalk-one/ | 钉钉 ONE 项目深度复盘 · 产品手记（流程图依赖站点共享 `/lib/mermaid.min.js`）|
 | App Store 上架 | https://news.diaoye.org | 完整上架资料站（Vercel · appstore-portal）|
 | cc-doctor | https://www.ccswitch.io | 一键拯救 Claude Code |
 | Balatro Web | https://diaojz.github.io/balatro-game/ | 8 轮课程演示（GitHub Pages）|
@@ -41,6 +42,7 @@
 5. hero 区加发布日期行 `发布于 YYYY-MM-DD`（上站当天，发布后不改）
 6. `</body>` 前加 GoatCounter 计数脚本（抄首页那行 `data-goatcounter`）
 7. `js/i18n.js` zh / en 两个 `artifacts` 数组加入口 + 更新本 README 的 Ships 表
+8. 页面若依赖 mermaid 等本地库：改用站点共享 `/lib/`（绝对路径 `<script src="/lib/mermaid.min.js">`），不要每页塞一份副本
 
 ---
 
