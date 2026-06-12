@@ -8,7 +8,7 @@ Teaching pointers? Three: variables are rooms, addresses are doorplates, pointer
 
 Teaching databases? Six, eight, ten.
 
-The instructor thinks they're "helping students understand." Actually they're **helping themselves understand** — piling up metaphors until they feel like the concept is clear.
+The person teaching thinks they're "helping students understand." Actually they're **helping themselves understand** — piling up metaphors until they feel like the concept is clear.
 
 Students don't work that way. A student's brain has maybe three metaphor slots. Beyond that, new metaphors aren't bonus — they **collide with each other**.
 
@@ -70,9 +70,9 @@ Once they're used, no new metaphor enters the course, no matter how good. I swit
 
 It's hard at first. I keep thinking "but this one is so clever, I have to use it."
 
-But the quality of a course isn't whether the instructor enjoyed it. It's what stays in the student's head. The more "clever" metaphors I leave in their head, **the less they can actually build** — their head fills up with imagery and runs out of space for actions.
+But the quality of a course isn't whether the person teaching enjoyed it. It's what stays in the student's head. The more "clever" metaphors I leave in their head, **the less they can actually build** — their head fills up with imagery and runs out of space for actions.
 
-The instructor's restraint is a kind of craft students can't see but can feel.
+That restraint is a kind of craft students can't see but can feel.
 
 Next time you design a class, open a blank page first and write down your metaphor budget. Then spend the whole class driving those three home.
 

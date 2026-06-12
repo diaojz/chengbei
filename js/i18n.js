@@ -5,7 +5,7 @@
 window.I18N = {
   zh: {
     title: '城北 · 个人站',
-    intro: '城北<span class="intro-sub">AI Coding 讲师 · 独立开发者<br>把 AI 开发带给零基础学员</span>',
+    intro: '城北<span class="intro-sub">独立开发者<br>把 AI 开发带给零基础学员</span>',
     artifacts_title: 'Ships',
     help_title: 'Help · 学员答疑',
     writing_title: 'Writing',
@@ -55,7 +55,7 @@ window.I18N = {
   },
   en: {
     title: 'Chengbei · Personal Site',
-    intro: 'Chengbei<span class="intro-sub">AI Coding Instructor · Indie Hacker<br>Teaching AI development to beginners</span>',
+    intro: 'Chengbei<span class="intro-sub">Indie Hacker<br>Teaching AI development to beginners</span>',
     artifacts_title: 'Ships',
     help_title: 'Help · Student Support',
     writing_title: 'Writing',
