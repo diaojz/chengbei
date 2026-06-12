@@ -45,19 +45,20 @@ h1,h2,h3{font-family:'Playfair Display',serif;font-weight:900;letter-spacing:-.0
 .howto .h .d code{background:var(--card-alt);padding:2px 7px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:.86rem;color:var(--purple);}
 
 /* 一键全装 */
-.oneshot{background:#12161c;border-radius:16px;padding:26px 28px;margin:24px 0 12px;box-shadow:var(--shadow-card);}
-.oneshot .lbl{font-family:'JetBrains Mono',monospace;font-size:.85rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#7fd1a8;margin-bottom:12px;display:flex;align-items:center;gap:10px;}
-.oneshot .lbl .pill{background:rgba(127,209,168,.16);color:#7fd1a8;padding:3px 10px;border-radius:20px;font-size:.72rem;}
-.oneshot pre{font-family:'JetBrains Mono',monospace;font-size:.92rem;line-height:1.7;color:#e6e9ee;white-space:pre-wrap;word-break:break-all;}
-.oneshot pre .cm{color:#6b7686;}
-.oneshot pre .gn{color:#9ece6a;}
+/* 终端块配色 = Ghostty「GitHub Light Default」主题（bg #ffffff / fg #1f2328 / 注释 #6e7781 / 绿 #116329） */
+.oneshot{background:#ffffff;border:1px solid #d0d7de;border-radius:16px;padding:26px 28px;margin:24px 0 12px;box-shadow:var(--shadow-card);}
+.oneshot .lbl{font-family:'JetBrains Mono',monospace;font-size:.85rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#116329;margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+.oneshot .lbl .pill{background:rgba(17,99,41,.1);color:#116329;padding:3px 10px;border-radius:20px;font-size:.72rem;}
+.oneshot pre{font-family:'JetBrains Mono',monospace;font-size:.92rem;line-height:1.7;color:#1f2328;white-space:pre-wrap;word-break:break-all;}
+.oneshot pre .cm{color:#6e7781;}
+.oneshot pre .gn{color:#116329;}
 .oneshot .row{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;}
-.btn-copy{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:#cdd3db;padding:7px 14px;border-radius:9px;cursor:pointer;white-space:nowrap;transition:all .18s;flex-shrink:0;}
-.btn-copy:hover{background:rgba(255,255,255,.14);color:#fff;}
-.btn-copy.ok{background:#2d8a56;border-color:#2d8a56;color:#fff;}
-.oneshot .tip{font-family:'DM Sans',sans-serif;font-size:.9rem;color:#9aa3af;margin-top:14px;line-height:1.6;}
-.oneshot .tip code{background:rgba(255,255,255,.08);color:#cdd3db;padding:2px 7px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:.82rem;}
-.oneshot .tip b{color:#cdd3db;}
+.btn-copy{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;border:1px solid #d0d7de;background:#f6f8fa;color:#57606a;padding:7px 14px;border-radius:9px;cursor:pointer;white-space:nowrap;transition:all .18s;flex-shrink:0;}
+.btn-copy:hover{background:#eaeef2;color:#1f2328;}
+.btn-copy.ok{background:#1a7f37;border-color:#1a7f37;color:#fff;}
+.oneshot .tip{font-family:'DM Sans',sans-serif;font-size:.9rem;color:#57606a;margin-top:14px;line-height:1.6;}
+.oneshot .tip code{background:#f6f8fa;color:#24292f;padding:2px 7px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:.82rem;}
+.oneshot .tip b{color:#24292f;}
 .oneshot .pill.p0{background:rgba(232,104,42,.2);color:#f0a875;}
 
 /* section */
@@ -76,10 +77,10 @@ h1,h2,h3{font-family:'Playfair Display',serif;font-weight:900;letter-spacing:-.0
 .item-top .tag{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:3px 9px;border-radius:14px;}
 .item-top .role{font-size:1rem;color:var(--text-dim);margin-left:auto;text-align:right;}
 .item-top .role b{color:var(--text);font-weight:600;}
-.cmd{display:flex;align-items:center;gap:12px;background:#12161c;border-radius:10px;padding:12px 14px;}
-.cmd code{font-family:'JetBrains Mono',monospace;font-size:.92rem;color:#e6e9ee;flex:1;word-break:break-all;line-height:1.5;}
-.cmd code .gn{color:#9ece6a;}
-.cmd code .cm{color:#6b7686;}
+.cmd{display:flex;align-items:center;gap:12px;background:#f6f8fa;border:1px solid #d0d7de;border-radius:10px;padding:12px 14px;}
+.cmd code{font-family:'JetBrains Mono',monospace;font-size:.92rem;color:#1f2328;flex:1;word-break:break-all;line-height:1.5;}
+.cmd code .gn{color:#116329;}
+.cmd code .cm{color:#6e7781;}
 .note{font-size:.92rem;color:var(--text-dim);margin-top:11px;line-height:1.55;}
 .note code{background:var(--card-alt);padding:2px 7px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--purple);word-break:break-all;}
 .note b{color:var(--text);font-weight:600;}
@@ -103,7 +104,7 @@ h1,h2,h3{font-family:'Playfair Display',serif;font-weight:900;letter-spacing:-.0
 .cfg-body{padding:0 18px 18px;}
 .cfg-bar{display:flex;justify-content:space-between;align-items:center;margin:2px 0 10px;}
 .cfg-bar .hint{font-size:.88rem;color:var(--text-dim);}
-.cfg pre{font-family:'JetBrains Mono',monospace;font-size:.82rem;line-height:1.6;color:#e6e9ee;background:#12161c;border-radius:10px;padding:16px 18px;overflow-x:auto;white-space:pre;}
+.cfg pre{font-family:'JetBrains Mono',monospace;font-size:.82rem;line-height:1.6;color:#1f2328;background:#ffffff;border:1px solid #d0d7de;border-radius:10px;padding:16px 18px;overflow-x:auto;white-space:pre;}
 .warn{margin-top:16px;display:flex;gap:14px;align-items:flex-start;background:#faf0d8;border:1px solid #e6cf8f;border-left:5px solid var(--gold);border-radius:12px;padding:18px 22px;}
 .warn .ic{font-size:1.35rem;flex-shrink:0;line-height:1.2;}
 .warn .tx{font-size:.98rem;line-height:1.55;color:#5a3c08;}
