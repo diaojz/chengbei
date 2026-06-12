@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>换电脑：苹果开发者账号与证书迁移指南 · 城北</title>
+<meta name="description" content="换 Mac 时苹果开发者账号怎么办？账号在云端不受影响，真正要操心的是钥匙串里的签名证书私钥。按 2026 年最新规则给出三条迁移路线和分证书类型的处理办法。">
+<meta property="og:title" content="换电脑：苹果开发者账号与证书迁移指南">
+<meta property="og:description" content="三条迁移路线 + 分证书类型处理办法：换 Mac 不丢签名证书，2026 最新规则。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chengbei.org/apple-dev-migration/">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root {
+  --bg:#ece7de; --card:#fff; --card-alt:#f7f4ef;
+  --border:#2a2a2a; --border-light:#d5d0c7;
+  --text:#1a1a1a; --text-dim:#6b6560; --radius:22px;
+  --orange:#e8682a; --blue:#2563a8; --purple:#7c3aad; --green:#2d8a56; --red:#c93545; --cyan:#0e7490;
+
+  --fs-hero:        clamp(4.2rem, 5.2vw, 5.6rem);
+  --fs-h2:          3.0rem;
+  --fs-card-title:  1.9rem;
+  --fs-body:        1.7rem;
+  --fs-label:       1.35rem;
+  --fs-chip:        1.2rem;
+  --lh-body:        1.58;
+  --lh-heading:     1.16;
+  --ls-heading:     -0.015em;
+  --ls-label:       0.04em;
+
+  --shadow-card:    0 1px 2px rgba(60,45,30,.06), 0 18px 40px -12px rgba(120,90,55,.18);
+  --shadow-hover:   0 1px 2px rgba(60,45,30,.06), 0 28px 56px -14px rgba(120,90,55,.26);
+  --border-card:    1px solid rgba(180,150,110,.28);
+  --hl-top:         rgba(255,250,240,.7);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; scroll-snap-type:y proximity; }
+[id^="sec-"] { scroll-margin-top:104px; }
+body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; -webkit-font-smoothing:antialiased; }
+h1,h2,h3 { font-family:'Playfair Display',serif; font-weight:900; letter-spacing:var(--ls-heading); }
+.container { max-width:1600px; margin:0 auto; padding:0 48px 120px; }
+.mono { font-family:'JetBrains Mono',monospace; }
+
+/* nav */
+.topnav { position:sticky; top:0; z-index:100; background:rgba(236,231,222,0.92); backdrop-filter:blur(8px); border-bottom:1px solid var(--border-light); }
+.topnav-inner { max-width:1600px; margin:0 auto; padding:16px 48px; display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+.topnav .brand { font-family:'JetBrains Mono',monospace; font-size:var(--fs-label); font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--text-dim); margin-right:auto; }
+.topnav a.brand { text-decoration:none; transition:color .2s; }
+.topnav a.brand:hover { color:var(--text); }
+.nav-tag { padding:10px 20px; border-radius:30px; border:1px solid var(--border); font-size:var(--fs-label); font-weight:600; background:var(--card); color:var(--text); text-decoration:none; transition:all .25s; }
+.nav-tag:hover,.nav-tag.active { background:var(--text); color:#fff; border-color:var(--text); }
+
+/* hero */
+.hero { padding:80px 0 60px; border-bottom:1px solid var(--border-light); margin-bottom:72px; }
+.hero .eyebrow { font-family:'JetBrains Mono',monospace; font-size:var(--fs-label); font-weight:700; letter-spacing:var(--ls-label); text-transform:uppercase; color:var(--orange); margin-bottom:22px; }
+.hero h1 { font-size:var(--fs-hero); line-height:var(--lh-heading); }
+.hero h1 .dot { display:inline-block; width:22px; height:22px; border-radius:50%; background:var(--orange); margin-left:12px; }
+.hero-desc { font-size:var(--fs-body); color:var(--text-dim); line-height:var(--lh-body); margin-top:28px; max-width:1080px; }
+.hero-desc strong { color:var(--text); font-weight:600; }
+.hero-stats { display:flex; gap:18px; margin-top:46px; flex-wrap:wrap; }
+.hstat { border:1px solid var(--border); border-radius:40px; background:var(--card); padding:18px 30px; text-align:center; box-shadow:var(--shadow-card); }
+.hstat .n { font-family:'Playfair Display',serif; font-size:2.6rem; font-weight:900; display:block; font-variant-numeric:tabular-nums; line-height:1; }
+.hstat .l { font-family:'JetBrains Mono',monospace; font-size:1.05rem; font-weight:600; letter-spacing:.04em; text-transform:uppercase; color:var(--text-dim); margin-top:8px; display:block; }
+
+/* section title */
+.sec-title { display:flex; align-items:baseline; gap:22px; margin:0 0 34px; flex-wrap:wrap; }
+.sec-title .sn { font-family:'JetBrains Mono',monospace; font-size:1.5rem; font-weight:700; color:#fff; background:var(--text); padding:5px 14px; border-radius:8px; }
+.sec-title h2 { font-size:var(--fs-h2); line-height:var(--lh-heading); }
+.sec-title .sub { font-size:var(--fs-label); color:var(--text-dim); margin-left:auto; }
+.section { margin-bottom:96px; }
+
+/* steps（并列要点 — 2 列） */
+.steps { display:grid; grid-template-columns:repeat(2,1fr); gap:24px; }
+.step { background:var(--card); border:var(--border-card); border-top:1px solid var(--hl-top); border-radius:22px; padding:30px 34px; box-shadow:var(--shadow-card); transition:transform .2s ease-out, box-shadow .2s ease-out; }
+.step:hover { transform:translateY(-4px); box-shadow:var(--shadow-hover); }
+.step .n { font-family:'JetBrains Mono',monospace; font-size:var(--fs-label); font-weight:700; color:var(--orange); margin-bottom:10px; }
+.step .t { font-weight:700; font-size:var(--fs-card-title); margin-bottom:10px; line-height:1.25; font-family:'DM Sans',sans-serif; }
+.step .d { font-size:var(--fs-body); color:var(--text-dim); line-height:var(--lh-body); }
+.step .d strong { color:var(--text); font-weight:600; }
+.step .d code { font-family:'JetBrains Mono',monospace; font-size:1.3rem; background:var(--card-alt); border:1px solid var(--border-light); padding:1px 8px; border-radius:6px; color:var(--text); }
+
+/* agent-full 单主体双栏 */
+.agent { background:var(--card); border:var(--border-card); border-radius:22px; box-shadow:var(--shadow-card); }
+.agent-full { display:grid; grid-template-columns:1fr 1.15fr; gap:52px; padding:48px 56px; border-top:6px solid var(--ac); }
+.agent-head { display:flex; align-items:center; gap:22px; margin-bottom:8px; }
+.agent-icon { width:74px; height:74px; border-radius:18px; display:flex; align-items:center; justify-content:center; font-size:2.2rem; background:var(--ac-bg); flex-shrink:0; }
+.agent-role { font-family:'JetBrains Mono',monospace; font-size:var(--fs-label); font-weight:700; letter-spacing:var(--ls-label); text-transform:uppercase; color:var(--ac); }
+.agent-name { font-size:var(--fs-card-title); font-family:'Playfair Display',serif; font-weight:900; line-height:1.12; }
+.agent-one { font-size:1.78rem; line-height:1.6; color:var(--text-dim); margin:22px 0 0; }
+.agent-one strong { color:var(--text); font-weight:600; }
+.agent-col:last-child { border-left:1px solid var(--border-light); padding-left:52px; }
+.block-label { font-family:'JetBrains Mono',monospace; font-size:var(--fs-label); font-weight:700; letter-spacing:var(--ls-label); text-transform:uppercase; color:var(--ac); margin:30px 0 14px; }
+.chips { display:flex; flex-wrap:wrap; gap:10px; }
+.chip { font-family:'JetBrains Mono',monospace; font-size:var(--fs-chip); font-weight:600; padding:7px 15px; border-radius:24px; background:var(--ac-bg); color:var(--ac); border:1px solid var(--ac-bd); }
+.changes { list-style:none; margin-top:4px; }
+.changes li { font-size:1.62rem; color:var(--text-dim); line-height:1.5; padding:10px 0 10px 30px; position:relative; }
+.changes li::before { content:''; position:absolute; left:0; top:17px; width:11px; height:11px; border-radius:3px; background:var(--ac); }
+.changes li strong { color:var(--text); font-weight:600; }
+.changes li code { font-family:'JetBrains Mono',monospace; font-size:1.25rem; background:var(--card-alt); border:1px solid var(--border-light); padding:1px 8px; border-radius:6px; color:var(--text); }
+.keep { margin-top:28px; padding-top:24px; border-top:1px dashed var(--border-light); font-size:1.55rem; color:var(--text-dim); line-height:1.55; }
+.keep b { color:var(--text); font-weight:600; }
+
+/* themes */
+.a-orange { --ac:var(--orange); --ac-bg:#fde8d8; --ac-bd:#f5c5a3; }
+.a-blue   { --ac:var(--blue);   --ac-bg:#dbe9f7; --ac-bd:#b3cef0; }
+.a-green  { --ac:var(--green);  --ac-bg:#d8efe1; --ac-bd:#a9dcc0; }
+.a-purple { --ac:var(--purple); --ac-bg:#ece0f7; --ac-bd:#d3bdee; }
+.a-red    { --ac:var(--red);    --ac-bg:#f9dadd; --ac-bd:#eeb4ba; }
+.a-cyan   { --ac:var(--cyan);   --ac-bg:#d3eaf0; --ac-bd:#a5d4e0; }
+
+/* pipe 流程 */
+.pipe-lead { font-size:1.95rem; line-height:1.5; color:var(--text); max-width:1300px; margin-bottom:40px; }
+.pipe-lead b { color:var(--ac, var(--purple)); font-weight:700; }
+.pipe { display:flex; align-items:stretch; gap:0; flex-wrap:wrap; }
+.pipe .st { flex:1; min-width:200px; background:var(--card); border:var(--border-card); border-top:1px solid var(--hl-top); border-radius:16px; padding:24px 22px; box-shadow:var(--shadow-card); }
+.pipe .st .k { font-family:'JetBrains Mono',monospace; font-size:1.2rem; font-weight:700; color:var(--ac, var(--purple)); margin-bottom:9px; }
+.pipe .st .v { font-size:1.45rem; color:var(--text-dim); line-height:1.45; }
+.pipe .st .v strong { color:var(--text); font-weight:600; }
+.pipe .st .v code { font-family:'JetBrains Mono',monospace; font-size:1.12rem; background:var(--card-alt); border:1px solid var(--border-light); padding:1px 6px; border-radius:6px; color:var(--text); }
+.pipe .ar { display:flex; align-items:center; color:var(--ac, var(--purple)); font-size:2rem; padding:0 8px; font-weight:700; }
+.pipe-note { margin-top:36px; padding:22px 28px; border-radius:16px; background:var(--ac-bg, #faf0d8); border:1px solid var(--ac-bd, #e3cf9a); font-size:1.5rem; line-height:1.55; color:var(--text-dim); }
+.pipe-note b { color:var(--text); }
+
+/* foot 速记 */
+.foot { border:1px solid var(--border); border-top:1px solid var(--hl-top); border-radius:22px; background:var(--card); padding:50px 56px; box-shadow:var(--shadow-card); }
+.foot h2 { font-size:var(--fs-h2); margin-bottom:8px; line-height:var(--lh-heading); }
+.foot .fsub { font-size:var(--fs-body); color:var(--text-dim); margin-bottom:30px; line-height:1.5; }
+.bd-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
+.bd { background:var(--card-alt); border:1px solid var(--border-light); border-radius:18px; padding:26px 28px; }
+.bd .q { font-family:'JetBrains Mono',monospace; font-size:1.1rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--orange); margin-bottom:12px; }
+.bd .p { font-size:1.5rem; color:var(--text-dim); line-height:1.52; }
+.bd .p b { color:var(--text); font-weight:700; }
+footer.pf { text-align:center; margin-top:52px; font-family:'JetBrains Mono',monospace; font-size:1.1rem; color:var(--text-dim); letter-spacing:.5px; line-height:1.8; }
+footer.pf a { color:var(--blue); text-decoration:none; }
+footer.pf a:hover { text-decoration:underline; }
+
+/* 投影提示徽标 */
+.proj-hint { position:fixed; right:24px; bottom:24px; z-index:200; background:var(--text); color:#fff; font-family:'JetBrains Mono',monospace; font-size:1.05rem; font-weight:600; padding:10px 18px; border-radius:24px; box-shadow:0 8px 24px rgba(0,0,0,.18); opacity:.82; }
+.proj-hint b { color:var(--orange); }
+
+/* mermaid 图卡 + 灯箱 */
+.diagram-card { position:relative; cursor:zoom-in; background:var(--card); border:var(--border-card); border-top:1px solid var(--hl-top); border-radius:20px; padding:24px; box-shadow:var(--shadow-card); text-align:center; overflow:auto; }
+.diagram-card .mermaid { min-height:40px; }
+.diagram-card .mermaid:not([data-processed]) { visibility:hidden; }
+.diagram-card svg { max-width:100%; height:auto; }
+.diagram-card::after { content:'🔍 点击放大'; position:absolute; top:12px; right:16px; font-family:'JetBrains Mono',monospace; font-size:.92rem; color:var(--text-dim); background:var(--card-alt); border:1px solid var(--border-light); padding:2px 11px; border-radius:8px; pointer-events:none; }
+.projection .diagram-card svg { max-height:68vh; }
+.diagram-legend { font-size:1.25rem; color:var(--text-dim); margin-top:18px; text-align:center; }
+.lightbox { position:fixed; inset:0; z-index:1000; background:rgba(28,22,14,.86); display:none; align-items:center; justify-content:center; cursor:zoom-out; }
+.lightbox.show { display:flex; }
+.lightbox-inner { background:#fff; border-radius:14px; padding:24px; max-width:96vw; max-height:94vh; overflow:auto; box-shadow:0 24px 70px rgba(0,0,0,.45); cursor:default; }
+.lightbox-inner svg { max-width:none !important; height:auto !important; display:block; }
+.lightbox-hint { position:fixed; top:20px; right:26px; color:#fff; font-family:'JetBrains Mono',monospace; font-size:1.05rem; opacity:.85; }
+
+/* 投影一屏一页 */
+.slide { padding-block:0; scroll-snap-align:start; }
+html.projection { scroll-snap-type:y mandatory; scroll-behavior:smooth; }
+.projection .topnav { display:none; }
+.projection .container { padding-bottom:0; }
+.projection .section, .projection .hero { margin-bottom:0; }
+.projection .slide { height:100vh; scroll-snap-align:start; scroll-snap-stop:always; display:flex; flex-direction:column; justify-content:center; padding-block:2.2vh; box-sizing:border-box; overflow:hidden; }
+/* 投影态紧凑覆盖 */
+.projection .sec-title { margin-bottom:clamp(20px,2.6vh,34px); }
+.projection .agent-full { padding-block:clamp(30px,3.4vh,48px); }
+.projection .changes li { padding-top:clamp(6px,0.9vh,10px); padding-bottom:clamp(6px,0.9vh,10px); }
+.projection .steps { gap:clamp(16px,2vh,24px); }
+.projection .step { padding:clamp(22px,2.6vh,30px) 34px; }
+.projection .hero { padding:0; border-bottom:none; }
+
+@media (max-width:1100px){ .steps{grid-template-columns:1fr} .agent-full{grid-template-columns:1fr!important} .agent-col:last-child{border-left:none;padding-left:0;border-top:1px solid var(--border-light);padding-top:30px} .bd-grid{grid-template-columns:1fr} }
+@media (max-width:640px){ .container{padding:0 20px 80px} }
+</style>
+</head>
+<body>
+
+<div class="topnav">
+  <div class="topnav-inner">
+    <a class="brand" href="/">← 城北 · chengbei.org</a>
+    <a class="nav-tag active" href="#sec-top">封面</a>
+    <a class="nav-tag" href="#sec-core">核心结论</a>
+    <a class="nav-tag" href="#sec-news">新事实</a>
+    <a class="nav-tag" href="#sec-route">迁移路线</a>
+    <a class="nav-tag" href="#sec-cert">证书类型</a>
+    <a class="nav-tag" href="#sec-do">实操</a>
+    <a class="nav-tag" href="#sec-list">换机清单</a>
+    <a class="nav-tag" href="#sec-take">速记</a>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- P1 · 封面 -->
+  <section class="slide">
+  <div class="hero" id="sec-top">
+    <div class="eyebrow">Apple Developer · Mac Migration Guide</div>
+    <h1>换电脑：<br>开发者账号怎么搬<span class="dot"></span></h1>
+    <p class="hero-desc">开发者账号本身在云端，跟 Apple 账户走，换 Mac 不受影响。真正要操心的只有一样：存在旧电脑钥匙串里的<strong>签名证书私钥</strong>。按 2026 年最新规则，给你三条迁移路线和分证书类型的处理办法。</p>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:.85rem;color:var(--text-dim);margin-top:16px;letter-spacing:.5px;">发布于 2026-06-12</div>
+    <div class="hero-stats">
+      <div class="hstat"><span class="n">0</span><span class="l">账号本身需迁移项</span></div>
+      <div class="hstat"><span class="n">1</span><span class="l">真正的风险点 · 私钥</span></div>
+      <div class="hstat"><span class="n">3</span><span class="l">迁移路线</span></div>
+      <div class="hstat"><span class="n">5</span><span class="l">Developer ID 上限</span></div>
+    </div>
+  </div>
+  </section>
+
+  <!-- P2 · 核心结论 -->
+  <section class="slide">
+  <div class="section" id="sec-core">
+    <div class="sec-title"><span class="sn">01</span><h2>核心结论：先安心，再动手</h2><span class="sub">云端的不用搬 · 本地的只有一样</span></div>
+    <div class="steps">
+      <div class="step">
+        <div class="n" style="color:var(--green)">☁️ 全部在云端 · 不用搬</div>
+        <div class="t">账号、App、收款，跟着 Apple 账户走</div>
+        <div class="d">开发者会员资格、App Store Connect 里的 <strong>App / 审核状态 / 收款 / 订阅 / TestFlight</strong>，全部存在苹果服务器。新电脑登录同一个 Apple 账户即恢复，<strong>零迁移动作</strong>。</div>
+      </div>
+      <div class="step">
+        <div class="n" style="color:var(--red)">🔑 唯一在本地 · 要管</div>
+        <div class="t">钥匙串里的证书私钥</div>
+        <div class="d">签名证书的<strong>私钥只存在你旧电脑的钥匙串</strong>，苹果服务器上没有备份。丢了不致命（多数证书可重建），但提前花 5 分钟备份，能省掉后面所有麻烦。</div>
+      </div>
+    </div>
+  </div>
+  </section>
+
+  <!-- P3 · 2026 新事实 -->
+  <section class="slide">
+  <div class="section" id="sec-news">
+    <div class="sec-title"><span class="sn">02</span><h2>先更新认知：四个新事实</h2><span class="sub">老教程很多已经过时 · 2026-06 查证</span></div>
+    <div class="steps">
+      <div class="step">
+        <div class="n">新事实 01 · ⚠️</div>
+        <div class="t">Xcode 16 移除了「Export Developer Accounts」</div>
+        <div class="d">老教程里「Xcode 一键导出账号」的菜单<strong>已经不存在了</strong>。手动迁移证书只剩一条路：<strong>钥匙串访问导出 .p12</strong>。</div>
+      </div>
+      <div class="step">
+        <div class="n">新事实 02 · ☁️</div>
+        <div class="t">Xcode 13 起，发布走「云签名」</div>
+        <div class="d">走 Organizer 上传 App Store 时，发布证书私钥<strong>存在苹果云端</strong>（cloud-managed），本机没有私钥，换机<strong>零迁移</strong>。</div>
+      </div>
+      <div class="step">
+        <div class="n">新事实 03 · 📛</div>
+        <div class="t">Apple ID 已更名「Apple 账户」</div>
+        <div class="d">只是改名，账号体系不变。本指南里说的 Apple 账户，就是你原来的 Apple ID。</div>
+      </div>
+      <div class="step">
+        <div class="n">新事实 04 · 📂</div>
+        <div class="t">描述文件缓存目录变了</div>
+        <div class="d">Xcode 16 起本地缓存挪到 <code>~/Library/Developer/Xcode/UserData/Provisioning Profiles</code>。CI 脚本写死老路径的要更新；手动换机不受影响。</div>
+      </div>
+    </div>
+  </div>
+  </section>
+
+  <!-- P4 · 决策流程图 -->
+  <section class="slide">
+  <div class="section" id="sec-route">
+    <div class="sec-title"><span class="sn">03</span><h2>三条迁移路线：按情况选</h2><span class="sub">决策依据：旧电脑还在不在手上</span></div>
+    <div class="diagram-card">
+      <pre class="mermaid">
+flowchart TD
+  classDef q fill:#faf0d8,stroke:#b8860b,color:#5a3c08;
+  classDef a fill:#d8efe1,stroke:#2d8a56,color:#143d28;
+  classDef b fill:#dbe9f7,stroke:#2563a8,color:#143055;
+  classDef c fill:#fde8d8,stroke:#e8682a,color:#5e2508;
+  Q1{"旧电脑还在手上吗？"}:::q
+  Q2{"愿意整机搬家吗？"}:::q
+  R1["路线 A · 迁移助理整机迁移<br/>钥匙串连私钥一起搬走<br/>最省心，零操作"]:::a
+  R2["路线 B · 手动导出 .p12<br/>只搬证书私钥<br/>新机其余环境全新开始"]:::b
+  R3["路线 C · 新机直接重建<br/>revoke 旧证书重新生成<br/>Developer ID 除外！"]:::c
+  Q1 -->|在| Q2
+  Q1 -->|"不在 / 已抹掉"| R3
+  Q2 -->|愿意| R1
+  Q2 -->|"只想全新开始"| R2
+      </pre>
+    </div>
+    <div class="diagram-legend">绿 = 最省心 · 蓝 = 最干净 · 橙 = 兜底方案 ｜ 点击图可放大</div>
+  </div>
+  </section>
+
+  <!-- P5 · 路线 A -->
+  <section class="slide">
+  <div class="section">
+    <div class="sec-title"><span class="sn">03</span><h2>路线 A · 迁移助理</h2><span class="sub">三条路线 · 1 / 3 · 最省心</span></div>
+    <div class="agent a-green agent-full">
+      <div class="agent-col">
+        <div class="agent-head">
+          <div class="agent-icon">🧳</div>
+          <div><div class="agent-role">路线 A · 零操作</div><div class="agent-name">整机搬家，<br>钥匙串跟着走</div></div>
+        </div>
+        <div class="agent-one">macOS 自带的「迁移助理」会把<strong>钥匙串（含全部证书私钥）</strong>、Xcode 配置一起搬到新机。这是唯一一条「什么都不用懂」的路线。</div>
+        <div class="block-label">适合谁</div>
+        <div class="chips"><span class="chip">新旧两台都在手上</span><span class="chip">不介意旧环境整体搬</span><span class="chip">0 条命令</span></div>
+        <div class="keep"><b>一句话：</b>私钥住在钥匙串里——钥匙串搬走了，签名能力就跟着走了。</div>
+      </div>
+      <div class="agent-col">
+        <div class="block-label">4 个要点</div>
+        <ul class="changes">
+          <li><strong>钥匙串整体迁移</strong>：登录钥匙串连同里面的证书 + 私钥原样到达新机，无需任何导出动作</li>
+          <li><strong>新机首次打开 Xcode</strong>：到 Settings → Accounts 重新登录一次 Apple 账户（登录态不随迁移走）</li>
+          <li><strong>可能要输旧机密码</strong>：首次访问迁移过来的钥匙串项时，系统可能要求输入旧机的登录密码解锁</li>
+          <li><strong>验证方式</strong>：打开项目跑一次 Archive，签名不报错即迁移成功</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  </section>
+
+  <!-- P6 · 路线 B -->
+  <section class="slide">
+  <div class="section">
+    <div class="sec-title"><span class="sn">03</span><h2>路线 B · 手动导出 .p12</h2><span class="sub">三条路线 · 2 / 3 · 最干净</span></div>
+    <div class="agent a-blue agent-full">
+      <div class="agent-col">
+        <div class="agent-head">
+          <div class="agent-icon">🔑</div>
+          <div><div class="agent-role">路线 B · 约 5 分钟</div><div class="agent-name">只搬私钥，<br>其余全新开始</div></div>
+        </div>
+        <div class="agent-one">新机想要干干净净从零装环境，又不想丢证书？用「钥匙串访问」把证书连私钥导成 <strong>.p12 文件</strong>，拷到新机双击导入。</div>
+        <div class="block-label">关键提醒</div>
+        <div class="chips"><span class="chip">Xcode 16 无导出菜单</span><span class="chip">钥匙串是唯一途径</span></div>
+        <div class="keep"><b>顺手做对一件事：</b>.p12 同时存一份进密码管理器（如 1Password 附件），从此换机再也不慌。</div>
+      </div>
+      <div class="agent-col">
+        <div class="block-label">4 个要点</div>
+        <ul class="changes">
+          <li><strong>导出的是「证书 + 私钥」打包</strong>：.p12 格式自带导出密码保护，传输丢了也不怕被直接使用</li>
+          <li><strong>哪些证书要导</strong>：<code>Apple Distribution</code>（若是本地版）和 <code>Developer ID Application</code>；开发证书不用导（可重建）</li>
+          <li><strong>导出置灰怎么办</strong>：先解锁钥匙串；仍置灰 = 本机没有私钥，这台机器导不出，只能走路线 C</li>
+          <li><strong>完整步骤</strong>：见第 05 节实操两页（旧机导出 → 新机导入）</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  </section>
+
+  <!-- P7 · 路线 C -->
+  <section class="slide">
+  <div class="section">
+    <div class="sec-title"><span class="sn">03</span><h2>路线 C · 直接重建</h2><span class="sub">三条路线 · 3 / 3 · 兜底方案</span></div>
+    <div class="agent a-orange agent-full">
+      <div class="agent-col">
+        <div class="agent-head">
+          <div class="agent-icon">🔄</div>
+          <div><div class="agent-role">路线 C · 旧机已不在</div><div class="agent-name">revoke 旧证书，<br>新机重新生成</div></div>
+        </div>
+        <div class="agent-one">旧电脑已经抹掉 / 不在手上、私钥拿不回来了？没关系——<strong>大多数证书可以撤销重建</strong>，新机登录账户让 Xcode 重新生成即可。</div>
+        <div class="block-label">心理负担清零</div>
+        <div class="chips"><span class="chip">不影响已上架 App</span><span class="chip">只影响后续打包</span></div>
+        <div class="keep"><b>为什么不影响线上：</b>App Store 上架的版本由苹果重新签名，跟你本地证书无关；revoke 只是让旧私钥作废。</div>
+      </div>
+      <div class="agent-col">
+        <div class="block-label">4 个要点</div>
+        <ul class="changes">
+          <li><strong>操作入口</strong>：新机 Xcode 登录账户 → 项目签名页勾 Automatically manage signing → 缺私钥时按提示 revoke 重建</li>
+          <li><strong>开发证书</strong>：随便重建，苹果官方就推荐每台机器各建一个</li>
+          <li><strong>发布证书</strong>：可以重建，线上 App 无感；正在跑的 CI 要同步换新证书</li>
+          <li><strong>⚠️ 例外：Developer ID 不能走这条路</strong>——revoke 会影响已分发到用户手里的 Mac App（详见下一节）</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  </section>
+
+  <!-- P8 · 证书 1 Apple Development -->
+  <section class="slide">
+  <div class="section" id="sec-cert">
+    <div class="sec-title"><span class="sn">04</span><h2>Apple Development</h2><span class="sub">证书类型 · 1 / 3 · 日常开发调试</span></div>
+    <div class="agent a-cyan agent-full">
+      <div class="agent-col">
+        <div class="agent-head">
+          <div class="agent-icon">🛠️</div>
+          <div><div class="agent-role">待遇：随便丢</div><div class="agent-name">不用备份，<br>不用迁移</div></div>
+        </div>
+        <div class="agent-one">真机调试、日常开发用的证书。苹果官方态度明确：<strong>每台机器各建一个就行</strong>，开自动签名让 Xcode 自己生成。</div>
+        <div class="block-label">换机动作</div>
+        <div class="chips"><span class="chip">无 · 登录账户即可</span></div>
+        <div class="keep"><b>一句话：</b>这是「耗材」级证书——旧机那个不用管，过期自动作废。</div>
+      </div>
+      <div class="agent-col">
+        <div class="block-label">3 个要点</div>
+        <ul class="changes">
+          <li><strong>数量上限宽松</strong>：允许同团队同成员持有多个开发证书，每台 Mac 一个是设计内的正常状态</li>
+          <li><strong>新机自动生成</strong>：Xcode 登录账户、打开项目勾自动签名，第一次构建时自动创建</li>
+          <li><strong>旧机的不用清理</strong>：留着无害，过期自动失效；强迫症可以到开发者后台手动 revoke</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  </section>
+
+  <!-- P9 · 证书 2 Apple Distribution -->
+  <section class="slide">
+  <div class="section">
+    <div class="sec-title"><span class="sn">04</span><h2>Apple Distribution</h2><span class="sub">证书类型 · 2 / 3 · 上架 App Store</span></div>
+    <div class="agent a-purple agent-full">
+      <div class="agent-col">
+        <div class="agent-head">
+          <div class="agent-icon">🏪</div>
+          <div><div class="agent-role">待遇：优先云签名</div><div class="agent-name">大概率<br>什么都不用做</div></div>
+        </div>
+        <div class="agent-one">上架 App Store 用的发布证书。<strong>Xcode 13 起默认走云签名</strong>——私钥存苹果云端，Organizer 分发时自动取用，换机零迁移。</div>
+        <div class="block-label">换机动作</div>
+        <div class="chips"><span class="chip">云签名 · 无</span><span class="chip">本地版 · 导 .p12 或重建</span></div>
+        <div class="keep"><b>怎么判断自己是哪种：</b>开发者后台 Certificates 列表里标着 <b>「Cloud Managed」</b> 的就是云签名证书，本机无私钥。</div>
+      </div>
+      <div class="agent-col">
+        <div class="block-label">3 个要点</div>
+        <ul class="changes">
+          <li><strong>云签名（cloud-managed）</strong>：到期前 90 天自动轮换新证书，连续签新包无感；这是苹果现在主推的形态</li>
+          <li><strong>本地版发布证书</strong>：丢了可以 revoke 重建，不影响线上 App，只影响后续打包上传</li>
+          <li><strong>团队协作注意</strong>：云签名默认只有 Admin / Account Holder 能用；要让 Developer 角色上传，需在 App Store Connect 勾「Access to Cloud Managed Distribution Certificate」</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  </section>
+
+  <!-- P10 · 证书 3 Developer ID -->
+  <section class="slide">
+  <div class="section">
+    <div class="sec-title"><span class="sn">04</span><h2>Developer ID</h2><span class="sub">证书类型 · 3 / 3 · App Store 之外分发 Mac App</span></div>
+    <div class="agent a-red agent-full">
+      <div class="agent-col">
+        <div class="agent-head">
+          <div class="agent-icon">💎</div>
+          <div><div class="agent-role">待遇：传家宝</div><div class="agent-name">必须备份，<br>不可随意 revoke</div></div>
+        </div>
+        <div class="agent-one">在 App Store 之外直接发 .dmg / .zip 给用户（如独立分发 Mac 工具），靠它签名 + 公证。这是<strong>唯一一类丢了真会肉疼</strong>的证书。</div>
+        <div class="block-label">换机动作</div>
+        <div class="chips"><span class="chip">导 .p12 · 必做</span><span class="chip">异地备份 · 必做</span></div>
+        <div class="keep"><b>苹果官方原话级纪律：</b>每团队只建一个、私钥当传家宝保管、永远不要轻易 revoke。</div>
+      </div>
+      <div class="agent-col">
+        <div class="block-label">3 个要点</div>
+        <ul class="changes">
+          <li><strong>每团队上限 5 个</strong>，且创建后不能像其他证书那样随手撤销重来——额度极其珍贵</li>
+          <li><strong>revoke 的代价</strong>：会影响已分发到用户手里的 App 的信任链，只有私钥泄露时才该走这一步</li>
+          <li><strong>换机前必做</strong>：导出 .p12 + 存一份到密码管理器；这一项做完，换机才算「安全」</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  </section>
+
+  <!-- P11 · 实操：旧机导出 -->
+  <section class="slide">
+  <div class="section a-blue" id="sec-do">
+    <div class="sec-title"><span class="sn">05</span><h2>实操 · 旧电脑导出 .p12</h2><span class="sub">路线 B 动作分解 · 1 / 2</span></div>
+    <p class="pipe-lead">工具只有一个：<b>「钥匙串访问」（Keychain Access）</b>，Xcode 16 起没有别的导出入口。</p>
+    <div class="pipe">
+      <div class="st"><div class="k">STEP 1</div><div class="v">打开「钥匙串访问」→ 选<strong>「登录」钥匙串</strong> →「我的证书」分类</div></div>
+      <div class="ar">→</div>
+      <div class="st"><div class="k">STEP 2</div><div class="v">找到 <code>Apple Distribution</code> / <code>Developer ID Application</code>，<strong>点开三角形确认证书下挂着私钥</strong></div></div>
+      <div class="ar">→</div>
+      <div class="st"><div class="k">STEP 3</div><div class="v">右键 →「导出」→ 格式选 <strong>.p12（个人信息交换）</strong></div></div>
+      <div class="ar">→</div>
+      <div class="st"><div class="k">STEP 4</div><div class="v">设一个<strong>导出密码</strong>（导入时要用，记进密码管理器）</div></div>
+      <div class="ar">→</div>
+      <div class="st"><div class="k">STEP 5</div><div class="v">隔空投送 / U 盘传到新机，<strong>同时存一份永久备份</strong></div></div>
+    </div>
+    <div class="pipe-note">⚠️ <b>「导出」菜单置灰？</b>① 先点左上角解锁钥匙串；② 仍置灰 = 条目下没有私钥（只有证书壳），这台机器导不出 .p12——只能走路线 C 重建。</div>
+  </div>
+  </section>
+
+  <!-- P12 · 实操：新机导入 -->
+  <section class="slide">
+  <div class="section a-green">
+    <div class="sec-title"><span class="sn">05</span><h2>实操 · 新电脑导入验证</h2><span class="sub">路线 B 动作分解 · 2 / 2</span></div>
+    <p class="pipe-lead">导入只要<b>双击</b>，剩下的交给 Xcode 自动签名。</p>
+    <div class="pipe">
+      <div class="st"><div class="k">STEP 1</div><div class="v"><strong>双击 .p12</strong>，输入导出密码 → 证书 + 私钥进入登录钥匙串</div></div>
+      <div class="ar">→</div>
+      <div class="st"><div class="k">STEP 2</div><div class="v">Xcode → Settings → Accounts → <strong>登录 Apple 账户</strong></div></div>
+      <div class="ar">→</div>
+      <div class="st"><div class="k">STEP 3</div><div class="v">项目签名页勾 <strong>Automatically manage signing</strong>，描述文件自动重新下载</div></div>
+      <div class="ar">→</div>
+      <div class="st"><div class="k">STEP 4</div><div class="v">打一次 <strong>Archive</strong> 验证全链路：签名不报错 = 迁移完成</div></div>
+    </div>
+    <div class="pipe-note">💡 描述文件（provisioning profiles）<b>全部在苹果服务器</b>，永远不需要手动搬——Xcode 登录后自动拉取。</div>
+  </div>
+  </section>
+
+  <!-- P13 · 换机清单 -->
+  <section class="slide">
+  <div class="section" id="sec-list">
+    <div class="sec-title"><span class="sn">06</span><h2>证书之外：换机清单</h2><span class="sub">四件容易忘的小事</span></div>
+    <div class="steps">
+      <div class="step">
+        <div class="n" style="color:var(--cyan)">清单 01 · 🪪</div>
+        <div class="t">公证凭证 notarytool</div>
+        <div class="d">之前跑过 <code>notarytool store-credentials</code> 的，凭证在旧机钥匙串。新机用 <strong>App 专用密码</strong>（appleid.apple.com 生成）重新执行一次即可。</div>
+      </div>
+      <div class="step">
+        <div class="n" style="color:var(--cyan)">清单 02 · 📱</div>
+        <div class="t">双重认证受信设备</div>
+        <div class="d"><strong>抹掉旧 Mac 之前</strong>，确认手机或新 Mac 已是受信任设备、能收验证码。别把唯一能过双重认证的设备抹了。</div>
+      </div>
+      <div class="step">
+        <div class="n" style="color:var(--cyan)">清单 03 · 🧹</div>
+        <div class="t">旧电脑交出去之前</div>
+        <div class="d">确认新机能正常 Archive 后再处理旧机：<strong>抹掉所有内容与设置</strong>（私钥随钥匙串销毁）；若旧机给别人用不抹机，至少手动删掉发布类私钥并退出 Xcode 账户。</div>
+      </div>
+      <div class="step">
+        <div class="n" style="color:var(--cyan)">清单 04 · 💳</div>
+        <div class="t">这些跟换机完全无关</div>
+        <div class="d">年费续订、App 审核状态、TestFlight、销售报表——都在 <strong>App Store Connect 网页端</strong>，任何浏览器登录都能管，不依赖任何一台 Mac。</div>
+      </div>
+    </div>
+  </div>
+  </section>
+
+  <!-- P14 · 速记收尾 -->
+  <section class="slide">
+  <div class="section" id="sec-take" style="margin-bottom:0">
+    <div class="foot">
+      <h2>三句话速记</h2>
+      <p class="fsub">换机前只要把这三句想明白，就不会出事。</p>
+      <div class="bd-grid">
+        <div class="bd"><div class="q">账号</div><div class="p"><b>账号在云端</b>，跟 Apple 账户走——新机登录即恢复，App Store Connect 一切照旧。</div></div>
+        <div class="bd"><div class="q">私钥</div><div class="p"><b>唯一的本地资产是钥匙串里的私钥</b>——迁移助理整机搬，或钥匙串导 .p12，5 分钟搞定。</div></div>
+        <div class="bd"><div class="q">例外</div><div class="p"><b>Developer ID 是传家宝</b>——上限 5 个、revoke 伤用户，换机前必须导 .p12 异地备份。</div></div>
+      </div>
+      <footer class="pf">资料来源（2026-06 查证）：<a href="https://developer.apple.com/forums/thread/727646" target="_blank">Moving signing to a new machine</a> · <a href="https://developer.apple.com/help/account/certificates/cloud-managed-certificates/" target="_blank">Cloud-managed certificates</a> · <a href="https://developer.apple.com/videos/play/wwdc2021/10204/" target="_blank">WWDC21 cloud signing</a> · <a href="https://developer.apple.com/forums/thread/732320" target="_blank">The Care and Feeding of Developer ID</a></footer>
+    </div>
+  </div>
+  </section>
+
+</div>
+
+<div class="proj-hint">按 <b>P</b> 切换投影一屏一页模式</div>
+
+<script src="lib/mermaid.min.js"></script>
+<script>
+if (window.mermaid) {
+  mermaid.initialize({
+    startOnLoad:false, theme:'base', securityLevel:'loose',
+    fontFamily:'-apple-system,"PingFang SC","Microsoft YaHei",sans-serif',
+    themeVariables:{
+      background:'#fff', primaryColor:'#f7f4ef', primaryBorderColor:'#e8682a', primaryTextColor:'#1a1a1a',
+      lineColor:'#6b6560', secondaryColor:'#d8efe1', tertiaryColor:'#ece0f7',
+      noteBkgColor:'#faf0d8', noteBorderColor:'#b8860b', noteTextColor:'#5a3c08'
+    },
+    flowchart:{ useMaxWidth:true, htmlLabels:true, curve:'basis', nodeSpacing:38, rankSpacing:56 }
+  });
+  try { mermaid.run({ querySelector:'.diagram-card .mermaid' }); } catch(e){ console.warn('mermaid render failed', e); }
+}
+
+// 投影模式 + 键盘整页翻页（滚动落在 <html>，window.scrollTo 驱动）
+const slides = [...document.querySelectorAll('.slide')];
+let cur = 0;
+const root = document.documentElement;
+function isProjection(){ return root.classList.contains('projection'); }
+function scrollYpos(){ return window.scrollY || root.scrollTop || 0; }
+function goTo(i){ cur = Math.max(0, Math.min(slides.length - 1, i)); window.scrollTo({ top: slides[cur].offsetTop, behavior:'smooth' }); }
+function syncCurrentSlide(){ const y = scrollYpos() + 1; cur = 0; for (let i=0;i<slides.length;i++) if (slides[i].offsetTop <= y) cur = i; }
+addEventListener('keydown', e => {
+  if (e.key === 'p' || e.key === 'P') { root.classList.toggle('projection'); if (isProjection()) syncCurrentSlide(); return; }
+  if (!isProjection()) return;
+  const next = ['ArrowDown','ArrowRight','PageDown',' ','Spacebar'];
+  const prev = ['ArrowUp','ArrowLeft','PageUp'];
+  if (next.includes(e.key)) { e.preventDefault(); goTo(cur + 1); }
+  else if (prev.includes(e.key)) { e.preventDefault(); goTo(cur - 1); }
+  else if (e.key === 'Home') { e.preventDefault(); goTo(0); }
+  else if (e.key === 'End') { e.preventDefault(); goTo(slides.length - 1); }
+  else if (e.key === 'Escape') { root.classList.remove('projection'); }
+});
+const navTags = document.querySelectorAll('.nav-tag');
+const obs = new IntersectionObserver(es => { es.forEach(en => { if (en.isIntersecting) { const id='#'+en.target.id; navTags.forEach(t => { if (t.getAttribute('href')===id){ navTags.forEach(x=>x.classList.remove('active')); t.classList.add('active'); } }); } }); }, { rootMargin:'-12% 0px -75% 0px' });
+document.querySelectorAll('[id^="sec-"]').forEach(s => obs.observe(s));
+
+// 图卡点击放大灯箱
+const lb = document.createElement('div'); lb.className = 'lightbox';
+lb.innerHTML = '<div class="lightbox-hint">点击空白处 / Esc 关闭 · 可滚动看细节</div><div class="lightbox-inner"></div>';
+document.body.appendChild(lb);
+const lbInner = lb.querySelector('.lightbox-inner');
+function openLb(svg){
+  const c = svg.cloneNode(true);
+  const vb = svg.viewBox && svg.viewBox.baseVal;
+  const natW = (vb && vb.width) ? vb.width : svg.getBoundingClientRect().width;
+  c.style.maxWidth = 'none'; c.style.width = Math.round(natW * 1.4) + 'px'; c.style.height = 'auto';
+  lbInner.innerHTML = ''; lbInner.appendChild(c); lb.classList.add('show'); lbInner.scrollTop = 0; lbInner.scrollLeft = 0;
+}
+document.querySelectorAll('.diagram-card').forEach(card => {
+  card.addEventListener('click', () => { const svg = card.querySelector('svg'); if (svg) openLb(svg); });
+});
+lb.addEventListener('click', e => { if (!lbInner.contains(e.target)) lb.classList.remove('show'); });
+addEventListener('keydown', e => { if (e.key === 'Escape' && lb.classList.contains('show')) { e.stopPropagation(); lb.classList.remove('show'); } }, true);
+</script>
+<script data-goatcounter="https://chengbei.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>
