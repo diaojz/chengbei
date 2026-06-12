@@ -18,6 +18,7 @@
 |---|---|---|
 | Ghostty 终端配置 | /ghostty-terminal/ | 课件总览 · 站内独立页（`ghostty-terminal/index.html`）|
 | Ghostty 配置清单 | /ghostty-checklist/ | 照抄即用清单 · 站内独立页，与课件总览互链 |
+| mini-harness 代码精讲 | /mini-harness/ | Harness 是什么 · 三件套带可跑代码逐段精讲 |
 | Harness 读后笔记 | /harness-notes/ | 《Harness Engineering》读后笔记 · 支持 P 键投影模式 |
 | App Store 上架 | https://news.diaoye.org | 完整上架资料站（Vercel · appstore-portal）|
 | cc-doctor | https://www.ccswitch.io | 一键拯救 Claude Code |

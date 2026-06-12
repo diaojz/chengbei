@@ -20,6 +20,7 @@ window.I18N = {
     artifacts: [
       { label: 'Ghostty 终端配置 · 课件总览', href: '/ghostty-terminal/' },
       { label: 'Ghostty 配置清单 · 照抄即用', href: '/ghostty-checklist/' },
+      { label: 'mini-harness · Harness 代码精讲', href: '/mini-harness/' },
       { label: 'Harness Engineering · 读后笔记', href: '/harness-notes/' },
       { label: 'App Store · 上架完整指南', href: 'https://news.diaoye.org' },
       { label: 'cc-doctor · 一键拯救 Claude Code', href: 'https://www.ccswitch.io' },
@@ -72,6 +73,7 @@ window.I18N = {
     artifacts: [
       { label: 'Ghostty Terminal Setup · course deck', href: '/ghostty-terminal/' },
       { label: 'Ghostty Setup Checklist · copy & run', href: '/ghostty-checklist/' },
+      { label: 'mini-harness · code deep-dive', href: '/mini-harness/' },
       { label: 'Harness Engineering · reading notes', href: '/harness-notes/' },
       { label: 'App Store · launch guide', href: 'https://news.diaoye.org' },
       { label: 'cc-doctor · one-click Claude Code fix', href: 'https://www.ccswitch.io' },
