@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<!-- diao-ppt · 投影翻页 PPT｜Ghostty 终端配置 · 归档总览 -->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ghostty 终端配置 · 归档总览 · 城北</title>
+<meta name="description" content="把终端从黑窗口装成趁手的工作台：Ghostty + starship + Oh My Zsh + 现代 CLI 全家桶，七层配置一次讲清。零基础也能照抄。">
+<meta property="og:title" content="Ghostty 终端配置 · 归档总览">
+<meta property="og:description" content="七层配置归档：Ghostty / starship / zoxide / yazi / eza·bat·fd·rg·fzf，把终端变成趁手的工作台。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chengbei.org/ghostty-terminal/">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root{
+  --bg:#ece7de; --card:#fff; --card-alt:#f7f4ef;
+  --border:#2a2a2a; --border-light:#d5d0c7;
+  --text:#1a1a1a; --text-dim:#6b6560; --radius:22px;
+  --orange:#e8682a; --blue:#2563a8; --purple:#7c3aad; --green:#2d8a56; --red:#c93545; --cyan:#0e7490; --gold:#b8860b; --brown:#7a6a55;
+
+  --fs-hero:clamp(3.6rem,4.8vw,5.2rem);
+  --fs-h2:2.9rem; --fs-card-title:1.85rem; --fs-body:1.66rem;
+  --fs-label:1.32rem; --fs-chip:1.18rem; --lh-body:1.55; --lh-heading:1.16;
+
+  --shadow-card:0 1px 2px rgba(60,45,30,.06),0 18px 40px -12px rgba(120,90,55,.18);
+  --shadow-hover:0 1px 2px rgba(60,45,30,.06),0 28px 56px -14px rgba(120,90,55,.26);
+  --border-card:1px solid rgba(180,150,110,.28);
+  --hl-top:rgba(255,250,240,.7);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+[id^="sec-"]{scroll-margin-top:104px;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;-webkit-font-smoothing:antialiased;}
+h1,h2,h3{font-family:'Playfair Display',serif;font-weight:900;letter-spacing:-.015em;}
+.container{max-width:1600px;margin:0 auto;padding:0 48px 120px;}
+.mono{font-family:'JetBrains Mono',monospace;}
+
+/* nav */
+.topnav{position:sticky;top:0;z-index:100;background:rgba(236,231,222,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--border-light);}
+.topnav-inner{max-width:1600px;margin:0 auto;padding:16px 48px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+.topnav .brand{font-family:'JetBrains Mono',monospace;font-size:var(--fs-label);font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);margin-right:auto;}
+.topnav a.brand{text-decoration:none;transition:color .2s;}
+.topnav a.brand:hover{color:var(--text);}
+.nav-tag{padding:9px 17px;border-radius:30px;border:1px solid var(--border);font-size:1.18rem;font-weight:600;background:var(--card);color:var(--text);text-decoration:none;transition:all .25s;}
+.nav-tag:hover,.nav-tag.active{background:var(--text);color:#fff;border-color:var(--text);}
+
+/* hero */
+.hero{padding:74px 0 56px;border-bottom:1px solid var(--border-light);margin-bottom:64px;}
+.hero .eyebrow{font-family:'JetBrains Mono',monospace;font-size:var(--fs-label);font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--orange);margin-bottom:20px;}
+.hero h1{font-size:var(--fs-hero);line-height:var(--lh-heading);}
+.hero h1 .dot{display:inline-block;width:20px;height:20px;border-radius:50%;background:var(--orange);margin-left:12px;}
+.hero-desc{font-size:var(--fs-body);color:var(--text-dim);line-height:var(--lh-body);margin-top:26px;max-width:1120px;}
+.hero-desc strong{color:var(--text);font-weight:600;}
+.hero-stats{display:flex;gap:16px;margin-top:42px;flex-wrap:wrap;}
+.hstat{border:1px solid var(--border);border-radius:40px;background:var(--card);padding:16px 28px;text-align:center;box-shadow:var(--shadow-card);}
+.hstat .n{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:900;display:block;line-height:1;}
+.hstat .l{font-family:'JetBrains Mono',monospace;font-size:1rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--text-dim);margin-top:7px;display:block;}
+
+/* section title */
+.sec-title{display:flex;align-items:baseline;gap:20px;margin:0 0 30px;flex-wrap:wrap;}
+.sec-title .sn{font-family:'JetBrains Mono',monospace;font-size:1.4rem;font-weight:700;color:#fff;background:var(--text);padding:5px 13px;border-radius:8px;}
+.sec-title h2{font-size:var(--fs-h2);line-height:var(--lh-heading);}
+.sec-title .sub{font-size:var(--fs-label);color:var(--text-dim);margin-left:auto;}
+.section{margin-bottom:90px;}
+
+/* 七层全景 */
+.stack{display:flex;flex-direction:column;gap:13px;}
+.row{display:grid;grid-template-columns:200px 1fr;gap:22px;align-items:stretch;background:var(--card);border:var(--border-card);border-top:1px solid var(--hl-top);border-radius:18px;padding:22px 26px;box-shadow:var(--shadow-card);border-left:6px solid var(--ac);transition:transform .2s;}
+.row:hover{transform:translateX(4px);}
+.row .lyr{display:flex;flex-direction:column;justify-content:center;}
+.row .lyr .ln{font-family:'JetBrains Mono',monospace;font-size:1rem;font-weight:700;color:var(--ac);letter-spacing:.04em;}
+.row .lyr .nm{font-family:'Playfair Display',serif;font-size:1.62rem;font-weight:900;line-height:1.12;margin-top:3px;}
+.row .bd{display:flex;flex-direction:column;justify-content:center;border-left:1px solid var(--border-light);padding-left:22px;}
+.row .bd .one{font-size:1.42rem;color:var(--text-dim);line-height:1.45;}
+.row .bd .one b{color:var(--text);font-weight:600;}
+.row .bd .tools{display:flex;flex-wrap:wrap;gap:8px;margin-top:11px;}
+.row .bd .tools .c{font-family:'JetBrains Mono',monospace;font-size:1.05rem;font-weight:600;padding:5px 12px;border-radius:18px;background:var(--ac-bg);color:var(--ac);border:1px solid var(--ac-bd);}
+.a-brown{--ac:var(--brown);--ac-bg:#efe7da;--ac-bd:#d8cab2;}
+.a-purple{--ac:var(--purple);--ac-bg:#eee0fa;--ac-bd:#dcc4f0;}
+.a-blue{--ac:var(--blue);--ac-bg:#dbe9f7;--ac-bd:#b8d3ee;}
+.a-green{--ac:var(--green);--ac-bg:#d8efe1;--ac-bd:#a9dcc0;}
+.a-cyan{--ac:var(--cyan);--ac-bg:#d4eef2;--ac-bd:#a6dce4;}
+.a-orange{--ac:var(--orange);--ac-bg:#fde8d8;--ac-bd:#f3c6a3;}
+.a-gold{--ac:var(--gold);--ac-bg:#faf0d8;--ac-bd:#e6cf8f;}
+
+/* 单层大卡（双栏） */
+.panel{background:var(--card);border:var(--border-card);border-radius:22px;box-shadow:var(--shadow-card);border-top:6px solid var(--ac);display:grid;grid-template-columns:1fr 1.12fr;gap:48px;padding:44px 52px;}
+.panel .head{display:flex;align-items:center;gap:20px;margin-bottom:6px;}
+.panel .icon{width:70px;height:70px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:2.1rem;background:var(--ac-bg);flex-shrink:0;}
+.panel .role{font-family:'JetBrains Mono',monospace;font-size:var(--fs-label);font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--ac);}
+.panel .name{font-size:var(--fs-card-title);font-family:'Playfair Display',serif;font-weight:900;line-height:1.12;}
+.panel .one{font-size:1.7rem;line-height:1.55;color:var(--text-dim);margin:20px 0 0;}
+.panel .one strong{color:var(--text);font-weight:600;}
+.panel .block-label{font-family:'JetBrains Mono',monospace;font-size:var(--fs-label);font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--ac);margin:26px 0 13px;}
+.chips{display:flex;flex-wrap:wrap;gap:9px;}
+.chip{font-family:'JetBrains Mono',monospace;font-size:var(--fs-chip);font-weight:600;padding:6px 14px;border-radius:22px;background:var(--ac-bg);color:var(--ac);border:1px solid var(--ac-bd);}
+.col-r{border-left:1px solid var(--border-light);padding-left:48px;}
+.changes{list-style:none;}
+.changes li{font-size:1.56rem;color:var(--text-dim);line-height:1.46;padding:11px 0 11px 28px;position:relative;}
+.changes li::before{content:'';position:absolute;left:0;top:18px;width:11px;height:11px;border-radius:3px;background:var(--ac);}
+.changes li strong{color:var(--text);font-weight:600;}
+.changes li .mono{color:var(--ac);font-weight:600;}
+.keep{margin-top:24px;padding-top:20px;border-top:1px dashed var(--border-light);font-size:1.5rem;color:var(--text-dim);line-height:1.5;}
+.keep b{color:var(--text);font-weight:600;}
+
+/* 行内提示条 */
+.fix{margin-top:22px;display:flex;gap:14px;align-items:flex-start;background:#faf0d8;border:1px solid #e6cf8f;border-left:5px solid var(--gold);border-radius:14px;padding:20px 24px;}
+.fix .ic{font-size:1.6rem;flex-shrink:0;line-height:1;}
+.fix .tx{font-size:1.42rem;line-height:1.5;color:#5a3c08;}
+.fix .tx b{color:#3d2906;font-weight:700;}
+
+/* 逻辑关系图 */
+.flow{background:var(--card);border:var(--border-card);border-radius:22px;padding:42px 48px;box-shadow:var(--shadow-card);}
+.flow h3{font-size:1.9rem;margin-bottom:8px;}
+.flow .lead{font-size:1.5rem;color:var(--text-dim);margin-bottom:28px;line-height:1.5;}
+.flow .lead b{color:var(--text);font-weight:600;}
+.chain{display:flex;align-items:stretch;gap:0;flex-wrap:wrap;}
+.node{flex:1;min-width:170px;background:var(--card-alt);border:1px solid var(--border-light);border-radius:16px;padding:20px 18px;text-align:center;}
+.node .k{font-family:'JetBrains Mono',monospace;font-size:1.02rem;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.03em;margin-bottom:9px;}
+.node .v{font-size:1.32rem;color:var(--text-dim);line-height:1.4;}
+.node .v b{color:var(--text);font-weight:600;}
+.arrow{display:flex;align-items:center;justify-content:center;font-size:1.7rem;color:var(--text-dim);padding:0 6px;flex-shrink:0;}
+.dep{margin-top:26px;padding-top:22px;border-top:1px dashed var(--border-light);display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.dep .d{display:flex;gap:12px;align-items:flex-start;font-size:1.4rem;color:var(--text-dim);line-height:1.45;}
+.dep .d .b{font-size:1.3rem;flex-shrink:0;}
+.dep .d b{color:var(--text);font-weight:600;}
+
+/* 收尾速记 */
+.foot{border:1px solid var(--border);border-top:1px solid var(--hl-top);border-radius:22px;background:var(--card);padding:48px 54px;box-shadow:var(--shadow-card);}
+.foot h2{font-size:var(--fs-h2);margin-bottom:8px;}
+.foot .fsub{font-size:var(--fs-body);color:var(--text-dim);margin-bottom:28px;line-height:1.5;}
+.bd-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.bd{background:var(--card-alt);border:1px solid var(--border-light);border-radius:18px;padding:24px 26px;}
+.bd.pick{background:#eef7f1;border-color:#a9dcc0;}
+.bd .q{font-family:'JetBrains Mono',monospace;font-size:1.05rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--orange);margin-bottom:11px;}
+.bd.pick .q{color:var(--green);}
+.bd .p{font-size:1.46rem;color:var(--text-dim);line-height:1.5;}
+.bd .p b{color:var(--text);font-weight:700;}
+footer.pf{text-align:center;margin-top:50px;font-family:'JetBrains Mono',monospace;font-size:var(--fs-label);color:var(--text-dim);letter-spacing:.5px;}
+
+.proj-hint{position:fixed;right:24px;bottom:24px;z-index:200;background:var(--text);color:#fff;font-family:'JetBrains Mono',monospace;font-size:1.05rem;font-weight:600;padding:10px 18px;border-radius:24px;box-shadow:0 8px 24px rgba(0,0,0,.18);opacity:.82;}
+.proj-hint b{color:var(--orange);}
+
+/* 投影一屏一页 */
+.slide{padding-block:0;}
+html.projection{scroll-snap-type:y mandatory;scroll-behavior:smooth;}
+.projection .topnav{display:none;}
+.projection .container{padding-bottom:0;}
+.projection .section,.projection .hero{margin-bottom:0;}
+.projection .slide{height:100vh;scroll-snap-align:start;scroll-snap-stop:always;display:flex;flex-direction:column;justify-content:center;padding-block:2.2vh;box-sizing:border-box;overflow:hidden;}
+.projection .sec-title{margin-bottom:clamp(18px,2.4vh,30px);}
+.projection .panel{padding-block:clamp(26px,3.2vh,44px);}
+.projection .changes li{padding-top:clamp(6px,.9vh,11px);padding-bottom:clamp(6px,.9vh,11px);}
+.projection .stack{gap:clamp(9px,1.3vh,13px);}
+.projection .row{padding-top:clamp(14px,1.8vh,22px);padding-bottom:clamp(14px,1.8vh,22px);}
+
+@media(max-width:1100px){.panel{grid-template-columns:1fr!important}.col-r{border-left:none;padding-left:0;border-top:1px solid var(--border-light);padding-top:26px}.row{grid-template-columns:1fr}.row .bd{border-left:none;padding-left:0;border-top:1px dashed var(--border-light);padding-top:13px}.chain{flex-direction:column}.arrow{transform:rotate(90deg);padding:6px 0}.dep{grid-template-columns:1fr}.bd-grid{grid-template-columns:1fr}}
+@media(max-width:640px){.container{padding:0 20px 80px}}
+</style>
+</head>
+<body>
+
+<div class="topnav">
+  <div class="topnav-inner">
+    <a class="brand" href="/">← 城北 · chengbei.org</a>
+    <a class="nav-tag active" href="#sec-top">概览</a>
+    <a class="nav-tag" href="#sec-map">七层全景</a>
+    <a class="nav-tag" href="#sec-look">颜值层</a>
+    <a class="nav-tag" href="#sec-cli">全家桶</a>
+    <a class="nav-tag" href="#sec-flow">逻辑关系</a>
+    <a class="nav-tag" href="#sec-take">速记</a>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ① 封面 -->
+  <section class="slide">
+  <div class="hero" id="sec-top">
+    <div class="eyebrow">Terminal Setup · 归档总览</div>
+    <h1>把黑窗口，<br>装成趁手的工作台<span class="dot"></span></h1>
+    <p class="hero-desc">上一节我们选定了 <strong>Ghostty</strong>。这一节把讲师这台 Mac 上<strong>真实在跑</strong>的全套终端配置摊开，分成<strong>七层</strong>归好档——每一层解决一个具体痛点，层与层之间还互相搭台。看完你就知道：那份《配置清单》里每条命令，到底装的是什么、为什么要它。</p>
+    <div class="hero-stats">
+      <div class="hstat"><span class="n">7</span><span class="l">配置分层</span></div>
+      <div class="hstat"><span class="n">12+</span><span class="l">工具模块</span></div>
+      <div class="hstat"><span class="n">FREE</span><span class="l">全部开源免费</span></div>
+    </div>
+  </div>
+  </section>
+
+  <!-- ②a 七层全景（上 · 01-04） -->
+  <section class="slide">
+  <div class="section" id="sec-map">
+    <div class="sec-title"><span class="sn">01</span><h2>七层配置归档（上）· 先把终端变好用</h2><span class="sub">LAYER 01–04 · 核心四层</span></div>
+    <div class="stack">
+      <div class="row a-brown"><div class="lyr"><span class="ln">LAYER 01</span><span class="nm">地基层</span></div><div class="bd"><div class="one"><b>壳与框架</b>：发光的窗口 + zsh 插件管理器</div><div class="tools"><span class="c">Ghostty</span><span class="c">Oh My Zsh</span></div></div></div>
+      <div class="row a-purple"><div class="lyr"><span class="ln">LAYER 02</span><span class="nm">颜值层</span></div><div class="bd"><div class="one"><b>好看又好读</b>：提示符 + 图标字体 + 配色</div><div class="tools"><span class="c">starship</span><span class="c">Nerd Font</span><span class="c">主题</span></div></div></div>
+      <div class="row a-blue"><div class="lyr"><span class="ln">LAYER 03</span><span class="nm">导航层</span></div><div class="bd"><div class="one"><b>少敲路径</b>：目录智能跳转 + 可视化文件管理</div><div class="tools"><span class="c">zoxide / z</span><span class="c">yazi（鸭子）</span></div></div></div>
+      <div class="row a-green"><div class="lyr"><span class="ln">LAYER 04</span><span class="nm">全家桶</span></div><div class="bd"><div class="one"><b>替换老命令</b>：ls/cat/find/grep 全部现代化</div><div class="tools"><span class="c">eza</span><span class="c">bat</span><span class="c">fd</span><span class="c">ripgrep</span><span class="c">fzf</span></div></div></div>
+    </div>
+  </div>
+  </section>
+
+  <!-- ②b 七层全景（下 · 05-07） -->
+  <section class="slide">
+  <div class="section" id="sec-map2">
+    <div class="sec-title"><span class="sn">01</span><h2>七层配置归档（下）· 再锦上添花</h2><span class="sub">LAYER 05–07 · 增强三层</span></div>
+    <div class="stack">
+      <div class="row a-cyan"><div class="lyr"><span class="ln">LAYER 05</span><span class="nm">效率层</span></div><div class="bd"><div class="one"><b>打字辅助</b>：灰字预测 + 对错变色 + git 别名</div><div class="tools"><span class="c">autosuggestions</span><span class="c">syntax-highlighting</span><span class="c">git</span></div></div></div>
+      <div class="row a-orange"><div class="lyr"><span class="ln">LAYER 06</span><span class="nm">监控层</span></div><div class="bd"><div class="one"><b>看 AI 用量</b>：Claude Code 的状态栏（非终端插件）</div><div class="tools"><span class="c">claude-hud</span></div></div></div>
+      <div class="row a-gold"><div class="lyr"><span class="ln">LAYER 07</span><span class="nm">窗口管理</span></div><div class="bd"><div class="one"><b>一屏多用</b>：分屏 / 标签 / 下拉终端，无需 tmux</div><div class="tools"><span class="c">Ghostty keybind</span><span class="c">Quick Terminal</span></div></div></div>
+    </div>
+  </div>
+  </section>
+
+  <!-- ③ 地基层 -->
+  <section class="slide">
+  <div class="section">
+    <div class="sec-title"><span class="sn">02</span><h2>地基层 · 壳与框架</h2><span class="sub">所有东西都站在这两个上面</span></div>
+    <div class="panel a-brown">
+      <div>
+        <div class="head"><div class="icon">🏗️</div><div><div class="role">Layer 01 · 地基</div><div class="name">窗口 + 插件框架</div></div></div>
+        <div class="one"><strong>Ghostty</strong> 是那个会发光的窗口本体；窗口里跑的是 zsh，<strong>Oh My Zsh</strong> 是给 zsh 装插件、管别名的「框架」。</div>
+        <div class="block-label">归档关键词</div>
+        <div class="chips"><span class="chip">GPU 加速</span><span class="chip">文本配置</span><span class="chip">插件容器</span></div>
+        <div class="keep"><b>一句话：</b>Ghostty 管「窗口长什么样、怎么分屏」，Oh My Zsh 管「往 zsh 里塞哪些能力」。</div>
+      </div>
+      <div class="col-r">
+        <div class="block-label">这一层装了什么</div>
+        <ul class="changes">
+          <li><strong>Ghostty</strong>——又快又干净的终端，配置就一个文本文件 <span class="mono">~/.config/ghostty/config</span>，存盘即时生效。</li>
+          <li><strong>Oh My Zsh</strong>——zsh 的插件框架。后面的 git、z、自动补全、语法高亮全挂在它的 <span class="mono">plugins=(...)</span> 里。</li>
+          <li><strong>注意分工</strong>——Oh My Zsh 自带的「主题」我们<strong>关掉</strong>（<span class="mono">ZSH_THEME=""</span>），提示符让位给颜值层的 starship。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  </section>
+
+  <!-- ④ 颜值层 -->
+  <section class="slide">
+  <div class="section" id="sec-look">
+    <div class="sec-title"><span class="sn">03</span><h2>颜值层 · 提示符 / 字体 / 主题</h2><span class="sub">第一眼的观感，也最容易踩错名字</span></div>
+    <div class="panel a-purple">
+      <div>
+        <div class="head"><div class="icon">🎨</div><div><div class="role">Layer 02 · 颜值</div><div class="name">好看 + 好读</div></div></div>
+        <div class="one">那行带<strong>目录和 git 分支</strong>的提示符是 <strong>starship</strong> 画的；能画出图标，靠的是 <strong>Nerd Font</strong>；配色由<strong>主题</strong>决定。</div>
+        <div class="fix"><span class="ic">💡</span><div class="tx"><b>本课提示符统一用 starship：</b>跨 shell 通用、配置就一份 <span class="mono">starship.toml</span>，比 p10k 等老方案更省心——那行带目录和 git 分支的提示符就是它画的。</div></div>
+      </div>
+      <div class="col-r">
+        <div class="block-label">这一层装了什么</div>
+        <ul class="changes">
+          <li><strong>starship</strong>——提示符引擎，自动显示<span class="mono">目录 / git 分支 / 语言版本 / 时间</span>。配置在 <span class="mono">~/.config/starship.toml</span>。</li>
+          <li><strong>Nerd Font</strong>（JetBrainsMono）——带图标字形的字体，是颜值层<strong>地基</strong>：没它，eza 图标和分支符号全变方块。</li>
+          <li><strong>主题</strong>——浅色 GitHub Light + 深色 Catppuccin Mocha，<strong>跟随系统</strong>切换；配 <span class="mono">minimum-contrast</span> 防灰字糊。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  </section>
+
+  <!-- ⑤ 导航层 -->
+  <section class="slide">
+  <div class="section">
+    <div class="sec-title"><span class="sn">04</span><h2>导航层 · 跳目录 / 看文件</h2><span class="sub">终端最累的活，交给它俩</span></div>
+    <div class="panel a-blue">
+      <div>
+        <div class="head"><div class="icon">🦆</div><div><div class="role">Layer 03 · 导航</div><div class="name">少敲路径</div></div></div>
+        <div class="one">不想一层层 <span class="mono">cd</span>？<strong>zoxide</strong> 记住你去过的目录，敲一半就跳；想像 Finder 一样翻文件？用 <strong>yazi</strong>（读音「鸭子」）。</div>
+        <div class="block-label">归档关键词</div>
+        <div class="chips"><span class="chip">智能跳转</span><span class="chip">可视化浏览</span><span class="chip">图片预览</span></div>
+        <div class="keep"><b>冷知识：</b>yazi 读音像「鸭子」（yā-zi），所以特别好记。</div>
+      </div>
+      <div class="col-r">
+        <div class="block-label">这一层装了什么</div>
+        <ul class="changes">
+          <li><strong>zoxide</strong>——比 cd 聪明，<span class="mono">zi 关键词</span> 直接跳历史目录。讲师还并存了 omz 的 <span class="mono">z</span> 和 <span class="mono">autojump</span>，挑顺手的用。</li>
+          <li><strong>yazi</strong>——终端版文件管理器，方向键浏览、图片预览，按 <span class="mono">z</span> 还能调 zoxide 跳转。</li>
+          <li><strong>关键一步</strong>——配 <span class="mono">y()</span> 包装函数：退出 yazi 时，shell <strong>自动切到你最后停的目录</strong>。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  </section>
+
+  <!-- ⑥ 全家桶 -->
+  <section class="slide">
+  <div class="section" id="sec-cli">
+    <div class="sec-title"><span class="sn">05</span><h2>现代 CLI 全家桶 · 替换老命令</h2><span class="sub">2026 公认的 Rust 系利器</span></div>
+    <div class="panel a-green">
+      <div>
+        <div class="head"><div class="icon">🧰</div><div><div class="role">Layer 04 · 全家桶</div><div class="name">老命令现代化</div></div></div>
+        <div class="one">把上古的 <span class="mono">ls / cat / find / grep</span> 全换成带颜色、带图标、更快的现代版。它们也是 <strong>yazi 搜索的底层</strong>，一起装最省心。</div>
+        <div class="block-label">归档关键词</div>
+        <div class="chips"><span class="chip">彩色输出</span><span class="chip">默认忽略垃圾目录</span><span class="chip">极快</span></div>
+        <div class="keep"><b>联动：</b>yazi 里按搜索，背后调的就是这桶里的 fd / ripgrep / fzf。</div>
+      </div>
+      <div class="col-r">
+        <div class="block-label">五件套对照</div>
+        <ul class="changes">
+          <li><strong>eza</strong> 替代 <span class="mono">ls</span>——图标 + 颜色 + git 状态 + 树形视图。</li>
+          <li><strong>bat</strong> 替代 <span class="mono">cat</span>——语法高亮 + 行号 + diff 标记。</li>
+          <li><strong>fd</strong> 替代 <span class="mono">find</span>——语法人话，自动跳过 .git / node_modules。</li>
+          <li><strong>ripgrep（rg）</strong> 替代 <span class="mono">grep</span>——文件内容全文搜，极快。</li>
+          <li><strong>fzf</strong>——万能模糊搜索，<span class="mono">Ctrl+R</span> 翻历史、<span class="mono">Ctrl+T</span> 选文件。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  </section>
+
+  <!-- ⑦ 效率层 + 监控层 + 窗口（合并讲剩下三层） -->
+  <section class="slide">
+  <div class="section">
+    <div class="sec-title"><span class="sn">06</span><h2>剩下三层 · 效率 / 监控 / 窗口</h2><span class="sub">打字更稳、看得见用量、一屏多用</span></div>
+    <div class="stack">
+      <div class="row a-cyan"><div class="lyr"><span class="ln">LAYER 05 · 效率层</span><span class="nm">打字辅助</span></div><div class="bd"><div class="one"><b>autosuggestions</b> 灰字预测整条命令 · <b>syntax-highlighting</b> 命令对绿错红 · <b>git</b> 插件给一堆短别名（gst / gco）。都写进 <span class="mono">plugins=(...)</span> 即用。</div></div></div>
+      <div class="row a-orange"><div class="lyr"><span class="ln">LAYER 06 · 监控层</span><span class="nm">claude-hud</span></div><div class="bd"><div class="one"><b>看 AI 用量</b>：在 Claude Code 底部状态栏显示模型 / 上下文占比 / <b>5 小时 · 7 天额度恢复时间</b> / 当前任务。注意它属于 <b>Claude Code 层</b>，不是 zsh 插件。</div></div></div>
+      <div class="row a-gold"><div class="lyr"><span class="ln">LAYER 07 · 窗口管理</span><span class="nm">Ghostty 快捷键</span></div><div class="bd"><div class="one"><b>无需 tmux</b>：<span class="mono">cmd+u</span> 右分屏、<span class="mono">cmd+shift+d</span> 下分屏、<span class="mono">cmd+shift+f</span> 单屏放大、<span class="mono">cmd+t</span> 新标签；<span class="mono">cmd+`</span> 从屏幕顶部呼出下拉终端（Quick Terminal）。写进 config 即用。</div></div></div>
+    </div>
+  </div>
+  </section>
+
+  <!-- ⑧ 逻辑关系 -->
+  <section class="slide">
+  <div class="section" id="sec-flow">
+    <div class="sec-title"><span class="sn">07</span><h2>它们之间什么关系？</h2><span class="sub">谁装在谁里、谁依赖谁</span></div>
+    <div class="flow">
+      <h3>三条主线，一次说清</h3>
+      <p class="lead">别把 12 个工具记成 12 件孤立的事——它们其实是<b>三条嵌套关系</b>。</p>
+      <div class="chain">
+        <div class="node"><div class="k">最外层</div><div class="v"><b>Ghostty</b> 窗口<br>（字体 / 主题 / 分屏归它）</div></div>
+        <div class="arrow">→</div>
+        <div class="node"><div class="k">窗口里跑</div><div class="v"><b>zsh + Oh My Zsh</b><br>（插件 / 别名挂这里）</div></div>
+        <div class="arrow">→</div>
+        <div class="node"><div class="k">提示符独立接管</div><div class="v"><b>starship</b><br>（omz 主题关掉让位）</div></div>
+        <div class="arrow">→</div>
+        <div class="node"><div class="k">工具自由调用</div><div class="v"><b>全家桶 + yazi</b><br>（互相调用搜索）</div></div>
+      </div>
+      <div class="dep">
+        <div class="d"><span class="b">🔗</span><div><b>Nerd Font 是前提</b>：eza 的文件图标、starship 的分支符号，没字体全是方块——所以颜值层先装字体。</div></div>
+        <div class="d"><span class="b">🔗</span><div><b>fd / rg / fzf 是 yazi 的底层</b>：yazi 里搜文件、跳目录，背后就是调它们——所以导航层和全家桶要一起装。</div></div>
+        <div class="d"><span class="b">🔗</span><div><b>starship ≠ omz 主题</b>：提示符交给 starship，必须把 <span class="mono">ZSH_THEME</span> 留空，否则两套抢着画会乱。</div></div>
+        <div class="d"><span class="b">🔗</span><div><b>claude-hud 在另一层</b>：它装在 Claude Code 里、不是终端插件，归档时单独放「监控层」别混进 zsh。</div></div>
+      </div>
+    </div>
+  </div>
+  </section>
+
+  <!-- ⑨ 收尾速记 -->
+  <section class="slide">
+  <div class="section" id="sec-take" style="margin-bottom:0">
+    <div class="foot">
+      <h2>一页速记</h2>
+      <p class="fsub">七层各管一摊，照《配置清单》逐项装，就能 1:1 复刻这块屏幕。</p>
+      <div class="bd-grid">
+        <div class="bd"><div class="q">先装什么</div><div class="p"><b>Homebrew → Nerd Font → Ghostty</b>，地基和字体先到位，后面才不出方块。</div></div>
+        <div class="bd"><div class="q">核心五件套</div><div class="p"><b>starship · eza · bat · zoxide · fzf</b>，装完终端立刻「换了个人」。</div></div>
+        <div class="bd pick"><div class="q">怎么落地 ✅</div><div class="p">把《配置清单》里的命令<b>逐条复制给 Claude Code</b>，说「帮我装这个并配好 .zshrc」。</div></div>
+      </div>
+      <div class="fix" style="margin-top:24px;">
+        <span class="ic">🪟</span>
+        <div class="tx"><b>Windows 同学：</b>本套配置面向 macOS。请改用 <b>Windows Terminal + WSL2</b>，里面同样能装 starship / eza / zoxide 这套全家桶，思路完全一致。</div>
+      </div>
+    </div>
+    <footer class="pf">Ghostty 终端配置 · 归档总览　|　配套《Ghostty 终端配置清单》逐项安装</footer>
+  </div>
+  </section>
+
+</div>
+
+<div class="proj-hint">按 <b>P</b> 切换投影一屏一页模式</div>
+
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+let cur=0;const root=document.documentElement;
+function isProjection(){return root.classList.contains('projection');}
+function scrollYpos(){return window.scrollY||root.scrollTop||0;}
+function goTo(i){cur=Math.max(0,Math.min(slides.length-1,i));window.scrollTo({top:slides[cur].offsetTop,behavior:'smooth'});}
+function syncCurrentSlide(){const y=scrollYpos()+1;cur=0;for(let i=0;i<slides.length;i++)if(slides[i].offsetTop<=y)cur=i;}
+addEventListener('keydown',e=>{
+  if(e.key==='p'||e.key==='P'){root.classList.toggle('projection');if(isProjection())syncCurrentSlide();return;}
+  if(!isProjection())return;
+  const next=['ArrowDown','ArrowRight','PageDown',' ','Spacebar'];
+  const prev=['ArrowUp','ArrowLeft','PageUp'];
+  if(next.includes(e.key)){e.preventDefault();goTo(cur+1);}
+  else if(prev.includes(e.key)){e.preventDefault();goTo(cur-1);}
+  else if(e.key==='Home'){e.preventDefault();goTo(0);}
+  else if(e.key==='End'){e.preventDefault();goTo(slides.length-1);}
+  else if(e.key==='Escape'){root.classList.remove('projection');}
+});
+const navTags=document.querySelectorAll('.nav-tag');
+const obs=new IntersectionObserver(es=>{es.forEach(en=>{if(en.isIntersecting){const id='#'+en.target.id;navTags.forEach(t=>{if(t.getAttribute('href')===id){navTags.forEach(x=>x.classList.remove('active'));t.classList.add('active');}});}});},{rootMargin:'-12% 0px -75% 0px'});
+document.querySelectorAll('[id^="sec-"]').forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>
