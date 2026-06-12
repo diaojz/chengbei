@@ -17,6 +17,8 @@
 | 项目 | 地址 | 说明 |
 |---|---|---|
 | Ghostty 终端配置 | /ghostty-terminal/ | 课件总览 · 站内独立页（`ghostty-terminal/index.html`）|
+| Ghostty 配置清单 | /ghostty-checklist/ | 照抄即用清单 · 站内独立页，与课件总览互链 |
+| Harness 读后笔记 | /harness-notes/ | 《Harness Engineering》读后笔记 · 支持 P 键投影模式 |
 | App Store 上架 | https://news.diaoye.org | 完整上架资料站（Vercel · appstore-portal）|
 | cc-doctor | https://www.ccswitch.io | 一键拯救 Claude Code |
 | Balatro Web | https://diaojz.github.io/balatro-game/ | 8 轮课程演示（GitHub Pages）|
@@ -24,6 +26,16 @@
 | Vibe Coding Survey | https://vibe-coding-survey.vercel.app | 调研问卷 |
 
 加 / 删 / 调顺序 → 改 `js/i18n.js` 里 zh / en 两个 `artifacts` 数组（必须同步改两边，否则切语言后会看到不一致的列表）。
+
+### 把课件 HTML 集成上站的固定套路
+
+源文件在课程仓库 `课件/` 下（**只挑文章式滚动页，PPT 翻页形态的课件不适合当文章读**），步骤：
+
+1. 复制为 `<slug>/index.html`（站内 URL 即 `/<slug>/`）
+2. `<title>` 加 ` · 城北` 后缀，补 `meta description` + 四条 `og:` 标签（`og:url` 写最终地址）
+3. 加返回链接 `← 城北 · chengbei.org`（带投影模式的页面记得 `.projection .back-home{display:none}`）
+4. 全文检查并清掉「讲师」等字眼（站点身份是独立开发者）
+5. `js/i18n.js` zh / en 两个 `artifacts` 数组加入口 + 更新本 README 的 Ships 表
 
 ---
 

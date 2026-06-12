@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<!-- diao-ppt · Ghostty 终端配置清单（可复制 · 喂给 Claude Code 逐项安装） -->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ghostty 终端配置清单 · 照抄即用 · 城北</title>
+<meta name="description" content="我这台 Mac 上真实在跑的全套终端配置清单：每一项一句话说明 + 一行可复制的安装命令，喂给 Claude Code 逐项装好。macOS 专用，照抄即用。">
+<meta property="og:title" content="Ghostty 终端配置清单 · 照抄即用">
+<meta property="og:description" content="七层终端配置清单：Homebrew / Ghostty / starship / zoxide / 现代 CLI 全家桶，每项带可复制安装命令。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chengbei.org/ghostty-checklist/">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap');
+
+:root{
+  --bg:#ece7de; --card:#fff; --card-alt:#f7f4ef;
+  --border:#2a2a2a; --border-light:#d5d0c7;
+  --text:#1a1a1a; --text-dim:#6b6560; --radius:18px;
+  --orange:#e8682a; --blue:#2563a8; --purple:#7c3aad; --green:#2d8a56; --red:#c93545; --cyan:#0e7490; --gold:#b8860b;
+  --shadow-card:0 1px 2px rgba(60,45,30,.06),0 14px 32px -14px rgba(120,90,55,.18);
+  --border-card:1px solid rgba(180,150,110,.28);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;-webkit-font-smoothing:antialiased;line-height:1.55;}
+h1,h2,h3{font-family:'Playfair Display',serif;font-weight:900;letter-spacing:-.015em;}
+.mono{font-family:'JetBrains Mono',monospace;}
+.wrap{max-width:1180px;margin:0 auto;padding:0 36px 120px;}
+
+/* hero */
+.hero{padding:64px 0 30px;border-bottom:1px solid var(--border-light);margin-bottom:36px;}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:.92rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--orange);margin-bottom:16px;}
+.hero h1{font-size:clamp(2.6rem,4.4vw,3.6rem);line-height:1.12;}
+.hero h1 .dot{display:inline-block;width:15px;height:15px;border-radius:50%;background:var(--orange);margin-left:8px;}
+.hero p{font-size:1.18rem;color:var(--text-dim);margin-top:18px;max-width:820px;}
+.hero p strong{color:var(--text);font-weight:600;}
+
+/* 怎么用 */
+.howto{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:30px 0 8px;}
+.howto .h{background:var(--card);border:var(--border-card);border-radius:14px;padding:20px 22px;box-shadow:var(--shadow-card);}
+.howto .h .n{font-family:'JetBrains Mono',monospace;font-weight:700;color:#fff;background:var(--text);width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;margin-bottom:12px;}
+.howto .h .t{font-weight:700;font-size:1.08rem;margin-bottom:6px;}
+.howto .h .d{font-size:.98rem;color:var(--text-dim);}
+.howto .h .d code{background:var(--card-alt);padding:2px 7px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:.86rem;color:var(--purple);}
+
+/* 一键全装 */
+.oneshot{background:#12161c;border-radius:16px;padding:26px 28px;margin:24px 0 12px;box-shadow:var(--shadow-card);}
+.oneshot .lbl{font-family:'JetBrains Mono',monospace;font-size:.85rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#7fd1a8;margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+.oneshot .lbl .pill{background:rgba(127,209,168,.16);color:#7fd1a8;padding:3px 10px;border-radius:20px;font-size:.72rem;}
+.oneshot pre{font-family:'JetBrains Mono',monospace;font-size:.92rem;line-height:1.7;color:#e6e9ee;white-space:pre-wrap;word-break:break-all;}
+.oneshot pre .cm{color:#6b7686;}
+.oneshot pre .gn{color:#9ece6a;}
+.oneshot .row{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;}
+.btn-copy{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:#cdd3db;padding:7px 14px;border-radius:9px;cursor:pointer;white-space:nowrap;transition:all .18s;flex-shrink:0;}
+.btn-copy:hover{background:rgba(255,255,255,.14);color:#fff;}
+.btn-copy.ok{background:#2d8a56;border-color:#2d8a56;color:#fff;}
+.oneshot .tip{font-family:'DM Sans',sans-serif;font-size:.9rem;color:#9aa3af;margin-top:14px;line-height:1.6;}
+.oneshot .tip code{background:rgba(255,255,255,.08);color:#cdd3db;padding:2px 7px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:.82rem;}
+.oneshot .tip b{color:#cdd3db;}
+.oneshot .pill.p0{background:rgba(232,104,42,.2);color:#f0a875;}
+
+/* section */
+.layer{margin-top:46px;}
+.layer-head{display:flex;align-items:baseline;gap:16px;margin-bottom:6px;flex-wrap:wrap;}
+.layer-head .ln{font-family:'JetBrains Mono',monospace;font-size:1rem;font-weight:700;color:#fff;padding:4px 12px;border-radius:7px;}
+.layer-head h2{font-size:1.7rem;}
+.layer-head .sub{font-size:1rem;color:var(--text-dim);margin-left:auto;}
+.layer-desc{font-size:1.02rem;color:var(--text-dim);margin:8px 0 18px;max-width:880px;}
+.layer-desc b{color:var(--text);font-weight:600;}
+
+.items{display:flex;flex-direction:column;gap:12px;}
+.item{background:var(--card);border:var(--border-card);border-radius:14px;padding:18px 22px;box-shadow:var(--shadow-card);}
+.item-top{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:12px;}
+.item-top .tool{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:1.12rem;color:var(--text);}
+.item-top .tag{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:3px 9px;border-radius:14px;}
+.item-top .role{font-size:1rem;color:var(--text-dim);margin-left:auto;text-align:right;}
+.item-top .role b{color:var(--text);font-weight:600;}
+.cmd{display:flex;align-items:center;gap:12px;background:#12161c;border-radius:10px;padding:12px 14px;}
+.cmd code{font-family:'JetBrains Mono',monospace;font-size:.92rem;color:#e6e9ee;flex:1;word-break:break-all;line-height:1.5;}
+.cmd code .gn{color:#9ece6a;}
+.cmd code .cm{color:#6b7686;}
+.note{font-size:.92rem;color:var(--text-dim);margin-top:11px;line-height:1.55;}
+.note code{background:var(--card-alt);padding:2px 7px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--purple);word-break:break-all;}
+.note b{color:var(--text);font-weight:600;}
+
+.l-base{background:#5b524a;}   .t-base{background:#ece4d8;color:#7a6a55;}
+.l-look{background:var(--purple);} .t-look{background:#eee0fa;color:var(--purple);}
+.l-nav{background:var(--blue);}   .t-nav{background:#dbe9f7;color:var(--blue);}
+.l-cli{background:var(--green);}  .t-cli{background:#d8efe1;color:var(--green);}
+.l-eff{background:var(--cyan);}   .t-eff{background:#d4eef2;color:var(--cyan);}
+.l-mon{background:var(--orange);} .t-mon{background:#fde8d8;color:var(--orange);}
+.l-win{background:var(--gold);}   .t-win{background:#faf0d8;color:#8a6608;}
+
+/* 完整配置折叠块 */
+.cfg{margin-top:12px;background:var(--card);border:var(--border-card);border-radius:14px;box-shadow:var(--shadow-card);overflow:hidden;}
+.cfg>summary{list-style:none;cursor:pointer;padding:16px 22px;display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.05rem;}
+.cfg>summary::-webkit-details-marker{display:none;}
+.cfg>summary .ar{font-family:'JetBrains Mono',monospace;color:var(--purple);transition:transform .2s;}
+.cfg[open]>summary .ar{transform:rotate(90deg);}
+.cfg>summary .file{font-family:'JetBrains Mono',monospace;font-size:.9rem;color:var(--text-dim);font-weight:600;}
+.cfg>summary .file b{color:var(--purple);}
+.cfg-body{padding:0 18px 18px;}
+.cfg-bar{display:flex;justify-content:space-between;align-items:center;margin:2px 0 10px;}
+.cfg-bar .hint{font-size:.88rem;color:var(--text-dim);}
+.cfg pre{font-family:'JetBrains Mono',monospace;font-size:.82rem;line-height:1.6;color:#e6e9ee;background:#12161c;border-radius:10px;padding:16px 18px;overflow-x:auto;white-space:pre;}
+.warn{margin-top:16px;display:flex;gap:14px;align-items:flex-start;background:#faf0d8;border:1px solid #e6cf8f;border-left:5px solid var(--gold);border-radius:12px;padding:18px 22px;}
+.warn .ic{font-size:1.35rem;flex-shrink:0;line-height:1.2;}
+.warn .tx{font-size:.98rem;line-height:1.55;color:#5a3c08;}
+.warn .tx b{color:#3d2906;font-weight:700;}
+
+footer{text-align:center;margin-top:60px;font-family:'JetBrains Mono',monospace;font-size:.92rem;color:var(--text-dim);letter-spacing:.5px;}
+
+@media(max-width:820px){.howto{grid-template-columns:1fr}.item-top .role{margin-left:0;text-align:left}.layer-head .sub{margin-left:0}}
+.back-home{display:inline-block;margin-top:28px;font-family:'JetBrains Mono',monospace;font-size:.85rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);text-decoration:none;transition:color .2s;}
+.back-home:hover{color:var(--text);}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="back-home" href="/">← 城北 · chengbei.org</a>
+
+  <div class="hero">
+    <div class="eyebrow">Terminal Setup · 照抄即用清单</div>
+    <h1>Ghostty 终端配置清单<span class="dot"></span></h1>
+    <p>这是我这台 Mac 上<strong>真实在跑</strong>的全套终端配置，按「七层」分好类。每一项都有一句话说明 + 一行可复制的安装命令。目标只有一个：<strong>把终端从一个吓人的黑窗口，变成又快又顺手的工作台</strong>。Windows 同学请走 Windows Terminal + WSL2，本清单针对 macOS。想先弄懂每一层「为什么这么配」→ <a href="/ghostty-terminal/" style="color:var(--orange);font-weight:600;">七层归档总览</a>。</p>
+  </div>
+
+  <!-- 怎么用 -->
+  <div class="howto">
+    <div class="h"><div class="n">1</div><div class="t">先装 Homebrew</div><div class="d">macOS 的「命令行软件管家」，是<b>总开关</b>。照下面 <code>第 0 步</code> 装好它，后面的 <code>brew install</code> 才跑得通。</div></div>
+    <div class="h"><div class="n">2</div><div class="t">交给 Claude Code</div><div class="d">把某一项的命令复制，对 Claude Code 说：<code>帮我装这个并配好 .zshrc</code>，它会逐项搞定。</div></div>
+    <div class="h"><div class="n">3</div><div class="t">改完重载</div><div class="d">动过 <code>.zshrc</code> 后执行 <code>source ~/.zshrc</code> 或新开一个窗口生效。</div></div>
+  </div>
+
+  <!-- 第 0 步：Homebrew 总开关 -->
+  <div class="oneshot">
+    <div class="lbl"><span class="pill p0">第 0 步 · 必装</span>Homebrew —— 所有工具的「总开关」，没它后面全装不了</div>
+    <div class="row">
+      <pre id="brew-cmd"><span class="cm"># 装 Homebrew（中途会让你按一下回车、输一次开机密码）</span>
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+<span class="cm"># 装完让这个终端立刻认识 brew（Apple Silicon / M 系列芯片）</span>
+echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+eval "$(/opt/homebrew/bin/brew shellenv)"</pre>
+      <button class="btn-copy" data-copy-target="brew-cmd">复制</button>
+    </div>
+    <div class="tip">装好后用 <code>brew --version</code> 验证。<b>Intel 芯片</b>的老 Mac 把上面两处 <code>/opt/homebrew</code> 改成 <code>/usr/local</code>。<br>⚠️ 例外：<code>Oh My Zsh</code>（curl 装）、两个 <code>zsh-*</code> 插件（git clone）、<code>claude-hud</code>（Claude Code 里装）<b>不走 Homebrew</b>，其余全靠它。</div>
+  </div>
+
+  <!-- 第 1 步：一键全装 -->
+  <div class="oneshot" style="margin-top:14px;">
+    <div class="lbl"><span class="pill">第 1 步 · 全家桶</span>一行把现代 CLI 全家桶全装齐（先完成第 0 步）</div>
+    <div class="row">
+      <pre id="oneshot-cmd"><span class="cm"># 终端 + prompt + 导航 + 全家桶，一次装完</span>
+brew install <span class="gn">starship eza bat fd ripgrep fzf zoxide yazi autojump</span>
+brew install --cask <span class="gn">ghostty font-jetbrains-mono-nerd-font</span></pre>
+      <button class="btn-copy" data-copy-target="oneshot-cmd">复制</button>
+    </div>
+    <div class="tip">这一步只装「能用 brew 装的」。<code>Oh My Zsh</code> 和两个 zsh 插件请到下面对应分层里单独复制安装命令。</div>
+  </div>
+
+  <!-- ① 地基层 -->
+  <div class="layer">
+    <div class="layer-head"><span class="ln l-base">01</span><h2>地基层 · 壳与框架</h2><span class="sub">终端窗口 + shell 插件管理</span></div>
+    <p class="layer-desc">这两个是地基：<b>Ghostty</b> 是那个会发光的窗口（GPU 渲染、分屏、字体、主题都归它管）；窗口里跑的是 zsh，<b>Oh My Zsh</b> 是 zsh 的「插件 + 别名管理框架」，后面的插件都挂在它上面。</p>
+    <div class="items">
+      <div class="item">
+        <div class="item-top"><span class="tool">Ghostty</span><span class="tag t-base">终端窗口</span><span class="role">又快又干净的现代终端，<b>GPU 加速</b>、原生分屏、配置就是一个文本文件</span></div>
+        <div class="cmd"><code>brew install --cask ghostty</code><button class="btn-copy" data-copy="brew install --cask ghostty">复制</button></div>
+        <div class="note">配置文件在 <code>~/.config/ghostty/config</code>，存盘即时生效，无需重启。字体/主题/快捷键见下面对应分层。</div>
+      </div>
+      <div class="item">
+        <div class="item-top"><span class="tool">Oh My Zsh</span><span class="tag t-base">插件框架</span><span class="role">管理 zsh 的<b>插件与别名</b>，是 git / z / 自动补全等插件的容器</span></div>
+        <div class="cmd"><code>sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"</code><button class="btn-copy" data-copy='sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"'>复制</button></div>
+        <div class="note">装完在 <code>~/.zshrc</code> 里把要用的插件填进去：<code>plugins=(git z node npm zsh-autosuggestions zsh-syntax-highlighting sudo history)</code>。⚠️ 主题留空 <code>ZSH_THEME=""</code>，prompt 交给 starship。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ② 颜值层 -->
+  <div class="layer">
+    <div class="layer-head"><span class="ln l-look">02</span><h2>颜值层 · 提示符 / 字体 / 主题</h2><span class="sub">让终端好看又好读</span></div>
+    <p class="layer-desc">这三样决定「第一眼观感」。<b>starship</b> 接管那行带目录和 git 分支的提示符；<b>Nerd Font</b> 是所有图标能显示的<b>前提</b>（没它 eza 图标、git 分支符号全是方块）；<b>主题</b>负责配色。</p>
+    <div class="warn"><span class="ic">💡</span><div class="tx"><b>本课提示符统一用 starship：</b>跨 shell 通用、配置就一份 starship.toml，比 p10k 等老方案更省心。那行带目录和 git 分支的提示符，就是它画的。</div></div>
+    <div class="items" style="margin-top:18px;">
+      <div class="item">
+        <div class="item-top"><span class="tool">starship</span><span class="tag t-look">提示符</span><span class="role">跨 shell 的<b>提示符引擎</b>，自动显示目录 / git 分支 / 语言版本 / 时间</span></div>
+        <div class="cmd"><code>brew install starship</code><button class="btn-copy" data-copy="brew install starship">复制</button></div>
+        <div class="note">在 <code>~/.zshrc</code> 末尾加 <code>eval "$(starship init zsh)"</code>；样式配置在 <code>~/.config/starship.toml</code>（我用的是带色块的 powerline 风格，可直接照抄 ↓）。</div>
+        <details class="cfg">
+          <summary><span class="ar">▶</span> 展开我的完整 <span class="file"><b>~/.config/starship.toml</b></span> · 直接整段照抄</summary>
+          <div class="cfg-body">
+            <div class="cfg-bar"><span class="hint">⚠️ 那些方块色块图标需要 Nerd Font 才显示；请先装好上面的字体。</span><button class="btn-copy" data-copy-target="starship-toml">复制整段</button></div>
+            <pre id="starship-toml">"$schema" = 'https://starship.rs/config-schema.json'
+
+format = """
+[░▒▓](#a3aed2)\
+[  ](bg:#a3aed2 fg:#090c0c)\
+[](bg:#769ff0 fg:#a3aed2)\
+$directory\
+[](fg:#769ff0 bg:#394260)\
+$git_branch\
+$git_status\
+[](fg:#394260 bg:#212736)\
+$nodejs\
+$rust\
+$golang\
+$php\
+[](fg:#212736 bg:#1d2230)\
+$time\
+[ ](fg:#1d2230)\
+\n$character"""
+
+[directory]
+style = "fg:#e3e5e5 bg:#769ff0"
+format = "[ $path ]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
+
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Music" = " "
+"Pictures" = " "
+
+[git_branch]
+symbol = ""
+style = "bg:#394260"
+format = '[[ $symbol $branch ](fg:#769ff0 bg:#394260)]($style)'
+
+[git_status]
+style = "bg:#394260"
+format = '[[($all_status$ahead_behind )](fg:#769ff0 bg:#394260)]($style)'
+
+[nodejs]
+symbol = ""
+style = "bg:#212736"
+format = '[[ $symbol ($version) ](fg:#769ff0 bg:#212736)]($style)'
+
+[rust]
+symbol = ""
+style = "bg:#212736"
+format = '[[ $symbol ($version) ](fg:#769ff0 bg:#212736)]($style)'
+
+[golang]
+symbol = ""
+style = "bg:#212736"
+format = '[[ $symbol ($version) ](fg:#769ff0 bg:#212736)]($style)'
+
+[php]
+symbol = ""
+style = "bg:#212736"
+format = '[[ $symbol ($version) ](fg:#769ff0 bg:#212736)]($style)'
+
+[time]
+disabled = false
+time_format = "%R"
+style = "bg:#1d2230"
+format = '[[  $time ](fg:#a0a9cb bg:#1d2230)]($style)'</pre>
+          </div>
+        </details>
+      </div>
+      <div class="item">
+        <div class="item-top"><span class="tool">JetBrainsMono Nerd Font</span><span class="tag t-look">字体</span><span class="role">带<b>图标字形</b>的等宽字体，图标 / 分支符号 / 文件图标全靠它</span></div>
+        <div class="cmd"><code>brew install --cask font-jetbrains-mono-nerd-font</code><button class="btn-copy" data-copy="brew install --cask font-jetbrains-mono-nerd-font">复制</button></div>
+        <div class="note">在 Ghostty config 里指定：<code>font-family = "JetBrainsMono Nerd Font"</code>、<code>font-size = 18</code>。这是颜值层的<b>地基</b>，建议第一个装。</div>
+      </div>
+      <div class="item">
+        <div class="item-top"><span class="tool">主题 / 配色</span><span class="tag t-look">外观</span><span class="role">浅色 GitHub Light + 深色 Catppuccin Mocha，<b>跟随系统</b>自动切换</span></div>
+        <div class="cmd"><code class="mono"><span class="cm"># 写进 ~/.config/ghostty/config</span><br>theme = light:GitHub Light Default,dark:Catppuccin Mocha</code><button class="btn-copy" data-copy="theme = light:GitHub Light Default,dark:Catppuccin Mocha
+window-theme = auto
+minimum-contrast = 4.5">复制</button></div>
+        <div class="note">主题是 Ghostty 内置的，无需额外安装。配 <code>minimum-contrast = 4.5</code> 可避免浅色背景下 Claude Code 的灰字糊到看不清。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ③ 导航层 -->
+  <div class="layer">
+    <div class="layer-head"><span class="ln l-nav">03</span><h2>导航层 · 目录跳转 / 文件管理</h2><span class="sub">少敲路径，可视化找文件</span></div>
+    <p class="layer-desc">终端最累的就是「切目录、找文件」。<b>zoxide / z</b> 记住你去过的目录，敲一半关键词就跳过去；<b>yazi</b>（读音「鸭子」）是终端里的可视化文件管理器，像 Finder 一样用方向键浏览。</p>
+    <div class="items">
+      <div class="item">
+        <div class="item-top"><span class="tool">zoxide</span><span class="tag t-nav">目录跳转</span><span class="role">记住历史目录，<b>敲一半就跳</b>。比 <code>cd</code> 聪明的智能跳转</span></div>
+        <div class="cmd"><code>brew install zoxide</code><button class="btn-copy" data-copy="brew install zoxide">复制</button></div>
+        <div class="note">在 <code>~/.zshrc</code> 加 <code>eval "$(zoxide init zsh --cmd zi)"</code>，用 <code>zi 关键词</code> 跳转。我同时保留了 Oh My Zsh 的 <code>z</code> 插件和 <code>autojump</code>（<code>brew install autojump</code>），三套都能跳，挑顺手的用即可。</div>
+      </div>
+      <div class="item">
+        <div class="item-top"><span class="tool">yazi</span><span class="tag t-nav">文件管理</span><span class="role">终端版「Finder」：方向键浏览、<b>图片预览</b>、按 z 调 zoxide 跳目录</span></div>
+        <div class="cmd"><code>brew install yazi</code><button class="btn-copy" data-copy="brew install yazi">复制</button></div>
+        <div class="note">关键：在 <code>~/.zshrc</code> 加一个 <code>y()</code> 包装函数，<b>退出 yazi 时自动把 shell 切到你最后所在的目录</b>。yazi 内部还会调用下面全家桶里的 <code>fd / ripgrep / fzf</code> 做搜索，所以建议一起装。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ④ 全家桶 -->
+  <div class="layer">
+    <div class="layer-head"><span class="ln l-cli">04</span><h2>现代 CLI 全家桶 · 替换老命令</h2><span class="sub">2026 公认的 Rust 系利器</span></div>
+    <p class="layer-desc">把上古的 <code>ls / cat / find / grep</code> 换成带颜色、带图标、更快的现代版。它们也是 yazi 搜索的底层依赖，<b>一起装最省心</b>。</p>
+    <div class="items">
+      <div class="item">
+        <div class="item-top"><span class="tool">eza</span><span class="tag t-cli">替代 ls</span><span class="role">列目录带<b>图标 + 颜色 + git 状态</b> + 树形视图</span></div>
+        <div class="cmd"><code>brew install eza</code><button class="btn-copy" data-copy="brew install eza">复制</button></div>
+        <div class="note">在 <code>~/.zshrc</code> 加别名：<code>alias ls='eza --icons --group-directories-first'</code>、<code>alias ll='eza -lA --icons --git --time-style=relative'</code>、<code>alias lt='eza --tree --level=2 --icons'</code>。</div>
+      </div>
+      <div class="item">
+        <div class="item-top"><span class="tool">bat</span><span class="tag t-cli">替代 cat</span><span class="role">看文件带<b>语法高亮</b> + 行号 + git diff 标记</span></div>
+        <div class="cmd"><code>brew install bat</code><button class="btn-copy" data-copy="brew install bat">复制</button></div>
+        <div class="note">直接 <code>bat 文件名</code> 即可。可选别名 <code>alias cat='bat --paging=never'</code>。</div>
+      </div>
+      <div class="item">
+        <div class="item-top"><span class="tool">fd</span><span class="tag t-cli">替代 find</span><span class="role">找文件，<b>语法人话、默认跳过 .git/node_modules</b>、还很快</span></div>
+        <div class="cmd"><code>brew install fd</code><button class="btn-copy" data-copy="brew install fd">复制</button></div>
+        <div class="note">用法 <code>fd 关键词</code>，比 <code>find . -name</code> 好记太多。也是 yazi / fzf 的搜索后端。</div>
+      </div>
+      <div class="item">
+        <div class="item-top"><span class="tool">ripgrep（rg）</span><span class="tag t-cli">替代 grep</span><span class="role">在<b>文件内容</b>里搜文字，极快，自动忽略二进制和 .gitignore</span></div>
+        <div class="cmd"><code>brew install ripgrep</code><button class="btn-copy" data-copy="brew install ripgrep">复制</button></div>
+        <div class="note">命令是 <code>rg 关键词</code>。Claude Code 和 yazi 内部都靠它做全文搜索。</div>
+      </div>
+      <div class="item">
+        <div class="item-top"><span class="tool">fzf</span><span class="tag t-cli">模糊搜索</span><span class="role"><b>万能模糊查找器</b>：Ctrl+R 翻历史命令、Ctrl+T 选文件</span></div>
+        <div class="cmd"><code>brew install fzf</code><button class="btn-copy" data-copy="brew install fzf">复制</button></div>
+        <div class="note">在 <code>~/.zshrc</code> 加 <code>[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh</code> 启用快捷键。配合 fd/rg 一起最强。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑤ 效率层 -->
+  <div class="layer">
+    <div class="layer-head"><span class="ln l-eff">05</span><h2>效率层 · 补全 / 高亮 / 别名</h2><span class="sub">挂在 Oh My Zsh 上的插件</span></div>
+    <p class="layer-desc">这些是 zsh 的「打字辅助」：边打边给灰字预测、命令对错变色、git 一堆短别名。它们写进 <code>~/.zshrc</code> 的 <code>plugins=(...)</code> 里就生效。</p>
+    <div class="items">
+      <div class="item">
+        <div class="item-top"><span class="tool">zsh-autosuggestions</span><span class="tag t-eff">命令预测</span><span class="role">根据历史<b>灰字预测</b>整条命令，按 → 补全</span></div>
+        <div class="cmd"><code>git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions</code><button class="btn-copy" data-copy="git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions">复制</button></div>
+        <div class="note">克隆完把 <code>zsh-autosuggestions</code> 加进 <code>plugins=(...)</code>。</div>
+      </div>
+      <div class="item">
+        <div class="item-top"><span class="tool">zsh-syntax-highlighting</span><span class="tag t-eff">语法高亮</span><span class="role">命令<b>对了变绿、错了变红</b>，敲错当场看出来</span></div>
+        <div class="cmd"><code>git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting</code><button class="btn-copy" data-copy="git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting">复制</button></div>
+        <div class="note">同样加进 <code>plugins=(...)</code>，建议放在列表<b>最后</b>。</div>
+      </div>
+      <div class="item">
+        <div class="item-top"><span class="tool">git / history / sudo …</span><span class="tag t-eff">内置插件</span><span class="role">Oh My Zsh <b>自带</b>，无需安装，写进 plugins 即用</span></div>
+        <div class="cmd"><code class="mono"><span class="cm"># 直接编辑 ~/.zshrc 的 plugins 行</span><br>plugins=(git z node npm zsh-autosuggestions zsh-syntax-highlighting sudo history)</code><button class="btn-copy" data-copy="plugins=(git z node npm zsh-autosuggestions zsh-syntax-highlighting sudo history)">复制</button></div>
+        <div class="note"><b>git</b> 给一堆短别名（<code>gst</code>=status、<code>gco</code>=checkout）；<b>history</b> 查历史命令；<b>sudo</b> 连按两下 Esc 给上条命令加 sudo。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑥ 监控层 -->
+  <div class="layer">
+    <div class="layer-head"><span class="ln l-mon">06</span><h2>监控层 · Claude Code 状态栏</h2><span class="sub">不是终端插件，是 Claude Code 的</span></div>
+    <p class="layer-desc"><b>claude-hud</b> 装在 <b>Claude Code 里</b>、不是 zsh 插件，所以单独归到「监控层」。作用是在 Claude Code 底部状态栏显示模型、上下文占用、5 小时 / 7 天额度恢复时间、当前任务等。</p>
+    <div class="items">
+      <div class="item">
+        <div class="item-top"><span class="tool">claude-hud</span><span class="tag t-mon">CC 状态栏</span><span class="role">监控<b>模型 / 上下文占比 / 额度恢复时间 / 当前任务</b></span></div>
+        <div class="cmd"><code class="mono"><span class="cm"># 在 Claude Code 里输入斜杠命令</span><br>/plugin</code><button class="btn-copy" data-copy="/plugin">复制</button></div>
+        <div class="note">在 Claude Code 的 <code>/plugin</code> 插件市场里找到 <b>claude-hud</b> 安装，再把它设为 statusLine（我的 <code>~/.claude/settings.json</code> 里已配好命令）。它跟终端无关，属于 AI 工具层。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑦ 窗口管理 -->
+  <div class="layer">
+    <div class="layer-head"><span class="ln l-win">07</span><h2>窗口管理 · Ghostty 快捷键</h2><span class="sub">无需安装，写进 config 即用</span></div>
+    <p class="layer-desc">Ghostty 自带分屏 / 标签 / 下拉终端，<b>不需要 tmux</b>。下面这组快捷键写进 <code>~/.config/ghostty/config</code> 就能用。</p>
+    <div class="items">
+      <div class="item">
+        <div class="item-top"><span class="tool">分屏 / 标签 / 字号</span><span class="tag t-win">keybind</span><span class="role">一屏拆多块、多开标签、随手缩放</span></div>
+        <div class="cmd"><code class="mono"><span class="cm"># 节选，完整版见我的 config</span><br>keybind = cmd+u=new_split:right<br>keybind = cmd+shift+d=new_split:down<br>keybind = cmd+t=new_tab<br>keybind = cmd+shift+f=toggle_split_zoom</code><button class="btn-copy" data-copy="keybind = cmd+u=new_split:right
+keybind = cmd+shift+d=new_split:down
+keybind = cmd+t=new_tab
+keybind = cmd+w=close_surface
+keybind = cmd+shift+f=toggle_split_zoom
+keybind = cmd+plus=increase_font_size:1
+keybind = cmd+minus=decrease_font_size:1">复制</button></div>
+        <div class="note"><code>cmd+u</code> 右分屏、<code>cmd+shift+d</code> 下分屏、<code>cmd+shift+f</code> 把当前分屏临时放大到全窗口（再按还原）。</div>
+      </div>
+      <div class="item">
+        <div class="item-top"><span class="tool">Quick Terminal（下拉终端）</span><span class="tag t-win">全局热键</span><span class="role">任意 App 里按 <b>cmd+`</b> 从屏幕顶部滑下一块临时终端</span></div>
+        <div class="cmd"><code class="mono">keybind = global:cmd+backquote=toggle_quick_terminal<br>quick-terminal-position = top</code><button class="btn-copy" data-copy="keybind = global:cmd+backquote=toggle_quick_terminal
+quick-terminal-position = top
+quick-terminal-size = 100%
+quick-terminal-autohide = true">复制</button></div>
+        <div class="note">用 <code>global:</code> 前缀，所以不在 Ghostty 时也能呼出。随手敲个命令、关掉不打断手头的活。</div>
+      </div>
+    </div>
+  </div>
+
+  <footer>Ghostty 终端配置清单 · 配套《Ghostty 终端配置 — 归档总览课件》一起看</footer>
+</div>
+
+<script>
+document.querySelectorAll('.btn-copy').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const tgt=btn.getAttribute('data-copy-target');
+    const text=tgt?(document.getElementById(tgt)?.textContent||''):(btn.getAttribute('data-copy')||'');
+    navigator.clipboard.writeText(text).then(()=>{
+      const old=btn.textContent;
+      btn.textContent='✓ 已复制';btn.classList.add('ok');
+      setTimeout(()=>{btn.textContent=old;btn.classList.remove('ok');},1400);
+    });
+  });
+});
+</script>
+</body>
+</html>
