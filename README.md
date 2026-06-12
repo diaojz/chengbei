@@ -64,13 +64,14 @@
 
 - **计数**：四个页面（首页 + 三个课件页）`</body>` 前都挂了 `data-goatcounter` 脚本；SPA 文章路由（`#/p/slug`）由 `js/stats.js` 监听 hashchange 补计
 - **展示**：首页第一栏底部「总访问 / 今日」，数据来自公开 counter API（`/counter/TOTAL.json`），拿不到数据时整条自动隐藏
-- **看板**：https://chengbei.goatcounter.com （登录后可看路径/来源/地区/设备等完整维度）
+- **看板**：https://chengbei.goatcounter.com —— 已设为 **Anyone 公开**，访客点首页「统计 ↗」即可看路径/来源/地区/设备等完整维度
 
-一次性开通步骤（账号属于站长，只需做一次）：
+账号状态（2026-06-12 已全部开通，无需重复操作）：
 
-1. https://www.goatcounter.com/signup 注册，**code 必须填 `chengbei`**（决定子域名，代码里已写死）
-2. 后台 Settings → 勾选 **"Allow adding visitor counts on your website"**（开放 counter API，否则首页数字出不来）
-3. （可选）Settings → 把 dashboard 设为 public，访客也能点「统计 ↗」看完整数据
+- 账号：diaojz@126.com，code = `chengbei`（代码里写死的子域名），邮箱已验证
+- Settings 已勾选 "Allow adding visitor counts on your website"（counter API 开放，首页数字依赖它）
+- "Dashboard viewable by" = Anyone（公开看板）
+- ⚠️ 若以后换账号/改 code，需同步改 `js/stats.js` 的 `SITE` 常量和 4 个页面里的 `data-goatcounter` 地址
 
 ---
 
