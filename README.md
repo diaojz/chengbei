@@ -16,11 +16,11 @@
 
 | 项目 | 地址 | 说明 |
 |---|---|---|
-| Ghostty 终端配置 | /ghostty-terminal/ | 课件总览 · 站内独立页（`ghostty-terminal/index.html`）|
-| Ghostty 配置清单 | /ghostty-checklist/ | 照抄即用清单 · 站内独立页，与课件总览互链 |
-| mini-harness 代码精讲 | /mini-harness/ | Harness 是什么 · 三件套带可跑代码逐段精讲 |
-| 苹果开发者迁移指南 | /apple-dev-migration/ | 换电脑证书迁移 · 三条路线（流程图依赖站点共享 `/lib/mermaid.min.js`）|
-| 置身钉内 | /dingtalk-one/ | 钉钉 ONE 项目深度复盘 · 产品手记（流程图依赖站点共享 `/lib/mermaid.min.js`）|
+| 苹果开发者迁移指南 | /apple-dev-migration/ | 2026-06-12 · 换电脑证书迁移 · 三条路线（流程图依赖站点共享 `/lib/mermaid.min.js`）|
+| 置身钉内 | /dingtalk-one/ | 2026-06-10 · 钉钉 ONE 项目深度复盘 · 产品手记（流程图依赖共享 `/lib/`）|
+| Ghostty 终端配置 | /ghostty-terminal/ | 2026-06-04 · 课件总览 · 站内独立页 |
+| Ghostty 配置清单 | /ghostty-checklist/ | 2026-06-04 · 照抄即用清单 · 与课件总览互链 |
+| mini-harness 代码精讲 | /mini-harness/ | 2026-06-03 · Harness 是什么 · 三件套带可跑代码逐段精讲 |
 | App Store 上架 | https://news.diaoye.org | 完整上架资料站（Vercel · appstore-portal）|
 | cc-doctor | https://www.ccswitch.io | 一键拯救 Claude Code |
 | Balatro Web | https://diaojz.github.io/balatro-game/ | 8 轮课程演示（GitHub Pages）|
@@ -29,7 +29,9 @@
 
 加 / 删 / 调顺序 → 改 `js/i18n.js` 里 zh / en 两个 `artifacts` 数组（必须同步改两边，否则切语言后会看到不一致的列表）。
 
-**首页只展示前 5 条精选**（`artifacts` 数组顺序即策展顺序），其余收进全屏目录页 `#/all`（「全部作品 →」入口）——目录页自动列出 Ships 全量 + 全部文章（带日期），不需要单独维护。
+**首页只展示前 5 条**，其余收进全屏目录页 `#/all`（「全部作品 →」入口）——目录页自动列出 Ships 全量 + 全部文章（带日期），不需要单独维护。
+
+**排序规则：按创作日期倒排（最新在前），无日期的外链项目排在最后**——新文章上站时插到数组里对应日期位置即可。
 
 ### 把课件 HTML 集成上站的固定套路
 
