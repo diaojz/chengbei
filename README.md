@@ -35,7 +35,9 @@
 2. `<title>` 加 ` · 城北` 后缀，补 `meta description` + 四条 `og:` 标签（`og:url` 写最终地址）
 3. 加返回链接 `← 城北 · chengbei.org`（带投影模式的页面记得 `.projection .back-home{display:none}`）
 4. 全文检查并清掉「讲师」等字眼（站点身份是独立开发者）
-5. `js/i18n.js` zh / en 两个 `artifacts` 数组加入口 + 更新本 README 的 Ships 表
+5. hero 区加发布日期行 `发布于 YYYY-MM-DD`（上站当天，发布后不改）
+6. `</body>` 前加 GoatCounter 计数脚本（抄首页那行 `data-goatcounter`）
+7. `js/i18n.js` zh / en 两个 `artifacts` 数组加入口 + 更新本 README 的 Ships 表
 
 ---
 
@@ -51,6 +53,24 @@
 - **详情页路由**：Hash 路由 `#/p/<slug>`，由 `js/posts.js` 渲染（marked 按需从 CDN 加载）
 
 加一篇新随笔 = 写两个 md + 在 `index.json` 加一条（zh/en 标题都要填）。
+
+**发布日期纪律**：`index.json` 里的 `ts` 是文章的正式发布时间，**发布后永不修改**（修订正文可以，改 `ts` 不行）。详情页会显示「发布于 YYYY年M月D日」。不可篡改性由 git 公开历史背书——仓库 `github.com/diaojz/chengbei` 是公开的，任何对 `ts` 的改动都会留下带时间戳的 commit 记录，等于公开的审计链。
+
+---
+
+## 访问统计（GoatCounter）
+
+[GoatCounter](https://www.goatcounter.com)：开源、免费托管、无 Cookie（不用挂隐私横幅）。
+
+- **计数**：四个页面（首页 + 三个课件页）`</body>` 前都挂了 `data-goatcounter` 脚本；SPA 文章路由（`#/p/slug`）由 `js/stats.js` 监听 hashchange 补计
+- **展示**：首页第一栏底部「总访问 / 今日」，数据来自公开 counter API（`/counter/TOTAL.json`），拿不到数据时整条自动隐藏
+- **看板**：https://chengbei.goatcounter.com （登录后可看路径/来源/地区/设备等完整维度）
+
+一次性开通步骤（账号属于站长，只需做一次）：
+
+1. https://www.goatcounter.com/signup 注册，**code 必须填 `chengbei`**（决定子域名，代码里已写死）
+2. 后台 Settings → 勾选 **"Allow adding visitor counts on your website"**（开放 counter API，否则首页数字出不来）
+3. （可选）Settings → 把 dashboard 设为 public，访客也能点「统计 ↗」看完整数据
 
 ---
 
@@ -108,6 +128,7 @@ node -c js/themes.js
 node -c js/chaos.js
 node -c js/quiet.js
 node -c js/shaders.js
+node -c js/stats.js
 python3 -c "import json; json.load(open('content/data.json'))"
 python3 -c "import json; json.load(open('content/posts/index.json'))"
 ```

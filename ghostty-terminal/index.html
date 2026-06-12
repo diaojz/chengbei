@@ -181,6 +181,7 @@ html.projection{scroll-snap-type:y mandatory;scroll-behavior:smooth;}
     <div class="eyebrow">Terminal Setup · 归档总览</div>
     <h1>把黑窗口，<br>装成趁手的工作台<span class="dot"></span></h1>
     <p class="hero-desc">上一节我们选定了 <strong>Ghostty</strong>。这一节把我这台 Mac 上<strong>真实在跑</strong>的全套终端配置摊开，分成<strong>七层</strong>归好档——每一层解决一个具体痛点，层与层之间还互相搭台。看完你就知道：那份 <a href="/ghostty-checklist/" style="color:var(--orange);font-weight:600;">《配置清单》</a> 里每条命令，到底装的是什么、为什么要它。</p>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:.85rem;color:var(--text-dim);margin-top:16px;letter-spacing:.5px;">发布于 2026-06-12</div>
     <div class="hero-stats">
       <div class="hstat"><span class="n">7</span><span class="l">配置分层</span></div>
       <div class="hstat"><span class="n">12+</span><span class="l">工具模块</span></div>
@@ -394,5 +395,6 @@ const navTags=document.querySelectorAll('.nav-tag');
 const obs=new IntersectionObserver(es=>{es.forEach(en=>{if(en.isIntersecting){const id='#'+en.target.id;navTags.forEach(t=>{if(t.getAttribute('href')===id){navTags.forEach(x=>x.classList.remove('active'));t.classList.add('active');}});}});},{rootMargin:'-12% 0px -75% 0px'});
 document.querySelectorAll('[id^="sec-"]').forEach(s=>obs.observe(s));
 </script>
+<script data-goatcounter="https://chengbei.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
 </html>

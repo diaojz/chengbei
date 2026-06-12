@@ -136,9 +136,9 @@ async function showPost(slug) {
 
   const dt = new Date(post.ts);
   const lc = lang === 'zh' ? 'zh-CN' : 'en-GB';
-  view.querySelector('.post-meta').textContent = dt.toLocaleDateString(lc, {
-    year: 'numeric', month: 'short', day: 'numeric',
-  });
+  view.querySelector('.post-meta').textContent =
+    (lang === 'zh' ? '发布于 ' : 'Published ') +
+    dt.toLocaleDateString(lc, { year: 'numeric', month: 'short', day: 'numeric' });
 
   // 等够 MIN_LOADING, 让 loading 动画呼吸一下再切到内容
   const elapsed = Date.now() - t0;

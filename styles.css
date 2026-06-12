@@ -744,3 +744,17 @@ body.reading:not(.post-ready) .post-loading {
   .post-title { font-size: 24px; margin-bottom: 32px; }
   .post-close { top: 12px; right: 18px; }
 }
+
+/* ──────────────────────────────────────────────
+   访问统计（第一栏底部 · GoatCounter）
+   ────────────────────────────────────────────── */
+.visit-stats {
+  margin-top: 28px;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  color: var(--mid);
+}
+.visit-stats b { font-weight: 400; color: var(--text); }
+.visit-stats .stats-sep { margin: 0 6px; opacity: 0.5; }
+.visit-stats a { color: var(--mid); }
+.visit-stats a:hover { color: var(--text); }

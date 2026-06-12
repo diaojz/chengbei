@@ -90,6 +90,15 @@
         </div>
         <div class="section-title" data-i18n="social_title"></div>
         <div class="links" id="social-links"></div>
+
+        <!-- 访问统计（GoatCounter 公开 counter API，拿不到数据时整条隐藏） -->
+        <div class="visit-stats" id="visit-stats" hidden>
+          <span data-i18n="stats_total"></span> <b id="stat-total">–</b>
+          <span class="stats-sep">·</span>
+          <span data-i18n="stats_today"></span> <b id="stat-today">–</b>
+          <span class="stats-sep">·</span>
+          <a href="https://chengbei.goatcounter.com" target="_blank" rel="noopener" data-i18n="stats_link"></a>
+        </div>
       </div>
 
     </div>
@@ -134,5 +143,8 @@
   <script src="js/chaos.js"></script>
   <script type="module" src="js/shaders.js"></script>
   <script type="module" src="js/posts.js"></script>
+  <script src="js/stats.js"></script>
+  <!-- GoatCounter 访问计数（开源 · 无 Cookie） -->
+  <script data-goatcounter="https://chengbei.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
 </html>

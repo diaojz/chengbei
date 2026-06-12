@@ -12,6 +12,9 @@ window.I18N = {
     social_title: 'Social',
     motion_btn: '动效',
     quiet_btn: '安静',
+    stats_total: '总访问',
+    stats_today: '今日',
+    stats_link: '统计 ↗',
     read_more: '阅读全文 →',
     help: [
       { label: 'Claude 账号登录问题 · 完整解决方案', href: '#/p/claude-login-guide' },
@@ -64,6 +67,9 @@ window.I18N = {
     social_title: 'Social',
     motion_btn: 'motion',
     quiet_btn: 'quiet',
+    stats_total: 'views',
+    stats_today: 'today',
+    stats_link: 'stats ↗',
     read_more: 'Read more →',
     help: [
       { label: 'Claude account login · full guide', href: '#/p/claude-login-guide' },
