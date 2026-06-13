@@ -1,5 +1,14 @@
 [
   {
+    "slug": "model-shelf-life",
+    "ts": 1781424000000,
+    "category": "thought",
+    "title_zh": "模型也有保质期",
+    "title_en": "Models Have a Shelf Life Now",
+    "excerpt_zh": "Fable 5 上线时说「算在套餐里能用到 6 月 22 号」。我把它当宝贝，六个会话并排猛用，平时一周用不完的额度三天多榨干。结果它没到 22 号就提前下线了——模型不是软件，是生鲜，标签上的日期还是乐观估计。",
+    "excerpt_en": "Fable 5 showed up promising \"on your plan until June 22.\" I treated it like treasure — six sessions at once — and burned a week's quota in three days. Then it went offline before the 22nd. A model isn't software; it's fresh produce, and the date on the label is the optimistic one."
+  },
+  {
     "slug": "bar-moved",
     "ts": 1781078400000,
     "category": "thought",
