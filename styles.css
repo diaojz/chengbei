@@ -723,6 +723,22 @@ body.reading:not(.post-ready) .post-loading {
 .post-body h2 { font-size: 19px; }
 .post-body h3 { font-size: 16px; }
 .post-body p { margin: 0 0 18px; }
+.post-body img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 22px 0;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+}
+.post-body figure { margin: 22px 0; }
+.post-body figure img { margin: 0 0 8px; }
+.post-body figcaption {
+  font-size: 13px;
+  color: var(--mid);
+  text-align: center;
+  line-height: 1.5;
+}
 .post-body strong { color: var(--text); font-weight: 500; }
 .post-body em { color: var(--text); font-style: italic; }
 .post-body blockquote {

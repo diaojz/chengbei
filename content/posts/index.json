@@ -1,5 +1,14 @@
 [
   {
+    "slug": "fable-5-four-days",
+    "ts": 1781427600000,
+    "category": "thought",
+    "title_zh": "我把 Fable 5 用到提前下线",
+    "title_en": "I Used Fable 5 Until It Went Dark — Ahead of Schedule",
+    "excerpt_zh": "Fable 5 上线，说 22 号前算套餐额度。我订着最高档套餐、平时一周用不到六成，这次六个会话并排 + 多 agent 工作流往死里喂，三天多把周额度榨干。结果它没到 22 号就提前下线了。带截图的完整实录 + 一点想法：模型不是软件，是生鲜。",
+    "excerpt_en": "Fable 5 arrived, on-plan until the 22nd. I'm on the top tier and normally can't spend 60% of a week — this time I ran six sessions plus multi-agent workflows and drained the weekly quota in three days. Then it went offline before the 22nd. The full illustrated log, plus a thought: a model isn't software, it's fresh produce."
+  },
+  {
     "slug": "model-shelf-life",
     "ts": 1781424000000,
     "category": "thought",
