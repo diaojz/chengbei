@@ -1,5 +1,16 @@
 [
   {
+    "slug": "golden-mean-three-short",
+    "ts": 1781755200000,
+    "category": "thought",
+    "hidden": true,
+    "title_zh": "为什么巨头总是两三家？（精简版）",
+    "title_en": "Why Giants Come in Twos and Threes (Short)",
+    "excerpt_zh": "《三足何以鼎立》的 3000 字精简版：外卖、地图、可乐、运营商——几乎每个成熟行业背后都不多不少两到三家。三把钥匙（中庸 / 古诺均衡 / 进化论）+ 中国烟草「只有一家」的特例，快速读懂这条稳定律。",
+    "excerpt_en": "The 3000-word short version of 'Why Three Legs Stand': almost every mature industry stands on two or three giants. Three keys (the Golden Mean, Cournot equilibrium, evolution) plus China's single-firm tobacco monopoly — the stability law, fast.",
+    "_note_en": "en.md 暂为中文占位，待精翻"
+  },
+  {
     "slug": "golden-mean-three",
     "ts": 1781712000000,
     "category": "thought",
