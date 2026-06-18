@@ -1,5 +1,16 @@
 [
   {
+    "slug": "golden-mean-three",
+    "ts": 1781712000000,
+    "category": "thought",
+    "hidden": true,
+    "title_zh": "三足何以鼎立：从中庸之道看懂全世界的巨头格局",
+    "title_en": "Why Three Legs Stand: The Golden Mean Behind Every Market Duopoly",
+    "excerpt_zh": "外卖、地图、运营商、三桶油、可乐、Visa、安卓苹果——你接触的几乎每个成熟行业，背后都不多不少站着两到三个巨头。这不是巧合，而是同时被中国哲学（中庸）、西方经济学（古诺均衡）、进化论（自然选择）共同验证的稳定律。而中国烟草「只有一家」的特例，恰恰是这套理论最锋利的印证。",
+    "excerpt_en": "Food delivery, maps, telecom, oil, cola, Visa, iOS vs Android — almost every mature industry you touch is backed by exactly two or three giants. Not coincidence, but a law of stability verified at once by Chinese philosophy (the Golden Mean), Western economics (Cournot equilibrium), and evolution. And China's single-firm tobacco monopoly is its sharpest proof.",
+    "_note_en": "en.md 暂为中文占位，待精翻"
+  },
+  {
     "slug": "fable-5-four-days",
     "ts": 1781427600000,
     "category": "thought",
@@ -7,15 +18,6 @@
     "title_en": "I Used Fable 5 Until It Went Dark — Ahead of Schedule",
     "excerpt_zh": "Fable 5 上线，说 22 号前算套餐额度。我订着最高档套餐、平时一周用不到六成，这次六个会话并排 + 多 agent 工作流往死里喂，三天多把周额度榨干。结果它没到 22 号就提前下线了。带截图的完整实录 + 一点想法：模型不是软件，是生鲜。",
     "excerpt_en": "Fable 5 arrived, on-plan until the 22nd. I'm on the top tier and normally can't spend 60% of a week — this time I ran six sessions plus multi-agent workflows and drained the weekly quota in three days. Then it went offline before the 22nd. The full illustrated log, plus a thought: a model isn't software, it's fresh produce."
-  },
-  {
-    "slug": "model-shelf-life",
-    "ts": 1781424000000,
-    "category": "thought",
-    "title_zh": "模型也有保质期",
-    "title_en": "Models Have a Shelf Life Now",
-    "excerpt_zh": "Fable 5 上线时说「算在套餐里能用到 6 月 22 号」。我把它当宝贝，六个会话并排猛用，平时一周用不完的额度三天多榨干。结果它没到 22 号就提前下线了——模型不是软件，是生鲜，标签上的日期还是乐观估计。",
-    "excerpt_en": "Fable 5 showed up promising \"on your plan until June 22.\" I treated it like treasure — six sessions at once — and burned a week's quota in three days. Then it went offline before the 22nd. A model isn't software; it's fresh produce, and the date on the label is the optimistic one."
   },
   {
     "slug": "bar-moved",

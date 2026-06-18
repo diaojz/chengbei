@@ -2,6 +2,12 @@
   "thoughts": [
     {
       "type": "thought",
+      "ts": 1781712000000,
+      "text_zh": "盘一盘你今天用过的东西：外卖在美团和饿了么里选，导航在高德和百度间切，手机不是苹果就是安卓，加油进的是三桶油。\n\n几乎每个成熟行业，背后都不多不少站着「两到三家」。不是一家独大，也不是百家争鸣，偏偏停在二到三。\n\n这个数字像有引力。我去翻了翻它的来历，结果发现三套八竿子打不着的学问——中国的中庸、西方的古诺均衡、达尔文的进化论——竟然指向同一个答案：这是一个被反复验证的「最稳结构」。\n\n而「中国烟草只有一家」这个看似的反例，恰恰是这套道理最锋利的印证。\n\n写成了一篇长文，放在左边 Writing 里。",
+      "text_en": "A quick inventory of your day: food delivery is Meituan or Ele.me, maps are Amap or Baidu, your phone is iOS or Android, fuel comes from the three oil giants.\n\nAlmost every mature industry stands on exactly two or three players — not one monopoly, not a hundred flowers, but stubbornly two-to-three.\n\nThe number has a gravity to it. Digging into why, I found three unrelated bodies of thought — the Chinese Golden Mean, Cournot equilibrium, Darwinian selection — all pointing at the same answer: this is a repeatedly-verified 'most stable structure.'\n\nAnd China's single-firm tobacco monopoly, the apparent counterexample, turns out to be its sharpest proof.\n\nWrote it up — the long piece is under Writing on the left."
+    },
+    {
+      "type": "thought",
       "ts": 1779760800000,
       "text_zh": "网站搭起来了。\n\n后面我想把这里当成自己的「数字花园」—— 记一些做 AI 课程时的观察，写一些独立开发路上的小笔记，发一些觉得值得留下来的截图。\n\n更新频率不打算定，写到哪算哪。",
       "text_en": "The site is up.\n\nI'd like to treat this place as my digital garden — notes from teaching AI courses, scraps from the indie hacker road, and screenshots worth keeping.\n\nNo posting schedule. Whenever I feel like it."
@@ -9,29 +15,36 @@
   ],
   "images": [
     {
-      "url": "https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=1200&q=80&auto=format&fit=crop",
+      "url": "assets/img/gallery/night.png",
       "ts": 1779717600000,
       "caption_zh": "深夜 · 银河流星",
       "caption_en": "Night · meteor through the milky way"
     },
     {
-      "url": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1200&q=80&auto=format&fit=crop",
+      "url": "assets/img/gallery/summer.png",
       "ts": 1779609600000,
       "caption_zh": "晚夏 · 林间斜光",
       "caption_en": "Late summer · light through the woods"
     },
     {
-      "url": "https://images.unsplash.com/photo-1428592953211-077101b2021b?w=1200&q=80&auto=format&fit=crop",
+      "url": "assets/img/gallery/rain.png",
       "ts": 1779516000000,
       "caption_zh": "雨天 · 雨落成纹",
       "caption_en": "Rain · ripples on dark water"
     },
     {
-      "url": "https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?w=1200&q=80&auto=format&fit=crop",
+      "url": "assets/img/gallery/snow.png",
       "ts": 1779411600000,
       "caption_zh": "白昼 · 雪线之上",
       "caption_en": "Dawn · above the snowline"
     }
   ],
-  "writing": []
+  "writing": [
+    {
+      "title_zh": "三足何以鼎立：从中庸之道看懂全世界的巨头格局",
+      "title_en": "Why Three Legs Stand: The Golden Mean Behind Every Market Duopoly",
+      "url": "#/p/golden-mean-three",
+      "ts": 1781712000000
+    }
+  ]
 }

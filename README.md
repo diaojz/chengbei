@@ -21,11 +21,10 @@
 | Ghostty 终端配置 | /ghostty-terminal/ | 2026-06-04 · 课件总览 · 站内独立页 |
 | Ghostty 配置清单 | /ghostty-checklist/ | 2026-06-04 · 照抄即用清单 · 与课件总览互链 |
 | mini-harness 代码精讲 | /mini-harness/ | 2026-06-03 · Harness 是什么 · 三件套带可跑代码逐段精讲 |
-| App Store 上架 | https://news.diaoye.org | 完整上架资料站（Vercel · appstore-portal）|
-| cc-doctor | https://www.ccswitch.io | 一键拯救 Claude Code |
+| AI 情报站 | https://news.diaoye.org | 每日 AI 大事件 · Top 10 情报站（Vercel · daily-claude-news）|
+| cc-doctor | https://github.com/diaojz/cc-doctor | 一键拯救 Claude Code（fork 自 farion1231/cc-switch）|
 | Balatro Web | https://diaojz.github.io/balatro-game/ | 8 轮课程演示（GitHub Pages）|
 | Typevoise | https://github.com/diaojz/Typevoise | macOS 语音输入 App |
-| Vibe Coding Survey | https://vibe-coding-survey.vercel.app | 调研问卷 |
 
 加 / 删 / 调顺序 → 改 `js/i18n.js` 里 zh / en 两个 `artifacts` 数组（必须同步改两边，否则切语言后会看到不一致的列表）。
 

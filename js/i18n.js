@@ -31,11 +31,10 @@ window.I18N = {
       { label: 'Ghostty 终端配置 · 课件总览', href: '/ghostty-terminal/', date: '2026-06-04' },
       { label: 'Ghostty 配置清单 · 照抄即用', href: '/ghostty-checklist/', date: '2026-06-04' },
       { label: 'mini-harness · Harness 代码精讲', href: '/mini-harness/', date: '2026-06-03' },
-      { label: 'App Store · 上架完整指南', href: 'https://news.diaoye.org' },
-      { label: 'cc-doctor · 一键拯救 Claude Code', href: 'https://www.ccswitch.io' },
+      { label: 'AI 情报站 · 每日 AI 大事件', href: 'https://news.diaoye.org' },
+      { label: 'cc-doctor · 一键拯救 Claude Code', href: 'https://github.com/diaojz/cc-doctor' },
       { label: 'Balatro Web · 8 轮课程演示', href: 'https://diaojz.github.io/balatro-game/' },
-      { label: 'Typevoise · macOS 语音输入', href: 'https://github.com/diaojz/Typevoise' },
-      { label: 'Vibe Coding Survey · 调研问卷', href: 'https://vibe-coding-survey.vercel.app' }
+      { label: 'Typevoise · macOS 语音输入', href: 'https://github.com/diaojz/Typevoise' }
     ],
     howto:
       '<div class="entry-text">' +
@@ -94,11 +93,10 @@ window.I18N = {
       { label: 'Ghostty Terminal Setup · course deck', href: '/ghostty-terminal/', date: '2026-06-04' },
       { label: 'Ghostty Setup Checklist · copy & run', href: '/ghostty-checklist/', date: '2026-06-04' },
       { label: 'mini-harness · code deep-dive', href: '/mini-harness/', date: '2026-06-03' },
-      { label: 'App Store · launch guide', href: 'https://news.diaoye.org' },
-      { label: 'cc-doctor · one-click Claude Code fix', href: 'https://www.ccswitch.io' },
+      { label: 'AI Daily · top AI news', href: 'https://news.diaoye.org' },
+      { label: 'cc-doctor · one-click Claude Code fix', href: 'https://github.com/diaojz/cc-doctor' },
       { label: 'Balatro Web · 8-lesson course demo', href: 'https://diaojz.github.io/balatro-game/' },
-      { label: 'Typevoise · macOS voice input', href: 'https://github.com/diaojz/Typevoise' },
-      { label: 'Vibe Coding Survey', href: 'https://vibe-coding-survey.vercel.app' }
+      { label: 'Typevoise · macOS voice input', href: 'https://github.com/diaojz/Typevoise' }
     ],
     howto:
       '<div class="entry-text">' +

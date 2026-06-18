@@ -18,6 +18,8 @@ html, body { overflow-x: hidden; }
   --text: #b4b4b4;
   --mid:  #404040;
   --line: #181818;
+  --read: #cdcdcd;          /* 文章正文专属：比 --text 更亮，长文久读不累 */
+  --read-soft: #8a8a8a;     /* 引用 / 图注 / 元信息 */
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 }
@@ -81,6 +83,8 @@ body.rain {
   --text: #1a1a1a;
   --mid:  #70787f;
   --line: #bcc1c7;
+  --read: #15191e;
+  --read-soft: #4c545c;
 }
 body.rain .logo            { filter: none; }
 body.rain a                { text-decoration-color: #a0a8b0; }
@@ -96,6 +100,8 @@ body.light {
   --text: #1a1a1a;
   --mid:  #888;
   --line: #d8d5cf;
+  --read: #2a2620;          /* 暖深灰，比纯黑柔和护眼 */
+  --read-soft: #7a7268;
 }
 body.light .logo            { filter: none; }
 body.light a                { text-decoration-color: #b0b0b0; }
@@ -335,30 +341,42 @@ a:hover { color: #e0e0e0; text-decoration-color: #606060; }
 }
 
 /* ── Col 3 · 编辑式照片日志（photo journal）──
-   编号图说 + 奇偶交错宽度 + hairline 边框 + 悬停微缩放
-   图片铺满栏宽（栏比例 1.5fr 控制整体大小，不单独限宽避免右侧死空白） */
+   编号图说 + hairline 边框 + 悬停微缩放
+   图片统一满宽，整齐画廊感（图均为同比例同调性的成组作品，不再做奇偶交错） */
 #col-images { counter-reset: photo; }
 #col-images .entry { margin-bottom: 44px; }
-/* 偶数条目缩窄右靠，制造编辑排版的节奏感 */
-#col-images .entry:nth-of-type(even) { width: 84%; margin-left: auto; }
+#col-images .entry { width: 100%; }
 
 #col-images .entry > .img-wrap,
 #col-images .gallery-slide .img-wrap {
   overflow: hidden;
   border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: 0 10px 32px -18px rgba(0,0,0,0.5);   /* 轻投影，画廊浮起一点层次 */
+  transition: box-shadow 280ms var(--ease-out);
+}
+#col-images .entry > .img-wrap:hover {
+  box-shadow: 0 16px 44px -16px rgba(0,0,0,0.6);
 }
 /* 悬停：图片缓慢微放大（shader 同时淡出，露出彩色原图） */
 #col-images .img-wrap .entry-img { transition: transform 900ms var(--ease-out); }
-#col-images .img-wrap:hover .entry-img { transform: scale(1.03); }
+#col-images .img-wrap:hover .entry-img { transform: scale(1.04); }
 
-/* 图说：编号 + 文字，摄影书图版式 */
-#col-images .entry-caption { margin-top: 10px; font-size: 12px; }
+/* 图说：编号 + 文字，摄影书图版式（编号用等宽体，呼应 logo） */
+#col-images .entry-caption {
+  margin-top: 12px;
+  font-size: 12px;
+  color: var(--read-soft);
+  letter-spacing: 0.02em;
+}
 #col-images .entry-caption::before {
   counter-increment: photo;
   content: counter(photo, decimal-leading-zero);
-  color: var(--mid);
+  font-family: 'Fragment Mono', monospace;
+  color: var(--read-soft);
   font-size: 11px;
   margin-right: 10px;
+  opacity: 0.7;
 }
 /* aspect-ratio 设在 img 本身：img 元素进 DOM 浏览器立刻知道它是 3:2，
    不依赖 parent 尺寸计算，避免布局跳动 */
@@ -630,10 +648,10 @@ html.quiet .img-wrap::after { display: none !important; }
   background: var(--bg);
   overflow-y: auto;
   z-index: 100;
-  padding: 96px 32px 120px;
-  font-size: 16px;
-  line-height: 1.85;
-  color: var(--text);
+  padding: 96px 32px 160px;
+  font-size: 17.5px;
+  line-height: 1.95;
+  color: var(--read);
   opacity: 0;
   pointer-events: none;
   transition: opacity 320ms var(--ease-out);
@@ -646,7 +664,7 @@ body.reading #post-view {
 body.reading .page > .col { display: none; }
 
 .post-container {
-  max-width: 680px;
+  max-width: 768px;
   margin: 0 auto;
   opacity: 0;
   transform: translateY(8px);
@@ -700,53 +718,140 @@ body.reading:not(.post-ready) .post-loading {
 .post-close:hover { color: var(--text); }
 .post-meta {
   font-size: 12px;
-  color: var(--mid);
-  margin-bottom: 14px;
+  color: var(--read-soft);
+  margin-bottom: 16px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
+/* 标题用衬线宋体（思源宋体）——主流内容站（纽约客 / 苹果 newsroom / Medium）的共同基因，
+   与黑体正文拉开层次，质感立现 */
 .post-title {
-  font-size: 28px;
-  font-weight: 500;
-  margin: 0 0 40px;
+  font-family: 'Noto Serif SC', Georgia, serif;
+  font-size: 38px;
+  font-weight: 700;
+  margin: 0 0 8px;
   color: var(--text);
-  line-height: 1.35;
+  line-height: 1.28;
+  letter-spacing: 0.01em;
+}
+/* 标题与正文之间的细分隔，给标题一个收束 */
+.post-title + .post-body { margin-top: 28px; }
+
+/* 正文：思源黑体，舒展行高，主流长文经典节奏 */
+.post-body {
+  font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif;
+  font-size: 18px;
+  line-height: 1.92;
   letter-spacing: 0.01em;
 }
 .post-body h1, .post-body h2, .post-body h3 {
-  font-weight: 500;
+  font-family: 'Noto Serif SC', Georgia, serif;
+  font-weight: 600;
   color: var(--text);
-  margin: 42px 0 14px;
-  line-height: 1.45;
+  margin: 2.6em 0 0.7em;
+  line-height: 1.42;
+  letter-spacing: 0.01em;
 }
-.post-body h1 { font-size: 22px; }
-.post-body h2 { font-size: 19px; }
-.post-body h3 { font-size: 16px; }
-.post-body p { margin: 0 0 18px; }
+.post-body h1 { font-size: 27px; }
+.post-body h2 {
+  font-size: 23px;
+  padding-top: 0.9em;
+  border-top: 1px solid var(--line);   /* 二级标题加细分隔线，长文分章更清晰 */
+}
+.post-body h2:first-child { border-top: none; padding-top: 0; }
+.post-body h3 { font-size: 19px; }
+.post-body p { margin: 0 0 1.5em; }
+.post-body > :first-child { margin-top: 0; }
+
+/* 首段引言（紧跟标题的 blockquote）做成杂志 lead：更大、衬线、无边框，像导语 */
+.post-body > blockquote:first-child {
+  font-family: 'Noto Serif SC', Georgia, serif;
+  font-size: 20px;
+  line-height: 1.78;
+  font-weight: 400;
+  color: var(--read);
+  border-left: none;
+  padding: 0;
+  margin: 0 0 2.2em;
+  position: relative;
+}
+.post-body > blockquote:first-child::before {
+  content: '';
+  display: block;
+  width: 44px;
+  height: 3px;
+  background: var(--text);
+  margin-bottom: 1.1em;
+  opacity: 0.85;
+}
+
 .post-body img {
   display: block;
   width: 100%;
   height: auto;
-  margin: 22px 0;
-  border-radius: 8px;
+  margin: 0;
+  border-radius: 12px;
   border: 1px solid var(--line);
+  box-shadow: 0 12px 40px -16px rgba(0,0,0,0.45);   /* 配图轻投影，浮起一点层次 */
 }
-.post-body figure { margin: 22px 0; }
-.post-body figure img { margin: 0 0 8px; }
+.post-body figure { margin: 2.8em 0; }
+.post-body figure img { margin: 0 0 14px; }
 .post-body figcaption {
-  font-size: 13px;
-  color: var(--mid);
+  font-size: 13.5px;
+  color: var(--read-soft);
   text-align: center;
-  line-height: 1.5;
+  line-height: 1.65;
+  letter-spacing: 0.01em;
+  max-width: 90%;
+  margin: 0 auto;
 }
-.post-body strong { color: var(--text); font-weight: 500; }
+.post-body strong { color: var(--text); font-weight: 700; }
 .post-body em { color: var(--text); font-style: italic; }
+
+/* 正文中段引用：左线 + 轻底色块，区别于首段 lead */
 .post-body blockquote {
-  border-left: 2px solid var(--mid);
-  padding-left: 18px;
-  margin: 22px 0;
-  color: var(--mid);
+  border-left: 3px solid var(--text);
+  padding: 0.9em 0 0.9em 22px;
+  margin: 2em 0;
+  color: var(--read);
+  font-style: normal;
 }
+.post-body blockquote p:last-child { margin-bottom: 0; }
+.post-body ul, .post-body ol {
+  margin: 0 0 1.5em;
+  padding-left: 1.4em;
+}
+.post-body li { margin: 0 0 0.6em; }
+.post-body hr {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin: 3em 0;
+}
+/* 表格：长文里关键的可读性补丁（原来完全没样式，挤成一团） */
+.post-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2.4em 0;
+  font-size: 15.5px;
+  line-height: 1.62;
+}
+.post-body thead th {
+  text-align: left;
+  font-weight: 600;
+  color: var(--text);
+  padding: 12px 16px;
+  border-bottom: 2px solid var(--text);
+  vertical-align: bottom;
+}
+.post-body tbody td {
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+  color: var(--read);
+}
+.post-body tbody tr:last-child td { border-bottom: none; }
+/* 首列（常是「场景 / 维度」标签）加重，方便横向扫读 */
+.post-body tbody td:first-child { color: var(--text); font-weight: 500; white-space: nowrap; }
 .post-body code {
   font-family: 'Fragment Mono', monospace;
   background: var(--line);
