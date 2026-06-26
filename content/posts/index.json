@@ -1,5 +1,15 @@
 [
   {
+    "slug": "agent-orchestration-death-valley",
+    "ts": 1782403200000,
+    "category": "thought",
+    "title_zh": "你的 Agent demo 很惊艳，一上线就拉胯",
+    "title_en": "Your Agent Demo Dazzles. Production Falls Flat.",
+    "excerpt_zh": "有 PM 问我智能体编排怎么落地，说主流是 LangGraph、Dify、Coze。我先泼冷水：这三个根本不在一个赛道。从「编排到底是什么」讲到「90% 的 Agent 为什么死在 demo 到生产之间」，再到三层分类、可控性光谱、中国合规两道坎、和一张能直接用的选型表——附 2026-06-26 当天实查的 GitHub star 数。",
+    "excerpt_en": "A PM asked me how to deploy agent orchestration, naming LangGraph, Dify, Coze as the mainstream. My first reaction: these three are not even in the same race. From what orchestration actually is, to why 90% of agents die between demo and production, to the three-tier map, the control-vs-autonomy spectrum, China's two compliance walls, and a selection table you can use today — with GitHub stars verified live on 2026-06-26.",
+    "_note_en": "en.md 暂为中文占位，待精翻"
+  },
+  {
     "slug": "golden-mean-three-short",
     "ts": 1781755200000,
     "category": "thought",
