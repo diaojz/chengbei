@@ -1,5 +1,25 @@
 [
   {
+    "slug": "tokens-2026-06",
+    "ts": 1783296000000,
+    "category": "thought",
+    "title_zh": "一个月，106 亿 token",
+    "title_en": "One Month, 10.6 Billion Tokens",
+    "excerpt_zh": "把 6 月的 Claude Code 账单拉出来一看：106 亿 token，相当于一万遍《红楼梦》。但先别惊叹——95% 是缓存读取的「注水」，真正的干货是 3,224 万输出，约 240 本长篇小说的体量。这份按模型上色的日历还会讲故事：Fable 5 疯狂的四天、没有缓存的 GPT-5.5 有多贵、以及看 token 账单只需要盯的三个数。附全月交互报告。",
+    "excerpt_en": "I pulled my June Claude Code bill: 10.6 billion tokens — ten thousand readings of a classic novel. But hold the awe: 95% is cache reads. The real output is 32M tokens, roughly 240 novels' worth. The model-colored calendar tells stories too: Fable 5's wild four days, how expensive a cache-less world is, and the only three numbers worth reading on a token bill. Interactive report included.",
+    "_note_en": "en.md 暂为中文占位，待精翻"
+  },
+  {
+    "slug": "feishu-claude-code-bridge",
+    "ts": 1782864000000,
+    "category": "help",
+    "title_zh": "让 Claude Code 接入飞书：人不在电脑前，也能用飞书遥控它持续干活",
+    "title_en": "Drive Claude Code From Feishu: Keep It Working While You Are Away",
+    "excerpt_zh": "用飞书消息驱动本机已登录的 Claude Code：在任意项目里发任务、实时看进度、多轮续接，它遇到要决策的地方就问你、你回一句它接着干。走订阅不花 API 钱，长连接不要公网。含飞书自建应用逐步配置、那个折腾很久的「私聊死活不回」权限坑，以及完整可复制代码。",
+    "excerpt_en": "Drive your locally logged-in Claude Code from Feishu: send tasks in any project, watch progress live, resume across turns; it asks you when it needs a decision and continues once you reply. Runs on your subscription (no API cost), long-connection needs no public IP. Includes step-by-step Feishu app setup, the p2p-permission gotcha that cost me hours, and full copy-paste code.",
+    "_note_en": "en.md 暂为中文占位，待精翻"
+  },
+  {
     "slug": "agent-orchestration-death-valley",
     "ts": 1782403200000,
     "category": "thought",

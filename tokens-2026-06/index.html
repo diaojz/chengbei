@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code Token 用量 · 2026 年 6 月 · 城北</title>
+<meta name="description" content="一个人 + 一个 CLI，一个月 106.1 亿 tokens：按日按模型的完整用量报告。95.1% 是缓存读取，真正输出 3,224 万——交互图表 + 全月逐日明细表。">
+<meta property="og:title" content="Claude Code Token 用量 · 2026 年 6 月">
+<meta property="og:description" content="一个月 106.1 亿 tokens 都花哪儿了：按模型堆叠的每日用量、输出量、缓存命中率，全月逐日明细。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chengbei.org/tokens-2026-06/">
+<style>
+  :root {
+    --page: #f9f9f7;
+    --surface: #fcfcfb;
+    --ink-1: #0b0b0b;
+    --ink-2: #52514e;
+    --ink-3: #898781;
+    --grid: #e1e0d9;
+    --baseline: #c3c2b7;
+    --ring: rgba(11,11,11,0.10);
+    --s-opus: #2a78d6;
+    --s-fable: #1baf7a;
+    --s-gpt: #eda100;
+    --s-sonnet: #008300;
+    --s-haiku: #4a3aa7;
+    --tooltip-bg: #ffffff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --page: #0d0d0d;
+      --surface: #1a1a19;
+      --ink-1: #ffffff;
+      --ink-2: #c3c2b7;
+      --ink-3: #898781;
+      --grid: #2c2c2a;
+      --baseline: #383835;
+      --ring: rgba(255,255,255,0.10);
+      --s-opus: #3987e5;
+      --s-fable: #199e70;
+      --s-gpt: #c98500;
+      --s-sonnet: #008300;
+      --s-haiku: #9085e9;
+      --tooltip-bg: #242423;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--page);
+    color: var(--ink-1);
+    font-family: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 28px 24px 64px; }
+
+  .back-home {
+    display: inline-block;
+    color: var(--ink-3);
+    text-decoration: none;
+    font-size: 0.85rem;
+    margin-bottom: 24px;
+  }
+  .back-home:hover { color: var(--ink-1); }
+
+  header h1 {
+    font-size: 1.5rem;
+    font-weight: 650;
+    margin: 0 0 4px;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+  header p { margin: 0; color: var(--ink-2); font-size: 0.9rem; }
+  header .pub { margin-top: 6px; color: var(--ink-3); font-size: 0.8rem; }
+  header .pub a { color: inherit; }
+
+  .tiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin: 28px 0 20px;
+  }
+  .tile {
+    background: var(--surface);
+    border: 1px solid var(--ring);
+    border-radius: 10px;
+    padding: 16px 18px;
+  }
+  .tile .label {
+    font-size: 0.72rem;
+    color: var(--ink-3);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 6px;
+  }
+  .tile .value { font-size: 1.65rem; font-weight: 650; letter-spacing: -0.01em; }
+  .tile .value small { font-size: 0.95rem; font-weight: 500; color: var(--ink-2); margin-left: 2px; }
+  .tile .sub { font-size: 0.78rem; color: var(--ink-2); margin-top: 4px; }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--ring);
+    border-radius: 10px;
+    padding: 20px 22px 16px;
+    margin-bottom: 20px;
+  }
+  .card h2 { font-size: 1.02rem; font-weight: 650; margin: 0 0 2px; }
+  .card .desc { font-size: 0.82rem; color: var(--ink-2); margin: 0 0 14px; }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 12px; }
+  .legend .item { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--ink-2); }
+  .legend .chip { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+
+  .chart-box { position: relative; }
+  .chart-box svg { display: block; width: 100%; height: auto; }
+
+  .tooltip {
+    position: absolute;
+    pointer-events: none;
+    background: var(--tooltip-bg);
+    border: 1px solid var(--ring);
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.14);
+    padding: 10px 12px;
+    font-size: 0.78rem;
+    min-width: 190px;
+    opacity: 0;
+    transition: opacity 0.1s;
+    z-index: 5;
+  }
+  @media (prefers-reduced-motion: reduce) { .tooltip { transition: none; } }
+  .tooltip .t-date { font-weight: 650; margin-bottom: 6px; }
+  .tooltip .t-row { display: flex; align-items: center; gap: 6px; margin-top: 3px; color: var(--ink-2); }
+  .tooltip .t-row .chip { width: 8px; height: 8px; border-radius: 2px; flex: none; }
+  .tooltip .t-row .num { margin-left: auto; font-variant-numeric: tabular-nums; color: var(--ink-1); }
+  .tooltip .t-total { border-top: 1px solid var(--grid); margin-top: 6px; padding-top: 6px; font-weight: 650; display: flex; }
+  .tooltip .t-total .num { margin-left: auto; font-variant-numeric: tabular-nums; }
+
+  .note {
+    font-size: 0.8rem;
+    color: var(--ink-2);
+    border-left: 3px solid var(--s-gpt);
+    padding: 2px 0 2px 12px;
+    margin: 14px 0 4px;
+  }
+
+  .table-scroll { overflow-x: auto; }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 0.8rem;
+    min-width: 640px;
+  }
+  th, td { padding: 7px 12px; text-align: right; white-space: nowrap; }
+  th:first-child, td:first-child { text-align: left; }
+  thead th {
+    color: var(--ink-3);
+    font-weight: 550;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--baseline);
+  }
+  tbody td { border-bottom: 1px solid var(--grid); font-variant-numeric: tabular-nums; }
+  tbody tr:last-child td { border-bottom: none; }
+  tfoot td {
+    border-top: 1px solid var(--baseline);
+    font-weight: 650;
+    font-variant-numeric: tabular-nums;
+  }
+  td.models { color: var(--ink-2); text-align: left; }
+
+  footer { margin-top: 24px; font-size: 0.75rem; color: var(--ink-3); }
+  footer a { color: inherit; }
+
+  .bar-hit { fill: transparent; }
+  .bar-hit:focus { outline: none; }
+  .bar-hit:focus-visible { stroke: var(--ink-1); stroke-width: 1.5; stroke-dasharray: 3 2; }
+
+  svg text { font-family: inherit; }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <a class="back-home" href="/">← 城北 · chengbei.org</a>
+  <header>
+    <h1>Claude Code Token 用量 · 2026 年 6 月</h1>
+    <p>数据来源：本机 <code>~/.claude/projects</code> 会话记录（ccusage 统计）· 订阅计费，不产生 API 费用 · 6 月 1–3 日无使用记录</p>
+    <p class="pub">发布于 2026-07-06 · 配套文章：<a href="/#/p/tokens-2026-06">《一个月，106 亿 token》</a></p>
+  </header>
+
+  <div class="tiles">
+    <div class="tile">
+      <div class="label">全月总 Token</div>
+      <div class="value">106.1<small>亿</small></div>
+      <div class="sub">10,612,811,804</div>
+    </div>
+    <div class="tile">
+      <div class="label">输出 Token</div>
+      <div class="value">3,224<small>万</small></div>
+      <div class="sub">模型实际生成的内容量</div>
+    </div>
+    <div class="tile">
+      <div class="label">缓存读取占比</div>
+      <div class="value">95.1<small>%</small></div>
+      <div class="sub">100.9 亿来自 prompt cache 命中</div>
+    </div>
+    <div class="tile">
+      <div class="label">峰值日</div>
+      <div class="value">6/29</div>
+      <div class="sub">单日 8.20 亿 tokens</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>每日总量 · 按模型堆叠</h2>
+    <p class="desc">单位：亿 tokens（含输入、输出、缓存写、缓存读）。悬停查看当日各模型明细。</p>
+    <div class="legend" id="legend1"></div>
+    <div class="chart-box" id="chart1">
+      <div class="tooltip" id="tip1"></div>
+    </div>
+    <p class="note">6 月 8–9 日的黄色部分来自 gpt-5.5（第三方网关会话）：2.28 亿输入且几乎无缓存写入，计量口径与 Anthropic 订阅会话不同，对比时可单独看待。</p>
+  </div>
+
+  <div class="card">
+    <h2>每日输出 Token</h2>
+    <p class="desc">单位：万 tokens。输出量最能反映模型当天实际产出了多少内容，不受缓存读取放大影响。</p>
+    <div class="chart-box" id="chart2">
+      <div class="tooltip" id="tip2"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>每日明细</h2>
+    <p class="desc">全部为 token 数。缓存读 = prompt cache 命中量，在订阅额度中的权重远低于原始输入。</p>
+    <div class="table-scroll">
+      <table id="dataTable">
+        <thead>
+          <tr>
+            <th>日期</th><th>输入</th><th>输出</th><th>缓存写</th><th>缓存读</th><th>当日总量</th><th>使用模型</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+        <tfoot></tfoot>
+      </table>
+    </div>
+  </div>
+
+  <footer>统计区间 2026-06-01 ~ 2026-06-30 · 生成于 2026-07-06 · 工具：ccusage monthly/daily · <a href="/">chengbei.org</a> · 2026-07-06</footer>
+</div>
+
+<script>
+// ---- 数据（ccusage daily，2026-06）----
+// 每条: [日, input, output, cacheWrite, cacheRead, {模型: 该模型四项合计}]
+const DAYS = [
+  [4,  368235,    398860,  2697515,  43619457,   {opus:43518613, sonnet:3565454}],
+  [5,  405518,   1967062,  9533103,  541171490,  {opus:521737757, sonnet:29062565, haiku:2276851}],
+  [6,  210513,    542228,  3749118,  126967095,  {opus:129275434, sonnet:1249900, haiku:943620}],
+  [7,  1723,      36069,   688554,   11947530,   {opus:12673876}],
+  [8,  152611064, 640401,  0,        29093376,   {gpt:182344841}],
+  [9,  75897299,  1725796, 3148420,  184522885,  {gpt:97063417, opus:154151293, haiku:1943306, sonnet:12136384}],
+  [10, 2425495,   1396921, 13436235, 348550774,  {opus:121444203, fable:240154174, sonnet:4211048}],
+  [11, 2125561,   1692419, 15260126, 435731686,  {fable:354637574, opus:72008078, sonnet:27041668, haiku:1122472}],
+  [12, 1842258,   1016365, 11614774, 260878002,  {fable:260193072, opus:267430, haiku:1934113, sonnet:12956784}],
+  [13, 250381,    140313,  1521283,  24811236,   {fable:25905472, opus:817741}],
+  [14, 190578,    1014610, 3039219,  71378847,   {opus:75623254}],
+  [15, 1763635,   2059112, 11110984, 483539316,  {opus:495300745, haiku:3172302}],
+  [16, 313745,    898569,  5169690,  318648514,  {opus:315927952, haiku:1634304, sonnet:7468262}],
+  [17, 600521,    1369935, 5050342,  644607093,  {opus:641279700, haiku:4172536, sonnet:6175655}],
+  [18, 798778,    1342720, 7818043,  551661036,  {opus:551396880, sonnet:10223697}],
+  [19, 1681796,   1502402, 12713062, 568710150,  {opus:565608878, sonnet:12671977, haiku:6326555}],
+  [20, 905179,    810569,  6604992,  297603461,  {opus:295944652, sonnet:6353682, haiku:3625867}],
+  [21, 211352,    399643,  4222239,  178850334,  {opus:182218285, haiku:373052, sonnet:1092231}],
+  [22, 679941,    1812860, 10660461, 629888334,  {opus:629443178, haiku:2105132, sonnet:11493286}],
+  [23, 809635,    1416248, 9523678,  498923564,  {opus:509634196, haiku:1038929}],
+  [24, 1569563,   1499688, 11220020, 563796810,  {opus:576257208, haiku:1828873}],
+  [25, 856456,    1494674, 7806630,  625356993,  {opus:630445042, haiku:5069711}],
+  [26, 4924218,   1877776, 23506832, 686460200,  {opus:704888010, haiku:11881016}],
+  [27, 556071,    1088267, 6854744,  359559810,  {opus:364360609, sonnet:3437744, haiku:260539}],
+  [28, 690470,    1203482, 8332110,  352005157,  {opus:350969791, sonnet:10376088, haiku:885340}],
+  [29, 3893641,   1727014, 24116924, 789764643,  {opus:779784510, haiku:6018865, sonnet:33698847}],
+  [30, 1309816,   1169694, 10946797, 464280977,  {opus:455370873, haiku:3931933, sonnet:18404478}],
+];
+
+const MODELS = [
+  { key: 'opus',   name: 'Opus 4.8',   cssVar: '--s-opus' },
+  { key: 'fable',  name: 'Fable 5',    cssVar: '--s-fable' },
+  { key: 'gpt',    name: 'GPT-5.5',    cssVar: '--s-gpt' },
+  { key: 'sonnet', name: 'Sonnet 4.6', cssVar: '--s-sonnet' },
+  { key: 'haiku',  name: 'Haiku 4.5',  cssVar: '--s-haiku' },
+];
+
+const YI = 1e8, WAN = 1e4;
+const fmtYi = v => v >= 0.01 * YI
+  ? (v / YI).toFixed(2).replace(/\.?0+$/, '') + ' 亿'
+  : Math.round(v / WAN).toLocaleString('en-US') + ' 万';
+const fmtWan = v => Math.round(v / WAN).toLocaleString('en-US') + ' 万';
+const fmtInt = v => v.toLocaleString('en-US');
+const dayTotal = d => d[1] + d[2] + d[3] + d[4];
+
+// ---- 图例 ----
+const legendEl = document.getElementById('legend1');
+for (const m of MODELS) {
+  const item = document.createElement('span');
+  item.className = 'item';
+  item.innerHTML = `<span class="chip" style="background:var(${m.cssVar})"></span>${m.name}`;
+  legendEl.appendChild(item);
+}
+
+// ---- 通用图表几何 ----
+const NS = 'http://www.w3.org/2000/svg';
+function el(tag, attrs) {
+  const node = document.createElementNS(NS, tag);
+  for (const k in attrs) node.setAttribute(k, attrs[k]);
+  return node;
+}
+
+function buildChart({ container, tipId, height, maxVal, unitDiv, unitLabel, yTicks, drawBars, tipHtml }) {
+  const W = 1000, H = height, padL = 46, padR = 8, padT = 12, padB = 26;
+  const plotW = W - padL - padR, plotH = H - padT - padB;
+  const svg = el('svg', { viewBox: `0 0 ${W} ${H}`, role: 'img' });
+  const nDays = 30;
+  const slot = plotW / nDays;
+  const barW = Math.min(22, slot * 0.62);
+  const x = day => padL + (day - 1) * slot + (slot - barW) / 2;
+  const y = v => padT + plotH * (1 - v / maxVal);
+
+  // 网格 + Y 轴刻度
+  for (const t of yTicks) {
+    const gy = y(t * unitDiv);
+    svg.appendChild(el('line', { x1: padL, x2: W - padR, y1: gy, y2: gy, stroke: 'var(--grid)', 'stroke-width': 1 }));
+    const label = el('text', { x: padL - 8, y: gy + 4, 'text-anchor': 'end', 'font-size': 11, fill: 'var(--ink-3)' });
+    label.textContent = t;
+    svg.appendChild(label);
+  }
+  // 基线
+  svg.appendChild(el('line', { x1: padL, x2: W - padR, y1: padT + plotH, y2: padT + plotH, stroke: 'var(--baseline)', 'stroke-width': 1 }));
+  // 单位标注
+  const unit = el('text', { x: padL - 8, y: padT - 1, 'text-anchor': 'end', 'font-size': 10, fill: 'var(--ink-3)' });
+  unit.textContent = unitLabel;
+  svg.appendChild(unit);
+  // X 轴日期标签
+  for (let d = 1; d <= nDays; d++) {
+    const lx = padL + (d - 1) * slot + slot / 2;
+    const label = el('text', { x: lx, y: H - 8, 'text-anchor': 'middle', 'font-size': 10, fill: 'var(--ink-3)' });
+    label.textContent = d;
+    svg.appendChild(label);
+  }
+
+  drawBars(svg, { x, y, barW, plotH, padT });
+
+  // 悬停命中层 + tooltip
+  const box = document.getElementById(container);
+  const tip = document.getElementById(tipId);
+  for (const d of DAYS) {
+    const day = d[0];
+    const hit = el('rect', {
+      class: 'bar-hit', x: padL + (day - 1) * slot, y: padT,
+      width: slot, height: plotH, tabindex: 0,
+    });
+    const show = () => {
+      tip.innerHTML = tipHtml(d);
+      tip.style.opacity = 1;
+      const rect = box.getBoundingClientRect();
+      const cx = (padL + (day - 1) * slot + slot / 2) / W * rect.width;
+      const tw = tip.offsetWidth;
+      let left = cx - tw / 2;
+      left = Math.max(4, Math.min(left, rect.width - tw - 4));
+      tip.style.left = left + 'px';
+      tip.style.top = '-6px';
+      tip.style.transform = 'translateY(-100%)';
+    };
+    const hide = () => { tip.style.opacity = 0; };
+    hit.addEventListener('mouseenter', show);
+    hit.addEventListener('mouseleave', hide);
+    hit.addEventListener('focus', show);
+    hit.addEventListener('blur', hide);
+    svg.appendChild(hit);
+  }
+  box.appendChild(svg);
+}
+
+// ---- 图 1：每日总量按模型堆叠 ----
+buildChart({
+  container: 'chart1', tipId: 'tip1', height: 340,
+  maxVal: 8.5 * YI, unitDiv: YI, unitLabel: '亿',
+  yTicks: [0, 2, 4, 6, 8],
+  drawBars(svg, { x, y, barW, plotH, padT }) {
+    const GAP = 2;
+    for (const d of DAYS) {
+      const day = d[0], byModel = d[5];
+      let cursor = padT + plotH;
+      const segs = MODELS.filter(m => byModel[m.key]);
+      segs.forEach((m, i) => {
+        const v = byModel[m.key];
+        const hPx = (v / (8.5 * YI)) * plotH;
+        const isTop = i === segs.length - 1;
+        let top = cursor - hPx;
+        let hDraw = hPx - (i > 0 ? GAP : 0);
+        let yDraw = top + (i > 0 ? GAP : 0);
+        if (hDraw < 0.5) { hDraw = Math.max(hDraw, 0.5); yDraw = cursor - hDraw; }
+        const r = isTop ? 4 : 0;
+        if (r > 0 && hDraw > r) {
+          const bx = x(day), w = barW;
+          const path = `M ${bx} ${yDraw + hDraw} L ${bx} ${yDraw + r} Q ${bx} ${yDraw} ${bx + r} ${yDraw} L ${bx + w - r} ${yDraw} Q ${bx + w} ${yDraw} ${bx + w} ${yDraw + r} L ${bx + w} ${yDraw + hDraw} Z`;
+          svg.appendChild(el('path', { d: path, fill: `var(${m.cssVar})` }));
+        } else {
+          svg.appendChild(el('rect', { x: x(day), y: yDraw, width: barW, height: hDraw, fill: `var(${m.cssVar})` }));
+        }
+        cursor = top;
+      });
+    }
+  },
+  tipHtml(d) {
+    const byModel = d[5];
+    let rows = '';
+    for (const m of MODELS) {
+      if (!byModel[m.key]) continue;
+      rows += `<div class="t-row"><span class="chip" style="background:var(${m.cssVar})"></span>${m.name}<span class="num">${fmtYi(byModel[m.key])}</span></div>`;
+    }
+    return `<div class="t-date">6 月 ${d[0]} 日</div>${rows}
+      <div class="t-total">当日总量<span class="num">${fmtYi(dayTotal(d))}</span></div>`;
+  },
+});
+
+// ---- 图 2：每日输出 token ----
+buildChart({
+  container: 'chart2', tipId: 'tip2', height: 260,
+  maxVal: 220 * WAN, unitDiv: WAN, unitLabel: '万',
+  yTicks: [0, 50, 100, 150, 200],
+  drawBars(svg, { x, y, barW, plotH, padT }) {
+    for (const d of DAYS) {
+      const v = d[2];
+      const hPx = (v / (220 * WAN)) * plotH;
+      const yTop = padT + plotH - hPx;
+      const bx = x(d[0]), r = Math.min(4, hPx);
+      const path = `M ${bx} ${padT + plotH} L ${bx} ${yTop + r} Q ${bx} ${yTop} ${bx + r} ${yTop} L ${bx + barW - r} ${yTop} Q ${bx + barW} ${yTop} ${bx + barW} ${yTop + r} L ${bx + barW} ${padT + plotH} Z`;
+      svg.appendChild(el('path', { d: path, fill: 'var(--s-opus)' }));
+    }
+  },
+  tipHtml(d) {
+    return `<div class="t-date">6 月 ${d[0]} 日</div>
+      <div class="t-row">输出 token<span class="num">${fmtInt(d[2])}</span></div>
+      <div class="t-total">≈<span class="num">${fmtWan(d[2])}</span></div>`;
+  },
+});
+
+// ---- 明细表 ----
+const MODEL_NAMES = { opus: 'Opus', fable: 'Fable', gpt: 'GPT-5.5', sonnet: 'Sonnet', haiku: 'Haiku' };
+const tbody = document.querySelector('#dataTable tbody');
+let sums = [0, 0, 0, 0, 0];
+for (const d of DAYS) {
+  const tr = document.createElement('tr');
+  const models = MODELS.filter(m => d[5][m.key]).map(m => MODEL_NAMES[m.key]).join(' + ');
+  const total = dayTotal(d);
+  sums[0] += d[1]; sums[1] += d[2]; sums[2] += d[3]; sums[3] += d[4]; sums[4] += total;
+  tr.innerHTML = `<td>6-${String(d[0]).padStart(2, '0')}</td>
+    <td>${fmtInt(d[1])}</td><td>${fmtInt(d[2])}</td><td>${fmtInt(d[3])}</td>
+    <td>${fmtInt(d[4])}</td><td>${fmtInt(total)}</td><td class="models">${models}</td>`;
+  tbody.appendChild(tr);
+}
+const tfoot = document.querySelector('#dataTable tfoot');
+tfoot.innerHTML = `<tr><td>合计</td><td>${fmtInt(sums[0])}</td><td>${fmtInt(sums[1])}</td>
+  <td>${fmtInt(sums[2])}</td><td>${fmtInt(sums[3])}</td><td>${fmtInt(sums[4])}</td><td></td></tr>`;
+</script>
+<script data-goatcounter="https://chengbei.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>
