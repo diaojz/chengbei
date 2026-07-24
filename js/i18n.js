@@ -26,6 +26,7 @@ window.I18N = {
     ],
     artifacts: [
       // 按创作日期倒排（最新在前）；无日期的外链项目排在最后
+      { label: '裁判模型准确率提升清单 · 88%→90%', href: '/judge-accuracy/', date: '2026-07-24' },
       { label: '换电脑 · 苹果开发者账号迁移指南', href: '/apple-dev-migration/', date: '2026-06-12' },
       { label: '置身钉内 · 钉钉 ONE 复盘', href: '/dingtalk-one/', date: '2026-06-10' },
       { label: 'Ghostty 终端配置 · 课件总览', href: '/ghostty-terminal/', date: '2026-06-04' },
@@ -88,6 +89,7 @@ window.I18N = {
     ],
     artifacts: [
       // Sorted by creation date, newest first; dateless external items last
+      { label: 'LLM-Judge Accuracy Playbook · 88%→90%', href: '/judge-accuracy/', date: '2026-07-24' },
       { label: 'Apple Dev Migration · new Mac guide', href: '/apple-dev-migration/', date: '2026-06-12' },
       { label: 'Inside DingTalk · ONE postmortem', href: '/dingtalk-one/', date: '2026-06-10' },
       { label: 'Ghostty Terminal Setup · course deck', href: '/ghostty-terminal/', date: '2026-06-04' },

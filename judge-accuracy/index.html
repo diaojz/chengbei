@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<!-- diao-ppt · 文章式滚动页｜裁判模型准确率提升清单 88%→90% -->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>裁判模型准确率提升清单 · 88%→90% · 城北</title>
+<meta name="description" content="用视频模型给 caption 质检，裁判环节准确率怎么从 88% 提到 90%？不训练模型、纯推理期优化，按性价比排的 8 条方法 + 执行顺序。含「70 条抽样测不出 2 个点」等实测坑。">
+<meta property="og:title" content="裁判模型准确率提升清单 · 88%→90%">
+<meta property="og:description" content="不训练模型、纯 System Prompt + 工程优化，按投入产出比从高到低排的 8 条提升方法，附推荐执行顺序。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chengbei.org/judge-accuracy/">
+<style>
+  :root{
+    --bg:#ece7de; --card:#fbf9f5; --ink:#2b2723; --muted:#6f675d;
+    --line:#e0d8cb; --accent:#c2541f; --accent-soft:#f4e3d5;
+    --green:#3f7d54; --green-soft:#e4efe4; --amber:#b6862a; --amber-soft:#f6ecd2;
+    --shadow:0 1px 2px rgba(60,45,30,.06),0 8px 24px rgba(60,45,30,.06);
+    --serif:"Songti SC","STSong",Georgia,"Times New Roman",serif;
+    --sans:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,system-ui,sans-serif;
+    --mono:"JetBrains Mono","SF Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.7;
+    -webkit-font-smoothing:antialiased;padding:0 20px 90px}
+  .wrap{max-width:880px;margin:0 auto}
+
+  /* topnav / 返回链接 */
+  .topnav{max-width:880px;margin:0 auto;padding:20px 0 4px}
+  .topnav a.brand{font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:.5px;
+    color:var(--muted);text-decoration:none;transition:color .2s}
+  .topnav a.brand:hover{color:var(--accent)}
+
+  header{margin:26px 0 40px}
+  .kicker{display:inline-block;font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--accent);background:var(--accent-soft);padding:5px 12px;border-radius:20px;font-weight:600}
+  h1{font-family:var(--serif);font-size:40px;line-height:1.2;margin:18px 0 12px;font-weight:700;letter-spacing:.01em}
+  .lede{font-size:16px;color:var(--muted);max-width:640px}
+  .pubdate{font-family:var(--mono);font-size:13px;color:var(--muted);margin-top:14px;letter-spacing:.5px}
+  .meta-row{margin-top:22px;display:flex;gap:10px;flex-wrap:wrap}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 18px;box-shadow:var(--shadow)}
+  .stat b{font-family:var(--serif);font-size:26px;display:block;line-height:1}
+  .stat span{font-size:12px;color:var(--muted)}
+
+  .note{background:#fff;border-left:3px solid var(--accent);border-radius:0 12px 12px 0;
+    padding:14px 18px;margin:26px 0;font-size:14.5px;color:#514a41;box-shadow:var(--shadow)}
+  .note b{color:var(--accent)}
+
+  h2.section{font-family:var(--serif);font-size:15px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--muted);margin:44px 0 18px;font-weight:600;border-bottom:1px solid var(--line);padding-bottom:8px}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px 26px;
+    margin-bottom:18px;box-shadow:var(--shadow);position:relative}
+  .card-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
+  .rank{font-family:var(--serif);font-size:34px;font-weight:700;color:var(--accent);line-height:1;flex:none;width:44px}
+  .card h3{font-size:19px;font-weight:700;letter-spacing:.01em}
+  .tags{margin:10px 0 14px 58px;display:flex;gap:8px;flex-wrap:wrap}
+  .tag{font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:14px;letter-spacing:.02em}
+  .t-fast{background:var(--green-soft);color:var(--green)}
+  .t-mid{background:var(--amber-soft);color:var(--amber)}
+  .t-pay-hi{background:var(--accent-soft);color:var(--accent)}
+  .t-pay-mid{background:#eee6da;color:var(--muted)}
+  .card .body{margin-left:58px;font-size:15px}
+  .card .body p{margin-bottom:10px}
+  .card .body .why{color:var(--muted);font-size:14px}
+  .card .body .do{background:#fff;border:1px dashed var(--line);border-radius:10px;padding:10px 14px;
+    font-size:13.5px;margin-top:10px}
+  .card .body .do b{color:var(--accent)}
+  code{background:#efe9df;padding:1px 6px;border-radius:5px;font-family:var(--mono);font-size:13px}
+
+  .warn{border-color:#d9a441;background:linear-gradient(180deg,#fdf6e6,#fbf9f5)}
+  .warn .rank{color:var(--amber)}
+
+  .flow{background:#2b2723;color:#f0ebe3;border-radius:18px;padding:26px 28px;margin-top:14px;box-shadow:var(--shadow)}
+  .flow h3{font-family:var(--serif);color:#f0ebe3;font-size:18px;margin-bottom:16px}
+  .flow ol{list-style:none;counter-reset:step}
+  .flow li{counter-increment:step;padding:9px 0 9px 44px;position:relative;font-size:14.5px;border-bottom:1px solid #3d3830}
+  .flow li:last-child{border-bottom:none}
+  .flow li::before{content:counter(step);position:absolute;left:0;top:8px;width:28px;height:28px;
+    background:var(--accent);color:#fff;border-radius:8px;display:grid;place-items:center;font-weight:700;font-size:14px}
+  .flow li b{color:#f7c9a8}
+  .flow .divider{color:#8a8175;font-size:12px;letter-spacing:.1em;padding:12px 0 4px;border:none}
+  .flow .divider::before{display:none}
+
+  footer{margin-top:40px;font-size:12.5px;color:var(--muted);text-align:center;line-height:1.8}
+
+  .cb-watermark{position:fixed;left:18px;bottom:14px;z-index:300;font-family:var(--mono);
+    font-size:.8rem;font-weight:600;letter-spacing:.5px;color:var(--muted);opacity:.5;pointer-events:none}
+
+  @media (max-width:600px){
+    h1{font-size:30px}
+    .rank{width:34px;font-size:26px}
+    .tags,.card .body{margin-left:0}
+    .card-head{gap:10px}
+    .cb-watermark{display:none}
+  }
+</style>
+</head>
+<body>
+
+<nav class="topnav"><a class="brand" href="/">← 城北 · chengbei.org</a></nav>
+
+<div class="wrap">
+
+<header>
+  <span class="kicker">裁判模型 · 准确率优化清单</span>
+  <h1>从 88% 到 90% 的提升方法</h1>
+  <p class="lede">面向「视频模型做 caption 质检」的裁判环节。前提锁定：<b>不训练模型、纯推理期优化（System Prompt + 工程链路）、内部提效工具</b>。以下方法按投入产出比从高到低排序 —— 先做前四条，多半在触碰模型能力之前就能拿到大部分收益。</p>
+  <div class="pubdate">发布于 2026-07-24</div>
+  <div class="meta-row">
+    <div class="stat"><b>734</b><span>全量测试集</span></div>
+    <div class="stat"><b>~88</b><span>当前判错样本(12%)</span></div>
+    <div class="stat"><b>+15</b><span>达到90%需修好的条数</span></div>
+    <div class="stat"><b>0/1</b><span>对齐标准答案算准确率</span></div>
+  </div>
+</header>
+
+<div class="note">
+  <b>一句话原则贯穿全篇：</b>控制单一变量。每次只改一处，跑完立刻能判断这一改动是有效、无效、还是有害。同时改多处，结果好坏都无从归因，方向就会乱。
+</div>
+
+<!-- ============ 第一梯队 ============ -->
+<h2 class="section">第一梯队 · 分钟到小时级，先做</h2>
+
+<div class="card">
+  <div class="card-head"><div class="rank">1</div><h3>把 temperature 降到 0</h3></div>
+  <div class="tags">
+    <span class="tag t-fast">成本 · 分钟级</span>
+    <span class="tag t-pay-hi">收益 · 可能白送 1–2 点</span>
+  </div>
+  <div class="body">
+    <p>先确认裁判模型的采样温度。若 &gt; 0，降到 0 再跑。</p>
+    <p class="why">温度 &gt; 0 时同一条样本每次判定可能不同，本身就在贡献随机错误；降到 0 后结果可复现，后续所有实验才有干净的对照基准。这是所有其他优化的前提，不做这一步，后面每一轮都在跟噪声较劲。</p>
+    <div class="do"><b>动作：</b>查配置里的 temperature / top_p，能降 0 就降，重跑一次全量，记下新基线。若已是 0 却仍每轮波动，说明是模型固有非确定性 —— 那第 2 条的多轮分析才真正有意义。</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-head"><div class="rank">2</div><h3>建「稳定错误集 + 保护集」双集评测，替代全量跑</h3></div>
+  <div class="tags">
+    <span class="tag t-fast">成本 · 半天(一次性)</span>
+    <span class="tag t-pay-hi">收益 · 迭代提速一个量级</span>
+  </div>
+  <div class="body">
+    <p>用同一套 prompt 把 12% 错误样本<b>连跑 5 轮</b>，切成两部分：每轮都错的<b>稳定错误集</b>（约 5%、35–40 条），和时错时对的<b>波动集</b>。再从做对的 88% 里<b>分层抽样</b> 150–200 条作为<b>保护集</b>。</p>
+    <p class="why">此后每轮迭代只跑这约 200 条，<b>2–4 分钟</b>出结果，而非全量 20 分钟。指标也换成更灵敏的两个：开发集<b>修好几条</b>（基线 0%，改好 8 条就是实打实 8 条，无噪声）、保护集<b>掉了几条</b>（基线近 100%，掉 3 条立刻可见）。只有开发集真涨、保护集没掉，才跑一次 734 全量做最终确认。</p>
+    <div class="do"><b>⚠ 别用「随机抽 70 条估准确率」：</b>要测的是 2 个百分点(≈15 条)，70 条样本的 95% 置信区间约 <code>±7.6%</code> —— 真值 88% 能测出 92%，真值 90% 能测出 84%，根本分不清「生效」还是「运气好」。加速要靠<b>换灵敏指标（数条数）</b>，不是靠缩小样本估百分比。</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-head"><div class="rank">3</div><h3>对稳定错误集做错误归因分类</h3></div>
+  <div class="tags">
+    <span class="tag t-fast">成本 · 半天</span>
+    <span class="tag t-pay-hi">收益 · 决定后续方向</span>
+  </div>
+  <div class="body">
+    <p>把稳定错误的每一条按两个维度归类：<b>方向</b>（假阳=该判不可用却判可用 / 假阴=反之）+ <b>根因</b>。根因通常落在这三类：</p>
+    <p class="why">
+    ① <b>判定标准理解不一致</b>（漏个次要细节算不算错、数量说错算不算、语义等价但措辞不同算不算）—— prompt 问题；<br>
+    ② <b>视觉没看清 / 被被测 caption 带偏（锚定偏差）</b> —— 链路问题；<br>
+    ③ <b>逻辑对齐失误</b>（看清了、标准也懂，但比对时判断出错）—— prompt / 拆链路都能治。</p>
+    <div class="do"><b>为什么排在改 prompt 之前：</b>根因决定药方。若大头是①，拆链路纯浪费；若大头是②，才该拆链路。<b>先定位病因，再动手，别在没归因时闷头改。</b>这一步的产出同时是后面 few-shot 和 AI 改写的原料来源。</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-head"><div class="rank">4</div><h3>版本管理 + 实验记录机制</h3></div>
+  <div class="tags">
+    <span class="tag t-fast">成本 · 几分钟</span>
+    <span class="tag t-pay-hi">收益 · 保住每一分提升不丢失</span>
+  </div>
+  <div class="body">
+    <p>每个 prompt 版本存独立文件，配一行记录：<code>版本号 | 改了哪一条 | 开发集分 | 保护集分 | 全量分</code>。</p>
+    <p class="why">「改完反而下降、想退回上一版」是常态。光复制粘贴能退回文件，却退不回「当时那版跑了多少分」—— 于是你永远说不清到底哪一改动带来了那 1.2 个点。有了这份记录，任何时候都能精准回滚到最优版本。</p>
+    <div class="do"><b>动作：</b>建个 <code>prompt_v1 / v2 …</code> 目录 + 一张 CSV/表格，每跑一版补一行。成本几分钟，是整个迭代的安全绳。</div>
+  </div>
+</div>
+
+<!-- ============ 第二梯队 ============ -->
+<h2 class="section">第二梯队 · 有了前四条的产出后再做</h2>
+
+<div class="card">
+  <div class="card-head"><div class="rank">5</div><h3>用稳定错误集重做 few-shot（替换无效示例）</h3></div>
+  <div class="tags">
+    <span class="tag t-mid">成本 · 小时级</span>
+    <span class="tag t-pay-hi">收益 · 中高</span>
+  </div>
+  <div class="body">
+    <p>「删掉现有 few-shot 后准确率没变」证明的是<b>当前这批 few-shot 无效</b>，不是 few-shot 手段无效。原因通常是：这些例子举的是模型<b>本来就判得对</b>的场景。</p>
+    <p class="why">真正该进 few-shot 的，是模型<b>稳定判错</b>的那类（正好来自第 2 步的稳定错误集）—— 那才是它确实不会的东西。原则不变：few-shot 只放<b>项目独有、非通识</b>的内容，通识（「北京是中国首都」这类）模型预训练早就会，写进去等于噪声。</p>
+    <div class="do"><b>动作：</b>从稳定错误集挑最典型的几条(每类根因 1–2 条)做成 few-shot，替换旧的。一次只加/换一条，跑保护集看有没有伤及原本做对的样本。</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-head"><div class="rank">6</div><h3>让 AI 反向优化 System Prompt</h3></div>
+  <div class="tags">
+    <span class="tag t-mid">成本 · 小时级</span>
+    <span class="tag t-pay-mid">收益 · 中</span>
+  </div>
+  <div class="body">
+    <p>把稳定错误集打包（<code>视频/标准答案 + 被测caption + 裁判判定 + 正确判定 + 人工归因</code>）丢给一个强 LLM，让它诊断规律、提出 system prompt 修改建议。prompt 不必人肉逐字写。</p>
+    <p class="why">AI 擅长从一批错例里归纳共性并转成规则表述，比人凭感觉改更系统。但它一次会给一堆建议 —— 必须约束。</p>
+    <div class="do"><b>铁律：要求它一次只提一条修改</b>，你改一条、跑一次、记一次。否则单一变量原则当场破功，改完好坏都无从归因。</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-head"><div class="rank">7</div><h3>对齐「有错误就不可用」的判定边界</h3></div>
+  <div class="tags">
+    <span class="tag t-mid">成本 · 需和标注方对齐</span>
+    <span class="tag t-pay-hi">收益 · 可能是真正的天花板</span>
+  </div>
+  <div class="body">
+    <p>若第 3 步归因发现大量错误集中在①「标准理解不一致」，那准确率上不去的根子不在模型能力，而在<b>判定标准本身没有成文、粒度模糊</b>。</p>
+    <p class="why">漏一个次要细节算不算错？说「两个人」实际三个人算不算错？措辞不同但语义等价算不算错？只要这些边界没定义清楚，人和模型、甚至标注员之间都会不一致 —— 这种分歧无论怎么改 prompt 都消不掉。</p>
+    <div class="do"><b>动作：</b>把判定细则写成明确条款(带正反例)，先塞进 system prompt，再拿去和标注方核对标准答案本身是否自洽。这一步常常比改措辞更能拉分。</div>
+  </div>
+</div>
+
+<!-- ============ 第三梯队 ============ -->
+<h2 class="section">第三梯队 · 只在归因支持时才动</h2>
+
+<div class="card warn">
+  <div class="card-head"><div class="rank">8</div><h3>链路拆分：视频解析 与 LLM 判分 分离</h3></div>
+  <div class="tags">
+    <span class="tag t-mid">成本 · 改代码 · 数天</span>
+    <span class="tag t-pay-mid">收益 · 视错因而定，可能为零</span>
+  </div>
+  <div class="body">
+    <p>把裁判的两件事拆开：视频模型<b>只看视频出结构化描述</b>（且不喂被测 caption，避免锚定偏差），再由一个纯文本 LLM 比对「独立描述 vs 标准答案 vs 被测 caption」做逻辑判定。</p>
+    <p class="why">拆链路真正能治的是<b>锚定偏差</b>（裁判带着被测 caption 去看视频，注意力被牵着走）和<b>不可归因</b>（一步出 0/1，分不清错在看不清还是判不准）。但若第 3 步归因显示错误大头是「标准理解不一致」，拆链路一点用没有。</p>
+    <div class="do"><b>⚠ 两个前置条件缺一不可：</b>① 第 3 步归因确认错因偏向②/③（视觉/逻辑），才值得投入。② 防新坑：裁判独立看视频可能漏掉某细节，下游 LLM 会误判成「被测说错了」，把假阴变假阳 —— 必须让视频侧输出<b>结构化、高召回</b>的细粒度描述而非自由文风一段话。<b>先做数据筛选，再决定要不要拆 —— 顺序反了，拆完错误分布重洗，前面的分析全作废，要做两遍。</b></div>
+  </div>
+</div>
+
+<!-- ============ 执行顺序 ============ -->
+<h2 class="section">推荐执行顺序</h2>
+<div class="flow">
+  <h3>先筛数据、再动 prompt、最后才考虑拆链路</h3>
+  <ol>
+    <li><b>确认并降 temperature</b> 到 0，重设基线（分钟级）</li>
+    <li><b>12% 错误样本跑 5 轮</b>，切出稳定错误集 / 波动集</li>
+    <li><b>稳定错误集做人工归因</b>：假阳/假阴 + 三类根因，找 bad case 共性</li>
+    <li><b>建保护集</b>（分层抽 150–200）+ <b>实验记录机制</b></li>
+    <li class="divider">──── 到这里才有依据决定下面走哪条 ────</li>
+    <li>错因偏「标准理解」→ 走 <b>PE 迭代</b>（重做 few-shot / AI 反向改写 / 对齐判定细则）</li>
+    <li>错因偏「视觉·锚定」→ 才考虑 <b>链路拆分</b>，并防「漏细节变假阳」的新坑</li>
+    <li>候选版本在<b>开发集涨 + 保护集不掉</b>，再跑一次 <b>734 全量</b>确认收官</li>
+  </ol>
+</div>
+
+<footer>
+  前提：不训练模型 · 纯推理期优化(System Prompt + 工程链路) · 内部提效工具<br>
+  核心方法论：控制单一变量 · 倒推定位问题 · 小集快迭代 + 全量收官验证
+</footer>
+
+</div>
+
+<div class="cb-watermark">chengbei.org · 2026-07-24</div>
+<script data-goatcounter="https://chengbei.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>
