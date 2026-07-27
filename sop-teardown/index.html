@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<!-- diao-ppt · 文章式滚动页｜手工短视频 SOP 拆解 · 哪些判据跨形态通用 -->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>别人的手工 SOP，哪几条能搬进自动化流水线 · 城北</title>
+<meta name="description" content="一份「真人录屏 + 口播」赛道的短视频 SOP，六步 20 页。我在做 AI 视频自动化生产，工具层跟它零重叠，但它把「好」量化成了可检查的硬判据——12 条发布检查清单、每 3 秒必变、剪气口提速。哪些判据脱离工具依然成立？">
+<meta property="og:title" content="别人的手工 SOP，哪几条能搬进自动化流水线">
+<meta property="og:description" content="手工短视频 SOP 的逐页拆解：它的工具全都用不上，但它的内容判据几乎全部通用。附 12 条发布检查清单与「哪几条能交给程序判」。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chengbei.org/sop-teardown/">
+<style>
+  :root{
+    --bg:#ece7de; --card:#fbf9f5; --card-alt:#f4f0e8; --ink:#2b2723; --muted:#6f675d;
+    --line:#e0d8cb; --accent:#c2541f; --accent-soft:#f4e3d5;
+    --green:#3f7d54; --green-soft:#e4efe4; --amber:#b6862a; --amber-soft:#f6ecd2;
+    --blue:#2f6699; --blue-soft:#e0eaf3; --purple:#6f4a9c; --purple-soft:#eae2f4;
+    --red:#a8394a; --red-soft:#f6e0e3;
+    --shadow:0 1px 2px rgba(60,45,30,.06),0 8px 24px rgba(60,45,30,.06);
+    --serif:"Songti SC","STSong",Georgia,"Times New Roman",serif;
+    --sans:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,system-ui,sans-serif;
+    --mono:"JetBrains Mono","SF Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.7;
+    -webkit-font-smoothing:antialiased;padding:0 20px 90px}
+  .wrap{max-width:880px;margin:0 auto}
+
+  .topnav{max-width:880px;margin:0 auto;padding:20px 0 4px}
+  .topnav a.brand{font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:.5px;
+    color:var(--muted);text-decoration:none;transition:color .2s}
+  .topnav a.brand:hover{color:var(--accent)}
+
+  header{margin:26px 0 40px}
+  .kicker{display:inline-block;font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--accent);background:var(--accent-soft);padding:5px 12px;border-radius:20px;font-weight:600}
+  h1{font-family:var(--serif);font-size:40px;line-height:1.24;margin:18px 0 12px;font-weight:700;letter-spacing:.01em}
+  .lede{font-size:16px;color:var(--muted);max-width:680px}
+  .lede b{color:var(--ink);font-weight:600}
+  .pubdate{font-family:var(--mono);font-size:13px;color:var(--muted);margin-top:14px;letter-spacing:.5px}
+  .meta-row{margin-top:22px;display:flex;gap:10px;flex-wrap:wrap}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 16px;
+    display:flex;flex-direction:column;gap:2px;box-shadow:var(--shadow)}
+  .stat b{font-family:var(--serif);font-size:22px;font-weight:700;line-height:1.1}
+  .stat span{font-size:11.5px;color:var(--muted);letter-spacing:.02em}
+
+  h2.section{font-family:var(--serif);font-size:25px;font-weight:700;margin:56px 0 6px;
+    padding-left:14px;border-left:4px solid var(--accent);line-height:1.3}
+  .section-lede{font-size:15px;color:var(--muted);margin:12px 0 22px;max-width:720px}
+  .section-lede b{color:var(--ink);font-weight:600}
+
+  .note{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--amber);
+    border-radius:10px;padding:16px 18px;font-size:14.5px;color:var(--muted);margin:20px 0;box-shadow:var(--shadow)}
+  .note b{color:var(--ink);font-weight:600}
+
+  /* 卡片网格 */
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}
+  .grid.two{grid-template-columns:repeat(2,1fr)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;
+    box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s}
+  .card:hover{transform:translateY(-2px);box-shadow:0 1px 2px rgba(60,45,30,.06),0 14px 32px rgba(60,45,30,.10)}
+  .card.wide{grid-column:span 2}
+  .card.full{grid-column:1/-1}
+  .card-head{display:flex;align-items:center;gap:11px;margin-bottom:12px}
+  .ico{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-size:17px;flex-shrink:0;
+    background:var(--accent-soft)}
+  .card-title{font-size:15px;font-weight:700;line-height:1.35}
+  .card-sub{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:2px;letter-spacing:.04em}
+  ul.pts{list-style:none}
+  ul.pts li{font-size:14px;color:var(--muted);padding:4px 0 4px 17px;position:relative;line-height:1.62}
+  ul.pts li::before{content:'';position:absolute;left:0;top:11px;width:6px;height:6px;border-radius:2px;background:var(--accent)}
+  ul.pts li b{color:var(--ink);font-weight:600}
+  .card .tail{font-size:13.5px;color:var(--muted);line-height:1.6;margin-top:12px;padding-top:12px;border-top:1px dashed var(--line)}
+  .card .tail b{color:var(--ink)}
+  .c-blue .ico{background:var(--blue-soft)}   .c-blue ul.pts li::before{background:var(--blue)}
+  .c-green .ico{background:var(--green-soft)} .c-green ul.pts li::before{background:var(--green)}
+  .c-purple .ico{background:var(--purple-soft)} .c-purple ul.pts li::before{background:var(--purple)}
+  .c-amber .ico{background:var(--amber-soft)} .c-amber ul.pts li::before{background:var(--amber)}
+
+  /* 图卡 + 灯箱 */
+  .diagram-card{position:relative;cursor:zoom-in;background:var(--card);border:1px solid var(--line);
+    border-radius:16px;padding:26px 22px 18px;box-shadow:var(--shadow);text-align:center;overflow:auto;margin:22px 0}
+  .diagram-card .mermaid{min-height:40px}
+  .diagram-card .mermaid:not([data-processed]){visibility:hidden}
+  .diagram-card svg{max-width:100%;height:auto}
+  .diagram-card::after{content:'🔍 点击放大';position:absolute;top:12px;right:14px;font-family:var(--mono);
+    font-size:11px;color:var(--muted);background:var(--card-alt);border:1px solid var(--line);
+    padding:2px 9px;border-radius:8px;pointer-events:none}
+  .lightbox{position:fixed;inset:0;z-index:1000;background:rgba(28,22,14,.86);display:none;align-items:center;justify-content:center;cursor:zoom-out}
+  .lightbox.show{display:flex}
+  .lightbox-inner{background:#fff;border-radius:14px;padding:24px;max-width:96vw;max-height:94vh;overflow:auto;
+    box-shadow:0 24px 70px rgba(0,0,0,.45);cursor:default}
+  .lightbox-inner svg{max-width:none !important;height:auto !important;display:block}
+  .lightbox-hint{position:fixed;top:20px;right:26px;color:#fff;font-family:var(--mono);font-size:14px;opacity:.85}
+
+  /* 检查清单 */
+  .checks{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin:20px 0}
+  .chk{display:flex;gap:10px;align-items:center;background:var(--card);border:1px solid var(--line);
+    border-radius:10px;padding:12px 14px;font-size:13.5px;line-height:1.5;color:var(--muted);box-shadow:var(--shadow)}
+  .chk .tag{font-family:var(--mono);font-size:10px;font-weight:700;padding:3px 7px;border-radius:6px;
+    white-space:nowrap;flex-shrink:0;letter-spacing:.03em}
+  .chk .txt{flex:1}
+  .chk b{color:var(--ink);font-weight:600}
+  .t-hard{background:var(--red-soft);color:var(--red)}
+  .t-ocd{background:var(--purple-soft);color:var(--purple)}
+  .t-block{background:var(--amber-soft);color:var(--amber)}
+  .t-audio{background:var(--blue-soft);color:var(--blue)}
+  .t-finish{background:var(--green-soft);color:var(--green)}
+  .t-inter{background:var(--accent-soft);color:var(--accent)}
+  .t-seo{background:var(--card-alt);color:var(--muted)}
+  .by{font-family:var(--mono);font-size:10px;padding:3px 7px;border-radius:6px;white-space:nowrap;
+    background:var(--card-alt);border:1px solid var(--line);color:var(--muted)}
+  .by.auto{color:var(--green);border-color:#bcd8c4;background:var(--green-soft)}
+
+  /* 表格 */
+  .tbl{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow-x:auto;
+    box-shadow:var(--shadow);margin:20px 0}
+  table{width:100%;border-collapse:collapse;font-size:13.8px;min-width:620px}
+  th{text-align:left;padding:12px 15px;background:var(--card-alt);font-size:11px;font-weight:700;
+    letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line);white-space:nowrap}
+  td{padding:12px 15px;border-bottom:1px solid var(--line);color:var(--muted);line-height:1.6;vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  td b{color:var(--ink);font-weight:600}
+
+  /* 结论条目 */
+  .verdict{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;
+    margin-bottom:12px;display:grid;grid-template-columns:52px 1fr;gap:16px;box-shadow:var(--shadow);
+    transition:transform .2s,box-shadow .2s}
+  .verdict:hover{transform:translateY(-2px);box-shadow:0 1px 2px rgba(60,45,30,.06),0 14px 32px rgba(60,45,30,.10)}
+  .verdict .no{font-family:var(--serif);font-size:30px;font-weight:700;line-height:1;color:var(--accent);text-align:center}
+  .verdict h3{font-size:16px;font-weight:700;margin-bottom:8px;line-height:1.4}
+  .verdict p{font-size:14.2px;color:var(--muted);line-height:1.7}
+  .verdict p b{color:var(--ink);font-weight:600}
+  .verdict p + p{margin-top:8px}
+
+  footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--line);
+    font-size:12.5px;color:var(--muted);text-align:center;line-height:1.9}
+
+  .cb-watermark{position:fixed;left:18px;bottom:14px;z-index:300;font-family:var(--mono);
+    font-size:.8rem;font-weight:600;letter-spacing:.5px;color:var(--muted);opacity:.5;pointer-events:none}
+
+  @media (max-width:820px){
+    .grid,.grid.two{grid-template-columns:repeat(2,1fr)}
+    .card.wide{grid-column:span 2}
+  }
+  @media (max-width:600px){
+    h1{font-size:29px}
+    .grid,.grid.two,.checks{grid-template-columns:1fr}
+    .card.wide,.card.full{grid-column:span 1}
+    .verdict{grid-template-columns:1fr;gap:10px}
+    .verdict .no{text-align:left}
+    .cb-watermark{display:none}
+  }
+</style>
+</head>
+<body>
+
+<nav class="topnav"><a class="brand" href="/">← 城北 · chengbei.org</a></nav>
+
+<div class="wrap">
+
+<header>
+  <span class="kicker">短视频方法论 · 跨形态拆解</span>
+  <h1>别人的手工 SOP，<br>哪几条能搬进自动化流水线</h1>
+  <p class="lede">
+    我手上在做一条 AI 视频的自动化生产线——脚本出分镜、TTS 配音、模型出图、图生视频、程序合成。
+    最近读了一份「真人录屏 + 口播」赛道的短视频 SOP，20 页，六个阶段。
+    <b>它整条链路都是手工的</b>，用的工具跟我这边几乎零重叠。
+    但读完我的结论是：<b>工具一条都用不上，判据几乎全部通用。</b>
+    这篇记录我怎么把它拆开、留下什么、扔掉什么。
+  </p>
+  <div class="pubdate">发布于 2026-07-27</div>
+  <div class="meta-row">
+    <div class="stat"><b>20</b><span>原文页数</span></div>
+    <div class="stat"><b>6</b><span>阶段</span></div>
+    <div class="stat"><b>12</b><span>发布检查项</span></div>
+    <div class="stat"><b>6</b><span>其中可交给程序判</span></div>
+  </div>
+</header>
+
+<div class="note">
+  <b>先说为什么值得拆一份「用不上的」SOP。</b>
+  自动化流水线最容易陷进去的地方，是把全部精力投在「怎么把画面做得更好」上——因为那部分能写代码、能量化、有即时反馈。
+  而手工创作者被迫要面对另一组问题：这个选题有没有人看、开头三秒抓不抓得住、节奏拖不拖。
+  他们没有代码可写，只能把这些问题磨成<b>可以逐条打钩的判据</b>。那正是自动化这一侧最容易空缺的一层。
+</div>
+
+<!-- ① -->
+<h2 class="section">① 它的六步在做什么</h2>
+<p class="section-lede">
+  一句话概括它的方法论内核：<b>不原创，做「对标 → 提取 → 改写」的复制流水线。</b>
+  选题抄已经验证过的爆款，文案抄结构，只替换里面被介绍的那个对象。
+  这跟「从零生成」是两种相反的风险模型——后面第 ④ 节会展开。
+</p>
+
+<div class="diagram-card">
+  <pre class="mermaid">
+flowchart LR
+  classDef pick fill:#e0eaf3,stroke:#2f6699,color:#173247;
+  classDef make fill:#f4e3d5,stroke:#c2541f,color:#6b2c0c;
+  classDef cut  fill:#eae2f4,stroke:#6f4a9c,color:#37225a;
+  classDef pub  fill:#e4efe4,stroke:#3f7d54,color:#1d3d29;
+
+  A["① 选题<br/>收藏夹分类 + 扒爆款"]:::pick
+  B["② 文案<br/>提取 → 拆结构 → 改写"]:::make
+  C["③ 录音<br/>手机 / 电脑自带"]:::make
+  D["④ 录屏<br/>录屏软件"]:::make
+  E["⑤ 剪辑<br/>固定六步"]:::cut
+  F["⑥ 发布<br/>12 条检查 + 双封面 + 话题"]:::pub
+
+  A -->|"对标视频"| B
+  B -->|"定稿逐字文案"| C
+  C -->|"人声音轨"| E
+  B -->|"操作脚本"| D
+  D -->|"屏幕素材"| E
+  E -->|"成片 + 双尺寸封面"| F
+  </pre>
+</div>
+
+<div class="grid">
+  <div class="card c-blue">
+    <div class="card-head">
+      <div class="ico">🔍</div>
+      <div><div class="card-title">① 选题</div><div class="card-sub">STAGE 1</div></div>
+    </div>
+    <ul class="pts">
+      <li><b>建立分类习惯</b>：收藏夹按「剪辑思路 / 对标博主 / 起号素材 / 创意热点」十余个维度长期沉淀</li>
+      <li><b>扒爆款</b>：看同赛道的高赞封面墙，选题直接从已验证的里挑</li>
+    </ul>
+    <div class="tail"><b>本质</b>：选题不是等灵感，是<b>检索 + 归档</b>的日常动作。</div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div class="ico">✍️</div>
+      <div><div class="card-title">② 文案（四小步）</div><div class="card-sub">全篇最有价值</div></div>
+    </div>
+    <ul class="pts">
+      <li><b>找对标 → 提取文案 → 结构拆分 → 改写</b></li>
+      <li>结构拆分：把对标文案<b>逐句标注它承担的功能</b></li>
+      <li>改写：保结构、换内核</li>
+    </ul>
+    <div class="tail"><b>关键</b>：抄的是<b>结构</b>不是句子。</div>
+  </div>
+
+  <div class="card c-amber">
+    <div class="card-head">
+      <div class="ico">🎙️</div>
+      <div><div class="card-title">③④ 录音 + 录屏</div><div class="card-sub">STAGE 3–4</div></div>
+    </div>
+    <ul class="pts">
+      <li>录音：手机或电脑自带即可，<b>明确不上专业设备</b></li>
+      <li>剪辑软件明确<b>不推荐</b>那几个专业级的——学习成本换不来这个赛道的收益</li>
+    </ul>
+    <div class="tail">这一层在自动化侧<b>整层不存在</b>：对应位置是 TTS 配音与模型出图。</div>
+  </div>
+
+  <div class="card c-purple wide">
+    <div class="card-head">
+      <div class="ico">✂️</div>
+      <div><div class="card-title">⑤ 剪辑：六步，顺序固定</div><div class="card-sub">STAGE 5</div></div>
+    </div>
+    <ul class="pts">
+      <li><b>1. 转字幕</b> —— 先把音轨识别成字幕</li>
+      <li><b>2. 剪气口</b> —— 删掉呼吸与停顿，并给配音<b>提速 0.1–0.2 倍</b>加快节奏</li>
+      <li><b>3. 对齐素材</b> —— 字幕匹配画面，「帮助理解视频内容」</li>
+      <li><b>4. 画面对文案</b> —— 讲到哪一步，画面就切到哪一步的操作</li>
+      <li><b>5. 加转场 / 贴纸 / 音效</b> —— 增趣味减流失、标注重点，但「有几个即可」，不能影响观看</li>
+      <li><b>6. 校对</b> —— 整片过一遍再导出</li>
+    </ul>
+    <div class="tail">
+      <b>值得停一下</b>：它的顺序是<b>先声音后画面</b>——音轨定节奏，画面来对齐。
+      我这边的自动化链路早前也独立定过同一条规矩：<b>配音必须排在出图之前</b>，因为配音的实际时长决定每个镜头有多长。
+      两条毫不相干的链路收敛到同一点，说明这不是谁的偏好，<b>是短视频这个媒介本身的约束</b>。
+    </div>
+  </div>
+
+  <div class="card c-green">
+    <div class="card-head">
+      <div class="ico">🚀</div>
+      <div><div class="card-title">⑥ 发布</div><div class="card-sub">STAGE 6</div></div>
+    </div>
+    <ul class="pts">
+      <li>作品描述有<b>字数上限</b>，话题挂满，蹭官方活动</li>
+      <li>封面出<b>双尺寸</b>：竖版 + 横版</li>
+      <li>发布前跑一份 <b>12 条检查清单</b></li>
+    </ul>
+    <div class="tail">这份清单是全篇<b>最能直接搬</b>的东西。</div>
+  </div>
+</div>
+
+<!-- ② -->
+<h2 class="section">② 真正的干货：它把「好」量化成了判据</h2>
+<p class="section-lede">
+  大部分创作教程讲到「节奏要快」「开头要抓人」就停了。这份不一样——
+  <b>几乎每条建议后面都跟着一个可以检查的数字。</b>
+  这是它最值钱的部分，也是自动化那一侧最缺的东西：
+  代码可以判断一个数值超没超标，但没法判断「感觉拖沓」。
+</p>
+
+<div class="grid two">
+  <div class="card">
+    <div class="card-head">
+      <div class="ico">🧱</div>
+      <div><div class="card-title">文案六段式：每句话都有职能</div><div class="card-sub">可直接转成写作模板</div></div>
+    </div>
+    <ul class="pts">
+      <li><b>固定开头</b> —— 每期同一句式，形成记忆点</li>
+      <li><b>展示位</b> —— 一句话点名今天讲什么</li>
+      <li><b>最亮眼的功能</b> —— 先抛最炸的卖点，不铺垫</li>
+      <li><b>带一个小案例</b> —— 观众能<b>跟着视频学会</b>，不是看个热闹</li>
+      <li><b>降门槛</b> —— 「不用注册就能用」这类话消除顾虑</li>
+      <li><b>引导转化</b> —— 把流量导向评论区或私域</li>
+    </ul>
+    <div class="tail">
+      改写四原则：① 一句话说清 ② 有钩子 ③ 带简短案例 ④ 诱导互动。
+      <b>系列内容靠固定结构建立记忆点</b>——结构固定之后，每期的质量方差会明显收窄，
+      这对批量生产比「单集惊艳」重要得多。
+    </div>
+  </div>
+
+  <div class="card c-amber">
+    <div class="card-head">
+      <div class="ico">⏱️</div>
+      <div><div class="card-title">两条打架的时长建议</div><div class="card-sub">同一份 SOP 内部</div></div>
+    </div>
+    <ul class="pts">
+      <li>讲自然流量时：<b>「视频控制在 30 秒左右效果最好」</b></li>
+      <li>讲平台任务时：<b>「时长必须 1 分钟以上」</b>，且指定内容占比 ≥60%、功能介绍 ≥25%</li>
+    </ul>
+    <div class="tail">
+      同一个人给出两个相反的数字，因为<b>分发渠道不同</b>。
+      这条看着像自相矛盾，其实是个很重要的提醒：
+      <b>时长是渠道的约束，不是内容的属性。</b>
+      做流水线的时候尤其要守住这点——一旦把「片长」做成生产环节的参数，
+      整条链路就会被某一个渠道的规则绑架；它应该只在发布那一步才被问到。
+    </div>
+  </div>
+</div>
+
+<p class="section-lede" style="margin-top:30px">
+  下面是那份 <b>12 条发布前检查清单</b>。右侧我标了一个我自己关心的维度——
+  <b>这条能不能交给程序判</b>：
+</p>
+
+<div class="checks">
+  <div class="chk"><span class="tag t-hard">硬指标</span><span class="txt"><b>开头期数数字更换</b></span><span class="by auto">可自动</span></div>
+  <div class="chk"><span class="tag t-hard">硬指标</span><span class="txt"><b>主体图标 + 名字更换</b>（确保无误）</span><span class="by">人工</span></div>
+  <div class="chk"><span class="tag t-ocd">强迫症</span><span class="txt">图标与元素对齐</span><span class="by">人工</span></div>
+  <div class="chk"><span class="tag t-block">防遮挡</span><span class="txt"><b>字幕 / 关键画面避开界面遮挡区</b></span><span class="by auto">可自动</span></div>
+  <div class="chk"><span class="tag t-audio">听感</span><span class="txt">开头模板声音更换 + 优化</span><span class="by">人工</span></div>
+  <div class="chk"><span class="tag t-audio">听感</span><span class="txt"><b>音频剪气口，做到无呼吸紧密连接</b></span><span class="by auto">可自动</span></div>
+  <div class="chk"><span class="tag t-audio">听感</span><span class="txt"><b>背景音乐不盖人声</b> + 人声美化</span><span class="by auto">可自动</span></div>
+  <div class="chk"><span class="tag t-finish">完播</span><span class="txt"><b>黄金 3 秒是否抛出最大痛点</b></span><span class="by">半自动</span></div>
+  <div class="chk"><span class="tag t-finish">完播</span><span class="txt"><b>画面节奏检查：每 3 秒必变</b></span><span class="by auto">可自动</span></div>
+  <div class="chk"><span class="tag t-inter">互动</span><span class="txt">结尾引导语（点赞 / 领资料）</span><span class="by auto">可自动</span></div>
+  <div class="chk"><span class="tag t-inter">互动</span><span class="txt">评论区预埋槽点 / 提问</span><span class="by">人工</span></div>
+  <div class="chk"><span class="tag t-seo">搜索</span><span class="txt">文案埋关键词（SEO）</span><span class="by">半自动</span></div>
+</div>
+
+<div class="note">
+  <b>12 条里有 6 条是纯数值判断</b>：期数有没有递增、字幕有没有压到安全区外、静音段有多长、
+  背景音乐和人声的响度差是多少、第一个镜头多长、单个镜头有没有超过上限、结尾有没有引导镜头。
+  这些在一个结构化的分镜文件里<b>全都是现成字段算得出来的，不需要额外采集任何数据</b>——
+  也就是说，一份手工清单里近一半的条目，可以原样变成自动校验。
+  剩下的六条才是真正需要人眼的，那就把人的注意力集中到那六条上。
+</div>
+
+<!-- ③ -->
+<h2 class="section">③ 赛道天梯图：它把「变好」拆成了四级</h2>
+<p class="section-lede">
+  这份 SOP 的后半段是「进阶篇」，讲怎么从流量走到收入。
+  它画了一张四级天梯，我觉得比具体技巧更有价值——
+  因为它把一个模糊的「做得更好」拆成了<b>四个性质不同的台阶</b>。
+</p>
+
+<div class="diagram-card">
+  <pre class="mermaid">
+flowchart TD
+  classDef l1 fill:#f4f0e8,stroke:#6f675d,color:#3a3530;
+  classDef l2 fill:#e0eaf3,stroke:#2f6699,color:#173247;
+  classDef l3 fill:#eae2f4,stroke:#6f4a9c,color:#37225a;
+  classDef l4 fill:#f4e3d5,stroke:#c2541f,color:#6b2c0c;
+  classDef me fill:#e4efe4,stroke:#3f7d54,color:#1d3d29;
+
+  L1["初级 · 流量<br/>热门内容搬运，吃信息差"]:::l1
+  L2["中级 · 升级<br/>动态视觉提升<br/>= 后期溢价的关键筹码"]:::l2
+  L3["高级 · 推广<br/>硬核实测，做成商业内容"]:::l3
+  L4["顶流 · 行业优质内容<br/>做到影视级别，完成心智种草"]:::l4
+  US["自动化生产的位置：<br/>技术上直接够到顶层的画面水准<br/>但缺前两级积累的流量验证"]:::me
+
+  L1 --> L2 --> L3 --> L4
+  US -.->|"画面水准直接对标"| L4
+  US -.->|"真正缺的是这两级"| L1
+  </pre>
+</div>
+
+<div class="grid two">
+  <div class="card c-purple">
+    <div class="card-head">
+      <div class="ico">📈</div>
+      <div><div class="card-title">中间那级最值得注意</div><div class="card-sub">动态视觉 = 溢价筹码</div></div>
+    </div>
+    <ul class="pts">
+      <li>从初级到中级，跨过去靠的不是选题变好，是<b>画面从静态变成动态</b></li>
+      <li>原文的说法是：动态视觉提升「是后期溢价的关键筹码」</li>
+      <li>怎么涨价的三个抓手：<b>封面有科技感、画面有动效、整体看着舒服</b></li>
+    </ul>
+    <div class="tail">
+      这条我特别在意，因为它<b>正面支持了我这边的一个技术决定</b>：
+      让每个镜头都是真视频而不是静态图加位移。
+      原本我是把它当画质选择的，现在看它更像商业选择。
+    </div>
+  </div>
+
+  <div class="card c-blue">
+    <div class="card-head">
+      <div class="ico">📋</div>
+      <div><div class="card-title">平台任务的硬约束</div><div class="card-sub">规则先于创作</div></div>
+    </div>
+    <ul class="pts">
+      <li>只支持<b>命题作文</b>，官方每周更新一两个选题，在选题下创作才结算</li>
+      <li>同一选题<b>有最大投稿量上限</b>，先到先得</li>
+      <li>多平台<b>双发</b>并回填链接，可换取一定的流量扶持</li>
+      <li>「制作内容优质，<b>画风不下沉</b>」</li>
+    </ul>
+    <div class="tail">
+      提醒的是：<b>在这类赛道，规则往往比创意先决定上限。</b>
+      投稿量上限意味着晚一天就没了名额——这种约束靠内容质量补不回来。
+    </div>
+  </div>
+</div>
+
+<!-- ④ -->
+<h2 class="section">④ 手工链路 vs 自动化链路：哪里像，哪里根本不同</h2>
+<p class="section-lede">
+  搬之前得先看清差异，否则会把不适用的东西硬塞进来。
+  最大的一条结构性差异是：<b>手工链路的成本是人的时间，自动化链路的成本是每次调用的钱。</b>
+  前者可以「多剪两小时把节奏磨好」，后者每重跑一次都在真实扣费——
+  这决定了两边「返工」的心理成本完全不同。
+</p>
+
+<div class="tbl">
+  <table>
+    <thead><tr><th style="width:14%">环节</th><th style="width:30%">这份手工 SOP</th><th style="width:30%">自动化流水线</th><th style="width:26%">结论</th></tr></thead>
+    <tbody>
+      <tr><td><b>内容来源</b></td><td>找对标 → 提取 → 改写，<b>不原创</b></td><td>模型从选题直接生成脚本与分镜，<b>全原创</b></td><td>风险模型相反：一个抄已验证的，一个赌未验证的</td></tr>
+      <tr><td><b>顺序</b></td><td>文案 → 录音 → 录屏 → 剪辑</td><td>分镜 → 配音 → 出图 → 出动态 → 合成</td><td><b>相同</b>：都是先定声音，画面来对齐</td></tr>
+      <tr><td><b>画面生产</b></td><td>录屏 + 贴纸转场，人肉操作</td><td>模型出图 + 图生视频</td><td>零重叠，无从借鉴</td></tr>
+      <tr><td><b>节奏控制</b></td><td>剪气口 + 配音提速 0.1–0.2 倍</td><td>常见做法是 TTS 出多长就用多长</td><td><b>可搬，而且不止是好看</b></td></tr>
+      <tr><td><b>合成</b></td><td>剪辑软件手工拖拽</td><td>脚本化合成，可重复执行</td><td>自动化侧更强</td></tr>
+      <tr><td><b>质量门禁</b></td><td><b>12 条发布检查清单</b></td><td>通常只有结构与格式校验，<b>缺内容质量项</b></td><td><b>手工侧更成熟</b></td></tr>
+      <tr><td><b>成本意识</b></td><td>基本没有（工具免费，成本是时间）</td><td>每条片子都能算出确切花费</td><td>自动化侧更强</td></tr>
+      <tr><td><b>选题沉淀</b></td><td>长期分类归档 + 爆款库</td><td>常常整个环节空白，无从追溯</td><td><b>手工侧更成熟</b></td></tr>
+      <tr><td><b>断点恢复</b></td><td>无概念（人记得做到哪）</td><td>可做到幂等续跑</td><td>自动化侧更强</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="note">
+  这张表读下来有个规律：<b>凡是「重复执行、可度量」的环节，自动化侧碾压；
+  凡是「判断好坏、面向观众」的环节，手工侧更成熟。</b>
+  两边的强弱几乎是互补的——所以借鉴的方向也很清楚，只往后半边借。
+</div>
+
+<!-- ⑤ -->
+<h2 class="section">⑤ 最后留下的四条</h2>
+<p class="section-lede">
+  抛开所有工具细节，这份 SOP 里<b>脱离形态依然成立</b>的东西只有四条。
+  但这四条我认为对任何做视频内容的人都通用，无论手剪还是全自动。
+</p>
+
+<div class="verdict">
+  <div class="no">01</div>
+  <div>
+    <h3>剪气口，并且给配音提速一点</h3>
+    <p>手工侧做它是为了节奏紧凑。放到自动化侧，它还多一层收益：
+    <b>镜头时长往往决定了付费档位</b>——很多视频生成接口是按 5 秒、10 秒分档计费的，
+    一个 5.4 秒的镜头和 4.8 秒的镜头，价格可能差一倍。
+    把停顿压掉，节奏变好的同时账单也变薄。</p>
+    <p>要注意的是<b>这件事必须在配音环节就做完</b>。等到最后合成时才裁，
+    时长早就按旧的数字买过单了——省下的只是观感，不是钱。</p>
+  </div>
+</div>
+
+<div class="verdict">
+  <div class="no">02</div>
+  <div>
+    <h3>发布前跑一份固定清单，而不是「感觉可以了就发」</h3>
+    <p>这是全篇最能直接抄的东西。关键不在那 12 条具体是什么，
+    而在于<b>「发布」被当成了一道有门禁的关卡，而不是一个动作</b>。</p>
+    <p>而且清单是可以分层的：能算的交给程序，算不了的留给人眼。
+    <b>清单的价值不是「全都自己检查一遍」，是「保证没有一条被忘掉」</b>——
+    人会忘，清单不会。</p>
+  </div>
+</div>
+
+<div class="verdict">
+  <div class="no">03</div>
+  <div>
+    <h3>把「节奏」写成数字：黄金 3 秒、每 3 秒必变</h3>
+    <p>「开头要抓人」是废话，「第一个镜头必须在 3 秒内抛出最大痛点」是判据。
+    差别在于后者<b>可以在东西做出来之前就检查</b>。</p>
+    <p>对流水线来说这点尤其值钱：分镜阶段的时长安排是纯文本，
+    这时候发现「平均镜头 5 秒、全片拖沓」，改的成本几乎为零；
+    等画面都渲染完再发现，已经花掉的钱一分都退不回来。
+    <b>越早能判的判据，价值越高。</b></p>
+  </div>
+</div>
+
+<div class="verdict">
+  <div class="no">04</div>
+  <div>
+    <h3>给内容一套固定的结构骨架</h3>
+    <p>它的六段式之所以有效，不是因为哪一段写得妙，
+    而是因为<b>每一段都被指派了明确职能</b>：这句负责建立记忆点，这句负责降低门槛。
+    写的时候不用再想「接下来说什么」，只需要想「这一段该怎么写得更好」。</p>
+    <p>交给模型生成时，这一点的作用会被放大：
+    <b>给了结构骨架，产出的质量方差会明显收窄。</b>
+    批量生产里，稳定比偶尔惊艳重要得多。</p>
+  </div>
+</div>
+
+<!-- 结语 -->
+<h2 class="section">最后：一个我读完才发现的错配</h2>
+<p class="section-lede">
+  这份 SOP 六个阶段，用在<b>选题和对标</b>上的篇幅接近一半。
+  而我这边的自动化流水线，从头到尾每一个环节都在解决「怎么把画面做得更好、更便宜」——
+  选题那一环<b>连个存放的地方都没有</b>：一集片子为什么做这个题材，链路上完全查不到。
+</p>
+<p class="section-lede">
+  别扭的地方在于，我自己写下的项目笔记里明明白白写着一句：
+  <b>「选题命中率是最大风险，不是画质。」</b>
+  判断早就下对了，力气却全投在了另一头。
+</p>
+<div class="note">
+  <b>为什么会这样，其实不难理解</b>：画质和成本是能写代码的，写完立刻看得见效果，反馈闭环短；
+  选题不是——它慢、模糊、要等数据回来，而且没法自动化。
+  <b>于是手会自然而然伸向能优化的那一侧，哪怕心里清楚风险不在那里。</b>
+  这份 SOP 最大的价值不是某条技巧，是它把这个错配照了出来。
+</div>
+<p class="section-lede">
+  所以最后我扔掉的，是它全部的工具选型——软件、设备、每一步怎么点。
+  留下的是它的判据，和一个提醒：<b>先确认自己在优化的，是真正决定成败的那一头。</b>
+</p>
+
+<footer>
+  城北 · chengbei.org<br>
+  发布于 2026-07-27
+</footer>
+
+</div>
+
+<div class="cb-watermark">chengbei.org · 2026-07-27</div>
+
+<script src="/lib/mermaid.min.js"></script>
+<script>
+if (window.mermaid) {
+  mermaid.initialize({
+    startOnLoad:false, theme:'base', securityLevel:'loose',
+    fontFamily:'"PingFang SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,sans-serif',
+    themeVariables:{
+      background:'#fff', primaryColor:'#f4f0e8', primaryBorderColor:'#c2541f', primaryTextColor:'#2b2723',
+      lineColor:'#6f675d', secondaryColor:'#e4efe4', tertiaryColor:'#eae2f4',
+      noteBkgColor:'#f6ecd2', noteBorderColor:'#b6862a', noteTextColor:'#5a3c08'
+    },
+    flowchart:{ useMaxWidth:true, htmlLabels:true, curve:'basis', nodeSpacing:38, rankSpacing:56 }
+  });
+  try { mermaid.run({ querySelector:'.diagram-card .mermaid' }); } catch(e){ console.warn('mermaid render failed', e); }
+}
+
+const lb = document.createElement('div'); lb.className = 'lightbox';
+lb.innerHTML = '<div class="lightbox-hint">点击空白处 / Esc 关闭 · 可滚动看细节</div><div class="lightbox-inner"></div>';
+document.body.appendChild(lb);
+const lbInner = lb.querySelector('.lightbox-inner');
+function openLb(svg){
+  const c = svg.cloneNode(true);
+  const vb = svg.viewBox && svg.viewBox.baseVal;
+  const natW = (vb && vb.width) ? vb.width : svg.getBoundingClientRect().width;
+  c.style.maxWidth='none'; c.style.width=Math.round(natW*1.4)+'px'; c.style.height='auto';
+  lbInner.innerHTML=''; lbInner.appendChild(c); lb.classList.add('show'); lbInner.scrollTop=0; lbInner.scrollLeft=0;
+}
+document.querySelectorAll('.diagram-card').forEach(card=>{
+  card.addEventListener('click',()=>{ const svg=card.querySelector('svg'); if(svg) openLb(svg); });
+});
+lb.addEventListener('click',e=>{ if(!lbInner.contains(e.target)) lb.classList.remove('show'); });
+addEventListener('keydown',e=>{ if(e.key==='Escape'&&lb.classList.contains('show')){ e.stopPropagation(); lb.classList.remove('show'); } },true);
+</script>
+<script data-goatcounter="https://chengbei.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>
