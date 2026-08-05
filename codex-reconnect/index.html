@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<!-- diao-ppt · 文章式滚动页｜Codex「正在重新连接 N/5」修复指南 -->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Codex 一直「正在重新连接 N/5」怎么修 · 城北</title>
+<meta name="description" content="Codex 0.136+ 默认走 WebSocket，国内经代理时长连接极易被打断，要空耗 5 轮重试才降级回 HTTP/SSE——这就是「正在重新连接 N/5」的真相。一段可直接复制给 AI 的修复指令，附手动版与排查表。">
+<meta property="og:title" content="Codex 一直「正在重新连接 N/5」怎么修">
+<meta property="og:description" content="不是你的网络问题，是 Codex 新版默认用 WebSocket 在国内水土不服。复制一段话给 Codex 或 Claude Code，它自己就能改好。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chengbei.org/codex-reconnect/">
+<style>
+  :root{
+    --bg:#ece7de; --card:#fbf9f5; --ink:#2b2723; --muted:#6f675d;
+    --line:#e0d8cb; --accent:#c2541f; --accent-soft:#f4e3d5;
+    --green:#3f7d54; --green-soft:#e4efe4; --amber:#b6862a; --amber-soft:#f6ecd2;
+    --code-bg:#2b2723; --code-ink:#ece7de;
+    --shadow:0 1px 2px rgba(60,45,30,.06),0 8px 24px rgba(60,45,30,.06);
+    --serif:"Songti SC","STSong",Georgia,"Times New Roman",serif;
+    --sans:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,system-ui,sans-serif;
+    --mono:"JetBrains Mono","SF Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.7;
+    -webkit-font-smoothing:antialiased;padding:0 20px 90px}
+  .wrap{max-width:880px;margin:0 auto}
+
+  .topnav{max-width:880px;margin:0 auto;padding:20px 0 4px}
+  .topnav a.brand{font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:.5px;
+    color:var(--muted);text-decoration:none;transition:color .2s}
+  .topnav a.brand:hover{color:var(--accent)}
+
+  header{margin:26px 0 40px}
+  .kicker{display:inline-block;font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--accent);background:var(--accent-soft);padding:5px 12px;border-radius:20px;font-weight:600}
+  h1{font-family:var(--serif);font-size:40px;line-height:1.2;margin:18px 0 12px;font-weight:700;letter-spacing:.01em}
+  .lede{font-size:16px;color:var(--muted);max-width:660px}
+  .pubdate{font-family:var(--mono);font-size:13px;color:var(--muted);margin-top:14px;letter-spacing:.5px}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:26px 28px;margin-bottom:20px;box-shadow:var(--shadow)}
+  .card.hero{border:2px solid var(--accent)}
+
+  h2{font-family:var(--serif);font-size:24px;margin-bottom:8px;font-weight:700;
+    display:flex;align-items:center;gap:11px;letter-spacing:.01em}
+  h2 .n{background:var(--accent);color:#fff;width:30px;height:30px;border-radius:9px;
+    display:inline-flex;align-items:center;justify-content:center;
+    font-family:var(--sans);font-size:14px;font-weight:700;flex:none}
+  h3{font-size:16px;margin:22px 0 9px;font-weight:650}
+  .sub{color:var(--muted);font-size:14.5px;margin-bottom:18px}
+  p{margin-bottom:12px}
+  ul,ol{margin:0 0 12px 21px}
+  li{margin-bottom:7px}
+  b,strong{font-weight:650}
+  a{color:var(--accent)}
+  code{background:var(--accent-soft);padding:2px 6px;border-radius:5px;
+    font-family:var(--mono);font-size:.88em;color:#8a4620}
+
+  pre{background:var(--code-bg);color:var(--code-ink);padding:18px 20px;border-radius:10px;
+    overflow-x:auto;font-family:var(--mono);font-size:13px;line-height:1.65;margin:12px 0}
+  pre code{background:none;padding:0;color:inherit;font-size:inherit}
+
+  .copybox{position:relative}
+  .copybtn{position:absolute;top:11px;right:11px;background:#4a453d;color:#fff;border:none;
+    padding:7px 15px;border-radius:7px;cursor:pointer;font-size:12.5px;
+    font-family:var(--sans);font-weight:600;transition:background .15s}
+  .copybtn:hover{background:var(--accent)}
+  .copybtn.done{background:var(--green)}
+
+  .prompt{background:var(--code-bg);color:var(--code-ink);padding:22px 24px;border-radius:10px;
+    white-space:pre-wrap;word-break:break-word;font-size:13px;line-height:1.72;
+    font-family:var(--mono);max-height:440px;overflow-y:auto}
+
+  .note{background:var(--amber-soft);border-left:4px solid var(--amber);
+    padding:15px 18px;border-radius:0 9px 9px 0;margin:16px 0;font-size:14.5px}
+  .note.ok{background:var(--green-soft);border-left-color:var(--green)}
+  .note b{display:block;margin-bottom:4px}
+
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14.5px}
+  th,td{text-align:left;padding:10px 13px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:var(--accent-soft);font-weight:650;font-size:13.5px}
+  td:first-child{font-weight:600}
+
+  .steps{counter-reset:s;list-style:none;margin-left:0}
+  .steps>li{counter-increment:s;position:relative;padding-left:34px;margin-bottom:14px}
+  .steps>li::before{content:counter(s);position:absolute;left:0;top:1px;
+    background:var(--accent-soft);color:var(--accent);border:1px solid #e3c4ac;
+    width:23px;height:23px;border-radius:50%;display:flex;align-items:center;
+    justify-content:center;font-size:12.5px;font-weight:700}
+
+  .symptom{background:#f4f2ee;border:1px dashed var(--line);border-radius:10px;
+    padding:16px 20px;margin:14px 0;font-family:var(--mono);font-size:14px;color:#4a453d}
+
+  footer{margin-top:40px;font-size:12.5px;color:var(--muted);line-height:1.9}
+
+  .cb-watermark{position:fixed;left:18px;bottom:14px;z-index:300;font-family:var(--mono);
+    font-size:.8rem;font-weight:600;letter-spacing:.5px;color:var(--muted);opacity:.5;pointer-events:none}
+
+  @media (max-width:600px){
+    h1{font-size:29px}
+    .card{padding:21px 18px}
+    .cb-watermark{display:none}
+  }
+</style>
+</head>
+<body>
+
+<nav class="topnav"><a class="brand" href="/">← 城北 · chengbei.org</a></nav>
+
+<div class="wrap">
+
+<header>
+  <span class="kicker">Codex · 自助修复</span>
+  <h1>一直「正在重新连接 N/5」<br>是怎么回事，怎么修</h1>
+  <p class="lede">这份文档主要是写给 AI 看的。你不用自己动手改配置 —— 把里面那段话复制给 Codex 或 Claude Code，它会替你查、替你改、替你验证。当然，想自己动手的话，下面也有手动版。</p>
+  <div class="pubdate">发布于 2026-08-05</div>
+</header>
+
+<div class="card">
+  <h2>先确认是不是这个问题</h2>
+  <p class="sub">界面上反复出现这样的提示，然后卡住不出结果：</p>
+  <div class="symptom">📶 正在重新连接 2/5 &nbsp;&nbsp;（英文界面：Reconnecting 2/5）</div>
+  <p>数字会从 1/5 一路涨到 5/5。有时候等一等自己好了，有时候直接失败。<b>这不是你电脑的问题，也不是你哪里配错了</b> —— 是 Codex 新版本的默认行为在国内网络下水土不服，遇到的人相当多。</p>
+</div>
+
+<div class="card hero">
+  <h2><span class="n">✦</span>把下面这段复制给 AI</h2>
+  <p class="sub">打开 Codex 或 Claude Code，整段粘贴进去发送即可。它包含完整的排查与修复步骤，AI 会自己执行。</p>
+  <div class="copybox">
+    <button class="copybtn" onclick="cp(this,'p1')">复制</button>
+    <div class="prompt" id="p1">我在用 Codex 时经常出现「正在重新连接 N/5」（英文 Reconnecting N/5），请帮我修复这个问题。
+
+【已知成因】
+Codex 0.136 版本以后，默认使用 WebSocket 与 OpenAI 通信（请求头 OpenAI-Beta: responses_websockets）。在中国大陆经代理上网时，WebSocket 的 Upgrade 握手和长连接非常容易被打断。Codex 遇到失败会先重试 stream_max_retries 次（默认就是 5 次），全部用完才降级回传统的 HTTP/SSE。这段重试期间，界面显示的就是「正在重新连接 N/5」。
+修复思路：在 ~/.codex/config.toml 里定义一个关闭了 WebSocket 的 model provider，让 Codex 一开始就走 HTTP/SSE，不再空耗那 5 轮重试。
+
+【请按以下步骤操作】
+
+第 1 步：确认环境是否适用
+- 运行 `codex --version`，确认版本 >= 0.136.0。如果更低，先升级（brew upgrade codex，或 npm install -g @openai/codex），升级后再继续。
+- 读取 ~/.codex/config.toml，检查 preferred_auth_method 的值。
+  · 如果是 "chatgpt"（用 ChatGPT 账号登录），继续往下做。
+  · 如果我用的是 API Key、或者第三方中转站（config 里有自定义 base_url 指向别的域名），请停下来告诉我，本方案的 base_url 需要换成我自己的中转地址，不能直接套用。
+
+第 2 步：备份配置
+cp ~/.codex/config.toml ~/.codex/config.toml.bak-$(date +%F-%H%M)
+
+第 3 步：修改 ~/.codex/config.toml
+
+(a) 在文件【最顶部】加一行（必须放在任何 [xxx] 段落之前，这是 TOML 的语法要求，放错位置会导致解析失败）：
+
+model_provider = "chatgpt-http"
+
+如果文件里已经存在 model_provider = "..."，把它的值改成 "chatgpt-http" 就行，不要重复添加。
+
+(b) 在文件【最末尾】追加：
+
+[model_providers.chatgpt-http]
+name = "ChatGPT HTTP"
+base_url = "https://chatgpt.com/backend-api/codex"
+wire_api = "responses"
+requires_openai_auth = true
+supports_websockets = false
+stream_max_retries = 10
+stream_idle_timeout_ms = 600000
+request_max_retries = 6
+
+如果已经存在同名的 [model_providers.chatgpt-http] 段落，就地更新它，不要再加一个重复的。
+
+⚠️ base_url 必须是 https://chatgpt.com/backend-api/codex
+网上有些教程写成 https://api.openai.com/v1 —— 那会让 Codex 改走 API Key 按量计费，不再走我的 ChatGPT 订阅额度。千万不要用那个地址。
+
+第 4 步：校验语法没写坏
+python3 -c "import tomllib,pathlib;d=tomllib.loads(pathlib.Path.home().joinpath('.codex/config.toml').read_text());print('TOML OK');print('model_provider =',d.get('model_provider'));print(d['model_providers']['chatgpt-http'])"
+
+第 5 步：验证
+- 完全退出 Codex：桌面版要彻底退出 App（⌘Q），命令行版要退出当前会话。
+- 重新打开，跑一个需要思考一会儿的任务，观察是否还出现「正在重新连接」。
+
+【出错处理】
+任何一步报错，请把完整报错原文告诉我，不要跳过、不要猜测着继续往下做。
+如果第 5 步验证时报的是「Your access token could not be refreshed / refresh token was already used」，那是另一个独立问题（登录凭证过期），需要我重新执行 codex login，请直接告诉我。</div>
+  </div>
+</div>
+
+<div class="card">
+  <h2><span class="n">?</span>为什么会这样</h2>
+  <p>Codex 0.136 之后换了通信方式：默认用 <b>WebSocket</b> 而不是过去的 HTTP/SSE。WebSocket 是一种「一直挂着不断开」的连接，速度更快，但也更脆弱 —— 在国内经代理上网时，这种长连接很容易被中途掐断。</p>
+  <p>Codex 遇到掐断不会立刻放弃，而是<b>先重试 5 次</b>（这就是 N/5 里那个 5 的来历），5 次都不行才退回稳妥的 HTTP/SSE。所以你看到的「正在重新连接 2/5」，翻译成人话就是：</p>
+  <div class="note">
+    <b>「WebSocket 又断了，我正在第 2 次重试，再失败 3 次我就改用老办法。」</b>
+    问题在于这 5 轮重试每次都要等超时，白白浪费掉几十秒，而且下一轮对话又会从头来一遍。
+  </div>
+  <p>所以修复方式不是让 WebSocket 变稳定（国内的网络环境我们改不了），而是<b>直接告诉 Codex 别用 WebSocket 了</b>，一开始就走 HTTP/SSE。配置里那句 <code>supports_websockets = false</code> 就是干这个的。</p>
+  <p>其余几个参数是顺带加固：<code>stream_idle_timeout_ms = 600000</code> 把流的空闲超时从默认 5 分钟放宽到 10 分钟（长思考任务容易踩到），<code>stream_max_retries</code> 和 <code>request_max_retries</code> 让偶发抖动更扛得住。</p>
+</div>
+
+<div class="card">
+  <h2><span class="n">✎</span>不想用 AI，自己动手</h2>
+  <p class="sub">三步，五分钟。</p>
+  <ol class="steps">
+    <li><b>备份。</b>终端里执行：
+      <div class="copybox"><button class="copybtn" onclick="cp(this,'p2')">复制</button><pre id="p2"><code>cp ~/.codex/config.toml ~/.codex/config.toml.bak-$(date +%F-%H%M)</code></pre></div>
+    </li>
+    <li><b>用编辑器打开</b> <code>~/.codex/config.toml</code>，在<b>最顶上</b>加这一行（一定要在所有 <code>[方括号]</code> 段落的前面）：
+      <div class="copybox"><button class="copybtn" onclick="cp(this,'p3')">复制</button><pre id="p3"><code>model_provider = "chatgpt-http"</code></pre></div>
+    </li>
+    <li><b>拉到文件最底下</b>，把这段整个粘贴进去：
+      <div class="copybox"><button class="copybtn" onclick="cp(this,'p4')">复制</button><pre id="p4"><code>[model_providers.chatgpt-http]
+name = "ChatGPT HTTP"
+base_url = "https://chatgpt.com/backend-api/codex"
+wire_api = "responses"
+requires_openai_auth = true
+supports_websockets = false
+stream_max_retries = 10
+stream_idle_timeout_ms = 600000
+request_max_retries = 6</code></pre></div>
+    </li>
+  </ol>
+  <p>存盘，彻底退出 Codex 再重开就生效了。</p>
+  <div class="note">
+    <b>⚠️ 两个最容易踩的坑</b>
+    ① <code>model_provider = "chatgpt-http"</code> 必须放在文件<b>最顶部</b>。TOML 规定：不带方括号的普通设置，必须写在所有 <code>[段落]</code> 之前，放到中间会直接报语法错。<br>
+    ② <code>base_url</code> 只能是 <code>https://chatgpt.com/backend-api/codex</code>。流传较广的一个版本写的是 <code>api.openai.com/v1</code>，用了会变成<b>按 API Key 计费</b>，不再走 ChatGPT 订阅额度。
+  </div>
+</div>
+
+<div class="card">
+  <h2><span class="n">✓</span>怎么确认修好了</h2>
+  <p>彻底退出 Codex 后重开，随便让它做个稍微费点脑子的活（比如「读一下这个项目结构并总结」）。观察：</p>
+  <div class="note ok">
+    <b>修好了的表现</b>
+    整个过程不再出现「正在重新连接」字样，任务从开始到出结果是连贯的。
+  </div>
+  <p>也可以跑一条命令确认配置真的被读进去了：</p>
+  <div class="copybox"><button class="copybtn" onclick="cp(this,'p5')">复制</button><pre id="p5"><code>python3 -c "import tomllib,pathlib;d=tomllib.loads(pathlib.Path.home().joinpath('.codex/config.toml').read_text());print('TOML OK');print('model_provider =',d.get('model_provider'));print(d['model_providers']['chatgpt-http'])"</code></pre></div>
+</div>
+
+<div class="card">
+  <h2><span class="n">!</span>改完还是不行？对号入座</h2>
+  <table>
+    <tr><th style="width:36%">你看到的报错</th><th>说明与处理</th></tr>
+    <tr>
+      <td>access token could not be refreshed / refresh token was already used</td>
+      <td><b>另一个独立问题：登录凭证过期了。</b>跟 WebSocket 无关。执行 <code>codex login</code> 重新登录。常见于桌面版和命令行版同时在用、互相抢着刷新凭证的情况。</td>
+    </tr>
+    <tr>
+      <td>登录时被要求填手机号（add-phone）</td>
+      <td>出口 IP 触发了风控。先在浏览器里登录 chatgpt.com 确认是登录态，再跑 <code>codex login</code>，通常会直接放行。还不行就换一个代理节点再试 —— <b>机房 IP 比家宽 IP 更容易被要求验证</b>。另外 OpenAI 至今不接受 +86 中国大陆号码，别在下拉框里找中国。</td>
+    </tr>
+    <tr>
+      <td>TOML 解析失败 / 启动就报配置错</td>
+      <td>八成是 <code>model_provider</code> 那行没放在文件最顶部。挪到所有 <code>[方括号]</code> 段落之前即可。实在改乱了就用备份还原（见下）。</td>
+    </tr>
+    <tr>
+      <td>改完没有任何变化</td>
+      <td>确认是否<b>彻底退出</b>了 Codex。桌面版关窗口不算，要 ⌘Q 完全退出。另外确认 <code>codex --version</code> 不低于 0.136.0。</td>
+    </tr>
+    <tr>
+      <td>提示要按 API 计费 / 额度不对</td>
+      <td>检查 <code>base_url</code> 是不是被写成了 <code>api.openai.com/v1</code>。必须是 <code>https://chatgpt.com/backend-api/codex</code>。</td>
+    </tr>
+  </table>
+
+  <h3>怎么还原</h3>
+  <p>改坏了不用慌，备份就在旁边（把日期换成你实际的文件名）：</p>
+  <div class="copybox"><button class="copybtn" onclick="cp(this,'p6')">复制</button><pre id="p6"><code>ls ~/.codex/config.toml.bak-*
+cp ~/.codex/config.toml.bak-2026-08-05-1749 ~/.codex/config.toml</code></pre></div>
+  <p>或者更简单：把加进去的那一行 <code>model_provider = "chatgpt-http"</code> 和末尾整个 <code>[model_providers.chatgpt-http]</code> 段落删掉，就回到原样了。</p>
+</div>
+
+<footer>
+  <p><b>适用范围</b>：macOS / Windows / Linux 上的 Codex 命令行版与桌面版（两者读同一份 <code>~/.codex/config.toml</code>）。要求 Codex ≥ 0.136.0，且使用 ChatGPT 账号登录。用 API Key 或第三方中转站的，配置里的 <code>base_url</code> 需要换成自己的地址。</p>
+  <p>相关官方 issue：<a href="https://github.com/openai/codex/issues/19804">#19804 请求允许 ChatGPT 用户强制 HTTP/SSE</a> · <a href="https://github.com/openai/codex/issues/13103">#13103 无法关闭 WebSocket</a> · <a href="https://github.com/openai/codex/issues/22634">#22634 WS 失败前卡 75 秒</a> · <a href="https://github.com/openai/codex/issues/26696">#26696 重连 5/5 后失败</a></p>
+  <p>基于 codex-cli 0.140.0 实测整理。0.136 这个版本下限取自社区反馈，未逐版验证。</p>
+</footer>
+
+</div>
+
+<div class="cb-watermark">chengbei.org · 2026-08-05</div>
+<script>
+function cp(btn,id){
+  const t=document.getElementById(id).innerText;
+  navigator.clipboard.writeText(t).then(()=>{
+    const o=btn.textContent;
+    btn.textContent='已复制 ✓'; btn.classList.add('done');
+    setTimeout(()=>{btn.textContent=o;btn.classList.remove('done')},1800);
+  }).catch(()=>{
+    const r=document.createRange(); r.selectNodeContents(document.getElementById(id));
+    const s=getSelection(); s.removeAllRanges(); s.addRange(r);
+    btn.textContent='请按 ⌘C';
+  });
+}
+</script>
+<script data-goatcounter="https://chengbei.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

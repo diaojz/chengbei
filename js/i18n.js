@@ -26,6 +26,7 @@ window.I18N = {
     ],
     artifacts: [
       // 按创作日期倒排（最新在前）；无日期的外链项目排在最后
+      { label: 'Codex「正在重新连接 N/5」修复指南', href: '/codex-reconnect/', date: '2026-08-05' },
       { label: '手工短视频 SOP 拆解 · 哪几条判据通用', href: '/sop-teardown/', date: '2026-07-27' },
       { label: '裁判模型准确率提升清单 · 88%→90%', href: '/judge-accuracy/', date: '2026-07-24' },
       { label: '换电脑 · 苹果开发者账号迁移指南', href: '/apple-dev-migration/', date: '2026-06-12' },
@@ -90,6 +91,7 @@ window.I18N = {
     ],
     artifacts: [
       // Sorted by creation date, newest first; dateless external items last
+      { label: 'Codex "Reconnecting N/5" · the fix', href: '/codex-reconnect/', date: '2026-08-05' },
       { label: 'Manual Video SOP · what still applies', href: '/sop-teardown/', date: '2026-07-27' },
       { label: 'LLM-Judge Accuracy Playbook · 88%→90%', href: '/judge-accuracy/', date: '2026-07-24' },
       { label: 'Apple Dev Migration · new Mac guide', href: '/apple-dev-migration/', date: '2026-06-12' },
