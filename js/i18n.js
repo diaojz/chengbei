@@ -21,6 +21,9 @@ window.I18N = {
     archive_posts: '随笔与答疑',
     read_more: '阅读全文 →',
     help: [
+      { label: 'Codex 权限配置 · config.toml 完整教程', href: '#/p/codex-permissions-guide' },
+      { label: 'Claude Code 权限配置 · settings.json 完整教程', href: '#/p/claude-code-permissions-guide' },
+      { label: '别再当 Yes 工程师 · Codex 与 Claude Code 权限完全指南', href: '#/p/stop-clicking-yes' },
       { label: 'Claude 账号登录问题 · 完整解决方案', href: '#/p/claude-login-guide' },
       { label: 'Claude 登录常见问题 · FAQ', href: '#/p/claude-login-faq' }
     ],
@@ -86,6 +89,9 @@ window.I18N = {
     archive_posts: 'Writing & Help',
     read_more: 'Read more →',
     help: [
+      { label: 'Codex permissions · complete config guide', href: '#/p/codex-permissions-guide' },
+      { label: 'Claude Code permissions · complete settings guide', href: '#/p/claude-code-permissions-guide' },
+      { label: 'Stop Being a Yes Engineer · complete Codex and Claude permissions', href: '#/p/stop-clicking-yes' },
       { label: 'Claude account login · full guide', href: '#/p/claude-login-guide' },
       { label: 'Claude login · FAQ', href: '#/p/claude-login-faq' }
     ],

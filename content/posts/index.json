@@ -1,5 +1,32 @@
 [
   {
+    "slug": "codex-permissions-guide",
+    "ts": 1786291200000,
+    "category": "help",
+    "title_zh": "Codex 告别重复授权：config.toml 与命令规则完整教程",
+    "title_en": "Stop Repeated Codex Approvals: Complete Config and Rules Guide",
+    "excerpt_zh": "只讲 Codex：从 config.toml 的审批与沙箱，到 writable_roots、项目 trust、default.rules、验证、回滚和可直接复制的配置提示词。",
+    "excerpt_en": "Codex only: approvals, sandbox boundaries, writable roots, project trust, persistent command rules, validation, rollback, and a copy-ready prompt."
+  },
+  {
+    "slug": "claude-code-permissions-guide",
+    "ts": 1786291200000,
+    "category": "help",
+    "title_zh": "Claude Code 告别重复点 Yes：settings.json 与 Hook 完整教程",
+    "title_en": "Stop Clicking Yes in Claude Code: Complete Settings and Hooks Guide",
+    "excerpt_zh": "只讲 Claude Code：完整 settings.json、auto 与 allow/deny、fail-closed PreToolUse Hook、验证、回滚和可直接复制的配置提示词。",
+    "excerpt_en": "Claude Code only: complete settings, auto and allow/deny rules, a fail-closed PreToolUse hook, validation, rollback, and a copy-ready prompt."
+  },
+  {
+    "slug": "stop-clicking-yes",
+    "ts": 1786291200000,
+    "category": "help",
+    "title_zh": "别再当 Yes 工程师：Codex 与 Claude Code 权限配置完全指南",
+    "title_en": "Stop Being a Yes Engineer: Complete Permissions for Codex and Claude Code",
+    "excerpt_zh": "读文件点一次、跑测试点一次、装依赖再点一次——解决办法不是关掉全部权限，而是把活动范围、日常白名单和硬红线分成三层。本文基于我的真实配置，完整给出脱敏后的 Codex config.toml、prefix_rule、Claude Code settings.json、PreToolUse Hook、委派场景与验证回滚步骤。",
+    "excerpt_en": "Reading, testing, installing — every step asks again. The answer is not disabling all safeguards, but separating operating boundaries, routine passes, and hard red lines. A complete sanitized setup with Codex config.toml, prefix rules, Claude settings, programmable hooks, delegated-agent mode, verification, and rollback."
+  },
+  {
     "slug": "tokens-2026-06",
     "ts": 1783296000000,
     "category": "thought",
