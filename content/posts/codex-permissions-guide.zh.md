@@ -66,43 +66,38 @@ trust_level = "trusted"
 
 你必须替换 `<YOUR_NAME>` 和示例项目路径。不需要联网就把 `network_access` 改成 `false`；不需要额外缓存目录就删掉 `writable_roots`，权限越少越好。
 
-## 第四步：用 `default.rules` 消灭重复的命令确认
+## 第四步：命令级白名单不存在，真正能调的是 `approval_policy.granular`
 
-`config.toml` 管活动范围；已经反复确认过的命令前缀，放在：
+> **勘误（2026-08-10）**：这一步此前写的是「用 `~/.codex/rules/default.rules` + `prefix_rule()` 持久化某个命令前缀」。核对 [Codex Configuration Reference](https://learn.chatgpt.com/docs/config-file/config-reference) 后确认：**这套规则文件和 `prefix_rule` 语法不存在，是我当时写错的**，Codex 没有类似 Claude Code `permissions.allow` 那种「给单条命令永久放行」的持久化白名单机制。已改成下面经核实的写法，为之前的错误说明道歉。
 
-```text
-~/.codex/rules/default.rules
+Codex 真正能调的粒度，是把 `approval_policy` 从「整体开关」换成按类别拆开的 `granular` 形式：
+
+```toml
+# 整体开关（第二步已经用过）
+approval_policy = "on-request"
 ```
 
-创建目录和文件：
+如果 `on-request` 仍然太吵，可以只关掉你确认安全的那一类确认，而不是整体切到 `never`：
 
-```bash
-mkdir -p ~/.codex/rules
-${EDITOR:-nano} ~/.codex/rules/default.rules
+```toml
+[approval_policy.granular]
+sandbox_approval = false   # 沙箱内的常规操作不再逐次确认
+rules = true                # 涉及规则/策略变更时仍然询问
+mcp_elicitations = true
+request_permissions = true
+skill_approval = true
 ```
 
-推荐从克制的白名单开始：
+`sandbox_mode = "workspace-write"` 已经把「能碰哪里」锁死在工作区内；`granular` 只决定「在这个范围内还要不要再问你」，两者分工不重叠。
 
-```python
-# ~/.codex/rules/default.rules
-prefix_rule(pattern=["git", "status"], decision="allow")
-prefix_rule(pattern=["git", "diff"], decision="allow")
-prefix_rule(pattern=["npm", "run"], decision="allow")
-prefix_rule(pattern=["pnpm", "test"], decision="allow")
-prefix_rule(pattern=["pytest"], decision="allow")
-prefix_rule(pattern=["ruff"], decision="allow")
-```
+不要为了省事把 `approval_policy` 整体改成：
 
-不要为了省事宽泛放行：
-
-```python
+```toml
 # 不建议
-prefix_rule(pattern=["bash"], decision="allow")
-prefix_rule(pattern=["python3"], decision="allow")
-prefix_rule(pattern=["sudo"], decision="allow")
+approval_policy = "never"
 ```
 
-`python3 safe.py` 和 `python3 -c '<任意代码>'` 都会命中宽泛的 `python3`。规则越靠近明确工作流，越安全。
+这会连越界操作也一并放行，等价于把红线也关掉——和 `sandbox_mode = "danger-full-access"` 一样，只应该出现在你完全清楚后果的场景（见下方「可选：Codex 被其他 Agent 委派」）。
 
 ## 第五步：校验 TOML，不要等启动时报错
 
@@ -146,13 +141,13 @@ claude mcp add -s user codex -- \
 ```text
 请帮我减少 Codex 在开发过程中重复弹出授权确认，但不要关闭安全边界。
 
-先只读检查 ~/.codex/config.toml 和 ~/.codex/rules/default.rules；不得显示任何密钥、Token、Cookie 或代理口令。
+先只读检查 ~/.codex/config.toml；不得显示任何密钥、Token、Cookie 或代理口令。
 
 目标配置：
 1. approval_policy = "on-request"；
 2. sandbox_mode = "workspace-write"；
 3. 仅当当前项目确实需要联网时，设置 [sandbox_workspace_write] network_access = true；
-4. 根据当前项目实际使用的包管理器和测试工具，为 git status、git diff、测试、lint 等高频可逆命令生成精确 prefix_rule；
+4. 如果 on-request 仍然太吵，评估是否需要 [approval_policy.granular] 按类别（sandbox_approval / rules / mcp_elicitations / request_permissions / skill_approval）精细放开，而不是整体改成 never；
 5. 禁止宽泛放行 bash、zsh、python3、node、sudo、rm；
 6. 不得开启 danger-full-access，不得把默认 approval_policy 改为 never；
 7. 保留现有模型、MCP、插件、通知、代理和其他无关字段。

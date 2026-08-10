@@ -18,17 +18,19 @@ writable_roots = [
 trust_level = "trusted"
 ```
 
-Use `~/.codex/rules/default.rules` for precise, reversible command prefixes:
+**Correction (2026-08-10):** this section previously described a `~/.codex/rules/default.rules` file with a `prefix_rule()` syntax for pinning individual command prefixes as always-allowed. That mechanism does not exist — checked against the official [Codex Configuration Reference](https://learn.chatgpt.com/docs/config-file/config-reference). Codex has no persistent per-command allowlist comparable to Claude Code's `permissions.allow`. Sorry for the earlier error.
 
-```python
-prefix_rule(pattern=["git", "status"], decision="allow")
-prefix_rule(pattern=["git", "diff"], decision="allow")
-prefix_rule(pattern=["npm", "run"], decision="allow")
-prefix_rule(pattern=["pnpm", "test"], decision="allow")
-prefix_rule(pattern=["pytest"], decision="allow")
-prefix_rule(pattern=["ruff"], decision="allow")
+The real lever, once `on-request` still feels noisy, is splitting `approval_policy` into `granular` categories instead of flipping the whole thing to `never`:
+
+```toml
+[approval_policy.granular]
+sandbox_approval = false   # routine in-sandbox actions stop asking
+rules = true                 # policy/rule changes still ask
+mcp_elicitations = true
+request_permissions = true
+skill_approval = true
 ```
 
-Avoid broad shell, interpreter, deletion, and privilege rules. Validate with Python `tomllib`, then test both normal work inside a disposable repository and an attempted write outside it. For delegated MCP execution only, `approval_policy=never` may be combined with `workspace-write`; do not turn that scenario override into a normal workstation default.
+`sandbox_mode = "workspace-write"` already caps *where* Codex can reach; `granular` only decides whether it still asks *within* that boundary. Avoid broad shell, interpreter, deletion, and privilege rules, and avoid setting `approval_policy = "never"` outright — that removes prompts for out-of-bounds actions too. Validate with Python `tomllib`, then test both normal work inside a disposable repository and an attempted write outside it. For delegated MCP execution only, `approval_policy=never` may be combined with `workspace-write`; do not turn that scenario override into a normal workstation default.
 
 See the Chinese version of this article for the complete step-by-step prompt, validation, and rollback commands.
