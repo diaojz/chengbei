@@ -1,5 +1,14 @@
 [
   {
+    "slug": "codex-terminal-scrollback",
+    "ts": 1786377600000,
+    "category": "help",
+    "title_zh": "Codex CLI 滚轮只翻输入历史？一行恢复完整对话滚动",
+    "title_en": "Codex CLI Mouse Wheel Cycles Input History? Restore Full Conversation Scrolling",
+    "excerpt_zh": "在 Ghostty 里想向上翻 Codex 的回答，滚轮却只会切换输入历史。原因不是鼠标坏了，而是 TUI 的备用屏幕模式。一条 --no-alt-screen 命令恢复终端原生 scrollback，附会话恢复、永久配置与撤销方法。",
+    "excerpt_en": "In Ghostty, the mouse wheel may cycle Codex input history instead of scrolling the conversation. Use --no-alt-screen to restore native terminal scrollback, with steps for resuming, making it permanent, and undoing it."
+  },
+  {
     "slug": "codex-permissions-guide",
     "ts": 1786291200000,
     "category": "help",
