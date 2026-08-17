@@ -1,5 +1,14 @@
 [
   {
+    "slug": "http-status-codes-quick-reference",
+    "ts": 1786896000000,
+    "category": "help",
+    "title_zh": "HTTP 状态码速查：401、403、404、500 到底哪里出错",
+    "title_en": "HTTP Status Codes Quick Reference: What 401, 403, 404, and 500 Actually Mean",
+    "excerpt_zh": "给普通用户和 Vibe Coding 开发者的 HTTP 状态码速查表：先用第一位判断问题方向，再区分最常见的 400、401、403、404、429、500、502、503、504。附 2xx、3xx、4xx、5xx 常用码、非标准厂商码和一套可直接照做的排查顺序。",
+    "excerpt_en": "A practical HTTP status-code reference for users and vibe coders: identify the problem family by the first digit, then distinguish common codes such as 400, 401, 403, 404, 429, 500, 502, 503, and 504. Includes useful 2xx–5xx codes, vendor-specific codes, and a repeatable debugging checklist."
+  },
+  {
     "slug": "codex-terminal-scrollback",
     "ts": 1786377600000,
     "category": "help",
