@@ -31,6 +31,7 @@ window.I18N = {
     ],
     artifacts: [
       // 按创作日期倒排（最新在前）；无日期的外链项目排在最后
+      { label: 'AI 全栈 / Agent / 大前端技术笔记 · 139 条', href: '/tech-notes/', date: '2026-08-24' },
       { label: 'Codex「正在重新连接 N/5」修复指南', href: '/codex-reconnect/', date: '2026-08-05' },
       { label: '手工短视频 SOP 拆解 · 哪几条判据通用', href: '/sop-teardown/', date: '2026-07-27' },
       { label: '裁判模型准确率提升清单 · 88%→90%', href: '/judge-accuracy/', date: '2026-07-24' },
@@ -101,6 +102,7 @@ window.I18N = {
     ],
     artifacts: [
       // Sorted by creation date, newest first; dateless external items last
+      { label: 'AI Full-Stack / Agent / Frontend Notes · 139 entries', href: '/tech-notes/', date: '2026-08-24' },
       { label: 'Codex "Reconnecting N/5" · the fix', href: '/codex-reconnect/', date: '2026-08-05' },
       { label: 'Manual Video SOP · what still applies', href: '/sop-teardown/', date: '2026-07-27' },
       { label: 'LLM-Judge Accuracy Playbook · 88%→90%', href: '/judge-accuracy/', date: '2026-07-24' },
