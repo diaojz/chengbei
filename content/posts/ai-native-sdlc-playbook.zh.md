@@ -31,7 +31,7 @@ SDLC 全称 Software Development Life Cycle，软件开发生命周期。别被�
 
 ## 水桶的最短板，换了一块
 
-![一条宽阔的黄金河流被一道石制水闸卡住，大量河水在闸前堆积打旋，只有一线细流从窄缝挤出继续向前：某个环节变快了，瓶颈却转移到了后面](/assets/img/posts/ai-native-sdlc/bottleneck-moved.png)
+![一条宽阔的黄金河流被一道石制水闸卡住，大量河水在闸前堆积打旋，只有一线细流从窄缝挤出继续向前：某个环节变快了，瓶颈却转移到了后面](/assets/img/posts/ai-native-sdlc/bottleneck-moved.webp)
 
 有个很老的比喻，叫木桶效应：一只水桶能装多少水，取决于最短的那块木板，不取决于最长的那块。
 
@@ -88,7 +88,7 @@ AI 原生的做法是**一次会话里把这两件事一起搞定**：把上一�
 
 ### 3 · Build——写代码之前，先让 AI 交一份"作业计划"
 
-![一份巨大的发光黄金蓝图悬浮展开，一双手正在核对图纸上精密的结构线条，图纸后方隐约浮现正在被光线一点点"建造"出来的建筑轮廓：动手写代码前，先把计划想清楚、核对清楚](/assets/img/posts/ai-native-sdlc/build-blueprint.png)
+![一份巨大的发光黄金蓝图悬浮展开，一双手正在核对图纸上精密的结构线条，图纸后方隐约浮现正在被光线一点点"建造"出来的建筑轮廓：动手写代码前，先把计划想清楚、核对清楚](/assets/img/posts/ai-native-sdlc/build-blueprint.webp)
 
 这是整篇文章篇幅最长的一节，因为"怎么让 AI 靠谱地写代码"这件事，细节最多。拆成五个小招：
 
@@ -118,7 +118,7 @@ Skill 是"建议"，AI 理论上可以不听；Hook 是"硬卡口"——**该挡
 
 ### 4 · Test——让 AI 自己先把关，人看到的是"已经验证过"的东西
 
-![一面悬浮的黄金棱镜，驳杂的光线从一侧射入，经过折射过滤后从另一侧射出笔直纯净的光线：AI 在把结果交给人看之前，先自己检查、自己过滤一遍](/assets/img/posts/ai-native-sdlc/self-check-mirror.png)
+![一面悬浮的黄金棱镜，驳杂的光线从一侧射入，经过折射过滤后从另一侧射出笔直纯净的光线：AI 在把结果交给人看之前，先自己检查、自己过滤一遍](/assets/img/posts/ai-native-sdlc/self-check-mirror.webp)
 
 这一节的核心思路，文章说得很直白：
 
@@ -152,11 +152,11 @@ Skill 是"建议"，AI 理论上可以不听；Hook 是"硬卡口"——**该挡
 
 ## 一张图看懂这个闭环
 
-![悬浮在深空中的黄金圆环，环上六个发光节点数据首尾相连，中心悬浮一份若隐若现的金色文档：六个阶段循环往复，形成一个不断自我迭代的闭环](/assets/img/posts/ai-native-sdlc/loop-glow.png)
+![悬浮在深空中的黄金圆环，环上六个发光节点数据首尾相连，中心悬浮一份若隐若现的金色文档：六个阶段循环往复，形成一个不断自我迭代的闭环](/assets/img/posts/ai-native-sdlc/loop-glow.webp)
 
 我把这六个阶段和之间两个最关键的关卡画成了一张图（Plan → Design → Build →〔AI 自检通过〕→ Test → Deploy →〔评审通过才发布〕→ Maintain → 指标异常，自动开一轮新的 Plan，回到起点）：
 
-![AI 原生 SDLC 六阶段闭环信息图：Plan、Design、Build 三阶段在上排，Build 经 AI 自检通过后转入下排 Test、Deploy、Maintain，Deploy 需评审通过才发布，Maintain 监控到指标异常后自动开启新一轮 Plan](/assets/img/posts/ai-native-sdlc/loop.png)
+![AI 原生 SDLC 六阶段闭环信息图：Plan、Design、Build 三阶段在上排，Build 经 AI 自检通过后转入下排 Test、Deploy、Maintain，Deploy 需评审通过才发布，Maintain 监控到指标异常后自动开启新一轮 Plan](/assets/img/posts/ai-native-sdlc/loop.webp)
 
 看这张图的时候，注意两个关卡：**Build 到 Test 之间是"AI 自检通过"——这是 AI 自己把的第一道关；Deploy 面板上写着"评审通过才发布"——这是人工把的最后一道关。** 这条线不是一次性的——走到 Maintain，指标一旦异常，就会自动开一轮新的 Plan，回到起点，形成一个环。
 
@@ -164,7 +164,7 @@ Skill 是"建议"，AI 理论上可以不听；Hook 是"硬卡口"——**该挡
 
 ## 治理这件事，不是拍脑袋定规矩
 
-![三道逐级收窄的黄金拱门，一个人影站在最窄的一道门前抬手把关，身后的金色数据光流被拦截筛选](/assets/img/posts/ai-native-sdlc/governance-gates.png)
+![三道逐级收窄的黄金拱门，一个人影站在最窄的一道门前抬手把关，身后的金色数据光流被拦截筛选](/assets/img/posts/ai-native-sdlc/governance-gates.webp)
 
 文章里反复出现一个词：governance，治理。翻译成大白话就是：**谁能做什么、谁来批准、出了事怎么追溯。**
 
