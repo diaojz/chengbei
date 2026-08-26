@@ -31,6 +31,7 @@ window.I18N = {
     ],
     artifacts: [
       // 按创作日期倒排（最新在前）；无日期的外链项目排在最后
+      { label: 'AI 原生 SDLC 六阶段闭环 · 代码不再是瓶颈', href: '#/p/ai-native-sdlc-playbook', date: '2026-08-26' },
       { label: 'AI 全栈 / Agent / 大前端技术笔记 · 438 条', href: '/tech-notes/', date: '2026-08-24' },
       { label: 'Codex「正在重新连接 N/5」修复指南', href: '/codex-reconnect/', date: '2026-08-05' },
       { label: '手工短视频 SOP 拆解 · 哪几条判据通用', href: '/sop-teardown/', date: '2026-07-27' },
@@ -102,6 +103,7 @@ window.I18N = {
     ],
     artifacts: [
       // Sorted by creation date, newest first; dateless external items last
+      { label: 'The AI-Native SDLC · code is no longer the bottleneck', href: '#/p/ai-native-sdlc-playbook', date: '2026-08-26' },
       { label: 'AI Full-Stack / Agent / Frontend Notes · 438 entries', href: '/tech-notes/', date: '2026-08-24' },
       { label: 'Codex "Reconnecting N/5" · the fix', href: '/codex-reconnect/', date: '2026-08-05' },
       { label: 'Manual Video SOP · what still applies', href: '/sop-teardown/', date: '2026-07-27' },

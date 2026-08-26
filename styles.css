@@ -663,6 +663,13 @@ body.reading #post-view {
 }
 body.reading .page > .col { display: none; }
 
+/* 详情页阅读时关掉氛围叠加层动效（叶子/月亮/雨），只保留首页的沉浸感，避免长文阅读被晃动的背景晃到头晕 */
+body.reading #leaves-overlay,
+body.reading #moon-overlay,
+body.reading #rain-overlay {
+  opacity: 0 !important;
+}
+
 .post-container {
   max-width: 768px;
   margin: 0 auto;

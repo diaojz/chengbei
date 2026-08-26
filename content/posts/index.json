@@ -1,5 +1,15 @@
 [
   {
+    "slug": "ai-native-sdlc-playbook",
+    "ts": 1787673600000,
+    "category": "thought",
+    "title_zh": "代码不再是瓶颈，瓶颈换了个地方",
+    "title_en": "Code Is No Longer the Bottleneck — It Just Moved",
+    "excerpt_zh": "读完 Claude 官方那篇《The AI-native SDLC playbook》，最扎心的一句话是：代码已经不是研发流程里最慢的一环了。AI 把「写代码」这块最短板焊长之后，瓶颈搬到了审批、测试、发布这些人力速度的环节。用大白话拆解 Plan/Design/Build/Test/Deploy/Maintain 六阶段怎么重做一遍，intent.md/spec.md/plan.md/CLAUDE.md 这些文件都是干什么用的，附一张我用 Figma MCP 画的六阶段闭环图，以及普通开发者今天就能抄的三件事。",
+    "excerpt_en": "Reading Claude's official \"The AI-native SDLC playbook,\" the line that stuck was: code is no longer the slowest step. Once AI sped up writing code, the bottleneck moved to approvals, testing, and release — the stages still running at human speed. A plain-language walkthrough of the six SDLC stages, what intent.md/spec.md/plan.md/CLAUDE.md actually do, a loop diagram, and three things any solo developer can borrow today.",
+    "_note_en": "en.md 暂为中文占位，待精翻"
+  },
+  {
     "slug": "http-status-codes-quick-reference",
     "ts": 1786896000000,
     "category": "help",

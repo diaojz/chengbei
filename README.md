@@ -16,6 +16,7 @@
 
 | 项目 | 地址 | 说明 |
 |---|---|---|
+| AI 原生 SDLC 六阶段闭环 | #/p/ai-native-sdlc-playbook | 2026-08-26 · Claude 官方《The AI-native SDLC playbook》中文通俗解读 · Plan/Design/Build/Test/Deploy/Maintain 六阶段怎么重做一遍 · 随笔文章，非独立页 |
 | AI 全栈/Agent/大前端技术笔记 | /tech-notes/ | 2026-08-24 · 438 条工程要点笔记，覆盖前端大前端/移动端跨端/AI Agent与LLM工程/AI Coding工具链/后端与数据库/运维与基础设施/Agent全栈工程复盘七个方向 · 每条含要点、延伸联想、边界与常见误区（复盘卡片为"这一篇讲什么+复习要点"结构）· 8 页站内独立小站（index + 7 个分类页） |
 | Codex 重连问题修复指南 | /codex-reconnect/ | 2026-08-05 · 「正在重新连接 N/5」成因与修法 · 主体是一段可复制给 AI 自助执行的指令 · 站内独立页 |
 | 手工短视频 SOP 拆解 | /sop-teardown/ | 2026-07-27 · 手工赛道 SOP 逐页拆解 · 工具全不通用但判据通用 · 12 条发布检查清单（流程图依赖共享 `/lib/`）|
