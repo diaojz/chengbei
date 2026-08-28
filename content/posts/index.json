@@ -1,5 +1,14 @@
 [
   {
+    "slug": "claude-code-quota-keepalive",
+    "ts": 1787846400000,
+    "category": "help",
+    "title_zh": "Claude Code 对齐 5 小时用量窗口：用 Scheduled Routines 预热 Opus 与 Sonnet",
+    "title_en": "Align Claude Code's 5-Hour Usage Windows: Warm Up Opus and Sonnet with Scheduled Routines",
+    "excerpt_zh": "用 Claude Code 自带的 Scheduled cloud agents，在真正开工前用最小请求启动 5 小时窗口。包含 Opus/Sonnet 分池的实测限定、8 个任务的参考时间表、配置方法与四个真实踩坑。",
+    "excerpt_en": "Use Claude Code's built-in Scheduled cloud agents to start five-hour windows with a minimal request before real work. Includes the observed Opus/Sonnet pool boundary, an eight-routine example schedule, setup steps, and four real-world gotchas."
+  },
+  {
     "slug": "ai-native-sdlc-playbook",
     "ts": 1787673600000,
     "category": "thought",
