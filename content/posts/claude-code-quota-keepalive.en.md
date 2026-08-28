@@ -39,11 +39,16 @@ Most users can use either of these entry points:
 
 Routines can also be created programmatically with command-line tooling, but that is unnecessary for this setup. You do not need to connect a GitHub repository. Select the default Environment and leave sources empty.
 
-I use the same fixed prompt for every routine (the Chinese text is intentional and is reproduced exactly):
+Each of the four periods has a small, everyday topic. The two model-specific routines within a period use the same prompt; the Chinese production prompts are reproduced exactly below:
 
-```text
-请直接回复 "Hi"，不要调用任何工具，不要做任何其他事。
-```
+| Period | Topic | Exact prompt |
+| --- | --- | --- |
+| Morning (07:30/07:35) | Weather or the morning commute | `我准备开始上班了，随口问我一句今天天气怎么样或者早高峰堵不堵（自己选一个话题，说法别老一样），像朋友聊天那样简单回一句就行。` |
+| After lunch (13:01/13:07) | What to eat for lunch | `到午休时间了，随口问我中午吃点什么好，像朋友聊天那样简单回一句就行，说法别老一样。` |
+| End of workday (18:10/18:14) | The evening commute | `我准备下班了，随口问一下现在下班路上堵不堵，像朋友聊天那样简单回一句就行，说法别老一样。` |
+| Evening (23:20/23:23) | TV series recommendations | `晚上有点空，随口问我最近有什么好看的剧集值得推荐，像朋友聊天那样简单回一句就行，说法别老一样。` |
+
+Even when its content is harmless, an identical message sent at the same exact times every day is itself a recognizable automation pattern. These prompts therefore fix only a natural topic for each period and ask the model to compose fresh wording each time, rather than selecting from a hard-coded question bank.
 
 Keep permissions minimal, for example:
 
@@ -54,7 +59,7 @@ Keep permissions minimal, for example:
 }
 ```
 
-`Read` is not there because the routine should read anything; it merely keeps the allowed set minimal. The prompt explicitly forbids all tool use, and the empty sources list means no repository is attached.
+`Read` is not there because the routine should read anything; it merely keeps the allowed set minimal. This configuration — not the prompt wording — is what actually prevents any real tool use, and the empty sources list means no repository is attached.
 
 ## My example: four work periods, eight routines
 
@@ -94,6 +99,6 @@ Fourth, routines created under an old Claude Code account do not migrate when yo
 
 ## Final checklist
 
-For every work period, verify that you have one Opus routine and one Sonnet routine, sources are empty, the prompt only asks for `Hi`, the two models are staggered, and adjacent windows are genuinely more than five hours apart.
+For every work period, verify that you have one Opus routine and one Sonnet routine, sources are empty, each period uses its corresponding everyday prompt and asks for varied wording, the two models are staggered, and adjacent windows are genuinely more than five hours apart.
 
 This is not a way to obtain more quota. It is a way to prevent the quota you already have from starting at the wrong time. For a reasonably regular workday, that small scheduling change can make heavy sessions begin much more consistently inside a fresh, full five-hour window.
