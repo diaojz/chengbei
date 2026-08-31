@@ -1,5 +1,14 @@
 [
   {
+    "slug": "mcp-python-sdk-v2-migration",
+    "ts": 1788105600000,
+    "category": "help",
+    "title_zh": "MCP Python SDK 2.0：别把它当成一次改名升级",
+    "title_en": "MCP Python SDK 2.0 Is Not Just a Rename",
+    "excerpt_zh": "MCP Python SDK 2.0 不只是把 FastMCP 改名。这篇文章用打电话/寄明信片、办事窗口补材料这些生活化类比，讲清楚无状态请求、统一 Client、Resolve 多轮交互等关键变化，附四张图解，帮你在不踩坑的前提下走完迁移。",
+    "excerpt_en": "MCP Python SDK 2.0 changes far more than class names. Using everyday analogies—phone calls versus postcards, a service counter asking for missing paperwork—this guide walks through stateless requests, the unified Client, and Resolve-based interactions, with four diagrams and a migration order designed to avoid silent failures."
+  },
+  {
     "slug": "claude-code-quota-keepalive",
     "ts": 1787846400000,
     "category": "help",
