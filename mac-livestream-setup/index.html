@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>一个人的 Mac 直播间 · 从踩坑到跑通的搭建实录 · 城北</title>
-<meta name="description" content="想用直播讲 AI 编程给更多人看，顺便给线下课导流。计划定得很扎实，唯独没想到真正拦路的是「我的电脑是 Mac」——两次被平台账号权限当场推翻，最后改道跑通的完整实录。">
+<meta name="description" content="今天下午临时起意要做直播，查资料查出一版挺靠谱的方案，结果两次被平台账号权限当场打脸——一次是粉丝门槛，一次是 Mac 压根没有开播入口。最后改道跑通，最后一环还在实测中的搭建实录。">
 <meta property="og:title" content="一个人的 Mac 直播间 · 从踩坑到跑通的搭建实录">
-<meta property="og:description" content="调研做得再扎实，也大不过账号后台实际显示的那一行字——一次直播间搭建的真实过程记录。">
+<meta property="og:description" content="查得再细，也拗不过账号后台那一行字——一次直播间搭建的真实过程记录，写到发布这一刻还没完全结束。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://chengbei.org/mac-livestream-setup/">
 <style>
@@ -174,7 +174,7 @@ footer.pf { text-align:center; margin-top:48px; font-family:'JetBrains Mono',mon
   <div class="hero" id="sec-top">
     <div class="eyebrow">Build Log · 一个人从 0 搭直播间的真实记录</div>
     <h1>一个人的 Mac 直播间：<br>从踩坑到跑通的搭建实录</h1>
-    <p class="hero-desc">我想用直播的方式，把日常做 AI 编程的工作流讲给更多人看，顺便给自己的线下课导流。调研做得挺扎实——直播软件、三个平台的规则、同行案例都查过一遍，计划定得清清楚楚。<strong>唯独没想到，真正拦住我的不是内容，是「我的电脑是 Mac」这一件小事。</strong>这篇记录的是从构思到真正把直播间跑起来的完整过程，包括两次被平台账号权限当场推翻结论的经历。</p>
+    <p class="hero-desc">这事是今天下午临时起的意——业余时间做直播，把日常摸出来的 AI 编程工作流讲给更多人看，顺便给自己的线下课攒点信任。调研这块图省事，直接把要干的事跟 AI 说清楚，让它帮我查直播软件、平台规则、同行都怎么弄。查回来的方案看着挺靠谱。<strong>结果真上手才发现，拦住我的根本不是内容，是「我的电脑是 Mac」这么件小事。</strong>这篇记的是从起意到现在的完整过程，包括两次被平台账号权限当场打脸——写到发布这一刻，其实还没完全收尾。</p>
     <div class="hero-date">发布于 2026-08-31</div>
     <div class="hero-stats">
       <div class="hstat"><span class="n">2 次</span><span class="l">结论被账号实测推翻</span></div>
@@ -188,20 +188,20 @@ footer.pf { text-align:center; margin-top:48px; font-family:'JetBrains Mono',mon
   <!-- 为什么做这件事 -->
   <div class="section" id="sec-faxin">
     <div class="sec-title"><span class="sn">01</span><h2>为什么要折腾这件事</h2><span class="sub">直播 + 切片 + 个站清单</span></div>
-    <p class="pipe-lead">我平时的日常工作和业余时间都在用各种 AI 编程工具，攒了不少经验。想把这些经验讲给更多人听——不只是发几篇图文，而是<strong>把整个工作流现场演示出来</strong>，让人看到真实的操作过程，而不是剪辑好的结果。更现实的目的是给自己的线下课导流：内容先建立信任，再谈报课。</p>
-    <p class="pipe-lead">整体思路定得挺完整：直播为主（业余时间做、新号没人看的阶段正好按自己的节奏把知识体系梳理一遍，人多了再结合弹幕调整），录屏剪成系列切片沉淀到 B 站，个站开一个「系列更新」清单模块配合预热和收反馈。这篇文章只记录其中最先动手、也最先出岔子的一段——<strong>直播间本身怎么搭起来</strong>。</p>
+    <p class="pipe-lead">我平时不管是本职工作还是业余折腾，用的都是各种 AI 编程工具，攒了不少实操经验。一直想找个方式讲给更多人听——不是发几张截图配文字，是<strong>把整个操作过程现场演出来</strong>，卡壳、报错都留着，不是剪好的成片。更实际的目的是给自己的线下课攒信任——道理很直接：先让人看到我真的会做这些事，之后聊报课才有说服力。</p>
+    <p class="pipe-lead">整体思路想得挺完整：直播为主（业余时间做，新号没人看的阶段正好按自己的节奏把知识体系过一遍），录屏剪成系列切片沉淀到 B 站，个站再开一个每日清单模块配合预热。这篇只记录其中<strong>最先动手、也最先出岔子的一段</strong>——直播间本身，从决定要做到现在，还没完全弄利索的这几个小时。</p>
   </div>
 
   <!-- 调研 -->
   <div class="section" id="sec-yanjiu">
     <div class="sec-title"><span class="sn">02</span><h2>调研：先把地基打扎实</h2><span class="sub">直播软件方案 · 三平台规则 · 同行案例</span></div>
-    <p class="pipe-lead" style="--ac:var(--blue)">动手之前先做了一轮调研：OBS 怎么搭桌面共享 + 摄像头画中画、macOS 有哪些权限坑、三个平台各自的直播开通门槛和算法偏好、同类型账号的打法参考。结论清清楚楚：<strong>B 站是长视频主阵地，OBS 负责推流，抖音和小红书发切片</strong>。</p>
+    <p class="pipe-lead" style="--ac:var(--blue)">动手之前图省事，没自己一个个查，直接把要干的事跟 AI 说清楚——直播用什么软件、macOS 上有哪些权限坑、三个平台各自的开通门槛和算法偏好、同行都是怎么打法——让它帮我搜了一圈。查回来的结论挺扎实：<strong>B 站是长视频主阵地，OBS 负责推流，抖音和小红书发切片</strong>。</p>
     <div class="steps cols-3">
       <div class="step"><div class="n">直播软件</div><div class="t">OBS Studio</div><div class="d">桌面/窗口采集 + 摄像头画中画 + 麦克风混音，三场景（开场/正片/Q&A）够用</div></div>
       <div class="step"><div class="n">平台策略</div><div class="t">同题异构</div><div class="d">B 站给完整路径，抖音给结果冲突，小红书给清单避坑——同一个选题三种包装</div></div>
       <div class="step"><div class="n">首播计划</div><div class="t">90 分钟内做完</div><div class="d">选一个能在直播时间内完成的真实小项目，边做边讲，别只是聊工具</div></div>
     </div>
-    <p class="pipe-lead" style="--ac:var(--blue); margin-top:30px;">看起来是一份很扎实的方案。事后证明，<strong>「通用调研结论」和「我这个具体账号能不能用」，完全是两回事。</strong></p>
+    <p class="pipe-lead" style="--ac:var(--blue); margin-top:30px;">回头看，这份方案哪哪都对，<strong>就是没让我自己的账号先点头。</strong></p>
   </div>
 
   <!-- 撞坑 -->
@@ -221,7 +221,7 @@ footer.pf { text-align:center; margin-top:48px; font-family:'JetBrains Mono',mon
           <div class="agent-icon">②</div>
           <div><div class="agent-role">撞坑二</div><div class="agent-name">Mac 客户端<br>根本没有开播功能</div></div>
         </div>
-        <div class="agent-one">退而求其次，去查「B 站 Mac 客户端能不能直接开播」，找到一份官方公告说「Mac 主播可下载哔哩哔哩客户端进行直播」。结果实际打开这个客户端翻遍所有菜单，<strong>连开播入口的影子都没有</strong>——后来干脆把本机安装包的代码资源翻出来核实，确认这功能压根不存在，公告只是没更新。</div>
+        <div class="agent-one">退而求其次，去查「Mac 客户端能不能直接开播」，翻到一份官方公告说「Mac 主播可下载哔哩哔哩客户端进行直播」——想着这下稳了。结果实际打开客户端翻遍所有菜单，<strong>连开播入口的影子都没有</strong>。不死心，干脆把本机安装包的代码资源翻出来核实，确认这功能压根不存在，公告只是没更新。</div>
       </div>
     </div>
 
@@ -236,15 +236,15 @@ footer.pf { text-align:center; margin-top:48px; font-family:'JetBrains Mono',mon
 
     <div class="quote-block">
       <div class="qmark">“</div>
-      <div class="qtext">调研报告写得再扎实，<br>也大不过<em>账号后台实际显示的那一行字</em>。</div>
+      <div class="qtext">两次了。<br>查得再细，也拗不过<em>账号后台那一行字</em>。</div>
     </div>
   </div>
 
   <!-- 改道 -->
   <div class="section" id="sec-gaidao">
     <div class="sec-title"><span class="sn">04</span><h2>改道：取消预约，换个阵地</h2><span class="sub">这次先把「有没有隐藏门槛」问清楚，再动手</span></div>
-    <p class="pipe-lead" style="--ac:var(--purple)">B 站桌面直播这条路走不通，已经发布出去的直播预约只能取消。剩下的选择摆在面前：借一台不熟悉的 Windows 设备保住 B 站首播，还是先用手机摄像头凑合开播牺牲桌面演示，或者干脆换一个对 Mac 更友好的平台。</p>
-    <p class="pipe-lead" style="--ac:var(--purple)">最后选了微信视频号——但这次不敢再直接照搬「通用结论」。吸取前两次的教训，调研时特意加了一条要求：<strong>先查清楚视频号是不是也有类似的隐藏粉丝门槛或认证门槛</strong>，宁可老实承认「查不到确切答案，需要自己登录账号后台核实」，也不再给一个可能被推翻的「一定可以」。查证下来，视频号官方公开文档没有类似 5000 粉丝的门槛，但前置条件很明确：得先注册视频号、在手机端完成实名认证。</p>
+    <p class="pipe-lead" style="--ac:var(--purple)">B 站桌面直播这条路走不通，已经发出去的直播预约只能取消。摆在面前的选择不多：借一台不熟的 Windows 设备死磕 B 站，或者先拿手机摄像头凑合开播、放弃桌面演示，再或者干脆换个对 Mac 更友好的平台。</p>
+    <p class="pipe-lead" style="--ac:var(--purple)">最后选了微信视频号。这次学乖了，没再直接信一个「应该可以」——调研时特意加了一条：<strong>先查清楚视频号是不是也藏着类似的隐藏门槛</strong>，查不到确切答案就老实说查不到，别再给我一个后来被打脸的「一定可以」。查证下来，视频号公开文档里没有类似 5000 粉丝那道坎，但前置条件挺明确：得先注册视频号、在手机上完成实名认证。</p>
   </div>
 
   <!-- 跑通 -->
@@ -257,19 +257,19 @@ footer.pf { text-align:center; margin-top:48px; font-family:'JetBrains Mono',mon
       <div class="step ok"><div class="n">3</div><div class="t">开权限</div><div class="d">系统设置里给微信开录屏与系统录音、摄像头、麦克风，重启生效</div></div>
       <div class="step ok"><div class="n">4</div><div class="t">加终端画面</div><div class="d">「更多→视频号直播伴侣」里加「窗口」来源选中 Terminal，再叠一个摄像头小窗</div></div>
     </div>
-    <p class="pipe-lead" style="--ac:var(--green); margin-top:30px;">另外顺手查了一下视频号的「回放」功能能不能替代本地录制——结论是不行：回放要手动开启才生成、下载文件只保留半年、画质也不保证和原始推流一致。所以 <strong>OBS 没有被浪费</strong>，它降级成了「只本地录制、不推流」的角色，专门给剪辑攒素材，这个安排原封不动地保留了下来。</p>
+    <p class="pipe-lead" style="--ac:var(--green); margin-top:30px;">直播间搭起来那一刻是挺爽的，终端窗口共享也弄成了。但整件事还差最后一环没验证完——光能开播不够，我要的是<strong>能剪出切片、拼成一整套课程</strong>的素材，这就得看视频号的「回放」到底靠不靠谱。查资料说回放要手动开、下载文件只保留半年、画质也不保证跟推流一致——这几个坑已经教会我一件事：这次不想再信「查资料说没问题」，打算直接拿这场直播实测，回放到底生不生效、下下来的东西能不能用。<strong>写到这段的时候，结果还没出来</strong>。OBS 先在本地录着一份垫底，不管回放测出来怎样，至少不会两手空空。</p>
   </div>
 
   <!-- 复盘 -->
   <div class="section" id="sec-fupan">
     <div class="sec-title"><span class="sn">06</span><h2>复盘：这几个坑教会我的事</h2><span class="sub">不只是「B站有粉丝门槛」这一条具体知识</span></div>
     <div class="bd-grid">
-      <div class="bd"><div class="q">优先级 · Priority</div><div class="p">通用调研结论只是<b>起点</b>，不是终点。真要用某个功能，一定要亲自去账号后台点一遍，看它实际显示什么。</div></div>
-      <div class="bd"><div class="q">信号 · Signal</div><div class="p">平台的隐藏门槛往往就藏在<b>一行不起眼的小字</b>里——不是要花很久去查文档，是有没有耐心把页面每一行都看完。</div></div>
-      <div class="bd"><div class="q">节奏 · Pace</div><div class="p">别为了赶「本周就要启动」跳过验证步骤。<b>先用最小成本试一遍</b>，比事后返工省时间得多。</div></div>
-      <div class="bd"><div class="q">弹性 · Flex</div><div class="p">计划要经得起被推翻。<b>B 站不行就换视频号</b>，没必要执着于最初随口定下的那个平台。</div></div>
-      <div class="bd"><div class="q">兜底 · Fallback</div><div class="p">别把素材寄托在平台的「回放」「云端处理」这类你不完全掌控的环节上，<b>本地录一份母版</b>永远更踏实。</div></div>
-      <div class="bd"><div class="q">复用 · Reuse</div><div class="p">第二次调研时主动加了「查有没有隐藏门槛」这一条要求——<b>吃过一次亏，下次就该把它写进流程里</b>，而不是靠记性。</div></div>
+      <div class="bd"><div class="q">先测再信</div><div class="p">调研结论只能当<b>起点</b>。真要指望一个功能能用，还是得自己去账号后台点一遍，看它到底显示什么。</div></div>
+      <div class="bd"><div class="q">小字里的坑</div><div class="p">拦住我的那道门槛，就是页面上<b>一行不起眼的小字</b>——不是要查多久文档，是有没有耐心把整页字看完。</div></div>
+      <div class="bd"><div class="q">别图快跳步骤</div><div class="p">赶时间最容易跳过「点一下试试」这一步。这次亲身体会：<b>省下的十分钟，后面常常要花几倍时间还回去</b>。</div></div>
+      <div class="bd"><div class="q">计划经得起推翻</div><div class="p">B 站不行就换视频号，<b>没必要非守着一开始随口定下的那个平台</b>。</div></div>
+      <div class="bd"><div class="q">别把素材全押平台上</div><div class="p">回放、云端处理这些不完全归我管的环节，能不靠就不靠——<b>这条现在还在验证，先把 OBS 开着兜底</b>。</div></div>
+      <div class="bd"><div class="q">吃一堑改流程</div><div class="p">第二次调研主动加了「先查有没有隐藏门槛」这一条——<b>吃过亏的地方，下次得写进流程里</b>，不能靠自己记性。</div></div>
     </div>
   </div>
 
@@ -277,7 +277,7 @@ footer.pf { text-align:center; margin-top:48px; font-family:'JetBrains Mono',mon
   <div class="section" id="sec-list" style="margin-bottom:0">
     <div class="foot">
       <h2>可复制的检查清单</h2>
-      <p class="fsub">如果你也是 Mac 用户、想从零搭一个能共享桌面的直播间，这份清单是我踩完坑之后浓缩出来的顺序——照着走能省掉我踩过的那两次坑。</p>
+      <p class="fsub">如果你也是 Mac 用户、也想从零搭一个能共享桌面的直播间，这是我踩完坑之后攒出来的顺序——照着走能省掉我踩过的那两次坑。<strong>最后一条我自己都还没测完，先诚实标在这儿。</strong></p>
       <ul class="checklist">
         <li><span><strong>先别急着装软件</strong>：登录你要用的每一个平台的创作者/直播后台，把「开播」相关的入口都点一遍，记录实际显示的文案和限制条件</span></li>
         <li><span><strong>Mac 用户格外注意</strong>：官方公告里出现「Mac 客户端可以 XX」这类表述，不要直接信，实际打开客户端把菜单翻一遍再下结论</span></li>
@@ -285,6 +285,7 @@ footer.pf { text-align:center; margin-top:48px; font-family:'JetBrains Mono',mon
         <li><span><strong>找一个不需要 OBS 也能开播的平台兜底</strong>：本文的经验是微信视频号内置的直播伴侣可以直接用，不依赖第三方推流权限</span></li>
         <li><span><strong>本地录制永远单独配一份</strong>：不管平台有没有「回放」功能，直播的同时用 OBS（或任意录屏软件）本地录一份，专门留给剪辑</span></li>
         <li><span><strong>已经公开发布的预约/预告，处理要果断</strong>：方案变了就及时取消或更新，别让对外的承诺卡在一个已经走不通的方案上</span></li>
+        <li><span><strong>回放能不能撑起剪辑，自己测一遍再信</strong>：查资料说下载只留半年、画质不保真，但具体好不好用，只有拿真实直播测过才知道——这条我自己也还在测，结果出来会回来更新</span></li>
       </ul>
       <footer class="pf">一个人的 Mac 直播间 · chengbei.org · 2026-08</footer>
     </div>
