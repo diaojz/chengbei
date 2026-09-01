@@ -175,7 +175,7 @@ footer.pf { text-align:center; margin-top:48px; font-family:'JetBrains Mono',mon
     <div class="eyebrow">Build Log · 一个人从 0 搭直播间的真实记录</div>
     <h1>一个人的 Mac 直播间：<br>从踩坑到跑通的搭建实录</h1>
     <p class="hero-desc">这事是今天下午临时起的意——业余时间做直播，把日常摸出来的 AI 编程工作流讲给更多人看，顺便给自己的线下课攒点信任。调研这块图省事，直接把要干的事跟 AI 说清楚，让它帮我查直播软件、平台规则、同行都怎么弄。查回来的方案看着挺靠谱。<strong>结果真上手才发现，拦住我的根本不是内容，是「我的电脑是 Mac」这么件小事。</strong>这篇记的是从起意到现在的完整过程，包括两次被平台账号权限当场打脸——写到发布这一刻，其实还没完全收尾。</p>
-    <div class="hero-date">发布于 2026-08-31</div>
+    <div class="hero-date">发布于 2026-08-31 · 更新于 2026-09-01</div>
     <div class="hero-stats">
       <div class="hstat"><span class="n">2 次</span><span class="l">结论被账号实测推翻</span></div>
       <div class="hstat"><span class="n">3 个</span><span class="l">调研过的直播平台</span></div>
@@ -257,7 +257,7 @@ footer.pf { text-align:center; margin-top:48px; font-family:'JetBrains Mono',mon
       <div class="step ok"><div class="n">3</div><div class="t">开权限</div><div class="d">系统设置里给微信开录屏与系统录音、摄像头、麦克风，重启生效</div></div>
       <div class="step ok"><div class="n">4</div><div class="t">加终端画面</div><div class="d">「更多→视频号直播伴侣」里加「窗口」来源选中 Terminal，再叠一个摄像头小窗</div></div>
     </div>
-    <p class="pipe-lead" style="--ac:var(--green); margin-top:30px;">直播间搭起来那一刻是挺爽的，终端窗口共享也弄成了。但整件事还差最后一环没验证完——光能开播不够，我要的是<strong>能剪出切片、拼成一整套课程</strong>的素材，这就得看视频号的「回放」到底靠不靠谱。查资料说回放要手动开、下载文件只保留半年、画质也不保证跟推流一致——这几个坑已经教会我一件事：这次不想再信「查资料说没问题」，打算直接拿这场直播实测，回放到底生不生效、下下来的东西能不能用。<strong>写到这段的时候，结果还没出来</strong>。OBS 先在本地录着一份垫底，不管回放测出来怎样，至少不会两手空空。</p>
+    <p class="pipe-lead" style="--ac:var(--green); margin-top:30px;">直播间搭起来那一刻是挺爽的，终端窗口共享也弄成了。但整件事还差最后一环没验证完——光能开播不够，我要的是<strong>能剪出切片、拼成一整套课程</strong>的素材，这就得看视频号的「回放」到底靠不靠谱。真去实测才发现，事情比查资料时想的还多一层：回放不是播完自动就有，得在直播结束页手动点一下「生成」，我一开始没点，找了半天才反应过来。更意外的是，我早前随手播的一场 24 秒测试，压根没进直播记录列表——大概率是时长太短没被算成一场有效直播，但官方没写死具体门槛是多少分钟，这条我还没测出来。正式那场 42 分 46 秒的，手动点了生成，现在显示「生成中」。<strong>写到这里，回放还没生成完，也还没验证下下来的东西能不能真拿去剪片子</strong>。OBS 继续在本地录着一份垫底，不管回放最后测出来怎样，至少不会两手空空。</p>
   </div>
 
   <!-- 复盘 -->
@@ -285,6 +285,7 @@ footer.pf { text-align:center; margin-top:48px; font-family:'JetBrains Mono',mon
         <li><span><strong>找一个不需要 OBS 也能开播的平台兜底</strong>：本文的经验是微信视频号内置的直播伴侣可以直接用，不依赖第三方推流权限</span></li>
         <li><span><strong>本地录制永远单独配一份</strong>：不管平台有没有「回放」功能，直播的同时用 OBS（或任意录屏软件）本地录一份，专门留给剪辑</span></li>
         <li><span><strong>已经公开发布的预约/预告，处理要果断</strong>：方案变了就及时取消或更新，别让对外的承诺卡在一个已经走不通的方案上</span></li>
+        <li><span><strong>回放不会自动生成，直播结束页记得手动点「生成」</strong>：漏了这一步就是白播一场；另外极短的测试直播可能压根不会进直播记录列表（怀疑有时长门槛，具体多少分钟官方没写，我也还没测出来）</span></li>
         <li><span><strong>回放能不能撑起剪辑，自己测一遍再信</strong>：查资料说下载只留半年、画质不保真，但具体好不好用，只有拿真实直播测过才知道——这条我自己也还在测，结果出来会回来更新</span></li>
       </ul>
       <footer class="pf">一个人的 Mac 直播间 · chengbei.org · 2026-08</footer>
