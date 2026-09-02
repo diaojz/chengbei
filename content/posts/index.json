@@ -1,5 +1,14 @@
 [
   {
+    "slug": "ai-agent-model-landscape-2026",
+    "ts": 1788278400000,
+    "category": "thought",
+    "title_zh": "模型挤在同一扇门里，Agent 已经走到了门外",
+    "title_en": "The Models Arrived Together. The Agents Had Already Moved On",
+    "excerpt_zh": "横向评测 2026 年 9 月国内外主流大模型与 Agent 生态：用排行梯队看清真实差距，澄清 Cursor 收购方是 SpaceX 而非 xAI、Groq 并非 Grok 两个常见传闻，并比较厂商自建完整工作流与接入现有工具争夺模型席位的两种 Agent 生态打法。",
+    "excerpt_en": "A September 2026 comparison of leading global and Chinese models and agent ecosystems: ranking tiers instead of decimal-point theater, correcting two common myths—SpaceX, not xAI, acquired Cursor, and Groq is not Grok—and contrasting full-stack agent platforms with models that compete for a place inside existing developer workflows."
+  },
+  {
     "slug": "mcp-python-sdk-v2-migration",
     "ts": 1788105600000,
     "category": "help",
