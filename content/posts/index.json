@@ -269,5 +269,14 @@
     "title_en": "Why I Self-Host a Claude Code Gateway",
     "excerpt_zh": "朋友问我为什么不直接订 Claude Pro。一开始我以为是为了省钱，做完之后才明白不是。",
     "excerpt_en": "A friend asked why I don't just subscribe to Claude Pro. I thought it was about money. Turns out it wasn't."
+  },
+  {
+    "slug": "dify-cloud-first-app",
+    "ts": 1788451200000,
+    "category": "help",
+    "series": "dify",
+    "series_order": 2,
+    "title_zh": "从零搭出第一个 Dify 应用：用云版完成一次 Chatflow 上线",
+    "excerpt_zh": "连不上公司内网就先别等——用 Dify 官方云版的免费额度，从注册到发布，真实走完一次 Chatflow 应用的搭建全过程：五种应用类型怎么选、LLM 节点最容易踩的坑在哪、发布后 Web App / API / Embed / MCP 四条分发路径分别是什么。Dify 系列教程第二篇。"
   }
 ]
