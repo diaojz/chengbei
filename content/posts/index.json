@@ -1,5 +1,14 @@
 [
   {
+    "slug": "dify-platform-landscape",
+    "ts": 1788364800000,
+    "category": "thought",
+    "title_zh": "别急着学 Dify：先看懂 AI 应用平台这张地图",
+    "title_en": "Before You Learn Dify: Map the AI App Platform Landscape First",
+    "excerpt_zh": "上手 Dify 之前，先看懂 AI 应用开发生态：Workflow / Chatflow / Agent 到底怎么区分，Dify 和 Coze、LangChain、LangGraph、n8n、RAGFlow 以及国内百炼、千帆、WorkBuddy 分别处在什么位置，该怎么选。Dify 系列教程第一篇。",
+    "excerpt_en": "Before touching Dify, map the AI app-building landscape first: what really separates Workflow, Chatflow and Agent, where Dify sits next to Coze, LangChain/LangGraph, n8n, RAGFlow and China's Bailian, Qianfan and WorkBuddy, and how to choose. First piece in a Dify learning series."
+  },
+  {
     "slug": "ai-agent-model-landscape-2026",
     "ts": 1788278400000,
     "category": "thought",
