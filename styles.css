@@ -801,6 +801,14 @@ body.reading:not(.post-ready) .post-loading {
   border: 1px solid var(--line);
   box-shadow: 0 12px 40px -16px rgba(0,0,0,0.45);   /* 配图轻投影，浮起一点层次 */
 }
+/* 信息图/流程图这类米色底、自带卡片描边的插图，跟页面底色本就接近——
+   再套一层站点通用的描边+投影，breakout 放大后那层外框反而比图表内容
+   本身更显眼，看起来像个空盒子。给它们去掉外框，让图直接融进页面。 */
+.post-body img.diagram {
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+}
 .post-body figure {
   margin: 2.8em 0;
   position: relative;

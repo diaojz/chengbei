@@ -105,7 +105,7 @@ Beginners end up choosing by name, only to discover halfway through that the con
 
 Dify's application types share the same workflow engine, but they address different interaction models. Start with the execution logic behind the three most easily confused options—Workflow, Chatflow, and Agent:
 
-<figure><img src="/assets/img/posts/dify-platform-landscape/app-types.png" alt="Comparison of the execution models for Workflow, Chatflow, and Agent applications, including trigger methods, execution paths, and typical use cases"><figcaption>One engine, three completely different ways to run.</figcaption></figure>
+<figure><img class="diagram" src="/assets/img/posts/dify-platform-landscape/app-types.png" alt="Comparison of the execution models for Workflow, Chatflow, and Agent applications, including trigger methods, execution paths, and typical use cases"><figcaption>One engine, three completely different ways to run.</figcaption></figure>
 
 Now compare the complete table of application types:
 
@@ -143,7 +143,7 @@ Putting every product into one enormous feature checklist and ticking boxes may 
 
 A more useful approach is to examine them by their degree of abstraction and the amount of control they provide.
 
-<figure><img src="/assets/img/posts/dify-platform-landscape/ecosystem-quadrant.png" alt="A landscape map of the AI application development ecosystem, grouping representative products into five categories: no-code conversational tools, low-code visual platforms, code-first frameworks, specialized RAG engines, and official cloud-vendor SDKs"><figcaption>The five camps of the AI application development ecosystem: from zero-barrier conversational tools to official SDKs deeply tied to cloud vendors.</figcaption></figure>
+<figure><img class="diagram" src="/assets/img/posts/dify-platform-landscape/ecosystem-quadrant.png" alt="A landscape map of the AI application development ecosystem, grouping representative products into five categories: no-code conversational tools, low-code visual platforms, code-first frameworks, specialized RAG engines, and official cloud-vendor SDKs"><figcaption>The five camps of the AI application development ecosystem: from zero-barrier conversational tools to official SDKs deeply tied to cloud vendors.</figcaption></figure>
 
 ### No-Code Conversational Tools: Get the Business Running First
 
@@ -224,7 +224,7 @@ Tool selection does not require a scoring matrix stuffed with dozens of features
 
 Three more questions deserve to be asked repeatedly in every technology-selection meeting:
 
-<figure><img src="/assets/img/posts/dify-platform-landscape/decision-questions.png" alt="Three questions for technology selection: Is AI the core of the system or just one component? Is the process deterministic or does it require dynamic decisions? How much engineering complexity can the team absorb?"><figcaption>Ask these three questions in the selection meeting, and the answer is usually already clear.</figcaption></figure>
+<figure><img class="diagram" src="/assets/img/posts/dify-platform-landscape/decision-questions.png" alt="Three questions for technology selection: Is AI the core of the system or just one component? Is the process deterministic or does it require dynamic decisions? How much engineering complexity can the team absorb?"><figcaption>Ask these three questions in the selection meeting, and the answer is usually already clear.</figcaption></figure>
 
 Dify's advantage is not that every individual capability is the deepest in the industry. It is that low-code visualization, RAG, Agents, model management, plugins, monitoring, and API delivery all come together in one platform.
 

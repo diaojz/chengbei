@@ -105,7 +105,7 @@ Dify 中搭建的能力可以通过 API 暴露给外部系统。
 
 Dify 的几类应用共用同一个工作流引擎，但它们面对的是不同的交互模型。最容易混淆的三种——Workflow、Chatflow、Agent——先看一眼执行逻辑的差异：
 
-<figure><img src="/assets/img/posts/dify-platform-landscape/app-types.png" alt="Workflow、Chatflow、Agent三种应用类型的执行模型对比：触发方式、执行路径、典型场景"><figcaption>同一个引擎，三种完全不同的"跑法"。</figcaption></figure>
+<figure><img class="diagram" src="/assets/img/posts/dify-platform-landscape/app-types.png" alt="Workflow、Chatflow、Agent三种应用类型的执行模型对比：触发方式、执行路径、典型场景"><figcaption>同一个引擎，三种完全不同的"跑法"。</figcaption></figure>
 
 再对照完整的应用类型表：
 
@@ -143,7 +143,7 @@ AI 应用生态里有大量名字看起来相似的工具，但它们并不都�
 
 更有用的方式，是按"封装程度"和"控制权"观察它们。
 
-<figure><img src="/assets/img/posts/dify-platform-landscape/ecosystem-quadrant.png" alt="AI应用开发生态全景图，按无代码对话式、低代码可视化平台、纯代码框架、专精RAG引擎、云厂商官方SDK五类分组列出代表产品"><figcaption>AI 应用开发生态的五个阵营：从零门槛的对话式工具，到深度绑定云厂商的官方 SDK。</figcaption></figure>
+<figure><img class="diagram" src="/assets/img/posts/dify-platform-landscape/ecosystem-quadrant.png" alt="AI应用开发生态全景图，按无代码对话式、低代码可视化平台、纯代码框架、专精RAG引擎、云厂商官方SDK五类分组列出代表产品"><figcaption>AI 应用开发生态的五个阵营：从零门槛的对话式工具，到深度绑定云厂商的官方 SDK。</figcaption></figure>
 
 ### 无代码对话式工具：先让业务跑起来
 
@@ -224,7 +224,7 @@ OpenAI Agents SDK、Claude Agent SDK、Google ADK，以及整合 AutoGen 与 Sem
 
 还有三个问题，值得在任何选型会议上反复追问：
 
-<figure><img src="/assets/img/posts/dify-platform-landscape/decision-questions.png" alt="技术选型三问：AI是核心还是一环、流程确定还是需要动态决策、团队能承担多少工程复杂度"><figcaption>选型会议上，把这三个问题问完，答案通常已经很清楚了。</figcaption></figure>
+<figure><img class="diagram" src="/assets/img/posts/dify-platform-landscape/decision-questions.png" alt="技术选型三问：AI是核心还是一环、流程确定还是需要动态决策、团队能承担多少工程复杂度"><figcaption>选型会议上，把这三个问题问完，答案通常已经很清楚了。</figcaption></figure>
 
 Dify 的优势，不是每一项能力都做到业内最深，而是把低代码可视化、RAG、Agent、模型管理、插件、监控与 API 交付组合在同一套平台里。
 
