@@ -671,7 +671,7 @@ body.reading #rain-overlay {
 }
 
 .post-container {
-  max-width: 768px;
+  max-width: min(86vw, 860px);
   margin: 0 auto;
   opacity: 0;
   transform: translateY(8px);
@@ -801,7 +801,13 @@ body.reading:not(.post-ready) .post-loading {
   border: 1px solid var(--line);
   box-shadow: 0 12px 40px -16px rgba(0,0,0,0.45);   /* 配图轻投影，浮起一点层次 */
 }
-.post-body figure { margin: 2.8em 0; }
+.post-body figure {
+  margin: 2.8em 0;
+  position: relative;
+  left: 50%;
+  width: min(92vw, 1160px);
+  transform: translateX(-50%);
+}
 .post-body figure img { margin: 0 0 14px; }
 .post-body figcaption {
   font-size: 13.5px;
@@ -891,6 +897,12 @@ body.reading:not(.post-ready) .post-loading {
   #post-view { padding: 76px 22px 100px; font-size: 15px; }
   .post-title { font-size: 24px; margin-bottom: 32px; }
   .post-close { top: 12px; right: 18px; }
+  .post-body figure {
+    position: static;
+    left: auto;
+    width: 100%;
+    transform: none;
+  }
 }
 
 /* ──────────────────────────────────────────────
