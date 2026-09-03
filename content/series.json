@@ -1,0 +1,10 @@
+[
+  {
+    "id": "dify",
+    "title_zh": "从零开始学 Dify",
+    "title_en": "Learning Dify From Zero",
+    "desc_zh": "一个人从技术选型、部署到生产化，把公司内网自建的 Dify 项目彻底摸透的系列笔记。",
+    "desc_en": "One engineer's running notes on taking a self-hosted Dify project from tool selection to production.",
+    "slugs": ["dify-platform-landscape"]
+  }
+]

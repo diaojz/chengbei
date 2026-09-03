@@ -129,7 +129,10 @@ body.light .voice-play-btn:hover { color: #000; }
 .col::after { content: ''; display: block; height: 24px; }
 #col-thoughts::after, #col-images::after { height: 0; }
 .col + .col { border-left: 1px solid var(--line); }
-.col-1 { overflow: hidden; }
+/* col-1 曾是 overflow:hidden 固定不滚（假设内容永远塞得下 100vh）。
+   Ships/Help/Writing 三个列表会持续变长，固定高度迟早溢出——
+   溢出的内容不会被裁掉，而是被下面 position:fixed 的 .social-fixed 盖住，
+   2026-09 在正常窗口高度下实测出现文字重叠。改成和另外两栏一致的可滚动列。 */
 
 /* ──────────────────────────────────────────────
    Col 1 — 身份
@@ -562,13 +565,10 @@ a:hover { color: #e0e0e0; text-decoration-color: #606060; }
 /* ──────────────────────────────────────────────
    Social 固定 + 语言切换器
    ────────────────────────────────────────────── */
+/* 曾 position:fixed 贴视口左下角；col-1 内容变长后会盖住上面的列表（见上）。
+   改成随内容正常流动，跟移动端一直以来的写法统一。 */
 .social-fixed {
-  position: fixed;
-  bottom: 24px;
-  left: 24px;
-}
-@media (max-width: 768px) {
-  .social-fixed { position: static; margin-top: 28px; }
+  margin-top: 28px;
 }
 .lang-switch,
 .motion-switch {
@@ -906,6 +906,29 @@ body.reading:not(.post-ready) .post-loading {
 .visit-stats .stats-sep { margin: 0 6px; opacity: 0.5; }
 .visit-stats a { color: var(--mid); }
 .visit-stats a:hover { color: var(--text); }
+
+/* ──────────────────────────────────────────────
+   系列文章：文章页顶部的系列进度条
+   ────────────────────────────────────────────── */
+.series-nav {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: 12.5px;
+  color: var(--read-soft, var(--mid));
+  padding-bottom: 18px;
+  margin-bottom: 26px;
+  border-bottom: 1px solid var(--line);
+}
+.series-nav .series-tag {
+  font-size: 10px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--mid);
+}
+.series-nav a { color: var(--read-soft, var(--mid)); text-decoration-color: var(--mid); }
+.series-nav a:hover { color: var(--text); }
 
 /* ──────────────────────────────────────────────
    全屏目录页（#/all · Ships 精选之外的全量列表）

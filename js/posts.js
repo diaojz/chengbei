@@ -17,6 +17,7 @@ function getMarked() {
 }
 
 let postsIndex = [];
+let seriesIndex = [];
 let currentSlug = null;
 
 function esc(s) {
@@ -41,8 +42,71 @@ async function loadPostsIndex() {
       postsIndex = [];
     }
   }
+  try {
+    const res = await fetch('content/series.json');
+    if (res.ok) seriesIndex = await res.json();
+  } catch (e) {
+    console.warn('[posts] series 加载失败', e);
+  }
+
   renderWritingList();
+  renderSeriesList();
   handleRoute();
+}
+
+// 系列首页入口：col-1 新增一个 SERIES 区块，一系列一行，标题 + 篇数
+function renderSeriesList() {
+  const section = document.getElementById('series-section');
+  const container = document.getElementById('series-links');
+  if (!section || !container) return;
+  const lang = window.CURRENT_LANG || 'zh';
+  const dict = (window.I18N && window.I18N[lang]) || {};
+
+  const list = (seriesIndex || []).filter(s => Array.isArray(s.slugs) && s.slugs.length);
+  section.hidden = list.length === 0;
+  if (!list.length) return;
+
+  container.innerHTML = list.map(s => {
+    const title = s['title_' + lang] || s.title_zh || s.id;
+    const n = s.slugs.length;
+    return `<a href="#/series/${esc(s.id)}">${esc(title)} <span class="archive-meta">· ${n} ${esc(dict.series_progress || '')}</span></a>`;
+  }).join('');
+}
+
+// 系列详情页：复用归档页同款 .archive-row 列表样式，按 slugs 声明顺序（= 阅读顺序 EP1→EPn）
+function showSeries(id) {
+  const s = (seriesIndex || []).find(x => x.id === id);
+  if (!s) { location.hash = ''; return; }
+  currentSlug = null;
+  archiveOpen = false;
+  const lang = window.CURRENT_LANG || 'zh';
+  const view = document.getElementById('post-view');
+  document.body.classList.add('reading');
+  view.hidden = false;
+
+  const lc = lang === 'zh' ? 'zh-CN' : 'en-GB';
+  const fmt = ts => new Date(ts).toLocaleDateString(lc, { year: 'numeric', month: 'short', day: 'numeric' });
+  const pad = i => String(i + 1).padStart(2, '0');
+
+  const rows = s.slugs.map((slug, i) => {
+    const p = postsIndex.find(x => x.slug === slug);
+    if (!p) return '';
+    return `<a class="archive-row" href="#/p/${esc(slug)}">` +
+      `<span class="archive-idx">EP${pad(i)}</span>` +
+      `<span class="archive-name">${esc(p['title_' + lang] || p.title_zh || '')}</span>` +
+      `<span class="archive-meta">${p.ts ? fmt(p.ts) : ''}</span></a>`;
+  }).join('');
+
+  view.querySelector('.post-title').textContent = s['title_' + lang] || s.title_zh || '';
+  view.querySelector('.post-meta').textContent = s['desc_' + lang] || s.desc_zh || '';
+  view.querySelector('.post-body').innerHTML =
+    `<div class="archive-sec">${rows}</div>`;
+
+  const wm = view.querySelector('.post-watermark');
+  if (wm) wm.textContent = '';
+
+  view.scrollTop = 0;
+  document.body.classList.add('post-ready');
 }
 
 // 合并 posts + data.json 的 writing[] 渲染到左侧 WRITING 区
@@ -77,6 +141,22 @@ function renderWritingList() {
     const attrs = isExternal ? ' target="_blank" rel="noopener noreferrer"' : '';
     return `<a href="${esc(href)}"${attrs}>${esc(title)}</a>`;
   }).join('');
+}
+
+// 文章属于某个系列时，正文顶部插一条「系列 · 第 N/M 篇 · 查看全系列」进度条
+function seriesNavHtml(post, lang) {
+  if (!post || !post.series) return '';
+  const s = (seriesIndex || []).find(x => x.id === post.series);
+  if (!s || !Array.isArray(s.slugs) || !s.slugs.length) return '';
+  const dict = (window.I18N && window.I18N[lang]) || {};
+  const total = s.slugs.length;
+  const order = post.series_order || (s.slugs.indexOf(post.slug) + 1) || 1;
+  const title = s['title_' + lang] || s.title_zh || '';
+  return `<div class="series-nav">` +
+    `<span class="series-tag">${esc(dict.series_title || 'Series')}</span>` +
+    `<span>${esc(title)} · ${order}/${total} ${esc(dict.series_progress || '')}</span>` +
+    `<a href="#/series/${esc(s.id)}">${esc(dict.series_all || 'view full series →')}</a>` +
+    `</div>`;
 }
 
 async function showPost(slug) {
@@ -132,7 +212,7 @@ async function showPost(slug) {
     // marked 没拉下来（CDN 不通）也不能白屏：按纯文本段落兜底渲染
     bodyHtml = md.split(/\n{2,}/).map(p => `<p>${esc(p)}</p>`).join('');
   }
-  view.querySelector('.post-body').innerHTML = bodyHtml;
+  view.querySelector('.post-body').innerHTML = seriesNavHtml(post, lang) + bodyHtml;
 
   const dt = new Date(post.ts);
   const lc = lang === 'zh' ? 'zh-CN' : 'en-GB';
@@ -224,7 +304,9 @@ function hidePost() {
 
 function handleRoute() {
   const m = /^#\/p\/([\w-]+)$/.exec(location.hash);
+  const sm = /^#\/series\/([\w-]+)$/.exec(location.hash);
   if (m) { archiveOpen = false; showPost(m[1]); }
+  else if (sm) showSeries(sm[1]);
   else if (location.hash === '#/all') showArchive();
   else hidePost();
 }
@@ -252,7 +334,10 @@ document.addEventListener('click', e => {
   // 等 i18n.js 完成切换（它会改 window.CURRENT_LANG），再重渲染
   setTimeout(() => {
     renderWritingList();
+    renderSeriesList();
+    const sm = /^#\/series\/([\w-]+)$/.exec(location.hash);
     if (currentSlug) showPost(currentSlug);
+    else if (sm) showSeries(sm[1]);
     else if (archiveOpen) showArchive();
   }, 60);
 });

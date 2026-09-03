@@ -3,6 +3,8 @@
     "slug": "dify-platform-landscape",
     "ts": 1788364800000,
     "category": "thought",
+    "series": "dify",
+    "series_order": 1,
     "title_zh": "别急着学 Dify：先看懂 AI 应用平台这张地图",
     "title_en": "Before You Learn Dify: Map the AI App Platform Landscape First",
     "excerpt_zh": "上手 Dify 之前，先看懂 AI 应用开发生态：Workflow / Chatflow / Agent 到底怎么区分，Dify 和 Coze、LangChain、LangGraph、n8n、RAGFlow 以及国内百炼、千帆、WorkBuddy 分别处在什么位置，该怎么选。Dify 系列教程第一篇。",

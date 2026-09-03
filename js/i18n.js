@@ -9,6 +9,7 @@ window.I18N = {
     artifacts_title: 'Ships',
     help_title: 'Help · 学员答疑',
     writing_title: 'Writing',
+    series_title: 'Series',
     social_title: 'Social',
     motion_btn: '动效',
     quiet_btn: '安静',
@@ -16,6 +17,9 @@ window.I18N = {
     stats_today: '今日',
     stats_link: '统计 ↗',
     ships_more: '全部作品 →',
+    help_more: '更多问答 →',
+    series_progress: '篇',
+    series_all: '查看全系列 →',
     archive_title: '目录 · 全部作品',
     archive_ships: 'Ships · 作品',
     archive_posts: '随笔与答疑',
@@ -83,6 +87,7 @@ window.I18N = {
     artifacts_title: 'Ships',
     help_title: 'Help · Student Support',
     writing_title: 'Writing',
+    series_title: 'Series',
     social_title: 'Social',
     motion_btn: 'motion',
     quiet_btn: 'quiet',
@@ -90,6 +95,9 @@ window.I18N = {
     stats_today: 'today',
     stats_link: 'stats ↗',
     ships_more: 'all work →',
+    help_more: 'more Q&A →',
+    series_progress: 'parts',
+    series_all: 'view full series →',
     archive_title: 'Index · All Work',
     archive_ships: 'Ships',
     archive_posts: 'Writing & Help',
@@ -175,7 +183,9 @@ function applyI18n(lang) {
   renderLinks('artifacts-links', dict.artifacts, {
     limit: 5, moreHref: '#/all', moreLabel: dict.ships_more,
   });
-  renderLinks('help-links', dict.help);
+  renderLinks('help-links', dict.help, {
+    limit: 5, moreHref: '#/all', moreLabel: dict.help_more,
+  });
   renderLinks('social-links', dict.social);
 
   document.querySelectorAll('.lang-btn').forEach(btn => {
