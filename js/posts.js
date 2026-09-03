@@ -213,6 +213,12 @@ async function showPost(slug) {
     bodyHtml = md.split(/\n{2,}/).map(p => `<p>${esc(p)}</p>`).join('');
   }
   view.querySelector('.post-body').innerHTML = seriesNavHtml(post, lang) + bodyHtml;
+  view.querySelectorAll('.post-body > table').forEach(table => {
+    const scroll = document.createElement('div');
+    scroll.className = 'table-scroll';
+    table.before(scroll);
+    scroll.appendChild(table);
+  });
 
   const dt = new Date(post.ts);
   const lc = lang === 'zh' ? 'zh-CN' : 'en-GB';

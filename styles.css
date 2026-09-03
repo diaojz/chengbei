@@ -12,12 +12,14 @@ html, body { overflow-x: hidden; }
 @property --text { syntax: '<color>'; inherits: true; initial-value: #b4b4b4; }
 @property --mid  { syntax: '<color>'; inherits: true; initial-value: #404040; }
 @property --line { syntax: '<color>'; inherits: true; initial-value: #181818; }
+@property --accent { syntax: '<color>'; inherits: true; initial-value: #E08A4F; }
 
 :root {
   --bg:   #080808;
   --text: #b4b4b4;
   --mid:  #404040;
   --line: #181818;
+  --accent: #E08A4F;   /* 赤陶橙 · 夜间 */
   --read: #cdcdcd;          /* 文章正文专属：比 --text 更亮，长文久读不累 */
   --read-soft: #8a8a8a;     /* 引用 / 图注 / 元信息 */
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
@@ -30,7 +32,7 @@ body {
   font-family: 'Fragment Mono', monospace;
   font-size: 14px;
   line-height: 1.7;
-  transition: --bg 400ms ease, --text 400ms ease, --mid 400ms ease, --line 400ms ease;
+  transition: --bg 400ms ease, --text 400ms ease, --mid 400ms ease, --line 400ms ease, --accent 400ms ease;
 }
 
 /* ──────────────────────────────────────────────
@@ -83,6 +85,7 @@ body.rain {
   --text: #1a1a1a;
   --mid:  #70787f;
   --line: #bcc1c7;
+  --accent: #7C2F12;   /* 赤陶橙 · 冷灰 */
   --read: #15191e;
   --read-soft: #4c545c;
 }
@@ -100,6 +103,7 @@ body.light {
   --text: #1a1a1a;
   --mid:  #888;
   --line: #d8d5cf;
+  --accent: #B0501E;   /* 赤陶橙 · 暖米 */
   --read: #2a2620;          /* 暖深灰，比纯黑柔和护眼 */
   --read-soft: #7a7268;
 }
@@ -671,7 +675,7 @@ body.reading #rain-overlay {
 }
 
 .post-container {
-  max-width: min(86vw, 860px);
+  max-width: min(86vw, 780px);
   margin: 0 auto;
   opacity: 0;
   transform: translateY(8px);
@@ -750,6 +754,7 @@ body.reading:not(.post-ready) .post-loading {
   font-size: 18px;
   line-height: 1.92;
   letter-spacing: 0.01em;
+  counter-reset: h2-counter;
 }
 .post-body h1, .post-body h2, .post-body h3 {
   font-family: 'Noto Serif SC', Georgia, serif;
@@ -764,8 +769,27 @@ body.reading:not(.post-ready) .post-loading {
   font-size: 23px;
   padding-top: 0.9em;
   border-top: 1px solid var(--line);   /* 二级标题加细分隔线，长文分章更清晰 */
+  counter-increment: h2-counter;
+  display: flex;
+  align-items: center;
+  gap: 14px;
 }
 .post-body h2:first-child { border-top: none; padding-top: 0; }
+.post-body h2::before {
+  content: counter(h2-counter, decimal-leading-zero);
+  width: 34px;
+  height: 34px;
+  border: 1.5px solid var(--accent);
+  border-radius: 50%;
+  color: var(--accent);
+  font-family: 'Fragment Mono', monospace;
+  font-size: 13px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.85;
+}
 .post-body h3 { font-size: 19px; }
 .post-body p { margin: 0 0 1.5em; }
 .post-body > :first-child { margin-top: 0; }
@@ -801,13 +825,14 @@ body.reading:not(.post-ready) .post-loading {
   border: 1px solid var(--line);
   box-shadow: 0 12px 40px -16px rgba(0,0,0,0.45);   /* 配图轻投影，浮起一点层次 */
 }
-/* 信息图/流程图这类米色底、自带卡片描边的插图，跟页面底色本就接近——
-   再套一层站点通用的描边+投影，breakout 放大后那层外框反而比图表内容
-   本身更显眼，看起来像个空盒子。给它们去掉外框，让图直接融进页面。 */
+/* 信息图用留白和中性色底托成卡片，避免浅色图片与正文背景融在一起。 */
 .post-body img.diagram {
   border: none;
-  box-shadow: none;
-  border-radius: 0;
+  border-radius: 14px;
+  background: var(--line);
+  padding: 26px;
+  box-sizing: border-box;
+  box-shadow: 0 14px 36px -18px rgba(0,0,0,0.38);
 }
 .post-body figure {
   margin: 2.8em 0;
@@ -831,7 +856,7 @@ body.reading:not(.post-ready) .post-loading {
 
 /* 正文中段引用：左线 + 轻底色块，区别于首段 lead */
 .post-body blockquote {
-  border-left: 3px solid var(--text);
+  border-left: 3px solid var(--accent);
   padding: 0.9em 0 0.9em 22px;
   margin: 2em 0;
   color: var(--read);
@@ -851,17 +876,22 @@ body.reading:not(.post-ready) .post-loading {
 /* 表格：长文里关键的可读性补丁（原来完全没样式，挤成一团） */
 .post-body table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
   margin: 2.4em 0;
   font-size: 15.5px;
   line-height: 1.62;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--line);
 }
 .post-body thead th {
   text-align: left;
   font-weight: 600;
   color: var(--text);
   padding: 12px 16px;
-  border-bottom: 2px solid var(--text);
+  background: var(--line);
+  border-bottom: 1px solid var(--line);
   vertical-align: bottom;
 }
 .post-body tbody td {
@@ -871,8 +901,121 @@ body.reading:not(.post-ready) .post-loading {
   color: var(--read);
 }
 .post-body tbody tr:last-child td { border-bottom: none; }
+.post-body tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--line) 45%, transparent); }
 /* 首列（常是「场景 / 维度」标签）加重，方便横向扫读 */
 .post-body tbody td:first-child { color: var(--text); font-weight: 500; white-space: nowrap; }
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.table-scroll > table { min-width: 100%; }
+
+/* 长文图片灯箱 */
+body.post-lightbox-open,
+body.post-lightbox-open #post-view { overflow: hidden; }
+.post-body img { cursor: zoom-in; }
+.post-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr) 72px;
+  grid-template-rows: minmax(0, 1fr) auto;
+  align-items: center;
+  background: rgba(8, 9, 10, 0.94);
+  color: #fff;
+  opacity: 0;
+  transition: opacity 220ms var(--ease-out);
+}
+.post-lightbox[hidden] { display: none; }
+.post-lightbox.is-open { opacity: 1; }
+.post-lightbox-stage {
+  grid-column: 2;
+  grid-row: 1;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.post-lightbox-image {
+  display: block;
+  max-width: calc(100vw - 180px);
+  max-height: calc(100vh - 132px);
+  object-fit: contain;
+  cursor: zoom-in;
+  user-select: none;
+  touch-action: none;
+  transform-origin: center;
+  transition: transform 220ms var(--ease-out);
+  will-change: transform;
+}
+.post-lightbox-image.is-zoomed { cursor: grab; }
+.post-lightbox-image.is-dragging {
+  cursor: grabbing;
+  transition: none;
+}
+.post-lightbox-close,
+.post-lightbox-nav {
+  border: 0;
+  background: transparent;
+  color: rgba(255,255,255,0.82);
+  font-family: 'Fragment Mono', monospace;
+  cursor: pointer;
+  transition: color 160ms var(--ease-out), transform 160ms var(--ease-out);
+}
+.post-lightbox-close:hover,
+.post-lightbox-nav:hover { color: #fff; transform: scale(1.08); }
+.post-lightbox-close:focus-visible,
+.post-lightbox-nav:focus-visible { outline: 1px solid rgba(255,255,255,0.75); outline-offset: 4px; }
+.post-lightbox-close {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  z-index: 1;
+  padding: 8px;
+  font-size: 30px;
+  line-height: 1;
+}
+.post-lightbox-nav {
+  padding: 24px 12px;
+  font-size: 24px;
+}
+.post-lightbox-prev { grid-column: 1; grid-row: 1; }
+.post-lightbox-next { grid-column: 3; grid-row: 1; }
+.post-lightbox-info {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  min-height: 68px;
+  padding: 12px 76px 20px;
+  text-align: center;
+  pointer-events: none;
+}
+.post-lightbox-caption {
+  max-width: 760px;
+  margin: 0 auto 7px;
+  color: rgba(255,255,255,0.76);
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+.post-lightbox-count {
+  color: rgba(255,255,255,0.52);
+  font-family: 'Fragment Mono', monospace;
+  font-size: 12px;
+}
+
+@media (max-width: 640px) {
+  .post-lightbox { grid-template-columns: 48px minmax(0, 1fr) 48px; }
+  .post-lightbox-image {
+    max-width: calc(100vw - 32px);
+    max-height: calc(100vh - 120px);
+  }
+  .post-lightbox-info { padding: 10px 24px 18px; }
+  .post-lightbox-close { top: 10px; right: 10px; }
+  .post-lightbox-nav { font-size: 20px; padding: 20px 8px; }
+}
 .post-body code {
   font-family: 'Fragment Mono', monospace;
   background: var(--line);
@@ -890,12 +1033,12 @@ body.reading:not(.post-ready) .post-loading {
 }
 .post-body pre code { background: none; padding: 0; }
 .post-body a {
-  color: var(--text);
+  color: var(--accent);
   text-decoration: underline;
-  text-decoration-color: var(--mid);
+  text-decoration-color: color-mix(in srgb, var(--accent) 45%, transparent);
   text-underline-offset: 3px;
 }
-.post-body a:hover { text-decoration-color: var(--text); }
+.post-body a:hover { text-decoration-color: var(--accent); }
 .post-body hr { border: none; border-top: 1px solid var(--mid); margin: 40px 0; opacity: 0.5; }
 .post-body ul, .post-body ol { padding-left: 22px; margin: 0 0 18px; }
 .post-body li { margin-bottom: 6px; }
