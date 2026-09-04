@@ -8,7 +8,8 @@
     "slugs": [
       "dify-platform-landscape",
       "dify-cloud-first-app",
-      "dify-branching-nodes"
+      "dify-branching-nodes",
+      "dify-variables"
     ]
   }
 ]

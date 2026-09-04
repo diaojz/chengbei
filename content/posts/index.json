@@ -1,5 +1,14 @@
 [
   {
+    "slug": "dify-variables",
+    "ts": 1788451200000,
+    "category": "help",
+    "series": "dify",
+    "series_order": 4,
+    "title_zh": "别只让数据路过：用变量给 Dify 应用打地基",
+    "excerpt_zh": "国家信息小助手的四条分支各自为政，用户问完一个国家转头就忘。这一篇用变量聚合器把互斥分支收敛成一个出口，再用会话变量 + 变量赋值器让应用第一次记住跨轮对话的查询历史，顺带把三类变量的边界讲清楚。Dify 系列教程第四篇。"
+  },
+  {
     "slug": "dify-branching-nodes",
     "ts": 1788451200000,
     "category": "help",
