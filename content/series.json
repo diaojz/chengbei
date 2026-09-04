@@ -7,7 +7,8 @@
     "desc_en": "One engineer's running notes on taking a self-hosted Dify project from tool selection to production.",
     "slugs": [
       "dify-platform-landscape",
-      "dify-cloud-first-app"
+      "dify-cloud-first-app",
+      "dify-branching-nodes"
     ]
   }
 ]

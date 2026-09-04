@@ -1,5 +1,14 @@
 [
   {
+    "slug": "dify-branching-nodes",
+    "ts": 1788451200000,
+    "category": "help",
+    "series": "dify",
+    "series_order": 3,
+    "title_zh": "给 Dify 应用装上\"分岔路\"：什么时候写规则，什么时候让模型判断",
+    "excerpt_zh": "国家信息小助手只会回答首都，遇到问候和无关请求就露怯。这一篇给它装上问题分类器和 If/Else 两种分岔方式：语义理解交给模型判断，能写死的条件交给确定规则，用一次真实改造讲清楚两者的分工边界。Dify 系列教程第三篇。"
+  },
+  {
     "slug": "dify-platform-landscape",
     "ts": 1788364800000,
     "category": "thought",
