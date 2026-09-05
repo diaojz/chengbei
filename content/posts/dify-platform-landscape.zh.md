@@ -24,7 +24,7 @@
 | 2 | 云版搭第一个 Chatflow 应用 | 5 种应用类型、Start/LLM/Answer、Prompt 分层、发布分发 | 已发布 |
 | 3 | 给应用装上"分岔路" | If/Else、问题分类器：写死的规则 vs 交给模型判断 | 已发布 |
 | 4 | 别只让数据路过：用变量打地基 | 会话变量、环境变量、变量聚合器/赋值器 | 已发布 |
-| 5 | 把外部世界接进来 | HTTP Request、Code 节点、参数提取器 | 未发布 |
+| 5 | 把外部世界接进来 | HTTP Request、Code 节点、参数提取器 | 已发布 |
 | 6 | 知识库与 RAG 实战 | 文档处理/分段/检索策略/Rerank | 未发布 |
 | 7 | 批量处理与循环 | Iteration、Loop、列表操作 | 未发布 |
 | 8 | 工具与 Agent | 工具市场、自定义工具、Function Calling/ReAct、双向 MCP | 未发布 |

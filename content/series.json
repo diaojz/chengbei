@@ -9,7 +9,8 @@
       "dify-platform-landscape",
       "dify-cloud-first-app",
       "dify-branching-nodes",
-      "dify-variables"
+      "dify-variables",
+      "dify-http-request"
     ]
   }
 ]

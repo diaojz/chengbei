@@ -1,5 +1,14 @@
 [
   {
+    "slug": "dify-http-request",
+    "ts": 1788537600000,
+    "category": "help",
+    "series": "dify",
+    "series_order": 5,
+    "title_zh": "把外部世界接进来：让 Dify 真正调用一条 API",
+    "excerpt_zh": "国家信息小助手不再让模型凭记忆回答事实：这一篇用参数提取器识别国家名，通过 HTTP Request 调用需要 Key 的 API Ninjas Country API，再用 Code 解析 JSON、格式化人口与面积，并为歧义输入、鉴权失败和网络异常补齐兜底路径。Dify 系列教程第五篇。"
+  },
+  {
     "slug": "dify-variables",
     "ts": 1788451200000,
     "category": "help",
