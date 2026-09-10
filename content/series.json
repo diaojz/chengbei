@@ -12,7 +12,10 @@
       "dify-variables",
       "dify-http-request",
       "dify-rag-knowledge-base",
-      "dify-batch-loop"
+      "dify-batch-loop",
+      "dify-agent-tools",
+      "dify-production-operations",
+      "dify-self-hosting"
     ]
   }
 ]

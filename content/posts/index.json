@@ -1,5 +1,32 @@
 [
   {
+    "slug": "dify-self-hosting",
+    "ts": 1789056000000,
+    "category": "help",
+    "series": "dify",
+    "series_order": 10,
+    "title_zh": "把 Dify 装进自己的服务器：Docker Compose 私有化部署实战",
+    "excerpt_zh": "按真实实施顺序讲清 Dify 私有化部署：固定版本、.env 与 Secret、域名反代、HTTPS、数据库与对象存储、向量库、备份恢复、升级迁移和常见故障排查。Dify 系列教程第十篇暨收官篇。"
+  },
+  {
+    "slug": "dify-production-operations",
+    "ts": 1789056000000,
+    "category": "help",
+    "series": "dify",
+    "series_order": 9,
+    "title_zh": "能跑不等于能上线：把 Dify Demo 变成可运营的生产应用",
+    "excerpt_zh": "从草稿与版本、DSL 交付、真实日志和逐节点排障，讲到标注回复、质量成本指标、权限隔离、灰度发布与回滚边界。Dify 系列教程第九篇。"
+  },
+  {
+    "slug": "dify-agent-tools",
+    "ts": 1789056000000,
+    "category": "help",
+    "series": "dify",
+    "series_order": 8,
+    "title_zh": "别让模型只会聊天：用 Dify Agent 学会选择和调用工具",
+    "excerpt_zh": "拆解 Workflow 与 Agent、ReAct 与 Function Calling、工具节点与双向 MCP 的边界，并用资料研究助理讲清参数描述、最小权限、停止条件和 Prompt Injection。Dify 系列教程第八篇。"
+  },
+  {
     "slug": "dify-batch-loop",
     "ts": 1788969600000,
     "category": "help",

@@ -17,9 +17,9 @@
 | 5 | 把外部世界接进来 | HTTP Request、Code、参数提取器 | 已发布 |
 | **6** | **知识库与 RAG 实战** | **文档处理、分段、检索策略与 Rerank** | **← 你在这里** |
 | 7 | 批量处理与循环 | Iteration、Loop、列表操作 | 已发布 |
-| 8 | 工具与 Agent | 工具市场、ReAct、Function Calling、MCP | 未发布 |
-| 9 | 从 Demo 到生产：运维篇 | 版本、日志、标注、可观测性与权限 | 未发布 |
-| 10 | 私有化部署实战 | Docker Compose、配置与排错 | 未发布 |
+| 8 | 工具与 Agent | 工具市场、ReAct、Function Calling、MCP | 已发布 |
+| 9 | 从 Demo 到生产：运维篇 | 版本、日志、标注、可观测性与权限 | 已发布 |
+| 10 | 私有化部署实战 | Docker Compose、配置与排错 | 已发布 |
 
 ## RAG 不是“上传文档”三个字
 

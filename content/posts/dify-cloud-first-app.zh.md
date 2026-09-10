@@ -35,9 +35,9 @@ Dify 云版和自建版面对的是同一套产品概念：工作空间、Studio
 | 5 | 把外部世界接进来 | HTTP Request、Code 节点、参数提取器 | 已发布 |
 | 6 | 知识库与 RAG 实战 | 文档处理/分段/检索策略/Rerank | 已发布 |
 | 7 | 批量处理与循环 | Iteration、Loop、列表操作 | 已发布 |
-| 8 | 工具与 Agent | 工具市场、自定义工具、Function Calling/ReAct、双向 MCP | 未发布 |
-| 9 | 从 Demo 到生产：运维篇 | DSL 版本管理、执行日志、标注、可观测性、权限 | 未发布 |
-| 10 | 私有化部署实战 | Docker Compose、`.env`、报错排查 | 未发布 |
+| 8 | 工具与 Agent | 工具市场、自定义工具、Function Calling/ReAct、双向 MCP | 已发布 |
+| 9 | 从 Demo 到生产：运维篇 | DSL 版本管理、执行日志、标注、可观测性、权限 | 已发布 |
+| 10 | 私有化部署实战 | Docker Compose、`.env`、报错排查 | 已发布 |
 
 ## 开始之前：云版和自建版到底是什么关系
 
