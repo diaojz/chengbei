@@ -49,6 +49,8 @@
       "duration": 18,
       "level": "入门",
       "href": "lessons/2026-09-10-structured-output.html",
+      "image": "structured-output.png",
+      "imageAlt": "不确定数据通过校验闸门变为整齐结构化数据",
       "tags": ["Structured Outputs", "JSON Schema", "可靠性"],
       "sources": [
         {"name": "OpenAI · Structured Outputs", "url": "https://platform.openai.com/docs/guides/structured-outputs"},
