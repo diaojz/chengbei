@@ -1,7 +1,7 @@
 [
   {
     "slug": "dify-self-hosting",
-    "ts": 1789056000000,
+    "ts": 1788969600000,
     "category": "help",
     "series": "dify",
     "series_order": 10,
@@ -10,7 +10,7 @@
   },
   {
     "slug": "dify-production-operations",
-    "ts": 1789056000000,
+    "ts": 1788969600000,
     "category": "help",
     "series": "dify",
     "series_order": 9,
@@ -19,7 +19,7 @@
   },
   {
     "slug": "dify-agent-tools",
-    "ts": 1789056000000,
+    "ts": 1788969600000,
     "category": "help",
     "series": "dify",
     "series_order": 8,
