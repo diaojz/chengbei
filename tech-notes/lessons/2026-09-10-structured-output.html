@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>结构化输出：从“像 JSON”到“可用数据” · AI 求职每日一课</title>
+  <meta name="description" content="用 JSON Schema、校验、重试与拒绝策略构建可靠的 LLM 结构化输出链路。">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="结构化输出：从“像 JSON”到“可用数据”">
+  <meta property="og:url" content="https://chengbei.org/tech-notes/lessons/2026-09-10-structured-output.html">
+  <link rel="stylesheet" href="../assets/course.css">
+</head>
+<body class="lesson-page">
+  <a class="skip-link" href="#lesson">跳到正文</a>
+  <nav class="lesson-nav"><a href="../">← 返回课程</a><span>第一季 · 第 1 周 · Day 3</span></nav>
+  <main id="lesson" class="lesson-shell">
+    <header class="lesson-hero">
+      <div class="eyebrow">2026.09.10 · AI 后端 · 18 分钟</div>
+      <h1>结构化输出：<br><em>从“像 JSON”到“可用数据”</em></h1>
+      <p class="lesson-deck">模型说“我已经返回 JSON”并不代表后端可以放心入库。今天把概率生成变成一条可以校验、重试、拒绝和监控的数据管道。</p>
+      <div class="learn-contract"><span>学完你能做到</span><strong>独立设计一条可靠的 LLM 结构化输出链路，并讲清它为什么可靠。</strong></div>
+    </header>
+
+    <aside class="lesson-toc" aria-label="本文目录">
+      <span>学习路线</span><a href="#model">01 心智模型</a><a href="#schema">02 Schema 设计</a><a href="#pipeline">03 生产链路</a><a href="#interview">04 面试表达</a><a href="#practice">05 动手与自测</a>
+    </aside>
+
+    <article class="lesson-body">
+      <section id="model">
+        <p class="section-kicker">01 · 心智模型</p>
+        <h2>JSON 是外形，Schema 才是合同</h2>
+        <p>普通 JSON 模式通常只是在提示模型“请输出 JSON”。它最多保证文本可以被解析，却不保证字段齐全、类型正确、枚举合法，更不保证内容符合业务规则。生产系统真正需要的是三层约束：</p>
+        <div class="concept-stack">
+          <div><b>语法层</b><span>是不是合法 JSON</span></div><div><b>结构层</b><span>是否符合 JSON Schema</span></div><div><b>业务层</b><span>字段组合是否真的可用</span></div>
+        </div>
+        <div class="callout"><b>关键判断：</b>模型只负责提出候选结果；你的程序负责决定这个结果能不能进入系统。</div>
+      </section>
+
+      <section id="schema">
+        <p class="section-kicker">02 · Schema 设计</p>
+        <h2>先设计失败，再设计字段</h2>
+        <p>假设我们要把一段招聘 JD 提炼为结构化岗位信息。不要一上来追求“大而全”，先只保留后续流程真正会使用的字段，并把不确定性显式建模。</p>
+        <pre><code>{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["role", "level", "skills", "confidence"],
+  "properties": {
+    "role": { "type": "string", "minLength": 2 },
+    "level": {
+      "type": "string",
+      "enum": ["junior", "middle", "senior", "unknown"]
+    },
+    "skills": {
+      "type": "array",
+      "items": { "type": "string" },
+      "maxItems": 12
+    },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1 }
+  }
+}</code></pre>
+        <div class="two-col">
+          <div><h3>为什么要有 unknown</h3><p>缺少证据时允许模型明确说“不知道”，比逼它从枚举里猜一个答案更可靠。</p></div>
+          <div><h3>为什么禁止额外字段</h3><p>避免模型临时创造字段，让消费者只能处理一份稳定契约。</p></div>
+        </div>
+      </section>
+
+      <section id="pipeline">
+        <p class="section-kicker">03 · 生产链路</p>
+        <h2>可靠性来自链路，不来自一句 Prompt</h2>
+        <div class="flow" aria-label="结构化输出处理流程">
+          <span>输入清洗</span><i>→</i><span>Schema 约束生成</span><i>→</i><span>程序校验</span><i>→</i><span>业务规则</span><i>→</i><span>接受 / 重试 / 拒绝</span>
+        </div>
+        <pre><code>async function extractJob(text) {
+  const raw = await callModel({ schema: jobSchema, input: text });
+  const parsed = jobSchema.safeParse(raw);
+
+  if (!parsed.success) {
+    throw new RetryableOutputError(parsed.error.issues);
+  }
+  if (parsed.data.confidence &lt; 0.65) {
+    return { status: "needs_review", data: parsed.data };
+  }
+  return { status: "accepted", data: parsed.data };
+}</code></pre>
+        <h3>生产环境最容易漏掉的四件事</h3>
+        <ol class="pitfalls">
+          <li><b>无限重试：</b>结构错误只允许小次数重试，并记录失败原因；同样输入反复调用只会增加费用。</li>
+          <li><b>把拒答当异常：</b>安全拒答、内容不足和系统故障需要不同状态，前端提示也应不同。</li>
+          <li><b>Schema 版本漂移：</b>Prompt、Schema、消费者代码和评测集必须一起版本化。</li>
+          <li><b>只测解析成功率：</b>合法 JSON 仍可能语义错误，还要测字段准确率、拒绝率和人工复核率。</li>
+        </ol>
+      </section>
+
+      <section id="interview" class="interview-card">
+        <p class="section-kicker">04 · 面试表达</p>
+        <h2>把答案讲成工程决策</h2>
+        <h3>30 秒版本</h3>
+        <blockquote>我不会把“模型返回了 JSON”当成可靠输出。我会用严格 Schema 约束结构，在服务端再次校验类型和业务规则，并把结果分成接受、可重试和需要人工复核三类。同时给 Schema、Prompt 和评测集做版本管理，监控解析成功率、字段准确率与人工复核率。</blockquote>
+        <h3>面试官继续追问重试怎么办</h3>
+        <p>先区分临时传输错误、结构不合法、内容证据不足和安全拒答。只有可恢复错误进入有限次数重试；重试携带精简的校验错误，但不能把不可信模型输出直接拼成高权限指令。超过预算进入降级或人工复核。</p>
+      </section>
+
+      <section id="practice">
+        <p class="section-kicker">05 · 动手与自测</p>
+        <h2>今天必须亲手完成的 20 分钟练习</h2>
+        <ol class="practice-list">
+          <li>选一份真实岗位 JD，定义不超过 6 个字段的 Schema。</li>
+          <li>准备三个异常样本：缺少年限、技能描述模糊、输入里夹带“忽略之前指令”。</li>
+          <li>记录三项结果：Schema 是否通过、业务规则是否通过、最终为何接受或拒绝。</li>
+        </ol>
+        <details><summary>自测 1：JSON mode 和 Structured Outputs 的核心区别是什么？</summary><p>前者主要保证语法可解析；后者尝试让输出严格遵守指定 Schema。但即使结构合规，服务端仍要验证业务语义。</p></details>
+        <details><summary>自测 2：为什么不能靠“再试一次”解决所有错误？</summary><p>有些失败来自输入证据不足、Schema 设计错误或安全拒答，重试不会改变根因，只会增加延迟与成本。</p></details>
+        <details><summary>自测 3：如何证明链路变可靠了？</summary><p>用固定测试集持续测解析成功率、字段级准确率、错误类型、重试率和人工复核率，并按 Prompt 与 Schema 版本对比。</p></details>
+      </section>
+
+      <section class="sources">
+        <p class="section-kicker">资料来源 · 访问于 2026-09-10</p>
+        <h2>继续深挖</h2>
+        <a href="https://platform.openai.com/docs/guides/structured-outputs" rel="noreferrer">OpenAI · Structured Outputs ↗</a>
+        <a href="https://json-schema.org/understanding-json-schema/" rel="noreferrer">JSON Schema · Understanding JSON Schema ↗</a>
+        <a href="https://docs.anthropic.com/en/docs/test-and-evaluate/strengthen-guardrails/increase-consistency" rel="noreferrer">Anthropic · Increase output consistency ↗</a>
+      </section>
+    </article>
+    <nav class="lesson-next"><span>下一课</span><strong>用 Schema 校验、修复和拒绝错误输出</strong><small>2026.09.11 发布</small></nav>
+  </main>
+  <script data-goatcounter="https://chengbei.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

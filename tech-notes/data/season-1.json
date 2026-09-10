@@ -1,0 +1,68 @@
+{
+  "season": 1,
+  "title": "AI 应用工程师 · 12 周求职路线",
+  "promise": "每天学会一个可验证的技能，12 周做出一个能演示、能部署、能在面试中讲清楚的 AI 应用。",
+  "audience": "有前端或后端基础，准备转向 AI 应用 / Agent 工程岗位的开发者",
+  "updatedAt": "2026-09-10",
+  "phases": [
+    {"number": 1, "month": "第 1 月", "title": "会调用", "range": "第 1–4 周", "goal": "把模型接进真实应用，并让输入、输出和工具调用变得可控。"},
+    {"number": 2, "month": "第 2 月", "title": "会构建", "range": "第 5–8 周", "goal": "构建带知识、工具、状态和记忆的 Agent 系统。"},
+    {"number": 3, "month": "第 3 月", "title": "会上生产", "range": "第 9–12 周", "goal": "用评测、安全、可观测和成本治理把原型变成生产系统。"}
+  ],
+  "weeks": [
+    {"number": 1, "phase": 1, "title": "让模型稳定返回你要的数据", "outcome": "掌握模型 API、Prompt、结构化输出与校验", "project": "职位描述结构化分析器", "level": "入门"},
+    {"number": 2, "phase": 1, "title": "让模型可靠调用业务工具", "outcome": "掌握 Function Calling、Schema 与幂等", "project": "带工具调用的求职助理", "level": "入门"},
+    {"number": 3, "phase": 1, "title": "做出流畅的 AI 对话体验", "outcome": "掌握流式协议、状态机与中断恢复", "project": "可取消、可重试的流式聊天页", "level": "进阶"},
+    {"number": 4, "phase": 1, "title": "建立可靠的模型访问层", "outcome": "掌握重试、限流、降级、缓存和成本核算", "project": "多模型网关", "level": "进阶"},
+    {"number": 5, "phase": 2, "title": "让 AI 找到正确的知识", "outcome": "掌握 Embedding、分块、检索和引用", "project": "带引用的岗位知识库", "level": "进阶"},
+    {"number": 6, "phase": 2, "title": "让 RAG 从能用到好用", "outcome": "掌握混合检索、重排、查询改写与评测", "project": "可测量的 RAG 检索器", "level": "进阶"},
+    {"number": 7, "phase": 2, "title": "从工作流走向 Agent", "outcome": "掌握 ReAct、状态图、停止条件与人工确认", "project": "可审计的求职 Agent", "level": "进阶"},
+    {"number": 8, "phase": 2, "title": "连接工具、记忆与 MCP", "outcome": "掌握 MCP、短期状态、长期记忆与权限边界", "project": "跨工具面试准备台", "level": "进阶"},
+    {"number": 9, "phase": 3, "title": "证明 AI 系统真的有效", "outcome": "掌握 Golden Set、LLM-as-a-Judge 与线上指标", "project": "自动化评测流水线", "level": "生产"},
+    {"number": 10, "phase": 3, "title": "守住 Agent 的安全边界", "outcome": "掌握提示注入、数据隔离、权限与审计", "project": "带安全门禁的企业知识助手", "level": "生产"},
+    {"number": 11, "phase": 3, "title": "让系统跑得稳且花得值", "outcome": "掌握追踪、队列、并发、缓存和 Token 预算", "project": "可观测的异步 Agent 服务", "level": "生产"},
+    {"number": 12, "phase": 3, "title": "完成作品集与系统设计", "outcome": "掌握架构取舍、压测、部署和面试表达", "project": "端到端 AI 求职教练", "level": "求职"}
+  ],
+  "currentWeek": {
+    "number": 1,
+    "title": "让模型稳定返回你要的数据",
+    "goal": "本周结束时，你将完成一个能把岗位 JD 转成可靠 JSON 的小应用。",
+    "days": [
+      {"day": 1, "label": "原理", "title": "一次模型 API 请求到底发生了什么", "status": "next"},
+      {"day": 2, "label": "设计", "title": "Prompt 不是魔法：把任务写成可验收合同", "status": "next"},
+      {"day": 3, "label": "核心", "title": "结构化输出：从“像 JSON”到“可用数据”", "status": "today", "href": "lessons/2026-09-10-structured-output.html"},
+      {"day": 4, "label": "后端", "title": "用 Schema 校验、修复和拒绝错误输出", "status": "locked"},
+      {"day": 5, "label": "前端", "title": "把生成、校验和失败状态讲给用户看", "status": "locked"},
+      {"day": 6, "label": "项目", "title": "实战：职位描述结构化分析器", "status": "locked"},
+      {"day": 7, "label": "复盘", "title": "模拟面试：如何设计可靠的 LLM 输出层", "status": "locked"}
+    ]
+  },
+  "lessons": [
+    {
+      "date": "2026-09-10",
+      "week": 1,
+      "day": 3,
+      "direction": "AI 后端",
+      "title": "结构化输出：从“像 JSON”到“可用数据”",
+      "summary": "模型生成 JSON 不等于系统拿到了可信数据。今天建立 Schema、校验、重试和拒绝策略的完整心智模型。",
+      "outcome": "能写出一条可靠的结构化输出链路，并在面试中解释失败模式与工程取舍。",
+      "duration": 18,
+      "level": "入门",
+      "href": "lessons/2026-09-10-structured-output.html",
+      "tags": ["Structured Outputs", "JSON Schema", "可靠性"],
+      "sources": [
+        {"name": "OpenAI · Structured Outputs", "url": "https://platform.openai.com/docs/guides/structured-outputs"},
+        {"name": "JSON Schema · Understanding JSON Schema", "url": "https://json-schema.org/understanding-json-schema/"},
+        {"name": "Anthropic · Increase output consistency", "url": "https://docs.anthropic.com/en/docs/test-and-evaluate/strengthen-guardrails/increase-consistency"}
+      ]
+    }
+  ],
+  "knowledgeBase": [
+    {"title": "前端与大前端", "count": 41, "href": "frontend.html"},
+    {"title": "AI Agent 与 LLM 工程", "count": 38, "href": "agent-llm.html"},
+    {"title": "AI Coding 工具链", "count": 32, "href": "ai-coding.html"},
+    {"title": "后端与数据库", "count": 32, "href": "backend-db.html"},
+    {"title": "运维与基础设施", "count": 28, "href": "ops.html"},
+    {"title": "Agent 全栈工程复盘", "count": 239, "href": "agent-review.html"}
+  ]
+}
