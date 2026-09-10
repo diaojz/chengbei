@@ -11,7 +11,8 @@
       "dify-branching-nodes",
       "dify-variables",
       "dify-http-request",
-      "dify-rag-knowledge-base"
+      "dify-rag-knowledge-base",
+      "dify-batch-loop"
     ]
   }
 ]

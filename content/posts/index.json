@@ -1,5 +1,14 @@
 [
   {
+    "slug": "dify-batch-loop",
+    "ts": 1788969600000,
+    "category": "help",
+    "series": "dify",
+    "series_order": 7,
+    "title_zh": "别把循环当复制粘贴：用 Dify 批量处理一组数据",
+    "excerpt_zh": "用一个批量内容卡片工作流讲清数组怎样进入 Iteration、items/index 如何逐项处理、顺序与并行怎样选择、失败结果如何对齐，再用渐进式润色解释 Loop 的状态、终止条件和最大次数。Dify 系列教程第七篇。"
+  },
+  {
     "slug": "dify-rag-knowledge-base",
     "ts": 1788969600000,
     "category": "help",
