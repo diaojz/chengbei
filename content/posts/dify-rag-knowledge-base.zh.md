@@ -86,6 +86,8 @@ RAG 是 Retrieval-Augmented Generation，通常译作“检索增强生成”。
 
 经济索引会从每个块提取关键词，使用倒排索引检索。它不消耗 embedding tokens，搭建成本低，对“HTTP Request”“变量赋值器”“Top K”这类术语明确的问题很友好。缺点是遇到同义表达时容易漏召回：文档写“凭证”，用户问“密钥放哪”，字面关键词未必重合。
 
+<figure><img src="/assets/img/posts/dify-rag-knowledge-base/03-index-settings.png" alt="Dify 知识库设置页，经济索引关键词数量为 10，检索方式为倒排索引，Top K 为 3"><figcaption>这张图确认的是本次真正保存并运行的基线：经济索引、每段 10 个关键词、倒排索引、Top K 3；它不是向量检索成功的证据。</figcaption></figure>
+
 高质量索引会为文本块生成向量。向量检索比较语义相似度，能处理措辞不同但意思接近的问题；全文检索重视词项匹配，对专有名词和精确字符串更稳；混合检索把两路结果合并，通常比单一路径更有韧性。
 
 它们不是简单的升级阶梯：
@@ -108,6 +110,8 @@ Rerank 则发生在初次召回之后。先由全文、向量或混合检索拿�
 
 这次账号无法调用可用的嵌入与 Rerank 模型，因此正确做法不是勾上开关截张图，而是把它列为升级实验：补齐模型额度后，用同一组问题对比召回文档、排序、延迟和成本。
 
+<figure><img src="/assets/img/posts/dify-rag-knowledge-base/05-high-quality-limit.png" alt="Dify 高质量索引设置页，Embedding 模型 text-embedding-3-large 显示额度已用尽，并展示向量、全文与混合检索选项"><figcaption>高质量模式的配置项确实存在，但当前 Embedding 模型明确显示“额度已用尽”。因此本文只介绍下一步怎么测，不宣称向量检索、混合检索或 Rerank 已验证。</figcaption></figure>
+
 ## 召回测试要先于工作流测试
 
 在连接 Chatflow 之前，应先在知识库的“召回测试”里跑问题。这样可以把故障域缩小：
@@ -119,11 +123,19 @@ Rerank 则发生在初次召回之后。先由全文、向量或混合检索拿�
 
 建议至少准备五类题：单篇定位、跨篇整合、同义改写、精确字段、资料外问题。每次改参数后重跑同一组，才能知道效果是变好还是只是“回答换了个说法”。
 
+这次用“Dify 为什么适合做内部知识问答？”进行实测，系统返回 3 个段落，但第一名是 EP2 中关于 Workflow 与 Chatflow 起点的文字，另外两段分别讨论云版闭环和额度计数。它们都含有相关关键词，却没有直接回答问题。这正好暴露了经济索引的边界：**召回到相关词，不等于把最能回答问题的证据排在前面。**
+
+<figure><img src="/assets/img/posts/dify-rag-knowledge-base/04-retrieval-test.png" alt="Dify 召回测试页，问题为 Dify 为什么适合做内部知识问答，右侧返回 3 个来自 EP2 的片段"><figcaption>真实失败样本比一张“看起来成功”的答案更有教学价值：3 个片段都与 Dify 有关，但排序第一的内容并不能直接支撑问题。</figcaption></figure>
+
+下一轮优化不要先改 Prompt，而应按顺序处理：合并过短分段、补充更直接的知识问答语料、重跑同一测试集；有可用额度后，再对照向量或混合检索与 Rerank。否则模型可能凭自身记忆生成一段正确答案，把错误召回掩盖掉。
+
 ## 问答应用的最小链路
 
 知识库本身只负责管理和检索资料。要交付给用户，还需要一个独立 Chatflow：
 
 这里又遇到一个不能靠截图绕过去的限制：当前 Sandbox 已有 5 个应用，创建弹窗明确显示 `5 / 5`，因此无法再新建“Dify 系列问答助手”。我没有删除任何既有应用腾位置，也不会把下面的设计写成已经发布成功。此时真正完成并验证的是知识库导入与召回测试；独立 Chatflow 留待释放应用名额后补跑。
+
+<figure><img src="/assets/img/posts/dify-rag-knowledge-base/06-app-limit.png" alt="Dify 创建空白应用弹窗，构建应用程序数显示 5/5，创建按钮不可用"><figcaption>这张图证明的是阻塞条件，不是创建成功：Sandbox 应用数已到 5/5，创建按钮处于不可用状态。</figcaption></figure>
 
 **Start → Knowledge Retrieval → LLM → Answer**
 
