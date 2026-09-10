@@ -38,6 +38,7 @@ gh run watch --repo diaojz/chengbei
 - `js/themes.js` / `quiet.js` / `chaos.js` / `shaders.js`：主题、安静模式、物理坍塌、halftone shader
 - `content/posts/`：文章正文 `<slug>.{zh,en}.md` 成对 + `index.json` 索引（category: thought/help，hidden 软下架）
 - 独立课件页：`ghostty-terminal/` `ghostty-checklist/` `mini-harness/`（单文件 HTML，来自课程仓库 `课件/`）
+- AI 求职每日一课：`tech-notes/data/season-1.json` 是课程路线和归档的唯一数据源，`tech-notes/lessons/` 存每日详情，旧分类页作为知识库保留
 
 ## 关键纪律
 
@@ -46,6 +47,7 @@ gh run watch --repo diaojz/chengbei
 3. **课件 HTML 上站**：走 README「把课件 HTML 集成上站的固定套路」七步（复制 → meta → 返回链接 → 清「讲师」→ 发布日期 → GoatCounter 脚本 → Ships 入口）。只挑**文章式滚动页**，PPT 翻页形态的课件不上站。
 4. **终端/代码块配色**：浅色方案 = 用户 Ghostty 的 `GitHub Light Default`（bg `#ffffff` / fg `#1f2328` / 注释 `#6e7781` / 绿 `#116329`，嵌在白卡内的命令条用 `#f6f8fa` + 边框 `#d0d7de`）。不要用纯黑底（用户明确否决过 `#12161c`）。
 5. **README 的 Ships 表必须和 `js/i18n.js` 实际展示一致**——上下架项目时两处一起改。
+6. **课程必须形成依赖链**：按 3 个月 / 12 周路线由浅入深；每天只讲一个主问题，三道题是递进自测；每周必须有可运行成果。新增课程后运行 `node tech-notes/tests/validate-course.mjs`。
 
 ## 访问统计（GoatCounter）
 

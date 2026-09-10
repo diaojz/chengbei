@@ -18,7 +18,7 @@
 |---|---|---|
 | 一个人的 Mac 直播间 | /mac-livestream-setup/ | 2026-08-31 · 从0搭建个人直播间实录：调研→制定计划→两次被B站账号权限推翻（5000粉门槛+Mac客户端无开播）→改道微信视频号跑通 · Codex 生封面图 + Figma 流程图 · 站内独立页 |
 | AI 原生 SDLC 六阶段闭环 | #/p/ai-native-sdlc-playbook | 2026-08-26 · Claude 官方《The AI-native SDLC playbook》中文通俗解读 · Plan/Design/Build/Test/Deploy/Maintain 六阶段怎么重做一遍 · 随笔文章，非独立页 |
-| AI 全栈/Agent/大前端技术笔记 | /tech-notes/ | 2026-08-24 · 438 条工程要点笔记，覆盖前端大前端/移动端跨端/AI Agent与LLM工程/AI Coding工具链/后端与数据库/运维与基础设施/Agent全栈工程复盘七个方向 · 每条含要点、延伸联想、边界与常见误区（复盘卡片为"这一篇讲什么+复习要点"结构）· 8 页站内独立小站（index + 7 个分类页） |
+| AI 求职每日一课 | /tech-notes/ | 2026-08-24 · 面向 AI 应用/Agent 工程岗位的 12 周递进课程：会调用→会构建→会上生产；每天一个可验证技能，每周一个项目；原 438 条技术笔记保留为知识库 |
 | Codex 重连问题修复指南 | /codex-reconnect/ | 2026-08-05 · 「正在重新连接 N/5」成因与修法 · 主体是一段可复制给 AI 自助执行的指令 · 站内独立页 |
 | 手工短视频 SOP 拆解 | /sop-teardown/ | 2026-07-27 · 手工赛道 SOP 逐页拆解 · 工具全不通用但判据通用 · 12 条发布检查清单（流程图依赖共享 `/lib/`）|
 | 裁判模型准确率提升清单 | /judge-accuracy/ | 2026-07-24 · LLM-judge 从 88% 提到 90% · 按性价比排的 8 条方法 + 执行顺序 · 站内独立页 |
@@ -102,6 +102,18 @@
 - 物理坍塌：Matter.js 按需从 CDN 加载
 - 弱网优化：首屏单次渲染 + 正文加载失败自动重试
 
+## AI 求职每日一课
+
+`tech-notes/` 不再是一次铺开的题库首页，而是持续更新的课程入口：
+
+- `tech-notes/data/season-1.json`：第一季课程唯一数据源，包含 3 个阶段、12 周路线、当前周计划和已发布课程。
+- `tech-notes/index.html`：今日主课、周计划、路线图、归档和旧知识库入口。
+- `tech-notes/lessons/YYYY-MM-DD-<slug>.html`：每日详情页。固定包含学习目标、心智模型、最小示例、生产陷阱、面试表达、练习、自测和来源。
+- `tech-notes/assets/course.css` / `course.js`：课程页面视觉与数据渲染。
+- `tech-notes/tests/validate-course.mjs`：检查阶段、周次、课程字段、HTTPS 来源和详情页是否存在。
+
+新增日更时必须同步：新增详情页 → 向 `lessons` 追加元数据 → 更新 `currentWeek.days` 状态 → 运行课程校验。每日三道题必须是同一主题的递进自测，不能重新退化成三个无关知识点。
+
 ## 本地预览
 
 ```bash
@@ -144,4 +156,5 @@ node -c js/shaders.js
 node -c js/stats.js
 python3 -c "import json; json.load(open('content/data.json'))"
 python3 -c "import json; json.load(open('content/posts/index.json'))"
+node tech-notes/tests/validate-course.mjs
 ```
