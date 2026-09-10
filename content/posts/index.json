@@ -1,5 +1,14 @@
 [
   {
+    "slug": "dify-rag-knowledge-base",
+    "ts": 1788969600000,
+    "category": "help",
+    "series": "dify",
+    "series_order": 6,
+    "title_zh": "别急着把文档塞给模型：用 Dify 做一次真正的 RAG 实战",
+    "excerpt_zh": "把已发布的 Dify 教程送进知识库，从清洗、800/80 分段、经济索引和倒排检索讲到向量、混合检索、Top K 与 Rerank；同时如实记录 Sandbox 额度限制，以及为什么召回测试必须先于工作流测试。Dify 系列教程第六篇。"
+  },
+  {
     "slug": "dify-http-request",
     "ts": 1788537600000,
     "category": "help",
