@@ -1,10 +1,22 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PostList from '../components/PostList.astro';
+import { posts, series } from '../lib/content';
+import { projects, projectText } from '../data/projects';
+import siteData from '../../content/data.json';
+const recent = posts.slice(0, 6);
+const featured = projects.filter((project) => project.featured);
+const dify = series.find((item) => item.id === 'dify');
 ---
-
 <BaseLayout>
-  <section class="shell" style="padding: 7rem 0;">
-    <p class="eyebrow">CHENGBEI.ORG · REBUILD IN PROGRESS</p>
-    <h1>内容还在，入口会更清楚。</h1>
+  <section class="shell home-hero">
+    <div class="hero-copy"><p class="eyebrow">CHENGBEI · INDEPENDENT DEVELOPER</p><h1>把复杂的技术，<br /><em>做成能用的东西。</em></h1><p class="hero-lead">我是城北，独立开发者。这里收着我做过的项目、踩过的坑，以及把 AI 开发讲给普通人听的完整记录。</p><div class="hero-actions"><a class="primary-button" href="/articles/">开始阅读 <span>→</span></a><button class="text-button" type="button" data-search-open>搜索全部内容 <span>⌕</span></button></div></div>
+    <div class="hero-ledger" aria-label="站点内容统计"><div><b>{posts.length}</b><span>篇公开文章</span></div><div><b>{projects.length}</b><span>个项目与专题</span></div><div><b>{dify?.slugs.length || 0}</b><span>篇 Dify 系列</span></div><p>写作不是展示成果，而是把判断过程留下来。</p></div>
   </section>
+  <section class="shell home-section latest-section"><div class="section-heading"><div><p class="eyebrow">LATEST NOTES</p><h2>最近写的</h2></div><a href="/articles/">全部文章 →</a></div><PostList items={recent} compact /></section>
+  <section class="home-band"><div class="shell home-section"><div class="section-heading"><div><p class="eyebrow">FEATURED WORK</p><h2>正在发生</h2></div><a href="/projects/">全部项目 →</a></div><div class="featured-grid">
+    {featured.map((project, index) => { const text = projectText(project, 'zh'); return <a class="featured-card" href={project.href}><span class="featured-number">0{index + 1}</span><div><p>{project.kind} · {project.date}</p><h3>{text.title}</h3><span>{text.description}</span></div></a>; })}
+    {dify && <a class="featured-card series-card" href="/series/dify/"><span class="featured-number">03</span><div><p>系列 · {dify.slugs.length} 篇</p><h3>{dify.title_zh}</h3><span>{dify.desc_zh}</span></div></a>}
+  </div></div></section>
+  <section class="shell home-section visual-notes"><div class="section-heading"><div><p class="eyebrow">VISUAL NOTES</p><h2>天气与片刻</h2></div></div><div class="visual-grid">{siteData.images.map((image, index) => <figure class={`visual-${index + 1}`}><img src={`/${image.url}`} alt={image.caption_zh} loading="lazy" /><figcaption><span>0{index + 1}</span>{image.caption_zh}</figcaption></figure>)}</div></section>
 </BaseLayout>

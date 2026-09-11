@@ -1,0 +1,6 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostList from '../../components/PostList.astro';
+import { posts } from '../../lib/content';
+---
+<BaseLayout title="Chengbei · Independent Developer" description="Articles, projects and field notes by Chengbei." lang="en"><section class="shell home-hero"><div class="hero-copy"><p class="eyebrow">CHENGBEI · INDEPENDENT DEVELOPER</p><h1>Make complex technology<br /><em>useful to real people.</em></h1><p class="hero-lead">I build AI applications and document the decisions, mistakes and working systems behind them.</p><div class="hero-actions"><a class="primary-button" href="/en/articles/">Start reading <span>→</span></a><button class="text-button" type="button" data-search-open>Search everything <span>⌕</span></button></div></div><div class="hero-ledger"><div><b>{posts.length}</b><span>public articles</span></div><p>Writing is how I leave the reasoning behind.</p></div></section><section class="shell home-section latest-section"><div class="section-heading"><div><p class="eyebrow">LATEST NOTES</p><h2>Recent writing</h2></div><a href="/en/articles/">All articles →</a></div><PostList items={posts.slice(0, 6)} lang="en" compact /></section></BaseLayout>
