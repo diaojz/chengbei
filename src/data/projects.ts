@@ -12,6 +12,7 @@ export type Project = {
 };
 
 export const projects: Project[] = [
+  { titleZh: 'AI 就业直播合规与增长手册', titleEn: 'AI Career Livestream Compliance Guide', href: '/livestream-compliance/', date: '2026-09-10', kind: '课程', descriptionZh: '直播违禁表达、就业与薪资承诺边界、选题、话术和开播自检。', descriptionEn: 'Compliance boundaries, topics, scripts and a pre-flight checklist for AI career livestreams.', featured: true },
   { titleZh: '一个人的 Mac 直播间', titleEn: 'A Solo Mac Livestream Setup', href: '/mac-livestream-setup/', date: '2026-08-31', kind: '专题', descriptionZh: '从调研、踩坑到跑通视频号直播的一次真实搭建记录。', descriptionEn: 'A field log of building a Mac-based livestream workflow.', featured: true },
   { titleZh: 'AI 求职每日一课', titleEn: 'AI Career Daily', href: '/tech-notes/', date: '2026-08-24', kind: '课程', descriptionZh: '12 周从会调用到会上生产的 AI 应用工程学习路线。', descriptionEn: 'A 12-week path from API calls to production AI applications.', featured: true },
   { titleZh: 'Codex 重连修复指南', titleEn: 'Codex Reconnect Guide', href: '/codex-reconnect/', date: '2026-08-05', kind: '专题', descriptionZh: '定位并解决 Codex CLI 反复重连。', descriptionEn: 'Diagnose and fix recurring Codex CLI reconnects.' },

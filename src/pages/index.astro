@@ -16,7 +16,7 @@ const dify = series.find((item) => item.id === 'dify');
   <section class="shell home-section latest-section"><div class="section-heading"><div><p class="eyebrow">LATEST NOTES</p><h2>最近写的</h2></div><a href="/articles/">全部文章 →</a></div><PostList items={recent} compact /></section>
   <section class="home-band"><div class="shell home-section"><div class="section-heading"><div><p class="eyebrow">FEATURED WORK</p><h2>正在发生</h2></div><a href="/projects/">全部项目 →</a></div><div class="featured-grid">
     {featured.map((project, index) => { const text = projectText(project, 'zh'); return <a class="featured-card" href={project.href}><span class="featured-number">0{index + 1}</span><div><p>{project.kind} · {project.date}</p><h3>{text.title}</h3><span>{text.description}</span></div></a>; })}
-    {dify && <a class="featured-card series-card" href="/series/dify/"><span class="featured-number">03</span><div><p>系列 · {dify.slugs.length} 篇</p><h3>{dify.title_zh}</h3><span>{dify.desc_zh}</span></div></a>}
+    {dify && <a class="featured-card series-card" href="/series/dify/"><span class="featured-number">04</span><div><p>系列 · {dify.slugs.length} 篇</p><h3>{dify.title_zh}</h3><span>{dify.desc_zh}</span></div></a>}
   </div></div></section>
   <section class="shell home-section visual-notes"><div class="section-heading"><div><p class="eyebrow">VISUAL NOTES</p><h2>天气与片刻</h2></div></div><div class="visual-grid">{siteData.images.map((image, index) => <figure class={`visual-${index + 1}`}><img src={`/${image.url}`} alt={image.caption_zh} loading="lazy" /><figcaption><span>0{index + 1}</span>{image.caption_zh}</figcaption></figure>)}</div></section>
 </BaseLayout>

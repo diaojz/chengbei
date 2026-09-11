@@ -12,6 +12,7 @@ const legacyPaths = [
   'ghostty-terminal',
   'judge-accuracy',
   'lib',
+  'livestream-compliance',
   'mac-livestream-setup',
   'mini-harness',
   'sop-teardown',
