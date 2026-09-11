@@ -5,3 +5,5 @@ crawl-output/
 .env
 .env.local
 .vercel
+.astro/
+dist/

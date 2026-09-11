@@ -1,0 +1,80 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  lang?: 'zh' | 'en';
+  pagefindBody?: boolean;
+}
+
+const {
+  title = '城北 · 独立开发者',
+  description = '城北的文章、项目与实践记录。',
+  lang = 'zh',
+  pagefindBody = true
+} = Astro.props;
+const prefix = lang === 'en' ? '/en' : '';
+const labels = lang === 'zh'
+  ? { articles: '文章', projects: '项目', about: '关于', search: '搜索', skip: '跳到正文' }
+  : { articles: 'Articles', projects: 'Projects', about: 'About', search: 'Search', skip: 'Skip to content' };
+---
+
+<!doctype html>
+<html lang={lang === 'zh' ? 'zh-CN' : 'en'}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={Astro.url} />
+    <meta name="theme-color" content="#f2efe9" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono&family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@600;700;900&display=swap" rel="stylesheet" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%23c45d2d%22/><text x=%2215%22 y=%2245%22 font-size=%2238%22 fill=%22white%22>C</text></svg>" />
+    <title>{title}</title>
+  </head>
+  <body data-theme="light">
+    <a class="skip-link" href="#content">{labels.skip}</a>
+    <header class="site-header">
+      <a class="brand" href={prefix || '/'} aria-label="城北首页">
+        <span class="brand-mark">CBEI</span>
+        <span class="brand-role">独立开发者</span>
+      </a>
+      <nav class="site-nav" aria-label="主导航">
+        <a href={`${prefix}/articles/`}>{labels.articles}</a>
+        <a href={`${prefix}/projects/`}>{labels.projects}</a>
+        <a href={`${prefix}/about/`}>{labels.about}</a>
+        <button class="nav-action" type="button" data-search-open aria-haspopup="dialog">⌕ {labels.search}<kbd>/</kbd></button>
+      </nav>
+      <div class="header-actions">
+        <a class="language-link" href={lang === 'zh' ? `/en${Astro.url.pathname}`.replace('/en/en/', '/en/') : Astro.url.pathname.replace(/^\/en/, '') || '/'}>{lang === 'zh' ? 'EN' : '中'}</a>
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="切换明暗主题">◐</button>
+      </div>
+    </header>
+    <main id="content" data-pagefind-body={pagefindBody ? '' : undefined}>
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <span>© {new Date().getFullYear()} 城北</span>
+      <span>Built in public · chengbei.org</span>
+    </footer>
+    <script is:inline>
+      (() => {
+        const oldPost = /^#\/p\/([\w-]+)$/.exec(location.hash);
+        if (oldPost) location.replace(`/articles/${oldPost[1]}/`);
+        const saved = localStorage.getItem('chengbei-theme');
+        const theme = saved || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.body.dataset.theme = theme;
+        document.querySelector('[data-theme-toggle]')?.addEventListener('click', () => {
+          const next = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+          document.body.dataset.theme = next;
+          localStorage.setItem('chengbei-theme', next);
+        });
+      })();
+    </script>
+  </body>
+</html>
