@@ -1,0 +1,9 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PostList from '../../../components/PostList.astro';
+import { posts } from '../../../lib/content';
+---
+<BaseLayout title="Articles · Chengbei" description="Essays, practical guides and learning series by Chengbei." lang="en">
+  <section class="shell page-heading"><p class="eyebrow">WRITING · {posts.length}</p><h1>Articles</h1><p>Essays, guides and learning series, in one place.</p></section>
+  <section class="shell article-index"><PostList items={posts} lang="en" /></section>
+</BaseLayout>

@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostList from '../../components/PostList.astro';
+import { posts, postTags } from '../../lib/content';
+const tags = [...new Set(posts.flatMap((post) => postTags(post, 'zh')))];
+---
+
+<BaseLayout title="文章 · 城北" description="城北的全部文章、实践笔记与系列教程。">
+  <section class="shell page-heading">
+    <p class="eyebrow">WRITING · {posts.length}</p>
+    <h1>文章</h1>
+    <p>随笔、实用指南和系列教程都在这里。按主题找，也可以直接全文搜索。</p>
+  </section>
+  <section class="shell article-index">
+    <div class="filter-row" aria-label="文章标签筛选">
+      <button class="active" type="button" data-filter="">全部</button>
+      {tags.map((tag) => <button type="button" data-filter={tag}>{tag}</button>)}
+    </div>
+    <PostList items={posts} />
+  </section>
+  <script>
+    document.querySelectorAll<HTMLButtonElement>('[data-filter]').forEach((button) => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('[data-filter]').forEach((item) => item.classList.remove('active'));
+        button.classList.add('active');
+        document.querySelectorAll<HTMLElement>('.post-row').forEach((row) => {
+          row.hidden = Boolean(button.dataset.filter) && !row.dataset.tags?.split(',').includes(button.dataset.filter || '');
+        });
+      });
+    });
+  </script>
+</BaseLayout>

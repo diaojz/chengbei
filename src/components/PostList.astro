@@ -1,0 +1,20 @@
+---
+import { formatDate, postExcerpt, postTags, postTitle, type Lang, type Post } from '../lib/content';
+
+interface Props { items: Post[]; lang?: Lang; compact?: boolean; }
+const { items, lang = 'zh', compact = false } = Astro.props;
+const prefix = lang === 'en' ? '/en' : '';
+---
+
+<div class:list={['post-list', { compact }]}>
+  {items.map((post) => (
+    <article class="post-row" data-tags={postTags(post, lang).join(',')}>
+      <div class="post-row-meta">
+        <time datetime={new Date(post.ts).toISOString()}>{formatDate(post.ts, lang)}</time>
+        <span>{postTags(post, lang).join(' · ')}</span>
+      </div>
+      <h2><a href={`${prefix}/articles/${post.slug}/`}>{postTitle(post, lang)}</a></h2>
+      {!compact && <p>{postExcerpt(post, lang)}</p>}
+    </article>
+  ))}
+</div>
