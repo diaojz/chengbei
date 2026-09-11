@@ -1,18 +1,17 @@
 ---
 import '../styles/global.css';
+import Search from '../components/Search.astro';
 
 interface Props {
   title?: string;
   description?: string;
   lang?: 'zh' | 'en';
-  pagefindBody?: boolean;
 }
 
 const {
   title = '城北 · 独立开发者',
   description = '城北的文章、项目与实践记录。',
-  lang = 'zh',
-  pagefindBody = true
+  lang = 'zh'
 } = Astro.props;
 const prefix = lang === 'en' ? '/en' : '';
 const labels = lang === 'zh'
@@ -39,7 +38,7 @@ const labels = lang === 'zh'
   </head>
   <body data-theme="light">
     <a class="skip-link" href="#content">{labels.skip}</a>
-    <header class="site-header">
+    <header class="site-header" data-pagefind-ignore>
       <a class="brand" href={prefix || '/'} aria-label="城北首页">
         <span class="brand-mark">CBEI</span>
         <span class="brand-role">独立开发者</span>
@@ -55,13 +54,14 @@ const labels = lang === 'zh'
         <button class="theme-toggle" type="button" data-theme-toggle aria-label="切换明暗主题">◐</button>
       </div>
     </header>
-    <main id="content" data-pagefind-body={pagefindBody ? '' : undefined}>
+    <main id="content">
       <slot />
     </main>
-    <footer class="site-footer">
+    <footer class="site-footer" data-pagefind-ignore>
       <span>© {new Date().getFullYear()} 城北</span>
       <span>Built in public · chengbei.org</span>
     </footer>
+    <Search />
     <script is:inline>
       (() => {
         const oldPost = /^#\/p\/([\w-]+)$/.exec(location.hash);
