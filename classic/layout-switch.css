@@ -1,0 +1,41 @@
+.layout-switch-classic {
+  position: fixed;
+  top: 18px;
+  right: 20px;
+  z-index: 10001;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 11px;
+  border: 1px solid color-mix(in srgb, currentColor 24%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--bg, #fff) 82%, transparent);
+  color: inherit;
+  font: 12px/1.2 'Noto Sans SC', system-ui, sans-serif;
+  text-decoration: none;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 18px rgb(0 0 0 / 8%);
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.layout-switch-classic:hover {
+  transform: translateY(-1px);
+  border-color: currentColor;
+}
+
+.layout-switch-classic__icon {
+  font-family: 'Fragment Mono', monospace;
+  font-size: 14px;
+}
+
+@media (max-width: 680px) {
+  .layout-switch-classic {
+    top: 10px;
+    right: 10px;
+    padding: 7px 9px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .layout-switch-classic { transition: none; }
+}
