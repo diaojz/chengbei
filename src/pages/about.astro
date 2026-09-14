@@ -1,4 +1,54 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
-<BaseLayout title="关于 · 城北" description="关于城北和这个独立开发者网站。"><section class="shell page-heading"><p class="eyebrow">ABOUT</p><h1>城北</h1><p>独立开发者，把 AI 开发带给零基础学习者。</p></section><section class="shell about-grid"><div class="about-statement"><p>我关心的不是又出现了什么新名词，而是一项技术最后能不能被真实的人用起来。</p><p>这里的文章记录判断过程，项目记录交付结果。写错的、踩坑的、尚未完成的，也尽量如实留下。</p></div><aside><div><span>现在在做</span><p>AI 应用开发、Agent 工程实践、零基础学习内容</p></div><div><span>找到我</span><p><a href="https://github.com/diaojz">GitHub ↗</a><br /><a href="https://www.xiaohongshu.com/user/profile/5c15f5c50000000005012559">小红书 ↗</a></p></div><div><span>这座站</span><p>公开仓库、静态部署、无广告。访问统计使用无 Cookie 的 GoatCounter。</p></div></aside></section></BaseLayout>
+<BaseLayout title="关于 · 城北" description="城北，独立开发者。做 AI 应用、写代码，也把真实的判断、踩坑和方法留在这里。">
+  <section class="shell page-heading about-heading">
+    <div class="about-heading-copy">
+      <p class="eyebrow">ABOUT</p><h1>城北</h1>
+      <p>独立开发者。做产品，写代码，也把复杂的技术讲明白。</p>
+    </div>
+    <span class="about-hero-mark" aria-hidden="true">IDEA → BUILD → VERIFY</span>
+  </section>
+  <section class="shell about-grid">
+    <main class="about-main">
+      <div class="about-statement">
+        <p>我喜欢把一个模糊的想法做成真的东西：先弄清问题，再动手实现，最后看看它到底有没有帮到人。</p>
+        <p>有些成果会变成产品，有些会变成开源工具。更多时候，它们会被我整理成一篇普通人也能照着走的教程——不省略关键步骤，也不把没做完的事写成已经成功。</p>
+      </div>
+      <figure class="about-focus-art">
+        <div class="about-focus-frame">
+          <img class="about-focus-light" src="/assets/img/about/about-focus-light.webp" alt="" width="1254" height="1254" loading="lazy" />
+          <img class="about-focus-dark" src="/assets/img/about/about-focus-dark.webp" alt="" width="1254" height="1254" loading="lazy" />
+        </div>
+        <figcaption><span>WORK NOTE / 01</span><p>想法、代码和验证，最后要在同一个结果上汇合。</p></figcaption>
+      </figure>
+      <section class="about-section" aria-labelledby="about-work">
+        <div class="about-section-head"><span>01</span><h2 id="about-work">长期在做的事</h2></div>
+        <div class="about-directions">
+          <article><h3>AI 应用与 Agent 工程</h3><p>从模型调用、工作流和工具连接，到权限、评测、部署与真实运行。比起概念演示，我更关心一套东西离可用还差哪几步。</p></article>
+          <article><h3>零基础学习内容</h3><p>把自己真正做过的过程拆开讲：为什么这样选、哪里最容易错、失败后怎么回来。读完不只知道答案，也知道下一次该怎么判断。</p></article>
+          <article><h3>个人产品与公开项目</h3><p>做小而完整的产品，也公开其中值得复用的代码、工具和复盘。这里既收成品，也保留它们一路长出来的痕迹。</p></article>
+        </div>
+      </section>
+      <section class="about-section about-method" aria-labelledby="about-method">
+        <div class="about-section-head"><span>02</span><h2 id="about-method">我怎么判断一件事做完了</h2></div>
+        <p>我看真实结果。页面能打开，不等于已经上线；Demo 能跑，不等于可以交付；一段回答听起来合理，也不等于经得起核对。</p>
+        <p>所以你会在这里看到验证过程，也会看到限制、错误和未完成。它们不是不够漂亮的边角料，而是下一次把事情做对的依据。</p>
+      </section>
+    </main>
+    <aside class="about-aside">
+      <section class="about-index">
+        <span class="about-label">从这里开始</span>
+        <a href="/series/dify/"><b>从零开始学 Dify</b><small>10 篇，从选型走到生产化</small><i>↗</i></a>
+        <a href="/tech-notes/"><b>AI 求职每日一课</b><small>12 周 AI 应用工程学习路线</small><i>↗</i></a>
+        <a href="/articles/stop-clicking-yes/"><b>Codex / Claude Code 权限指南</b><small>少点确认，也不放弃安全边界</small><i>↗</i></a>
+        <a href="/projects/"><b>个人产品与公开项目</b><small>工具、专题和产品复盘</small><i>↗</i></a>
+      </section>
+      <section class="about-meta">
+        <div><span>继续逛</span><p><a href="/articles/">所有文章 ↗</a><br /><a href="/projects/">所有项目 ↗</a></p></div>
+        <div><span>找到我</span><p><a href="https://github.com/diaojz">GitHub ↗</a><br /><a href="https://www.xiaohongshu.com/user/profile/5c15f5c50000000005012559">小红书 ↗</a></p></div>
+        <div><span>这座站</span><p>公开仓库、静态部署、无广告。访问统计使用无 Cookie 的 GoatCounter。</p></div>
+      </section>
+    </aside>
+  </section>
+</BaseLayout>

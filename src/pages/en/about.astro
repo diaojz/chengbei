@@ -1,4 +1,54 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 ---
-<BaseLayout title="About · Chengbei" description="About Chengbei and this independent developer site." lang="en"><section class="shell page-heading"><p class="eyebrow">ABOUT</p><h1>Chengbei</h1><p>Independent developer making AI development approachable to beginners.</p></section><section class="shell about-grid"><div class="about-statement"><p>I care less about new terminology than whether technology becomes useful to real people.</p><p>This site keeps both shipped results and the reasoning, mistakes and unfinished edges behind them.</p></div><aside><div><span>Working on</span><p>AI applications, agent engineering and beginner-friendly learning material.</p></div><div><span>Find me</span><p><a href="https://github.com/diaojz">GitHub ↗</a><br /><a href="https://www.xiaohongshu.com/user/profile/5c15f5c50000000005012559">RedNote ↗</a></p></div></aside></section></BaseLayout>
+<BaseLayout title="About · Chengbei" description="Chengbei is an independent developer building AI applications, writing code, and documenting the real work behind both." lang="en">
+  <section class="shell page-heading about-heading">
+    <div class="about-heading-copy">
+      <p class="eyebrow">ABOUT</p><h1>Chengbei</h1>
+      <p>Independent developer. I build products, write code, and make complex technology easier to understand.</p>
+    </div>
+    <span class="about-hero-mark" aria-hidden="true">IDEA → BUILD → VERIFY</span>
+  </section>
+  <section class="shell about-grid">
+    <main class="about-main">
+      <div class="about-statement">
+        <p>I like turning a fuzzy idea into something real: understand the problem first, build it, then see whether it actually helps someone.</p>
+        <p>Some results become products, some become open-source tools. More often, I turn the work into a guide that someone new can follow—without skipping the decisive steps or presenting unfinished work as a success.</p>
+      </div>
+      <figure class="about-focus-art">
+        <div class="about-focus-frame">
+          <img class="about-focus-light" src="/assets/img/about/about-focus-light.webp" alt="" width="1254" height="1254" loading="lazy" />
+          <img class="about-focus-dark" src="/assets/img/about/about-focus-dark.webp" alt="" width="1254" height="1254" loading="lazy" />
+        </div>
+        <figcaption><span>WORK NOTE / 01</span><p>Ideas, code, and verification have to meet in the same result.</p></figcaption>
+      </figure>
+      <section class="about-section" aria-labelledby="about-work">
+        <div class="about-section-head"><span>01</span><h2 id="about-work">What I keep working on</h2></div>
+        <div class="about-directions">
+          <article><h3>AI applications and agent engineering</h3><p>From model calls, workflows, and tool connections to permissions, evaluation, deployment, and real operation. I care less about the demo than the remaining distance to something useful.</p></article>
+          <article><h3>Learning material for beginners</h3><p>I unpack work I have actually done: why I chose one route, where it tends to break, and how to recover. The aim is to teach the next decision, not just hand over an answer.</p></article>
+          <article><h3>Independent products and public projects</h3><p>I build small, complete products and publish reusable code, tools, and postmortems along the way. This site holds both the finished pieces and the trail behind them.</p></article>
+        </div>
+      </section>
+      <section class="about-section about-method" aria-labelledby="about-method">
+        <div class="about-section-head"><span>02</span><h2 id="about-method">How I decide the work is done</h2></div>
+        <p>I look for real outcomes. A page loading is not the same as a release. A running demo is not a deliverable. An answer that sounds right is not evidence.</p>
+        <p>That is why this site keeps the checks, limitations, mistakes, and unfinished edges. They are not untidy leftovers; they are what make the next attempt better.</p>
+      </section>
+    </main>
+    <aside class="about-aside">
+      <section class="about-index">
+        <span class="about-label">START HERE</span>
+        <a href="/series/dify/"><b>Learning Dify From Zero</b><small>10 parts, from choosing tools to production</small><i>↗</i></a>
+        <a href="/tech-notes/"><b>AI Career Daily</b><small>A 12-week AI application engineering path</small><i>↗</i></a>
+        <a href="/en/articles/stop-clicking-yes/"><b>Codex / Claude Code permissions</b><small>Fewer prompts without giving up boundaries</small><i>↗</i></a>
+        <a href="/en/projects/"><b>Products and public projects</b><small>Tools, field guides, and product postmortems</small><i>↗</i></a>
+      </section>
+      <section class="about-meta">
+        <div><span>Keep browsing</span><p><a href="/en/articles/">All writing ↗</a><br /><a href="/en/projects/">All projects ↗</a></p></div>
+        <div><span>Find me</span><p><a href="https://github.com/diaojz">GitHub ↗</a><br /><a href="https://www.xiaohongshu.com/user/profile/5c15f5c50000000005012559">RedNote ↗</a></p></div>
+        <div><span>This site</span><p>Public repository, static deployment, and no ads. Traffic is measured with the cookie-free GoatCounter.</p></div>
+      </section>
+    </aside>
+  </section>
+</BaseLayout>
