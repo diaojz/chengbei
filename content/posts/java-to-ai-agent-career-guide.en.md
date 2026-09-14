@@ -1,4 +1,6 @@
-# From Java Backend to AI Agents: Build on Your Engineering Skills, Don't Start Over
+# From Java Backend to AI Agents: A Complete Path to Production Delivery
+
+<figure><img src="/assets/img/posts/java-to-ai-agent-career-guide/cover.webp" alt="A backend engineer crossing a bridge of servers, databases and code toward a production AI Agent system"><figcaption>The transition builds on existing engineering skills by connecting them to models, knowledge and tools.</figcaption></figure>
 
 A backend developer recently asked me a familiar question during a livestream: their company had started adopting AI platforms, and they could already assemble workflows and call model APIs, yet it still felt like they were only touching the shell. What was missing before they could apply for an Agent role? Did interviews still test computer-science fundamentals? Should they choose a large company or an AI startup?
 
@@ -10,7 +12,7 @@ Here is the short answer:
 
 The missing layer is not another programming-language syllabus. It is model behavior, RAG, tool use, evaluation and production AI engineering. The goal is not merely to operate a platform. It is to understand why the system works, why it fails and how to improve it with evidence even after the platform is removed.
 
-## First decide which job you are moving into
+## Define the target role first
 
 “AI job” is not one job. Agent-related openings usually fall into at least four groups:
 
@@ -27,7 +29,7 @@ Read the responsibilities, not just the title. Ask who receives the deliverable,
 
 When the job connects existing models to a real business and owns quality, cost and reliability, Java experience is an advantage. APIs, databases, caches, queues, concurrency, authorization, auditing and recovery are exactly what an Agent needs after the demo.
 
-## Knowing Dify is a starting point, not a complete skill set
+## From platform operation to complete engineering
 
 Low-code platforms are valuable. They make nodes, variables, branches, retrieval and tools visible, and they let a team test whether an idea deserves further investment.
 
@@ -47,7 +49,7 @@ If these are difficult, that is fine. They are your next curriculum.
 
 ## The six layers a Java developer should add
 
-### 1. Understand model behavior
+### 1. Model application fundamentals
 
 Learn tokens, context windows, system prompts, structured output, sampling, embeddings, function calling and the common sources of hallucination.
 
@@ -66,6 +68,8 @@ Tool use requires precise schemas, limited permissions and stable return structu
 In enterprise systems, more autonomy is not automatically better. For writes, messages, submissions or other side effects, a deterministic workflow should usually enforce the boundary while the model handles only the parts that require interpretation.
 
 ### 4. Build an evaluation loop
+
+<figure><img src="/assets/img/posts/java-to-ai-agent-career-guide/evaluation-loop.webp" alt="An AI Agent evaluation loop joining retrieval, generation, tool execution and human review"><figcaption>Evaluation is not a final score. Failed cases continuously flow back into retrieval, generation and tool execution.</figcaption></figure>
 
 Trying ten questions and saying “it feels good” is not evaluation.
 
@@ -103,17 +107,19 @@ Regulated domains must address prompt injection, sensitive data, cross-tenant re
 
 Do not ask only how often the system is correct. Ask what happens when it is wrong, whether it knows when evidence is missing, whether it can show its sources and whether it refuses appropriately.
 
-## Why “95% accuracy before launch” is misleading
+## Define launch criteria with layered metrics
 
-The number sounds rigorous but means little without a definition. It could describe FAQ answers, retrieval recall, field extraction or successful tool calls. Those are different measurements.
+A launch threshold becomes useful only when the evaluated task, sample distribution and cost of failure are explicit. “95% accuracy” could describe FAQ answers, retrieval recall, field extraction or successful tool calls; those measurements are not interchangeable.
 
 A low-risk internal search tool may launch gradually below 95% with citations, limited scope and human fallback. A high-risk recommendation affecting underwriting, claims or health may remain unacceptable even at 99% if the remaining failures are severe.
 
 Split the scenario by risk and set separate gates for evidence retrieval, faithfulness, severe-error rate, refusal, human approval, latency, cost and dependency failure. Average accuracy is useful context; it is not an accountability model.
 
-## The best portfolio project is not always the flashiest
+## Design the portfolio for the target role
 
-A multimodal story generator can demonstrate scripts, images, video, TTS, ASR and orchestration. For an enterprise Agent role, however, a deep vertical project may be more persuasive.
+<figure><img src="/assets/img/posts/java-to-ai-agent-career-guide/portfolio-paths.webp" alt="Two AI portfolio paths: multimodal content production and a vertical knowledge assistant"><figcaption>Content projects emphasize multimodal orchestration; business assistants emphasize RAG, tools and evaluation. Both paths should produce demonstrable, verifiable outcomes.</figcaption></figure>
+
+Portfolio projects can follow two strong paths. A multimodal story generator demonstrates scripts, images, video, TTS, ASR and orchestration. A vertical business assistant demonstrates RAG, tool use, evaluation, authorization and production engineering. Choose the path that matches the target role.
 
 Using only public and synthetic data, build an insurance-policy assistant with a claims-document pre-check:
 
@@ -132,7 +138,7 @@ The value is not the number of frameworks. It is your ability to explain what fa
 
 Never publish customer data, internal documents, production prompts, endpoints, secrets or logs. Public material, simulated APIs and synthetic tests are enough to demonstrate the engineering.
 
-## Do you need Python and frontend skills?
+## The learning boundary across Java, Python and frontend
 
 The answer is neither “master everything” nor “learn nothing.”
 
@@ -142,7 +148,7 @@ You do not need a full React curriculum before starting, but you should be able 
 
 Start with the backend in Java, add enough Python for experiments, then build only the product UI you need. Do not lose months to language trivia unrelated to the target role.
 
-## Do Agent interviews still test fundamentals?
+## The structure of an Agent interview
 
 Yes, but the weighting has changed.
 
@@ -161,17 +167,17 @@ Agent interviews add questions such as:
 
 Fundamentals did not disappear. They became the baseline, while production experience and diagnostic thinking create the separation.
 
-## Be careful with “30K is the normal starting salary”
+## How to evaluate compensation
 
 “Agent” is not a standardized level. Job listings span ordinary application development, senior ML and architecture. City, education, experience, company stage and job type can produce very different ranges.
 
-A few highly paid listings prove only that highly paid jobs exist. A better method is to collect 30–50 current listings for your city and experience level across several keywords—LLM application, AI backend, Agent and RAG—then compare median pay, responsibilities and recurring skills.
+A practical method is to collect 30–50 current listings for your city and experience level across several keywords—LLM application, AI backend, Agent and RAG—then compare median pay, responsibilities and recurring skills. This range is more relevant to an individual candidate than any single highly paid listing.
 
 Strong backend experience plus a verifiable Agent project may earn a premium. Merely knowing Dify does not guarantee one.
 
-## Large company or AI startup?
+## Choosing between a large company and an AI startup
 
-Neither is automatically right. Do not judge a startup only by the founder's résumé or the highest offer. Ask:
+The two environments offer different resources, learning density and risk. Ask:
 
 1. Is AI in production, or mainly used in demos and presales?
 2. Are there real users, data and a quality feedback loop?
@@ -208,7 +214,7 @@ Add tracing, logs, authorization, redaction, timeouts, retries, degradation, cos
 
 Deliverable: a live demo, repository, architecture, evaluation data and honest retrospective.
 
-## Moving into AI is not switching syntax
+## The transition adds a new engineering layer
 
 Moving from Java to Agents is not replacing `.java` with `.py`, or replacing APIs with draggable nodes.
 
