@@ -1,0 +1,22 @@
+.back-home {
+  position: fixed;
+  z-index: 20;
+  left: 24px;
+  top: 24px;
+  padding: 9px 13px;
+  border-radius: 999px;
+  background: #fffdf8e8;
+  color: var(--g);
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 4px 22px #09251f22;
+  backdrop-filter: blur(12px);
+}
+.publish-date { display: block; margin-top: 18px; color: #cbded6; font-size: 12px; letter-spacing: .08em; }
+.search-alias { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
+.site-foot { width: min(1180px, calc(100% - 28px)); margin: -40px auto 32px; color: var(--m); font-size: 11px; letter-spacing: .06em; }
+@media (max-width: 780px) {
+  .back-home { position: absolute; left: 20px; top: 28px; }
+  .cover div { top: 55%; }
+}

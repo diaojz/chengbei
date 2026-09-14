@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostList from '../components/PostList.astro';
+import { posts, series } from '../lib/content';
+import { projects, projectText } from '../data/projects';
+import siteData from '../../content/data.json';
+const recent = posts.slice(0, 6);
+const featured = projects.filter((project) => project.featured).slice(0, 3);
+const dify = series.find((item) => item.id === 'dify');
+---
+<BaseLayout>
+  <div class="product-shell">
+    <section class="profile-hero">
+      <div class="identity-mark" aria-hidden="true">CB</div>
+      <div class="identity-copy">
+        <div class="identity-line"><h1>城北</h1><span class="availability"><i></i>持续构建中</span></div>
+        <p class="identity-role">独立开发者 · AI 应用研发</p>
+        <p class="identity-intro">把复杂的 AI 技术做成真正能用的产品，也把一路上的判断、踩坑和方法写下来。</p>
+        <div class="identity-links"><a href="/about/">关于我</a><a href="https://github.com/diaojz">GitHub ↗</a><a href="https://www.xiaohongshu.com/user/profile/5c15f5c50000000005012559">小红书 ↗</a></div>
+      </div>
+      <button class="hero-search" type="button" data-search-open><span>⌕</span><b>搜索站内内容</b><kbd>/</kbd></button>
+    </section>
+
+    <section class="product-section">
+      <div class="product-section-head"><div><span class="section-kicker">SELECTED WORK</span><h2>代表作品</h2></div><a href="/projects/">查看全部</a></div>
+      <div class="work-grid">
+        {featured.map((project, index) => { const text = projectText(project, 'zh'); const images = ['/livestream-compliance/assets/抖音直播手册/hero.png', '/mac-livestream-setup/assets/cover.png', '/tech-notes/assets/images/course-hero.png']; return (
+          <a class="work-card" href={project.href}>
+            <div class="work-cover"><img src={images[index]} alt="" /><span>{project.kind}</span></div>
+            <div class="work-copy"><h3>{text.title}</h3><p>{text.description}</p><div><time>{project.date}</time><b>查看项目 ↗</b></div></div>
+          </a>
+        ); })}
+      </div>
+    </section>
+
+    <div class="content-columns">
+      <section class="product-section writing-section">
+        <div class="product-section-head"><div><span class="section-kicker">WRITING</span><h2>最近写作</h2></div><a href="/articles/">全部 {posts.length} 篇</a></div>
+        <PostList items={recent} compact />
+      </section>
+      <aside class="home-aside">
+        {dify && <a class="series-panel" href="/series/dify/"><span class="section-kicker">CURRENT SERIES</span><h2>{dify.title_zh}</h2><p>{dify.desc_zh}</p><div><span>{dify.slugs.length} 篇</span><b>从第一篇开始 →</b></div></a>}
+        <div class="topics-panel"><span class="section-kicker">TOPICS</span><h2>主要写这些</h2><div><a href="/articles/">AI Agent</a><a href="/articles/">Dify</a><a href="/articles/">Codex</a><a href="/articles/">独立开发</a><a href="/articles/">产品与工程</a></div></div>
+      </aside>
+    </div>
+
+    <section class="quiet-gallery" aria-label="影像记录">
+      {siteData.images.map((image) => <figure><img src={`/${image.url}`} alt={image.caption_zh} /><figcaption>{image.caption_zh}</figcaption></figure>)}
+    </section>
+  </div>
+</BaseLayout>

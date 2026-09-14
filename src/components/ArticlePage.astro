@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { formatDate, postExcerpt, postTags, postTitle, readPost, series, type Lang, type Post } from '../lib/content';
+
+interface Props { post: Post; lang: Lang; }
+const { post, lang } = Astro.props;
+const content = await readPost(post, lang);
+const prefix = lang === 'en' ? '/en' : '';
+const title = postTitle(post, lang);
+const relatedSeries = series.find((item) => item.id === post.series);
+---
+
+<BaseLayout title={`${title} · 城北`} description={postExcerpt(post, lang)} lang={lang}>
+  <article class="article-shell" data-pagefind-meta={`type:${lang === 'zh' ? '文章' : 'Article'}`}>
+    <a class="back-link" href={`${prefix}/articles/`}>← {lang === 'zh' ? '全部文章' : 'All articles'}</a>
+    <header class="article-header">
+      <div class="tag-row">{postTags(post, lang).map((tag) => <span>{tag}</span>)}</div>
+      <h1 data-pagefind-meta="title">{title}</h1>
+      <div class="article-meta">
+        <time data-pagefind-meta="date" datetime={new Date(post.ts).toISOString()}>{formatDate(post.ts, lang)}</time>
+        {content.actualLang !== lang && <span>中文原文</span>}
+      </div>
+      {relatedSeries && <a class="series-link" href={`${prefix}/series/${relatedSeries.id}/`}>{lang === 'zh' ? relatedSeries.title_zh : relatedSeries.title_en} · {post.series_order}/{relatedSeries.slugs.length}</a>}
+    </header>
+    <div class="article-body" set:html={content.html} />
+  </article>
+</BaseLayout>

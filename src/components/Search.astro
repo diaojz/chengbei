@@ -1,0 +1,51 @@
+---
+const lang = Astro.url.pathname.startsWith('/en/') ? 'en' : 'zh';
+const copy = lang === 'zh'
+  ? { title: '搜索整座站点', placeholder: '试试：直播、违禁词、Dify、Codex…', hint: '输入关键词，搜索文章正文、专题和课程', empty: '没有找到相关内容', loading: '正在搜索…', close: '关闭搜索' }
+  : { title: 'Search the whole site', placeholder: 'Try: Dify, Codex, livestream…', hint: 'Search articles, features and courses', empty: 'No matching content', loading: 'Searching…', close: 'Close search' };
+---
+<dialog class="search-dialog" data-search-dialog aria-labelledby="search-title">
+  <div class="search-panel">
+    <div class="search-topline"><span id="search-title">{copy.title}</span><button type="button" data-search-close aria-label={copy.close}>ESC</button></div>
+    <label class="search-box"><span aria-hidden="true">⌕</span><input type="search" data-search-input placeholder={copy.placeholder} autocomplete="off" spellcheck="false" /></label>
+    <p class="search-status" data-search-status>{copy.hint}</p>
+    <div class="search-results" data-search-results aria-live="polite"></div>
+  </div>
+</dialog>
+<script is:inline define:vars={{ copy }}>
+  (() => {
+    const dialog = document.querySelector('[data-search-dialog]');
+    const input = dialog?.querySelector('[data-search-input]');
+    const results = dialog?.querySelector('[data-search-results]');
+    const status = dialog?.querySelector('[data-search-status]');
+    let pagefind;
+    let timer;
+    const escapeHtml = (value) => String(value || '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
+    const open = () => { if (!dialog?.open) dialog?.showModal(); requestAnimationFrame(() => input?.focus()); };
+    const close = () => dialog?.close();
+    const loadPagefind = async () => {
+      if (!pagefind) { const modulePath = '/pagefind/pagefind.js'; pagefind = await import(modulePath); await pagefind.init(); }
+      return pagefind;
+    };
+    const search = async () => {
+      const query = input?.value.trim();
+      if (!query) { results.innerHTML = ''; status.textContent = copy.hint; return; }
+      status.textContent = copy.loading;
+      try {
+        const engine = await loadPagefind();
+        const found = await engine.search(query);
+        const data = await Promise.all(found.results.slice(0, 12).map((item) => item.data()));
+        status.textContent = data.length ? `${data.length} ${document.documentElement.lang.startsWith('zh') ? '条结果' : 'results'}` : copy.empty;
+        results.innerHTML = data.map((item, index) => `<a class="search-result" href="${escapeHtml(item.url)}"><span class="search-result-index">${String(index + 1).padStart(2, '0')}</span><span><b>${escapeHtml(item.meta?.title || item.url)}</b><small>${item.excerpt || ''}</small></span></a>`).join('');
+      } catch (error) {
+        console.warn('[search]', error);
+        status.textContent = document.documentElement.lang.startsWith('zh') ? '搜索索引暂时不可用' : 'Search index is unavailable';
+      }
+    };
+    document.querySelectorAll('[data-search-open]').forEach((button) => button.addEventListener('click', open));
+    dialog?.querySelector('[data-search-close]')?.addEventListener('click', close);
+    dialog?.addEventListener('click', (event) => { if (event.target === dialog) close(); });
+    input?.addEventListener('input', () => { clearTimeout(timer); timer = setTimeout(search, 120); });
+    document.addEventListener('keydown', (event) => { const editing = /INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName || ''); if (event.key === '/' && !editing) { event.preventDefault(); open(); } });
+  })();
+</script>

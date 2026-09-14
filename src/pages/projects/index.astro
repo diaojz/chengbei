@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { projects, projectText } from '../../data/projects';
+---
+<BaseLayout title="项目 · 城北" description="城北做过的项目、课程、工具和独立专题。">
+  <section class="shell page-heading"><p class="eyebrow">PROJECTS · {projects.length}</p><h1>项目</h1><p>做出来的工具、课程和专题。文章归文章，作品归作品。</p></section>
+  <section class="shell project-grid">
+    {projects.map((project) => { const text = projectText(project, 'zh'); return (
+      <a class="project-card" href={project.href} target={project.href.startsWith('http') ? '_blank' : undefined} rel={project.href.startsWith('http') ? 'noopener noreferrer' : undefined}>
+        <div><span>{project.kind}</span>{project.date && <time>{project.date}</time>}</div><h2>{text.title}</h2><p>{text.description}</p><b>查看 →</b>
+      </a>
+    ); })}
+  </section>
+</BaseLayout>

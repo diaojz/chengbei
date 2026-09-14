@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostList from '../../components/PostList.astro';
+import { posts, series } from '../../lib/content';
+export function getStaticPaths() { return series.map((item) => ({ params: { id: item.id }, props: { item } })); }
+const { item } = Astro.props;
+const items = item.slugs
+  .map((slug: string) => posts.find((post) => post.slug === slug))
+  .filter((post): post is (typeof posts)[number] => Boolean(post));
+---
+<BaseLayout title={`${item.title_zh} · 城北`} description={item.desc_zh}>
+  <section class="shell page-heading"><p class="eyebrow">SERIES · {items.length}</p><h1>{item.title_zh}</h1><p>{item.desc_zh}</p></section>
+  <section class="shell article-index"><PostList items={items} /></section>
+</BaseLayout>

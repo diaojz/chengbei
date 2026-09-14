@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostList from '../../components/PostList.astro';
+import { posts, series } from '../../lib/content';
+import { projects, projectText } from '../../data/projects';
+const featured = projects.filter((project) => project.featured).slice(0, 3);
+const dify = series.find((item) => item.id === 'dify');
+---
+<BaseLayout title="Chengbei · Independent Developer" description="Articles, projects and field notes by Chengbei." lang="en">
+  <div class="product-shell">
+    <section class="profile-hero"><div class="identity-mark" aria-hidden="true">CB</div><div class="identity-copy"><div class="identity-line"><h1>Chengbei</h1><span class="availability"><i></i>Building in public</span></div><p class="identity-role">Independent developer · AI applications</p><p class="identity-intro">I turn complex AI technology into useful products, then document the decisions, mistakes and methods behind the work.</p><div class="identity-links"><a href="/en/about/">About me</a><a href="https://github.com/diaojz">GitHub ↗</a><a href="https://www.xiaohongshu.com/user/profile/5c15f5c50000000005012559">RedNote ↗</a></div></div><button class="hero-search" type="button" data-search-open><span>⌕</span><b>Search this site</b><kbd>/</kbd></button></section>
+    <section class="product-section"><div class="product-section-head"><div><span class="section-kicker">SELECTED WORK</span><h2>Featured projects</h2></div><a href="/en/projects/">View all</a></div><div class="work-grid">{featured.map((project, index) => { const text = projectText(project, 'en'); const images = ['/livestream-compliance/assets/抖音直播手册/hero.png','/mac-livestream-setup/assets/cover.png','/tech-notes/assets/images/course-hero.png']; return <a class="work-card" href={project.href}><div class="work-cover"><img src={images[index]} alt="" /><span>{project.kind}</span></div><div class="work-copy"><h3>{text.title}</h3><p>{text.description}</p><div><time>{project.date}</time><b>View ↗</b></div></div></a>; })}</div></section>
+    <div class="content-columns"><section class="product-section writing-section"><div class="product-section-head"><div><span class="section-kicker">WRITING</span><h2>Recent writing</h2></div><a href="/en/articles/">All {posts.length}</a></div><PostList items={posts.slice(0,6)} lang="en" compact /></section><aside class="home-aside">{dify && <a class="series-panel" href="/series/dify/"><span class="section-kicker">CURRENT SERIES</span><h2>{dify.title_en}</h2><p>{dify.desc_en}</p><div><span>{dify.slugs.length} parts</span><b>Start reading →</b></div></a>}<div class="topics-panel"><span class="section-kicker">TOPICS</span><h2>Main topics</h2><div><a href="/en/articles/">AI Agent</a><a href="/en/articles/">Dify</a><a href="/en/articles/">Codex</a><a href="/en/articles/">Product</a></div></div></aside></div>
+  </div>
+</BaseLayout>
