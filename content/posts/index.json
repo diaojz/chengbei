@@ -1,5 +1,14 @@
 [
   {
+    "slug": "java-to-ai-agent-career-guide",
+    "ts": 1789315200000,
+    "category": "help",
+    "title_zh": "Java 后端转 AI Agent：别清零重来，把工程能力接到模型上",
+    "title_en": "From Java Backend to AI Agents: Build on Your Engineering Skills, Don't Start Over",
+    "excerpt_zh": "从一次脱敏的直播问答出发，拆清 LLM 应用、AI 后端、全栈与算法岗位的边界，并给出 RAG、工具调用、评测、生产工程、面试、作品集和 12 周转型路线。",
+    "excerpt_en": "A sanitized livestream question becomes a practical transition guide: role boundaries, RAG, tool use, evaluation, production engineering, interviews, portfolio design and a 12-week roadmap for Java backend developers."
+  },
+  {
     "slug": "dify-self-hosting",
     "ts": 1788969600000,
     "category": "help",
