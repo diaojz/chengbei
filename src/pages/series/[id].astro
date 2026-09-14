@@ -10,5 +10,5 @@ const items = item.slugs
 ---
 <BaseLayout title={`${item.title_zh} · 城北`} description={item.desc_zh}>
   <section class="shell page-heading"><p class="eyebrow">SERIES · {items.length}</p><h1>{item.title_zh}</h1><p>{item.desc_zh}</p></section>
-  <section class="shell article-index"><PostList items={items} /></section>
+  <section class="shell series-index"><PostList items={items} /></section>
 </BaseLayout>
