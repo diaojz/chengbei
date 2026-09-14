@@ -1,8 +1,9 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import VisualHeading from '../../../components/VisualHeading.astro';
 import { projects, projectText } from '../../../data/projects';
 ---
 <BaseLayout title="Projects · Chengbei" description="Projects, courses, tools and long-form features by Chengbei." lang="en">
-  <section class="shell page-heading"><p class="eyebrow">PROJECTS · {projects.length}</p><h1>Projects</h1><p>Tools, courses and long-form features I have shipped.</p></section>
-  <section class="shell project-grid">{projects.map((project) => { const text = projectText(project, 'en'); return <a class="project-card" href={project.href}><div><span>{project.kind}</span>{project.date && <time>{project.date}</time>}</div><h2>{text.title}</h2><p>{text.description}</p><b>View →</b></a>; })}</section>
+  <VisualHeading eyebrow={`PROJECTS · ${projects.length}`} title="Projects" description="Tools, courses and long-form features I have shipped." mark="MADE · SHIPPED · PUBLIC" />
+  <section class="shell project-grid">{projects.map((project, index) => { const text = projectText(project, 'en'); return <a class="project-card" href={project.href}><div><span>{String(index + 1).padStart(2, '0')} · {project.kind}</span>{project.date && <time>{project.date}</time>}</div><h2>{text.title}</h2><p>{text.description}</p><b>View →</b></a>; })}</section>
 </BaseLayout>

@@ -11,9 +11,11 @@ const relatedSeries = series.find((item) => item.id === post.series);
 ---
 
 <BaseLayout title={`${title} · 城北`} description={postExcerpt(post, lang)} lang={lang}>
+  <div class="reading-progress" aria-hidden="true"><i></i></div>
   <article class="article-shell" data-pagefind-meta={`type:${lang === 'zh' ? '文章' : 'Article'}`}>
     <a class="back-link" href={`${prefix}/articles/`}>← {lang === 'zh' ? '全部文章' : 'All articles'}</a>
     <header class="article-header">
+      <span class="article-kicker">FIELD NOTE</span>
       <div class="tag-row">{postTags(post, lang).map((tag) => <span>{tag}</span>)}</div>
       <h1 data-pagefind-meta="title">{title}</h1>
       <div class="article-meta">
@@ -24,4 +26,14 @@ const relatedSeries = series.find((item) => item.id === post.series);
     </header>
     <div class="article-body" set:html={content.html} />
   </article>
+  <script>
+    const progress = document.querySelector<HTMLElement>('.reading-progress i');
+    const updateProgress = () => {
+      if (!progress) return;
+      const total = document.documentElement.scrollHeight - innerHeight;
+      progress.style.transform = `scaleX(${total > 0 ? Math.min(scrollY / total, 1) : 0})`;
+    };
+    addEventListener('scroll', updateProgress, { passive: true });
+    updateProgress();
+  </script>
 </BaseLayout>

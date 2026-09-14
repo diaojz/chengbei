@@ -1,0 +1,18 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+  description: string;
+  variant?: 'library' | 'dify';
+  mark?: string;
+}
+const { eyebrow, title, description, variant = 'library', mark = 'CURATED · BUILT · VERIFIED' } = Astro.props;
+---
+<section class:list={['shell', 'visual-heading', `visual-heading-${variant}`]}>
+  <div class="visual-heading-copy">
+    <p class="eyebrow">{eyebrow}</p>
+    <h1>{title}</h1>
+    <p>{description}</p>
+  </div>
+  <span class="visual-heading-mark" aria-hidden="true">{mark}</span>
+</section>

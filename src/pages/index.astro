@@ -10,7 +10,7 @@ const dify = series.find((item) => item.id === 'dify');
 ---
 <BaseLayout>
   <div class="product-shell">
-    <section class="profile-hero">
+    <section class="profile-hero visual-home-hero">
       <div class="identity-mark" aria-hidden="true">CB</div>
       <div class="identity-copy">
         <div class="identity-line"><h1>城北</h1><span class="availability"><i></i>持续构建中</span></div>
@@ -19,13 +19,14 @@ const dify = series.find((item) => item.id === 'dify');
         <div class="identity-links"><a href="/about/">关于我</a><a href="https://github.com/diaojz">GitHub ↗</a><a href="https://www.xiaohongshu.com/user/profile/5c15f5c50000000005012559">小红书 ↗</a></div>
       </div>
       <button class="hero-search" type="button" data-search-open><span>⌕</span><b>搜索站内内容</b><kbd>/</kbd></button>
+      <span class="home-hero-mark" aria-hidden="true">IDEA → BUILD → SHIP</span>
     </section>
 
     <section class="product-section">
       <div class="product-section-head"><div><span class="section-kicker">SELECTED WORK</span><h2>代表作品</h2></div><a href="/projects/">查看全部</a></div>
       <div class="work-grid">
         {featured.map((project, index) => { const text = projectText(project, 'zh'); const images = ['/livestream-compliance/assets/抖音直播手册/hero.png', '/mac-livestream-setup/assets/cover.png', '/tech-notes/assets/images/course-hero.png']; return (
-          <a class="work-card" href={project.href}>
+          <a class="work-card" href={project.href} style={`--work-index:'0${index + 1}'`}>
             <div class="work-cover"><img src={images[index]} alt="" /><span>{project.kind}</span></div>
             <div class="work-copy"><h3>{text.title}</h3><p>{text.description}</p><div><time>{project.date}</time><b>查看项目 ↗</b></div></div>
           </a>

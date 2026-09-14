@@ -1,16 +1,13 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostList from '../../components/PostList.astro';
+import VisualHeading from '../../components/VisualHeading.astro';
 import { posts, postTags } from '../../lib/content';
 const tags = [...new Set(posts.flatMap((post) => postTags(post, 'zh')))];
 ---
 
 <BaseLayout title="文章 · 城北" description="城北的全部文章、实践笔记与系列教程。">
-  <section class="shell page-heading">
-    <p class="eyebrow">WRITING · {posts.length}</p>
-    <h1>文章</h1>
-    <p>随笔、实用指南和系列教程都在这里。按主题找，也可以直接全文搜索。</p>
-  </section>
+  <VisualHeading eyebrow={`WRITING · ${posts.length}`} title="文章" description="随笔、实用指南和系列教程都在这里。按主题找，也可以直接全文搜索。" />
   <section class="shell article-index">
     <div class="filter-row" aria-label="文章标签筛选">
       <button class="active" type="button" data-filter="">全部</button>
