@@ -1093,6 +1093,58 @@ body.post-lightbox-open #post-view { overflow: hidden; }
 .series-nav a { color: var(--read-soft, var(--mid)); text-decoration-color: var(--mid); }
 .series-nav a:hover { color: var(--text); }
 
+.series-featured {
+  display: grid !important;
+  gap: 7px;
+  margin-top: 4px;
+  padding: 15px 16px !important;
+  border: 1px solid color-mix(in srgb, var(--text) 20%, transparent);
+  background: color-mix(in srgb, var(--line) 62%, transparent);
+  text-decoration: none !important;
+  transition: transform 220ms var(--ease-out), border-color 220ms, background 220ms;
+}
+.series-featured:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--text) 48%, transparent);
+  background: color-mix(in srgb, var(--line) 86%, transparent);
+}
+.series-featured-kicker,
+.series-featured-cta {
+  font-family: 'Fragment Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--mid);
+}
+.series-featured strong { font-size: 15px; font-weight: 600; color: var(--text); }
+.series-featured-desc { font-size: 12px; line-height: 1.55; color: var(--mid); }
+.series-featured-path { font-size: 10.5px; line-height: 1.5; color: var(--text); opacity: .72; }
+.series-featured-cta { margin-top: 3px; color: var(--text); }
+
+.series-hero-path {
+  margin: -8px 0 34px;
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  font-family: 'Fragment Mono', monospace;
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--read-soft, var(--mid));
+}
+.series-guide { margin-bottom: 34px; }
+.series-guide p { margin: 0; color: var(--read-soft, var(--mid)); }
+.series-routes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.series-route { padding: 14px; border: 1px solid var(--line); display: grid; gap: 8px; }
+.series-route strong { font-size: 13px; font-weight: 500; }
+.series-route span { font-family: 'Fragment Mono', monospace; font-size: 10px; line-height: 1.6; color: var(--mid); }
+.archive-name strong { display: block; font-weight: 500; }
+.archive-name small { display: block; margin-top: 4px; font-size: 11px; line-height: 1.5; color: var(--mid); }
+
+@media (max-width: 720px) {
+  .series-routes { grid-template-columns: 1fr; }
+  .series-hero-path { padding: 14px; font-size: 11px; }
+  .archive-row .archive-meta { display: none; }
+}
+
 /* ──────────────────────────────────────────────
    全屏目录页（#/all · Ships 精选之外的全量列表）
    ────────────────────────────────────────────── */

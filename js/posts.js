@@ -69,6 +69,17 @@ function renderSeriesList() {
   container.innerHTML = list.map(s => {
     const title = s['title_' + lang] || s.title_zh || s.id;
     const n = s.slugs.length;
+    if (s.featured) {
+      const desc = s['desc_' + lang] || s.desc_zh || '';
+      const path = s['path_' + lang] || s.path_zh || '';
+      return `<a class="series-featured" href="#/series/${esc(s.id)}">` +
+        `<span class="series-featured-kicker">${esc(dict.series_featured || 'Series')} · ${n} ${esc(dict.series_progress || '')}</span>` +
+        `<strong>${esc(title)}</strong>` +
+        `<span class="series-featured-desc">${esc(desc)}</span>` +
+        `<span class="series-featured-path">${esc(path)}</span>` +
+        `<span class="series-featured-cta">${esc(dict.series_start || dict.series_all || 'view series →')}</span>` +
+        `</a>`;
+    }
     return `<a href="#/series/${esc(s.id)}">${esc(title)} <span class="archive-meta">· ${n} ${esc(dict.series_progress || '')}</span></a>`;
   }).join('');
 }
@@ -80,6 +91,7 @@ function showSeries(id) {
   currentSlug = null;
   archiveOpen = false;
   const lang = window.CURRENT_LANG || 'zh';
+  const dict = (window.I18N && window.I18N[lang]) || {};
   const view = document.getElementById('post-view');
   document.body.classList.add('reading');
   view.hidden = false;
@@ -88,19 +100,32 @@ function showSeries(id) {
   const fmt = ts => new Date(ts).toLocaleDateString(lc, { year: 'numeric', month: 'short', day: 'numeric' });
   const pad = i => String(i + 1).padStart(2, '0');
 
+  const takeaways = s['takeaways_' + lang] || s.takeaways_zh || [];
   const rows = s.slugs.map((slug, i) => {
     const p = postsIndex.find(x => x.slug === slug);
     if (!p) return '';
     return `<a class="archive-row" href="#/p/${esc(slug)}">` +
       `<span class="archive-idx">EP${pad(i)}</span>` +
-      `<span class="archive-name">${esc(p['title_' + lang] || p.title_zh || '')}</span>` +
+      `<span class="archive-name"><strong>${esc(p['title_' + lang] || p.title_zh || '')}</strong>` +
+      `${takeaways[i] ? `<small>${esc(takeaways[i])}</small>` : ''}</span>` +
       `<span class="archive-meta">${p.ts ? fmt(p.ts) : ''}</span></a>`;
+  }).join('');
+
+  const audience = s['audience_' + lang] || s.audience_zh || '';
+  const path = s['path_' + lang] || s.path_zh || '';
+  const routeHtml = (s.routes || []).map(route => {
+    const title = route['title_' + lang] || route.title_zh || '';
+    const eps = (route.orders || []).map(n => `EP${String(n).padStart(2, '0')}`).join(' · ');
+    return `<div class="series-route"><strong>${esc(title)}</strong><span>${esc(eps)}</span></div>`;
   }).join('');
 
   view.querySelector('.post-title').textContent = s['title_' + lang] || s.title_zh || '';
   view.querySelector('.post-meta').textContent = s['desc_' + lang] || s.desc_zh || '';
   view.querySelector('.post-body').innerHTML =
-    `<div class="archive-sec">${rows}</div>`;
+    `<div class="series-hero-path">${esc(path)}</div>` +
+    `<section class="series-guide"><div class="archive-sec-title">${esc(dict.series_for || 'Who it is for')}</div><p>${esc(audience)}</p></section>` +
+    `<section class="series-guide"><div class="archive-sec-title">${esc(dict.series_routes || 'Reading paths')}</div><div class="series-routes">${routeHtml}</div></section>` +
+    `<div class="archive-sec"><div class="archive-sec-title">${esc(dict.series_contents || 'Contents')}<b>${s.slugs.length}</b></div>${rows}</div>`;
 
   const wm = view.querySelector('.post-watermark');
   if (wm) wm.textContent = '';

@@ -5,6 +5,40 @@
     "title_en": "Learning Dify From Zero",
     "desc_zh": "一个人从技术选型、部署到生产化，把公司内网自建的 Dify 项目彻底摸透的系列笔记。",
     "desc_en": "One engineer's running notes on taking a self-hosted Dify project from tool selection to production.",
+    "featured": true,
+    "audience_zh": "适合第一次接触 Dify，或已经做出 Demo、准备走向真实项目的人。",
+    "audience_en": "For first-time Dify builders and teams moving a working demo toward production.",
+    "path_zh": "选型 → Chatflow → 分支与变量 → API → RAG → 批处理 → Agent → 生产化 → 私有部署",
+    "path_en": "Landscape → Chatflow → Branches and variables → APIs → RAG → Batch processing → Agents → Production → Self-hosting",
+    "routes": [
+      { "title_zh": "零基础顺序读", "title_en": "Start from zero", "orders": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+      { "title_zh": "只学知识库与 RAG", "title_en": "Focus on RAG", "orders": [1, 2, 6] },
+      { "title_zh": "准备上线与自建", "title_en": "Ship and self-host", "orders": [5, 8, 9, 10] }
+    ],
+    "takeaways_zh": [
+      "看懂 Dify 在 AI 应用工具版图里的位置",
+      "从零搭出并发布第一个 Chatflow",
+      "分清规则分支和模型判断的边界",
+      "用变量让应用拥有稳定的数据流和记忆",
+      "安全调用外部 API，并补齐异常路径",
+      "从清洗、分段到召回测试做一次 RAG",
+      "正确使用 Iteration、Loop 与批量处理",
+      "让 Agent 在边界内选择和调用工具",
+      "用版本、日志、权限和回滚跨过 Demo",
+      "用 Docker Compose 接管部署、数据与恢复"
+    ],
+    "takeaways_en": [
+      "Place Dify correctly on the AI application landscape",
+      "Build and publish a first Chatflow from scratch",
+      "Separate deterministic branches from model judgement",
+      "Use variables for dependable data flow and memory",
+      "Call external APIs safely and handle failure paths",
+      "Build a RAG flow from cleaning to retrieval tests",
+      "Use Iteration, Loop, and batch processing correctly",
+      "Let agents choose tools inside explicit boundaries",
+      "Cross the demo gap with versions, logs, access, and rollback",
+      "Own deployment, data, upgrades, and recovery with Docker Compose"
+    ],
     "slugs": [
       "dify-platform-landscape",
       "dify-cloud-first-app",
