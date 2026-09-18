@@ -1,0 +1,13 @@
+{
+  "title": "我试了5种网页Agent工具",
+  "content": "最近我一直在折腾一件事：让 AI 真正去操作网页。\n\n不是给我一段“操作建议”，而是自己打开页面、找到按钮、填内容、翻页，再把结果带回来。中间当然也翻过车：页面一刷新，刚才记住的按钮就找不到了；看着像保存成功，回到草稿箱却没有。\n\n试了一圈，几个工具的脾气大概摸清了。\n\nagent-browser 比较像一套给 AI 用的浏览器遥控器。打开、点击、输入、截图都很直接，临时跑个网页任务，或者调试一段自动化流程，很顺手。\n\nOpenCLI 的思路不太一样。它除了控制浏览器，还会把网站常用动作封成命令。比如查账号、读草稿、保存内容，不用每次都从页面第一步重新摸索。碰到已经适配的网站，这点确实省事。\n\nBrowser Use 更偏“你说目标，它自己规划”；Stagehand 更适合开发者把 Agent 能力写进产品；Playwright MCP/CLI 的确定性更强，做测试和固定流程更踏实。\n\n所以它们不是简单的谁替代谁。我的实际用法是：通用网页操作交给 agent-browser，网站已有专用能力时用 OpenCLI，需要稳定测试就回到 Playwright。\n\n还有一条踩坑后的规矩：发布、付款、删除、发消息，一定留一次人工确认。网页 Agent 可以替我跑腿，但最后那一下，最好还是由人决定。\n\n你现在最想交给 AI 的网页任务是什么？",
+  "topics": ["AI", "AI新手村", "程序员"],
+  "images": [
+    "/Users/diaoye/Documents/BD/App Store/app/chengbei-site/xiaohongshu/opencli-agent-20260914/01-cover.png",
+    "/Users/diaoye/Documents/BD/App Store/app/chengbei-site/xiaohongshu/opencli-agent-20260914/02-agent-browser.png",
+    "/Users/diaoye/Documents/BD/App Store/app/chengbei-site/xiaohongshu/opencli-agent-20260914/03-opencli.png",
+    "/Users/diaoye/Documents/BD/App Store/app/chengbei-site/xiaohongshu/opencli-agent-20260914/04-five-tools.png",
+    "/Users/diaoye/Documents/BD/App Store/app/chengbei-site/xiaohongshu/opencli-agent-20260914/05-use-cases.png",
+    "/Users/diaoye/Documents/BD/App Store/app/chengbei-site/xiaohongshu/opencli-agent-20260914/06-safety.png"
+  ]
+}

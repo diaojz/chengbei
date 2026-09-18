@@ -1,0 +1,15 @@
+(node:72328) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+ok: false
+error:
+  code: COMMAND_EXEC
+  message: >-
+    Image injection failed: Page.fileChooserOpened not received within 5s — the input may not have opened a file
+    chooser. Debug screenshot: /tmp/xhs_publish_upload_debug.png
+  exitCode: 1
+trace:
+  traceId: 20260914084201-0c29a1b3
+  dir: /Users/diaoye/.opencli/profiles/dgfvuy6u/traces/20260914084201-0c29a1b3
+  summaryPath: /Users/diaoye/.opencli/profiles/dgfvuy6u/traces/20260914084201-0c29a1b3/summary.md
+  receiptPath: /Users/diaoye/.opencli/profiles/dgfvuy6u/traces/20260914084201-0c29a1b3/receipt.json
+  status: failure
