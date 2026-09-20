@@ -8,11 +8,13 @@
       "category": "交付与解决方案",
       "title_zh": "前线部署工程师",
       "title_en": "Forward Deployed Engineer",
+      "abbreviation": "FDE",
       "summary_zh": "把 AI 系统落进客户真实业务：发现问题、连接数据与系统，并对交付结果负责。",
       "sample_count": 0,
       "updated_at": "2026-09-20",
       "status": "researching",
       "card": "content/ai-jobs/cards/fde.jpg",
+      "thumbnail": "/assets/img/ai-jobs/fde.webp",
       "evidence_zh": ["已归档知识卡；结构化招聘样本与来源链接仍在补齐。"],
       "sections": [
         {"title": "岗位在解决什么", "items": ["把模型和工具链带进客户真实业务流程，并为落地结果负责。", "工作通常横跨需求发现、原型验证、系统集成与现场反馈。"]},
@@ -26,12 +28,14 @@
       "category": "产品与体验",
       "title_zh": "AI 产品经理",
       "title_en": "AI Product Manager",
+      "abbreviation": "AIPM",
       "summary_zh": "在用户需求、模型能力与业务价值之间做取舍，并建立可持续的效果评测闭环。",
       "sample_count": 25,
       "updated_at": "2026-09-20",
       "status": "published",
       "card": "content/ai-jobs/cards/ai-product-manager.png",
       "detail_image": "content/ai-jobs/ai-product-manager-workspace.png",
+      "thumbnail": "/assets/img/ai-jobs/ai-product-manager.webp",
       "evidence_zh": ["BOSS直聘北京、上海职位列表：25 条去重样本。", "另以猎聘公开完整 JD 与企业招聘官网核验岗位分支。"],
       "sections": [
         {"title": "JD 高频职责", "items": ["挖掘适合 AI 介入的业务场景，把模糊痛点转成工作流、功能方案和验收指标。", "协同算法、工程、设计与业务推进开发、测试、上线及后续迭代。", "持续看效果、成本、延迟与用户反馈，而不只验收功能是否上线。", "跟踪模型能力与竞品变化，判断技术是否真正带来产品价值。"]},
@@ -52,6 +56,7 @@
       "updated_at": "2026-09-20",
       "status": "researching",
       "card": "content/ai-jobs/cards/ai-application-engineer.png",
+      "thumbnail": "/assets/img/ai-jobs/ai-application-engineer.webp",
       "evidence_zh": ["已归档北京、上海共 30 条公开职位列表，待去重与逐条有效性复核。", "已归档企业官网与公开搜索结果，用于核验业务语境。"],
       "sections": [
         {"title": "JD 指向的交付", "items": ["设计、开发、优化 AI 应用系统，并把模型能力集成、部署到真实业务场景。", "围绕 Agent、RAG、工具调用或服务端链路做工程化落地；复杂场景还要持续优化稳定性、成功率与成本。", "岗位名称跨度很大：应用研发、全栈、后端、前端、Agent 开发都可能被称为 AI 应用工程师。"]},
@@ -72,6 +77,7 @@
       "updated_at": "2026-09-20",
       "status": "researching",
       "card": "content/ai-jobs/cards/llm-engineer.png",
+      "thumbnail": "/assets/img/ai-jobs/llm-engineer.webp",
       "evidence_zh": ["已归档知识卡及放大验图；招聘样本、研究文档和来源链接仍在补齐。"],
       "sections": [
         {"title": "岗位在解决什么", "items": ["直接建设模型能力，工作可能覆盖训练、微调、评测、数据和推理优化。", "同名岗位的职责差异很大：模型研发、应用算法和工程优化不能混为一谈。"]},
@@ -79,6 +85,126 @@
         {"title": "面试准备方向", "items": ["准备一个可复现的模型实验或优化案例，包含问题、数据、方法、指标与失败分析。", "对模型原理、训练和推理瓶颈的理解，应当能落到具体实验设计与工程权衡。"]}
       ],
       "related": ["multimodal-engineer", "inference-engineer"]
+    },
+    {
+      "slug": "agent-engineer",
+      "category": "应用工程",
+      "title_zh": "AI Agent 工程师",
+      "title_en": "Agent Engineer",
+      "summary_zh": "把模型、工具、记忆和工作流编排成能完成真实任务的智能体系统。",
+      "sample_count": 0,
+      "updated_at": "2026-09-20",
+      "status": "researching",
+      "card": "assets/img/ai-jobs/agent-engineer.webp",
+      "thumbnail": "/assets/img/ai-jobs/agent-engineer.webp",
+      "evidence_zh": ["已建立岗位定义与公开技术资料线索；招聘样本仍在采集、去重和岗位边界核验阶段。"],
+      "sections": [
+        {"title": "岗位在解决什么", "items": ["把大模型的推理能力接到检索、数据库、业务系统或外部工具上，使它能够分解并完成多步骤任务。", "重点不是做一次性演示，而是让任务链路在权限、失败、成本和可观测性约束下稳定运行。"]},
+        {"title": "JD 要求：待样本核验", "items": ["正在按模型调用、工具协议、工作流编排、后端工程和业务领域经验拆分公开职位样本。", "未完成有效职位去重前，不将通用技术清单写成市场高频门槛。"]},
+        {"title": "面试准备方向", "items": ["准备一个端到端智能体案例：如何拆任务、何时调用工具、工具失败如何重试或降级。", "能讲清权限边界、日志追踪、离线评测与线上成功率，而不只展示对话效果。"]}
+      ],
+      "sources": [{"label": "Google ADK 文档：构建 Agent 的基础概念", "url": "https://google.github.io/adk-docs/"}],
+      "related": ["ai-application-engineer", "rag-engineer"]
+    },
+    {
+      "slug": "rag-engineer",
+      "category": "应用工程",
+      "title_zh": "RAG 工程师",
+      "title_en": "RAG Engineer",
+      "summary_zh": "让大模型在正确的企业知识和权限边界内完成检索、引用与回答。",
+      "sample_count": 0,
+      "updated_at": "2026-09-20",
+      "status": "researching",
+      "card": "assets/img/ai-jobs/rag-engineer.webp",
+      "thumbnail": "/assets/img/ai-jobs/rag-engineer.webp",
+      "evidence_zh": ["已建立公开技术资料线索；招聘样本尚未完成采集和去重。"],
+      "sections": [
+        {"title": "岗位在解决什么", "items": ["将分散文档、业务数据和权限规则整理为可检索、可引用的知识链路。", "通过切分、索引、召回、重排和答案生成降低回答脱离事实的风险。"]},
+        {"title": "JD 要求：待样本核验", "items": ["正在核验不同职位到底偏数据处理、后端服务、搜索排序还是 AI 应用集成。", "样本不足时不将向量数据库或某一种框架误写成统一硬要求。"]},
+        {"title": "面试准备方向", "items": ["用一个知识库案例说明数据清洗、切分策略、召回指标和答案评测如何闭环。", "准备解释权限过滤、文档更新、低召回和错误引用时的诊断与回退方案。"]}
+      ],
+      "sources": [{"label": "Google Cloud Architecture Center：RAG 架构", "url": "https://cloud.google.com/architecture/rag"}],
+      "related": ["agent-engineer", "ai-application-engineer"]
+    },
+    {
+      "slug": "model-evaluation-engineer",
+      "category": "模型研发",
+      "title_zh": "模型评测工程师",
+      "title_en": "Model Evaluation Engineer",
+      "summary_zh": "用数据集、指标和评测系统判断模型或应用是否真的变得更好。",
+      "sample_count": 0,
+      "updated_at": "2026-09-20",
+      "status": "researching",
+      "card": "assets/img/ai-jobs/model-evaluation-engineer.webp",
+      "thumbnail": "/assets/img/ai-jobs/model-evaluation-engineer.webp",
+      "evidence_zh": ["已建立公开评测方法资料线索；招聘样本仍待采集和岗位类型拆分。"],
+      "sections": [
+        {"title": "岗位在解决什么", "items": ["把“效果不错”转成可复现的任务、数据集、指标和对照实验。", "区分模型能力、检索质量、工具调用成功率和真实用户体验，定位变化来自哪里。"]},
+        {"title": "JD 要求：待样本核验", "items": ["正在区分基础模型评测、应用评测、红队测试和数据质量方向，避免把它们混作一个岗位。", "未完成招聘样本核验前，不归纳学历、年限或具体工具门槛。"]},
+        {"title": "面试准备方向", "items": ["带一个评测设计：任务定义、样本构成、主指标、人工复核和统计误差如何处理。", "说明线上指标与离线评测冲突时，怎样追溯根因并决定是否上线。"]}
+      ],
+      "sources": [{"label": "OpenAI 文档：Evals 指南", "url": "https://platform.openai.com/docs/guides/evals"}],
+      "related": ["llm-engineer", "ai-application-engineer"]
+    },
+    {
+      "slug": "inference-engineer",
+      "category": "基础设施与性能",
+      "title_zh": "推理优化工程师",
+      "title_en": "Inference Engineer",
+      "summary_zh": "在质量、延迟、吞吐和成本之间优化模型服务，让能力真正可规模化使用。",
+      "sample_count": 0,
+      "updated_at": "2026-09-20",
+      "status": "researching",
+      "card": "assets/img/ai-jobs/inference-engineer.webp",
+      "thumbnail": "/assets/img/ai-jobs/inference-engineer.webp",
+      "evidence_zh": ["已建立推理服务技术资料线索；招聘样本尚未完成采集与职位有效性核验。"],
+      "sections": [
+        {"title": "岗位在解决什么", "items": ["让模型服务在有限硬件上更快、更稳、更省，并满足真实业务并发和延迟要求。", "常涉及批处理、缓存、并行、量化、调度和运行时观测等系统性权衡。"]},
+        {"title": "JD 要求：待样本核验", "items": ["正在区分服务端推理、GPU 性能、模型压缩和部署平台等相邻岗位。", "样本未完成前，不把某个框架或某类芯片经验当作全部职位的统一要求。"]},
+        {"title": "面试准备方向", "items": ["准备一个性能优化案例，完整交代基线、瓶颈、改动、质量损失和最终成本收益。", "能解释吞吐、首 token 延迟、尾延迟、显存和稳定性之间的取舍。"]}
+      ],
+      "sources": [{"label": "vLLM 文档：高吞吐 LLM 推理与服务", "url": "https://docs.vllm.ai/"}],
+      "related": ["llm-engineer", "mlops-engineer"]
+    },
+    {
+      "slug": "mlops-engineer",
+      "category": "基础设施与性能",
+      "title_zh": "MLOps 工程师",
+      "title_en": "MLOps Engineer",
+      "summary_zh": "把数据、训练、发布、监控与回滚连成可复现、可维护的模型交付流程。",
+      "sample_count": 0,
+      "updated_at": "2026-09-20",
+      "status": "researching",
+      "card": "assets/img/ai-jobs/mlops-engineer.webp",
+      "thumbnail": "/assets/img/ai-jobs/mlops-engineer.webp",
+      "evidence_zh": ["已建立 MLOps 生命周期资料线索；招聘样本正在采集和区分平台、训练与应用运维方向。"],
+      "sections": [
+        {"title": "岗位在解决什么", "items": ["让模型从实验到生产的每一步可复现、可审计、可发布和可恢复。", "将数据版本、训练产物、部署配置、监控告警和回滚策略接成稳定交付链路。"]},
+        {"title": "JD 要求：待样本核验", "items": ["正在区分 MLOps、平台工程、数据工程和模型部署岗位的实际职责边界。", "未完成公开职位样本核验前，不把云平台或 CI/CD 工具写成通用硬性要求。"]},
+        {"title": "面试准备方向", "items": ["准备一个从训练到上线的流水线案例，说明版本、审批、灰度、监控和回滚。", "能说明数据漂移、模型退化或线上异常出现后，如何发现、定位和恢复。"]}
+      ],
+      "sources": [{"label": "Google Cloud Architecture Center：MLOps 持续交付", "url": "https://cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning"}],
+      "related": ["inference-engineer", "model-evaluation-engineer"]
+    },
+    {
+      "slug": "ai-solutions-architect",
+      "category": "交付与解决方案",
+      "title_zh": "AI 解决方案架构师",
+      "title_en": "AI Solutions Architect",
+      "summary_zh": "把业务目标、数据、安全与模型能力组合成可交付、可扩展的企业级方案。",
+      "sample_count": 0,
+      "updated_at": "2026-09-20",
+      "status": "researching",
+      "card": "assets/img/ai-jobs/ai-solutions-architect.webp",
+      "thumbnail": "/assets/img/ai-jobs/ai-solutions-architect.webp",
+      "evidence_zh": ["已建立企业 AI 架构资料线索；公开职位样本仍待采集、去重和用工类型标记。"],
+      "sections": [
+        {"title": "岗位在解决什么", "items": ["把客户问题转为由模型、数据、业务系统、安全和交付边界组成的整体方案。", "在方案阶段提前处理权限、成本、可用性、集成复杂度和长期运维问题。"]},
+        {"title": "JD 要求：待样本核验", "items": ["正在区分售前、交付、云架构和行业顾问类职位的真实职责范围。", "样本未完成前，不将行业经验、云认证或客户沟通经验写成统一准入条件。"]},
+        {"title": "面试准备方向", "items": ["选一个企业场景，从需求澄清开始说明架构、数据边界、上线路径和验收指标。", "准备解释客户预算、合规限制与模型效果不确定时，如何做技术取舍和风险沟通。"]}
+      ],
+      "sources": [{"label": "Google Cloud Architecture Center：生成式 AI 架构", "url": "https://cloud.google.com/architecture/gen-ai"}],
+      "related": ["forward-deployed-engineer", "ai-product-manager"]
     }
   ]
 }

@@ -4,34 +4,28 @@ import jobsData from '../../../content/ai-jobs/index.json';
 
 const { jobs, updated_at: updatedAt, methodology_zh: methodology } = jobsData;
 const categories = [...new Set(jobs.map((job) => job.category))];
-const featured = jobs[1];
 ---
 
 <BaseLayout title="面试岗位集锦 · 城北" description="以可复核公开招聘样本为基础的 AI 岗位研究与面试准备资料。">
-  <section class="jobs-magazine">
-    <div class="jobs-magazine-top">
-      <div class="jobs-cover-copy"><span>AI CAREER / INTERVIEW FIELD NOTES</span><h1>面试<br /><i>岗位</i>集锦</h1><p>把职位名拆成真实的工作、能力证据与面试判断。每一页只说可复核的公开信息。</p><div class="jobs-issue"><b>VOL. 01</b><em>{jobs.length} / 30 个岗位已建档</em><time>{updatedAt}</time></div><div class="jobs-quick-notes"><div><b>01</b><span>已完成<br />样本去重</span></div><div><b>03</b><span>正在补齐<br />来源与核验</span></div><div><b>04</b><span>不同方向<br />已经建档</span></div></div></div>
-      <a class="jobs-feature" href={`/ai-jobs/${featured.slug}/`}><img src={`/${featured.card}`} alt={`${featured.title_zh} 知识卡`} /><div><span>本期研究</span><b>{featured.title_zh} →</b></div></a>
-      <div class="jobs-cover-note"><span>研究原则</span><p>样本不足，宁可标注“研究中”，也不凑出一份看似完整的结论。</p><a href="#method">查看统计口径 ↘</a></div>
-    </div>
-  </section>
-  <section class="jobs-index">
-    <div class="jobs-directory"><span>THE DIRECTORY</span><b>已建档岗位</b><em>可以搜索或按方向筛选</em></div>
-    <div class="jobs-toolbar" aria-label="岗位筛选">
-      <label>筛选岗位<input type="search" placeholder="搜索岗位、能力或方向" data-job-search /></label>
-      <div class="job-filters">
-        <button class="active" data-job-filter="">全部 {jobs.length}</button>
-        {categories.map((category) => <button data-job-filter={category}>{category}</button>)}
+  <section class="job-library-layout">
+    <header class="job-library-head"><div><span>AI JOB LIBRARY</span><h1>面试岗位集锦</h1><p>用可复核的招聘样本，快速看懂岗位做什么、要求什么、面试会问什么。</p></div><dl><div><dt>已建档</dt><dd>{jobs.length}<small>/ 30</small></dd></div><div><dt>最后更新</dt><dd>{updatedAt}</dd></div></dl></header>
+    <div class="jobs-index">
+      <div class="jobs-directory"><b>岗位目录</b><em>搜索或按方向筛选</em></div>
+      <div class="jobs-toolbar" aria-label="岗位筛选">
+        <label>筛选岗位<input type="search" placeholder="搜索岗位、能力或方向" data-job-search /></label>
+        <div class="job-filters">
+          <button class="active" data-job-filter="">全部 {jobs.length}</button>
+          {categories.map((category) => <button data-job-filter={category}>{category}</button>)}
+        </div>
       </div>
+      <div class="job-library-list">
+        {jobs.map((job, index) => <a class="job-list-row" data-job-card data-category={job.category} data-search={`${job.title_zh} ${job.title_en} ${job.summary_zh}`} href={`/ai-jobs/${job.slug}/`}>
+          <span class="job-list-no">{String(index + 1).padStart(2, '0')}</span><div class="job-list-art" style={job.thumbnail ? `background-image: url(${job.thumbnail})` : undefined} aria-hidden="true"></div><div><span class="job-list-category">{job.category}</span><h2>{job.title_zh}{job.abbreviation && <mark>{job.abbreviation}</mark>}<small>{job.title_en}</small></h2><p>{job.summary_zh}</p></div><div class="job-list-meta"><b>{job.status === 'published' ? `${job.sample_count} 条已去重样本` : job.sample_count ? `${job.sample_count} 条待复核样本` : '样本采集中'}</b><em>{job.status === 'published' ? '已完成' : '研究中'}</em></div><span class="job-list-arrow">→</span>
+        </a>)}
+      </div>
+      <p class="jobs-empty" hidden>没有匹配的岗位。试试“产品”“工程”或英文简称。</p>
+      <aside class="job-library-aside"><b>怎么使用</b><ol><li>先按目标方向筛选岗位。</li><li>打开详情，优先读 JD 高频要求。</li><li>将自己的项目证据对照面试深挖项。</li></ol><div id="method"><b>统计口径</b><p>{methodology}</p></div></aside>
     </div>
-    <div class="jobs-grid">
-      {jobs.map((job, index) => <a class="job-card" data-job-card data-category={job.category} data-search={`${job.title_zh} ${job.title_en} ${job.summary_zh}`} href={`/ai-jobs/${job.slug}/`}>
-        <div class="job-card-image"><img src={`/${job.card}`} alt={`${job.title_zh} 知识卡`} loading={index > 1 ? 'lazy' : 'eager'} /></div>
-        <div class="job-card-copy"><span>{String(index + 1).padStart(2, '0')} · {job.category}</span><h2>{job.title_zh}</h2><p>{job.summary_zh}</p><div><b>{job.status === 'published' ? `${job.sample_count} 条已去重样本` : job.sample_count ? `${job.sample_count} 条待复核样本` : '样本采集中'}</b><em>{job.status === 'published' ? '已完成' : '研究中'}</em></div></div>
-      </a>)}
-    </div>
-    <p class="jobs-empty" hidden>没有匹配的岗位。试试“产品”“工程”或英文简称。</p>
-    <aside class="jobs-method" id="method"><b>统计口径</b><p>{methodology}</p></aside>
   </section>
   <script>
     const search = document.querySelector<HTMLInputElement>('[data-job-search]');
