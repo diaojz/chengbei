@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import jobsData from '../../../content/ai-jobs/index.json';
+
+export function getStaticPaths() {
+  return jobsData.jobs.map((job) => ({ params: { slug: job.slug }, props: { job } }));
+}
+const { job } = Astro.props;
+const state = job.status === 'published' ? '已完成研究' : '研究中';
+const sources = job.sources ?? [];
+const detailImage = job.detail_image ?? null;
+---
+
+<BaseLayout title={`${job.title_zh} · 面试岗位集锦`} description={job.summary_zh}>
+  <article class="job-page">
+    <a class="job-back" href="/ai-jobs/">← 返回岗位集锦</a>
+    <header class="job-reader-head"><span>{job.category} · {state}</span><h1>{job.title_zh}</h1><p class="job-en">{job.title_en}</p><p>{job.summary_zh}</p></header>
+    <div class="job-platform-layout">
+      <main class="job-platform-main"><section class="job-platform-summary"><div><b>岗位概览</b><p>以下内容来自公开招聘样本与官网资料归纳；不同公司、城市、经验和用工性质会显著改变实际要求。</p></div><dl><div><dt>可复核样本</dt><dd>{job.sample_count ? `${job.sample_count} 条${job.status === 'published' ? '（已去重）' : '（待复核）'}` : '采集中'}</dd></div><div><dt>最后更新</dt><dd>{job.updated_at}</dd></div></dl></section>
+      <div class="job-sections">{job.sections.map((section, index) => <section id={`section-${index}`}><span>{String(index + 1).padStart(2, '0')}</span><h2>{section.title}</h2><ul>{section.items.map((item) => <li>{item}</li>)}</ul></section>)}</div>
+      <section class="job-research-footer" id="research"><h2>数据与来源</h2><p>{job.evidence_zh.join(' ')}</p>{sources.length > 0 && <div>{sources.map((source) => <a href={source.url} target="_blank" rel="noopener noreferrer">{source.label} ↗</a>)}</div>}<small>数据采集与更新：{job.updated_at}。招聘信息会变化，请以原职位页为准。</small></section></main>
+      <aside class="job-platform-aside">{detailImage ? <img class="job-context-image" src={`/${detailImage}`} alt="产品经理进行用户体验与协作讨论" /> : <img class="job-card-image-detail" src={`/${job.card}`} alt={`${job.title_zh} 知识卡`} />}<div class="job-side-card"><b>面试准备</b><p>先用一个真实项目说明：问题、判断、方案、指标、失败与迭代。</p></div><nav class="job-reader-nav" aria-label="本页目录"><b>目录</b>{job.sections.map((section, index) => <a href={`#section-${index}`}>{section.title}</a>)}<a href="#research">数据与来源</a></nav></aside>
+    </div>
+  </article>
+</BaseLayout>

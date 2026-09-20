@@ -16,8 +16,8 @@ const {
 } = Astro.props;
 const prefix = lang === 'en' ? '/en' : '';
 const labels = lang === 'zh'
-  ? { articles: '文章', projects: '项目', about: '关于', search: '搜索', skip: '跳到正文', classic: '经典布局' }
-  : { articles: 'Articles', projects: 'Projects', about: 'About', search: 'Search', skip: 'Skip to content', classic: 'Classic' };
+  ? { articles: '文章', projects: '项目', jobs: '岗位集锦', about: '关于', search: '搜索', skip: '跳到正文', classic: '经典布局' }
+  : { articles: 'Articles', projects: 'Projects', jobs: 'Job guide', about: 'About', search: 'Search', skip: 'Skip to content', classic: 'Classic' };
 ---
 
 <!doctype html>
@@ -47,6 +47,7 @@ const labels = lang === 'zh'
       <nav class="site-nav" aria-label="主导航">
         <a href={`${prefix}/articles/`}>{labels.articles}</a>
         <a href={`${prefix}/projects/`}>{labels.projects}</a>
+        <a href="/ai-jobs/">{labels.jobs}</a>
         <a href={`${prefix}/about/`}>{labels.about}</a>
         <button class="nav-action" type="button" data-search-open aria-haspopup="dialog">⌕ {labels.search}<kbd>/</kbd></button>
       </nav>
