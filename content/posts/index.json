@@ -1,5 +1,14 @@
 [
   {
+    "slug": "validate-before-build",
+    "ts": 1789833600000,
+    "category": "thought",
+    "title_zh": "别急着做：先让别人付出一点代价",
+    "title_en": "Validate Before You Build",
+    "excerpt_zh": "大多数人先做完整产品，再去找用户；更有效的顺序是先用一个最小实验验证真实承诺，再决定是否投入时间和资源。四个真实案例，加一套七天可执行的方法。",
+    "excerpt_en": "Most people build first and search for users later. A better order is to test real commitment with a tiny experiment before investing serious time and money. Four cases and a practical seven-day method."
+  },
+  {
     "slug": "java-to-ai-agent-career-guide",
     "ts": 1789315200000,
     "category": "help",
