@@ -16,6 +16,7 @@
 
 | 项目 | 地址 | 说明 |
 |---|---|---|
+| 面试岗位集锦 | /ai-jobs/ | 2026-09-20 · AI 岗位详情与面试准备页；首批接入 FDE、AI 产品经理、AI 应用工程师和大模型算法工程师。AI 产品经理已有 25 条去重样本，AI 应用工程师保留 30 条候选样本的待核验边界。 |
 | 一个人的 Mac 直播间 | /mac-livestream-setup/ | 2026-08-31 · 从0搭建个人直播间实录：调研→制定计划→两次被B站账号权限推翻（5000粉门槛+Mac客户端无开播）→改道微信视频号跑通 · Codex 生封面图 + Figma 流程图 · 站内独立页 |
 | AI 原生 SDLC 六阶段闭环 | #/p/ai-native-sdlc-playbook | 2026-08-26 · Claude 官方《The AI-native SDLC playbook》中文通俗解读 · Plan/Design/Build/Test/Deploy/Maintain 六阶段怎么重做一遍 · 随笔文章，非独立页 |
 | AI 求职每日一课 | /tech-notes/ | 2026-08-24 · 面向 AI 应用/Agent 工程岗位的 12 周递进课程：会调用→会构建→会上生产；每天一个可验证技能，每周一个项目；原 438 条技术笔记保留为知识库 |
@@ -114,6 +115,17 @@
 
 新增日更时必须同步：新增详情页 → 向 `lessons` 追加元数据 → 更新 `currentWeek.days` 状态 → 运行课程校验。每日三道题必须是同一主题的递进自测，不能重新退化成三个无关知识点。
 
+## 面试岗位集锦
+
+`/ai-jobs/` 是面向求职准备的 AI 岗位研究页，不把单个 JD 写成行业结论。
+
+- `content/ai-jobs/index.json`：岗位唯一数据源，包含状态、样本量、更新时间、JD 要点、公开来源和卡片路径。
+- `src/pages/ai-jobs/`：聚合页与静态详情路由；聚合页支持关键词和岗位方向筛选。
+- 详情页优先展示 JD 交付、要求、面试深挖与样本边界；研究依据和外链统一放页面末尾。
+- `tests/ai-jobs.test.mjs`：检查首批岗位数据、图片存在与静态路由。
+
+数据约定：`published` 只用于已完成样本去重与研究的岗位；`researching` 可展示已归档的候选样本或准备方向，但必须明确待核验范围。发布前运行 `npm run check && npm run build`，并以带缓存参数的线上路由确认 Pages 生效。
+
 ## 本地预览
 
 ```bash
@@ -127,6 +139,7 @@ python3 -m http.server 5173
   - 加新项目时 zh 和 en 的 `artifacts` 数组都要改一遍，保持长度和顺序一致
 - **随笔 / Help 文章**：`content/posts/`（md 正文 + `index.json` 索引，见上面「文章体系」）
 - **images（第三栏画廊）**：`content/data.json`
+- **面试岗位集锦**：`content/ai-jobs/index.json`；页面与路由在 `src/pages/ai-jobs/`
 - **Writing**：当前已下架（`index.json` 里四篇标了 `hidden: true`，`data.json` 的 `writing` 为空）；恢复时去掉 `hidden` 即可
 - **SEO meta / title**：`index.html` 顶部
 - **logo 字母**：`index.html` 里 `<svg class="logo">` 节点
