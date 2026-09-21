@@ -1,0 +1,31 @@
+day,岗位,英文名/常用简称,选题角度
+1,前线部署工程师,Forward Deployed Engineer / FDE,把AI真正部署进客户业务
+2,AI产品经理,AI Product Manager,模型能力如何变成产品
+3,AI应用工程师,AI Application Engineer,用模型API交付真实应用
+4,大模型算法工程师,LLM Engineer,训练微调与模型能力建设
+5,AI Agent工程师,Agent Engineer,让模型调用工具完成任务
+6,RAG工程师,RAG Engineer,让大模型用好企业知识
+7,模型评测工程师,Model Evaluation Engineer,如何判断模型真的变好了
+8,推理优化工程师,Inference Engineer,让模型跑得更快更便宜
+9,MLOps工程师,MLOps Engineer,管理模型从训练到上线
+10,AI解决方案架构师,AI Solutions Architect,设计企业级AI系统
+11,多模态算法工程师,Multimodal Engineer,统一理解文本图像音视频
+12,AI技术美术,AI Technical Artist,连接美术生产与AI工具链
+13,AIGC创意技术工程师,Creative Technologist,用技术构建内容生产方式
+14,视频生成算法工程师,Video Generation Engineer,生成视频模型背后的岗位
+15,数字人工程师,Digital Human Engineer,驱动形象语音动作与交互
+16,合成数据工程师,Synthetic Data Engineer,用生成数据解决数据瓶颈
+17,AI数据工程师,AI Data Engineer,构建可训练可评测的数据资产
+18,数据标注策略专家,Data Operations Specialist,高质量数据怎样被生产
+19,AI安全工程师,AI Safety Engineer,控制模型风险与滥用
+20,AI红队工程师,AI Red Team Engineer,主动寻找模型和系统漏洞
+21,AI编译器工程师,AI Compiler Engineer,连接模型与芯片性能
+22,GPU性能工程师,GPU Performance Engineer,榨出训练与推理性能
+23,模型压缩工程师,Model Compression Engineer,量化剪枝蒸馏与端侧部署
+24,具身智能算法工程师,Embodied AI Engineer,让AI进入机器人和真实世界
+25,机器人仿真工程师,Robotics Simulation Engineer,在虚拟环境训练真实机器人
+26,AI UX设计师,AI UX Designer,设计不确定系统的人机交互
+27,AI产品运营,AI Product Operations,让AI功能被正确使用和增长
+28,AI客户成功,AI Customer Success,帮助客户持续获得业务价值
+29,AI售前工程师,AI Pre-sales Engineer,从需求发现到技术方案
+30,AI行业研究员,AI Industry Analyst,判断技术商业化与岗位趋势
