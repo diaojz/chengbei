@@ -54,7 +54,7 @@
       "summary_zh": "用模型 API、检索、工具调用和工程能力交付可运行、可评测的真实应用。",
       "sample_count": 30,
       "updated_at": "2026-09-21",
-      "status": "researching",
+      "status": "published",
       "card": "content/ai-jobs/cards/ai-application-engineer.png",
       "thumbnail": "/assets/img/ai-jobs/ai-application-engineer.webp",
       "evidence_zh": ["已归档北京、上海共 30 条公开职位列表，文件内 URL 已去重；仍待逐条有效性复核。", "已归档企业官网与公开搜索结果，用于核验业务语境。"],
@@ -73,17 +73,18 @@
       "title_zh": "大模型算法工程师",
       "title_en": "LLM Engineer",
       "summary_zh": "围绕训练、微调、评测与推理优化，直接建设和提升模型能力。",
-      "sample_count": 30,
+      "sample_count": 29,
       "updated_at": "2026-09-21",
-      "status": "researching",
+      "status": "published",
       "card": "content/ai-jobs/cards/llm-engineer.png",
       "thumbnail": "/assets/img/ai-jobs/llm-engineer.webp",
-      "evidence_zh": ["已归档字节跳动官网 20 条、腾讯招聘官网 10 条公开职位记录，覆盖多个大模型算法分支。", "两个来源均为企业自有招聘官网；样本仍待逐条有效性复核，暂不做市场频率统计。"],
+      "evidence_zh": ["已核验字节跳动官网 20 条、腾讯招聘官网 10 条公开职位详情；按职位名、业务群和城市保守去重后为 29 条。", "样本来自两家企业官方招聘官网，不代表整个市场；官网未公开薪资，未做薪资统计。"],
       "sections": [
         {"title": "岗位在解决什么", "items": ["直接建设模型能力，工作可能覆盖训练、微调、评测、数据和推理优化。", "同名岗位的职责差异很大：模型研发、应用算法和工程优化不能混为一谈。"]},
-        {"title": "官网样本反复出现的要求", "items": ["字节跳动与腾讯的 30 条官方记录覆盖后训练、数据合成、评测、Agent、推荐、多模态、语音和推理优化等方向。", "Continue Pre-Train、SFT、偏好对齐、强化学习、数据Pipeline、Benchmark 和训练/推理加速反复出现，但两个来源的业务结构不同，暂不作市场频率结论。"]},
+        {"title": "官网样本反复出现的要求", "items": ["两家企业官网原始记录 30 条，保守去重后 29 条，覆盖后训练、数据合成、评测、Agent、推荐、多模态、语音和推理优化等方向。", "Continue Pre-Train、SFT、偏好对齐、强化学习、数据Pipeline、Benchmark 和训练/推理加速反复出现，但两个来源的业务结构不同，不能直接当作市场频率。"]},
         {"title": "面试准备方向", "items": ["准备一个可复现的模型实验或优化案例，包含问题、数据、方法、指标与失败分析。", "对模型原理、训练和推理瓶颈的理解，应当能落到具体实验设计与工程权衡。"]}
       ],
+      "sources": [{"label": "字节跳动招聘：大模型算法工程师职位搜索", "url": "https://jobs.bytedance.com/experienced/position?keywords=%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%AE%97%E6%B3%95%E5%B7%A5%E7%A8%8B%E5%B8%88"}, {"label": "腾讯招聘：大模型算法职位搜索", "url": "https://careers.tencent.com/search.html?keyword=%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%AE%97%E6%B3%95"}],
       "related": ["multimodal-engineer", "inference-engineer"]
     },
     {
