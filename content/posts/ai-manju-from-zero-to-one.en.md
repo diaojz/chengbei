@@ -8,9 +8,9 @@ It is not a tour of dozens of AI tools, and it should not promise that every stu
 
 The course should be split into two products.
 
-The first is a four-day production sprint at around RMB 2,199. It answers one question: can I actually make something? Students choose a topic, write a script, create characters and storyboards, generate visuals, add voice, edit, subtitle, and publish. The minimum deliverable is one finished episode; the standard target is a three-episode mini-series.
+The first is a four-day production sprint. It answers one question: can I actually make something? Students choose a topic, write a script, create characters and storyboards, generate visuals, add voice, edit, subtitle, and publish. The minimum deliverable is one finished episode; the standard target is a three-episode mini-series.
 
-The second is a 20-workday commercial practice camp at around RMB 19,999. It answers a different question: can I keep producing, build an account, and turn the work into a portfolio for jobs or client work? Students finish an account position, reusable character and scene assets, five to ten connected episodes, a publishing and review loop, and a commercial execution plan.
+The second is a 20-workday commercial practice camp. It answers a different question: can I keep producing, build an account, and turn the work into a portfolio for jobs or client work? Students finish an account position, reusable character and scene assets, five to ten connected episodes, a publishing and review loop, and a commercial execution plan.
 
 The four-day course creates the certainty of “I made this.” The 20-day course focuses on consistent production and commercial opportunities.
 
