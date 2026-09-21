@@ -1,5 +1,13 @@
 [
   {
+    "slug": "ai-manju-from-zero-to-one",
+    "ts": 1789948800000,
+    "category": "thought",
+    "title_zh": "AI 漫剧从 0 到 1：一门课应该交付什么",
+    "title_en": "AI Manhua Dramas from Zero to One: What a Course Should Deliver",
+    "excerpt_zh": "我正在设计一门 AI 漫剧线下课：不教一堆工具名词，而是让不会编剧、不会画画、不会剪辑的人，在 4 天内完成第一部作品，再用 20 天建立持续生产和商业化能力。"
+  },
+  {
     "slug": "validate-before-build",
     "ts": 1789833600000,
     "category": "thought",
