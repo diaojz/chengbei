@@ -73,15 +73,15 @@
       "title_zh": "大模型算法工程师",
       "title_en": "LLM Engineer",
       "summary_zh": "围绕训练、微调、评测与推理优化，直接建设和提升模型能力。",
-      "sample_count": 0,
-      "updated_at": "2026-09-20",
+      "sample_count": 30,
+      "updated_at": "2026-09-21",
       "status": "researching",
       "card": "content/ai-jobs/cards/llm-engineer.png",
       "thumbnail": "/assets/img/ai-jobs/llm-engineer.webp",
-      "evidence_zh": ["已归档知识卡及放大验图；招聘样本、研究文档和来源链接仍在补齐。"],
+      "evidence_zh": ["已归档字节跳动官网 20 条、腾讯招聘官网 10 条公开职位记录，覆盖多个大模型算法分支。", "两个来源均为企业自有招聘官网；样本仍待逐条有效性复核，暂不做市场频率统计。"],
       "sections": [
         {"title": "岗位在解决什么", "items": ["直接建设模型能力，工作可能覆盖训练、微调、评测、数据和推理优化。", "同名岗位的职责差异很大：模型研发、应用算法和工程优化不能混为一谈。"]},
-        {"title": "JD 要求：待样本核验", "items": ["当前只有知识卡与验图，未完成公开职位样本采集，不把推测写成市场要求。", "完成采样后会拆分模型训练、后训练、评测、推理与基础设施方向。"]},
+        {"title": "官网样本反复出现的要求", "items": ["字节跳动与腾讯的 30 条官方记录覆盖后训练、数据合成、评测、Agent、推荐、多模态、语音和推理优化等方向。", "Continue Pre-Train、SFT、偏好对齐、强化学习、数据Pipeline、Benchmark 和训练/推理加速反复出现，但两个来源的业务结构不同，暂不作市场频率结论。"]},
         {"title": "面试准备方向", "items": ["准备一个可复现的模型实验或优化案例，包含问题、数据、方法、指标与失败分析。", "对模型原理、训练和推理瓶颈的理解，应当能落到具体实验设计与工程权衡。"]}
       ],
       "related": ["multimodal-engineer", "inference-engineer"]
