@@ -36,13 +36,13 @@ gh run watch --repo diaojz/chengbei
 - `js/posts.js`：文章详情页（hash 路由 `#/p/<slug>`，marked 按需 CDN 加载，弱网有纯文本兜底）
 - `js/stats.js`：GoatCounter 访问统计（见下）
 - `js/themes.js` / `quiet.js` / `chaos.js` / `shaders.js`：主题、安静模式、物理坍塌、halftone shader
-- `content/posts/`：文章正文 `<slug>.{zh,en}.md` 成对 + `index.json` 索引（category: thought/help，hidden 软下架）
+- `content/posts/`：文章正文默认使用 `<slug>.{zh,en}.md` 成对 + `index.json` 索引（category: thought/help，hidden 软下架）。若用户明确要求只写中文，则只建 `.zh.md`，索引只填中文字段；英文界面会按现有逻辑回退显示中文，不得擅自补写英文版。
 - 独立课件页：`ghostty-terminal/` `ghostty-checklist/` `mini-harness/`（单文件 HTML，来自课程仓库 `课件/`）
 
 ## 关键纪律
 
 1. **发布日期不可篡改**：`content/posts/index.json` 的 `ts` 和课件页 hero 的「发布于 YYYY-MM-DD」一经定下**永不修改**（修订正文可以）。课件页日期 = **创作日期**而非上站日（取证：课程仓库 git 首提 > 源文件出生时间），同一日期同步出现在 hero 行、角落水印、`i18n.js` 的 `date` 字段三处。背书 = 本仓库公开 git 历史。
-2. **i18n 双语对齐**：见上，zh/en 必须同步改。
+2. **i18n 双语对齐**：见上，改 `i18n.js` 的用户文案数组时 zh/en 必须同步；文章是否需要英文版遵照用户对该篇的明确要求。
 3. **课件 HTML 上站**：走 README「把课件 HTML 集成上站的固定套路」七步（复制 → meta → 返回链接 → 清「讲师」→ 发布日期 → GoatCounter 脚本 → Ships 入口）。只挑**文章式滚动页**，PPT 翻页形态的课件不上站。
 4. **终端/代码块配色**：浅色方案 = 用户 Ghostty 的 `GitHub Light Default`（bg `#ffffff` / fg `#1f2328` / 注释 `#6e7781` / 绿 `#116329`，嵌在白卡内的命令条用 `#f6f8fa` + 边框 `#d0d7de`）。不要用纯黑底（用户明确否决过 `#12161c`）。
 5. **README 的 Ships 表必须和 `js/i18n.js` 实际展示一致**——上下架项目时两处一起改。

@@ -58,14 +58,14 @@
 
 中栏随笔已从 `data.json` 短文本升级为完整文章体系：
 
-- **文章正文**：`content/posts/<slug>.zh.md` + `<slug>.en.md`（双语成对）
+- **文章正文**：默认使用 `content/posts/<slug>.zh.md` + `<slug>.en.md`（双语成对）。若用户明确要求只写中文，则只创建 `.zh.md`，索引只填中文字段；英文界面会回退显示中文。
 - **文章索引**：`content/posts/index.json` —— 每篇有 `slug` / `category` / `title` / `ts`
   - `category: "thought"` → 出现在中栏（摘要卡 + 「阅读全文」）
   - `category: "help"` → 出现在第一栏 Help 学员答疑区（入口同时写在 `js/i18n.js` 的 `help` 数组）
   - `hidden: true` → 下架但保留文件，随时可恢复（当前 Writing 四篇就是这么下架的）
 - **详情页路由**：Hash 路由 `#/p/<slug>`，由 `js/posts.js` 渲染（marked 按需从 CDN 加载）
 
-加一篇新随笔 = 写两个 md + 在 `index.json` 加一条（zh/en 标题都要填）。
+加一篇新随笔 = 写中英文两个 md + 在 `index.json` 加一条（默认 zh/en 标题都要填）。如果用户明确要求中文单语，则只写中文 md 和中文索引字段。
 
 **发布日期纪律**：`index.json` 里的 `ts` 是文章的正式发布时间，**发布后永不修改**（修订正文可以，改 `ts` 不行）。详情页会显示「发布于 YYYY年M月D日」。不可篡改性由 git 公开历史背书——仓库 `github.com/diaojz/chengbei` 是公开的，任何对 `ts` 的改动都会留下带时间戳的 commit 记录，等于公开的审计链。
 
