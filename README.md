@@ -71,6 +71,12 @@
 
 ---
 
+## 买房与租房文章（2026-10-09）
+
+[线上文章](https://chengbei.org/articles/buying-vs-renting-fangshan/) · [发布、数据口径与维护记录](artifacts/housing-20261009/README.md)
+
+已发布双语正文、每种语言 3 张图表及 JSON/CSV 复算资料。房价由作者提供，贷款利息为固定利率情景估算；报价截至 2026-09-27，不能写成实际成交或实际银行账单。构建和线上资源已验证，桌面/手机浏览器可视验收仍待补充，具体证据与限制见维护记录。
+
 ## 访问统计（GoatCounter）
 
 [GoatCounter](https://www.goatcounter.com)：开源、免费托管、无 Cookie（不用挂隐私横幅）。
