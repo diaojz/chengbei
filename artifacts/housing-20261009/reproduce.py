@@ -19,7 +19,7 @@ repaid=sum(t['principal'] for t in rows);balance=D(2870000)-repaid
 net=D(2700000)-balance;cash=D(1230000)+paid;loss=D(1400000)+interest
 assert abs(cash-net-loss)<D('0.00000001')
 with (OUT/'repayment-scenario.csv').open('w') as f:
-    w=csv.DictWriter(f,fieldnames=rows[0].keys());w.writeheader()
+    w=csv.DictWriter(f,fieldnames=rows[0].keys(),lineterminator="\n");w.writeheader()
     for t in rows:w.writerow({k:(str(v.quantize(D('.01'))) if isinstance(v,D) else v) for k,v in t.items()})
 summary={'basis':'Scenario only; constant rates; equal monthly payments; 93 installments; no prepayment; excludes fees, renovation, rental income and investment returns. Purchase price and quoted sale price are author-provided, not independently verified.','as_of':'2026-09-27','purchase':4100000,'quoted_sale':2700000,'down_payment':1230000,'provident_principal':1000000,'commercial_principal':1870000,'provident_rate':.0325,'commercial_rate':.0588,'term_months':240,'installments':93,'monthly_payment':paid/93,'paid':paid,'repaid_principal':repaid,'interest':interest,'remaining_principal':balance,'sale_net_before_fees':net,'cash_out':cash,'net_cost':loss,'assumed_monthly_rent':4000,'rent_total':372000,'buy_minus_rent':loss-D(372000)}
 summary={k:(str(v.quantize(D('.01'))) if isinstance(v,D) else v) for k,v in summary.items()}
