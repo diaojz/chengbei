@@ -6,7 +6,7 @@
 
 我把这轮资料翻了一遍，发现答案得先看你说的“用”是哪一种。是过去一年试过一次，还是现在上班每天都在用？是代码编辑器里的补全，还是能自己读仓库、改文件、跑命令的 Agent？这些问题混在一起，榜单自然越看越乱。
 
-![两份开发者调查的 AI 编程工具数据。Stack Overflow 统计过去一年用过哪些工具；JetBrains 统计工作中的采用率。两组数字口径不同，不能合并为单一排名。](/assets/img/posts/ai-coding-agent-landscape-2026/chart-adoption.svg)
+![两份开发者调查的 AI 编程工具数据。Stack Overflow 统计过去一年用过哪些工具；JetBrains 统计工作中的采用率。两组数字口径不同，不能合并为单一排名。](/assets/img/posts/ai-coding-agent-landscape-2026/chart-adoption-v2.svg)
 
 ## 先把两份调查放在桌上
 
@@ -22,7 +22,7 @@ JetBrains 还发现，90% 的受访专业开发者每周至少用一种编码 Ag
 
 ## 这场变化，是怎么发生的？
 
-![AI 编程 Agent 的产品与调查时间线。标注的是官方公告日期或调查采集期，不表示产品从该日才开始存在。](/assets/img/posts/ai-coding-agent-landscape-2026/chart-timeline.svg)
+![AI 编程 Agent 的产品与调查时间线。标注的是官方公告日期或调查采集期，不表示产品从该日才开始存在。](/assets/img/posts/ai-coding-agent-landscape-2026/chart-timeline-v2.svg)
 
 时间线里有几个节点挺能说明问题。2025 年 2 月，Anthropic 把 Claude Code 作为早期研究预览介绍出来；4 月，OpenAI 发布能在本机终端工作的 Codex CLI；5 月，Codex 云端 Agent 和 GitHub Copilot Coding Agent 相继登场，任务开始可以交给云端执行，再以改动或 PR 的形式拿回来审。9 月，Copilot Coding Agent 正式可用。[Anthropic](https://www.anthropic.com/news/claude-3-7-sonnet) · [Codex CLI](https://openai.com/index/introducing-o3-and-o4-mini/) · [Codex 云端 Agent](https://openai.com/index/o3-o4-mini-codex-system-card-addendum/) · [Copilot 预览](https://github.blog/changelog/2025-05-19-github-copilot-coding-agent-in-public-preview/) · [Copilot 正式发布](https://github.blog/changelog/2025-09-25-github-copilot-coding-agent-is-now-generally-available/)
 
@@ -30,7 +30,7 @@ JetBrains 还发现，90% 的受访专业开发者每周至少用一种编码 Ag
 
 ## 名字看起来都像工具，其实不在同一层
 
-![AI 编程方案的组成图：工作界面、Agent、模型和服务连接是不同组件，一套工作流可以按需组合。](/assets/img/posts/ai-coding-agent-landscape-2026/chart-stack.svg)
+![AI 编程方案的组成图：工作界面、Agent、模型和服务连接是不同组件，一套工作流可以按需组合。](/assets/img/posts/ai-coding-agent-landscape-2026/chart-stack-v2.svg)
 
 这里最容易混淆的是：Claude Code、Codex、OpenCode、Pi 这些是 Agent 或执行框架；Claude、GPT、Gemini、DeepSeek、MiniMax、Qwen、Grok 是模型；OpenRouter、LiteLLM 这类服务负责连接或路由。IDE 是你工作的界面。它们可以组成一套方案，但不是同一类产品。
 

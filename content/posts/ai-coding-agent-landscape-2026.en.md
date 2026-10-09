@@ -6,7 +6,7 @@ After reading enough of these posts, the obvious question is: **what are develop
 
 The answer depends on what “using” means. Did someone try a tool once in the past year, or do they rely on it at work every day? Are we talking about autocomplete in an editor, or an agent that can read a repository, edit files, and run commands? Mix those questions together and the rankings become confusing.
 
-![Two developer surveys on AI coding tools. Stack Overflow asks which tools respondents used in the past year; JetBrains reports adoption at work. The figures use different definitions and should not be combined into one ranking.](/assets/img/posts/ai-coding-agent-landscape-2026/chart-adoption.svg)
+![Two developer surveys on AI coding tools. Stack Overflow asks which tools respondents used in the past year; JetBrains reports adoption at work. The figures use different definitions and should not be combined into one ranking.](/assets/img/posts/ai-coding-agent-landscape-2026/chart-adoption-v2.svg)
 
 ## Put the two surveys side by side
 
@@ -22,7 +22,7 @@ JetBrains also found that 90% of surveyed professionals used some form of coding
 
 ## How did the landscape get here?
 
-![A timeline of AI coding agent announcements and survey fieldwork. Dates mark official announcements or research periods, not necessarily the first existence of each product.](/assets/img/posts/ai-coding-agent-landscape-2026/chart-timeline.svg)
+![A timeline of AI coding agent announcements and survey fieldwork. Dates mark official announcements or research periods, not necessarily the first existence of each product.](/assets/img/posts/ai-coding-agent-landscape-2026/chart-timeline-v2.svg)
 
 A few dates help explain the shift. In February 2025, Anthropic introduced Claude Code as an early research preview. OpenAI released the local, open-source Codex CLI in April. In May, Codex’s cloud agent and GitHub Copilot Coding Agent appeared: work could be sent to the cloud, then returned as changes or a pull request for review. GitHub announced general availability in September.[Anthropic](https://www.anthropic.com/news/claude-3-7-sonnet) · [Codex CLI](https://openai.com/index/introducing-o3-and-o4-mini/) · [Codex cloud agent](https://openai.com/index/o3-o4-mini-codex-system-card-addendum/) · [Copilot preview](https://github.blog/changelog/2025-05-19-github-copilot-coding-agent-in-public-preview/) · [Copilot general availability](https://github.blog/changelog/2025-09-25-github-copilot-coding-agent-is-now-generally-available/)
 
@@ -30,7 +30,7 @@ By 2026, the debate was no longer only about which model writes better code. Som
 
 ## They look like one category, but they are different layers
 
-![A diagram of an AI coding setup: interface, agent, model, and provider routing are separate components that can be combined.](/assets/img/posts/ai-coding-agent-landscape-2026/chart-stack.svg)
+![A diagram of an AI coding setup: interface, agent, model, and provider routing are separate components that can be combined.](/assets/img/posts/ai-coding-agent-landscape-2026/chart-stack-v2.svg)
 
 The names are easy to mix up. Claude Code, Codex, OpenCode, and Pi are agents or agent frameworks. Claude, GPT, Gemini, DeepSeek, MiniMax, Qwen, and Grok are models. OpenRouter and LiteLLM connect to or route between model services. The IDE is the workspace. These pieces can form one setup, but they are not the same kind of product.
 
