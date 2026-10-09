@@ -317,3 +317,12 @@ body[data-theme='dark'] .about-focus-dark { opacity: 1; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
 }
+
+/* Housing essay: readable measure and one visible page title. */
+.housing-essay { max-width: 780px; }
+.housing-essay .article-header h1 { font-size: clamp(2rem, 4.6vw, 3.6rem); line-height: 1.25; letter-spacing: -.025em; }
+.housing-essay .article-body { line-height: 1.95; }
+.housing-essay .article-body > h1:first-child { display: none; }
+.housing-essay .article-body p { margin: 1.6rem 0; }
+.housing-essay .article-body h2 { margin-top: 4rem; }
+.housing-essay .article-body blockquote { padding: 1rem 1.3rem; background: var(--paper-2); }

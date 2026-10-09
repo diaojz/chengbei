@@ -12,7 +12,7 @@ const relatedSeries = series.find((item) => item.id === post.series);
 
 <BaseLayout title={`${title} · 城北`} description={postExcerpt(post, lang)} lang={lang}>
   <div class="reading-progress" aria-hidden="true"><i></i></div>
-  <article class:list={["article-shell", post.slug === 'ai-coding-agent-landscape-2026' && 'ai-coding-agent-landscape']} data-pagefind-meta={`type:${lang === 'zh' ? '文章' : 'Article'}`}>
+  <article class:list={["article-shell", post.slug === 'ai-coding-agent-landscape-2026' && 'ai-coding-agent-landscape', post.slug === 'buying-vs-renting-fangshan' && 'housing-essay']} data-pagefind-meta={`type:${lang === 'zh' ? '文章' : 'Article'}`}>
     <a class="back-link" href={`${prefix}/articles/`}>← {lang === 'zh' ? '全部文章' : 'All articles'}</a>
     <header class="article-header">
       <span class="article-kicker">FIELD NOTE</span>
