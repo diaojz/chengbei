@@ -128,6 +128,15 @@ body[data-theme='dark'] .article-body pre { border-color: #30363d; background: #
 .article-body table { display: block; width: 100%; overflow-x: auto; border-collapse: collapse; margin: 2rem 0; font-size: .86rem; }
 .article-body th, .article-body td { padding: .65rem .8rem; border: 1px solid var(--line); text-align: left; }
 .article-body hr { margin: 3rem 0; border: 0; border-top: 1px solid var(--line); }
+.ai-coding-agent-landscape .article-body { max-width: 740px; margin-inline: auto; font-size: clamp(1.04rem, 1.55vw, 1.12rem); line-height: 1.9; }
+.ai-coding-agent-landscape .article-body p { margin: 1.65rem 0; }
+.ai-coding-agent-landscape .article-body h2 { margin: 4.8rem 0 1.5rem; line-height: 1.35; }
+.ai-coding-agent-landscape .article-body figure { margin: 3.5rem 0; }
+.ai-coding-agent-landscape .article-body blockquote { margin: 2.8rem 0; padding-block: .7rem; }
+.ai-coding-agent-landscape .article-body details { margin-top: 4rem; padding: 1.4rem 1.6rem; border: 1px solid var(--line); border-radius: 12px; background: var(--paper-2); color: var(--muted); font-size: .9rem; line-height: 1.8; }
+.ai-coding-agent-landscape .article-body details summary { color: var(--ink); cursor: pointer; font-weight: 600; }
+.ai-coding-agent-landscape .article-body details ul { margin: 1rem 0 0; padding-left: 1.35rem; }
+.ai-coding-agent-landscape .article-body details li { margin: .55rem 0; }
 .home-hero { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: clamp(3rem, 10vw, 10rem); align-items: end; min-height: 620px; padding: 8rem 0 6rem; }
 .hero-copy h1 { max-width: 900px; margin: .7rem 0 1.8rem; font: 700 clamp(3.2rem, 7.5vw, 7.2rem)/.96 'Noto Serif SC', serif; letter-spacing: -.065em; }
 .hero-copy h1 em { color: var(--accent); font-style: normal; }
@@ -269,6 +278,11 @@ body[data-theme='dark'] .about-focus-dark { opacity: 1; }
   .article-shell { width: min(calc(100% - 28px), 860px); padding-top: 2rem; }
   .article-header { padding: 2.5rem 0 2rem; }
   .article-body { padding-top: 2rem; }
+  .ai-coding-agent-landscape .article-body { max-width: 100%; font-size: 1.02rem; line-height: 1.85; }
+  .ai-coding-agent-landscape .article-body p { margin: 1.35rem 0; }
+  .ai-coding-agent-landscape .article-body h2 { margin: 3.8rem 0 1.2rem; }
+  .ai-coding-agent-landscape .article-body figure { margin: 2.6rem 0; }
+  .ai-coding-agent-landscape .article-body details { margin-top: 3rem; padding: 1.1rem; }
   .home-hero { display: block; min-height: 0; padding: 5rem 0 4rem; }
   .hero-copy h1 { font-size: clamp(3rem, 14vw, 5rem); }
   .hero-ledger { margin-top: 4rem; }
