@@ -1,5 +1,14 @@
 [
   {
+    "slug": "ai-coding-agent-landscape-2026",
+    "ts": 1791504000000,
+    "category": "thought",
+    "title_zh": "AI 编程 Agent 到底谁在用？先把工具、模型和热度分开",
+    "title_en": "Who Uses AI Coding Agents? Separate the Tools, Models, and Hype",
+    "excerpt_zh": "把 Stack Overflow 和 JetBrains 的调查口径分开核对，再看开源项目热度、产品时间线和常见组合。不是一张冠军榜，而是一张有出处的生态地图。",
+    "excerpt_en": "A source-checked map of AI coding agent adoption, product milestones, open-source signals, and common setups—with survey definitions kept separate."
+  },
+  {
     "slug": "choose-a-proxy-protocol",
     "ts": 1791475200000,
     "category": "thought",
