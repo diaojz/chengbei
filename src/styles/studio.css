@@ -315,3 +315,5 @@ body[data-theme='dark'] { --paper:#151922; --card:#1c222d; --ink:#eef1f8; --mute
 @media (max-width:800px) { body:has(.mobile-reading-tools) .ask-launcher { bottom:calc(77px + env(safe-area-inset-bottom)); right:14px; padding:.55rem .8rem; font-size:.65rem; }.ask-dialog { height:82dvh; }.ask-launcher { right:14px; bottom:calc(14px + env(safe-area-inset-bottom)); }.ask-message { max-width:100%; }.ask-footnote { font-size:.58rem; } }
 @media print { .mobile-reading-tools,.ask-launcher,.site-header,.reader-aside { display:none!important; }.reader-layout { display:block; width:100%; }.reader-layout .article-body { font-size:11pt; } }
 @media (max-width:800px) { body:has(.mobile-reading-tools) .ask-launcher { display:none; }.mobile-reading-tools { gap:0; padding-inline:.5rem; }.mobile-reading-tools :is(button,a) { padding-inline:.45rem; } }
+.ask-challenge { padding:0 1rem .5rem; min-height:65px; }
+.ask-message > p { white-space:pre-wrap; }

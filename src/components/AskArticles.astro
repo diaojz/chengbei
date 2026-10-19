@@ -1,14 +1,16 @@
 ---
+import assistantConfig from '../../content/assistant.json';
 interface Props { lang?:'zh'|'en'; }
 const {lang='zh'}=Astro.props;const zh=lang==='zh';
 ---
 <button type="button" class="ask-launcher" data-ask-open aria-haspopup="dialog">⌕ <span>{zh?'问问文章':'Ask the articles'}</span></button>
-<dialog class="ask-dialog" data-ask-dialog aria-labelledby="ask-title" data-pagefind-ignore>
- <div class="reader-dialog-heading"><div><b id="ask-title">{zh?'问问城北的文章':'Ask Chengbei’s articles'}</b><small>{zh?'原文检索':'SOURCE LOOKUP'}</small></div><button type="button" data-ask-close aria-label={zh?'关闭对话':'Close conversation'}>×</button></div>
- <div class="ask-messages" data-ask-messages role="log" aria-live="polite"><div class="ask-message"><p>{zh?'想找什么？说说你的问题，我会在文章里找相关内容，并附上原文。':'What are you looking for? Ask a question and I’ll find relevant articles with their sources.'}</p><small>{zh?'当前只检索原文，不生成答案。':'Source lookup only; answers are not generated.'}</small></div></div>
+<dialog class="ask-dialog" data-ask-dialog data-ai-enabled={assistantConfig.enabled} data-ai-endpoint={assistantConfig.endpoint} data-challenge-key={assistantConfig.turnstileSiteKey} aria-labelledby="ask-title" data-pagefind-ignore>
+ <div class="reader-dialog-heading"><div><b id="ask-title">{zh?'问问城北的文章':'Ask Chengbei’s articles'}</b><small>{assistantConfig.enabled ? (zh?'本站文章助手':'SITE ASSISTANT') : (zh?'原文检索':'SOURCE LOOKUP')}</small></div><button type="button" data-ask-close aria-label={zh?'关闭对话':'Close conversation'}>×</button></div>
+ <div class="ask-messages" data-ask-messages role="log" aria-live="polite"><div class="ask-message"><p>{zh?'想找什么？说说你的问题，我会在文章里找相关内容，并附上原文。':'What are you looking for? Ask a question and I’ll find relevant articles with their sources.'}</p><small>{assistantConfig.enabled ? (zh?'只根据本站资料回答，每人每日次数有限。':'Answers use site sources and have daily limits.') : (zh?'当前只检索原文，不生成答案。':'Source lookup only; answers are not generated.')}</small></div></div>
+ {assistantConfig.enabled && <div class="ask-challenge" data-ask-challenge></div>}
  <div class="ask-suggestions"><button type="button" data-ask-question="Codex 重连怎么办">{zh?'Codex 重连怎么办？':'Codex reconnects?'}</button><button type="button" data-ask-question="Dify 如何部署">{zh?'Dify 怎么部署？':'Deploy Dify?'}</button></div>
- <form class="ask-form" data-ask-form><label class="sr-only" for="ask-question">{zh?'你的问题':'Your question'}</label><textarea id="ask-question" name="question" rows="2" maxlength="500" placeholder={zh?'比如：npm 和 npx 有什么区别？':'For example: how do npm and npx differ?'} required></textarea><button type="submit">{zh?'查找':'Find'}</button></form>
- <p class="ask-footnote">{zh?'问题在浏览器内检索，不发送给模型。内容以原文为准。':'Queries are searched in your browser, not sent to a model. Check the original article for context.'}</p>
+ <form class="ask-form" data-ask-form><label class="sr-only" for="ask-question">{zh?'你的问题':'Your question'}</label><textarea id="ask-question" name="question" rows="2" maxlength={assistantConfig.enabled ? 400 : 500} placeholder={zh?'比如：npm 和 npx 有什么区别？':'For example: how do npm and npx differ?'} required></textarea><button type="submit">{zh?'查找':'Find'}</button></form>
+ <p class="ask-footnote">{assistantConfig.enabled ? (zh?'提问将发送至本站服务端和 DeepSeek。请勿填写隐私信息；回答可能有误，请核对原文。':'Questions are sent to the site server and DeepSeek. Avoid personal data and check sources.') : (zh?'问题在浏览器内检索，不发送给模型。内容以原文为准。':'Queries are searched in your browser, not sent to a model. Check the original article for context.')}</p>
 </dialog>
 <script>
  import { rankArticles } from '../lib/site-retrieval.mjs';
@@ -18,8 +20,15 @@ const {lang='zh'}=Astro.props;const zh=lang==='zh';
  const input=form?.querySelector<HTMLTextAreaElement>('textarea');
  const submit=form?.querySelector<HTMLButtonElement>('button');
  const zh=document.documentElement.lang.startsWith('zh');
- let busy=false;let pagefind:any;let index:any;
- document.querySelectorAll('[data-ask-open]').forEach(button=>button.addEventListener('click',()=>{document.querySelector<HTMLDialogElement>('[data-search-dialog]')?.close();dialog?.showModal();input?.focus();}));
+ let busy=false;let pagefind:any;let index:any;let challenge='';let widget:any;
+ const aiEnabled=dialog?.dataset.aiEnabled==='true';
+ const endpoint=dialog?.dataset.aiEndpoint||'';
+ const loadChallenge=()=>{
+  if(!aiEnabled||!dialog?.dataset.challengeKey||document.querySelector('[data-ask-challenge-script]'))return;
+  const script=document.createElement('script');script.src='https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';script.dataset.askChallengeScript='1';script.async=true;
+  script.onload=()=>{const turnstile=(window as any).turnstile;const host=dialog?.querySelector('[data-ask-challenge]');if(host)widget=turnstile.render(host,{sitekey:dialog?.dataset.challengeKey,action:'site_chat',callback:(token:string)=>{challenge=token;},'expired-callback':()=>{challenge='';}});};document.head.append(script);
+ };
+ document.querySelectorAll('[data-ask-open]').forEach(button=>button.addEventListener('click',()=>{document.querySelector<HTMLDialogElement>('[data-search-dialog]')?.close();dialog?.showModal();loadChallenge();input?.focus();}));
  dialog?.querySelector('[data-ask-close]')?.addEventListener('click',()=>dialog.close());
  dialog?.addEventListener('click',e=>{if(e.target===dialog)dialog.close();});
  const message=(text:string,user=false)=>{const box=document.createElement('div');box.className='ask-message'+(user?' ask-message-user':'');const p=document.createElement('p');p.textContent=text;box.append(p);log?.append(box);return box;};
@@ -27,7 +36,19 @@ const {lang='zh'}=Astro.props;const zh=lang==='zh';
   const question=input?.value.trim();if(!question||busy||!log||!input)return;
   busy=true;if(submit)submit.disabled=true;message(question,true);input.value='';
   const reply=message(zh?'正在查找原文…':'Finding sources…');
+  let aiNotice=aiEnabled&&!challenge?(zh?'完成验证后可获取AI回答；这次先查原文。':'Complete verification for an AI answer; showing sources for now.') : '';
   try {
+   if(aiEnabled&&endpoint&&challenge){
+    const token=challenge;challenge='';
+    try{
+     const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question,challenge:token}),signal:AbortSignal.timeout(30000)});
+     const data=await response.json();if(!response.ok)throw new Error(data.error||'回答暂不可用');
+     reply.replaceChildren();const answer=document.createElement('p');answer.textContent=data.answer;reply.append(answer);
+     (data.sources||[]).forEach((source:any)=>{const url=new URL(source.url);if(url.origin!=='https://chengbei.org')return;const a=document.createElement('a');a.className='ask-source';a.href=source.url;a.textContent=`[${source.id}] ${source.title}`;reply.append(a);});
+     return;
+    }catch(error){aiNotice=error instanceof Error?error.message:'回答暂不可用';}
+    finally{(window as any).turnstile?.reset(widget);}
+   }
    if(!pagefind){const path='/pagefind/pagefind.js';pagefind=await import(/* @vite-ignore */path);await pagefind.init();}
    if(!index){const res=await fetch('/content-index.json');if(!res.ok)throw new Error('Index unavailable');const data=await res.json();index=[...data.articles,...data.projects];}
    const ranked=rankArticles(question,index).map((a:any)=>({url:a.url,meta:{title:a.title},excerpt:a.description}));
@@ -35,7 +56,7 @@ const {lang='zh'}=Astro.props;const zh=lang==='zh';
    const fulltext=await Promise.all(found.results.slice(0,4).map((r:any)=>r.data()));
    const seen=new Set<string>();
    const sources=[...ranked,...fulltext].filter((source:any)=>{const key=new URL(source.url,location.origin).pathname;if(seen.has(key))return false;seen.add(key);return true;}).slice(0,4);
-   reply.replaceChildren();const intro=document.createElement('p');intro.textContent=sources.length?(zh?'找到这些原文，你可以打开继续读：':'Here are the original sources to explore:'):(zh?'没找到合适的原文。试试更具体的工具名或问题关键词。':'No matching sources. Try a specific tool or keyword.');reply.append(intro);
+   reply.replaceChildren();if(aiNotice){const notice=document.createElement('small');notice.textContent=aiNotice;reply.append(notice);}const intro=document.createElement('p');intro.textContent=sources.length?(zh?'找到这些原文，你可以打开继续读：':'Here are the original sources to explore:'):(zh?'没找到合适的原文。试试更具体的工具名或问题关键词。':'No matching sources. Try a specific tool or keyword.');reply.append(intro);
    sources.forEach((source:any,i:number)=>{const url=new URL(source.url,location.origin);if(url.origin!==location.origin&&url.origin!=='https://chengbei.org')return;const a=document.createElement('a');a.className='ask-source';a.href=url.origin===location.origin?url.pathname+url.hash:source.url;const title=document.createElement('b');title.textContent=`[${i+1}] ${source.meta?.title||url.pathname}`;const snippet=document.createElement('span');snippet.textContent=new DOMParser().parseFromString(source.excerpt||'','text/html').body.textContent||'';a.append(title,snippet);reply.append(a);});
   } catch {reply.textContent=zh?'暂时无法读取检索索引。可以用左侧搜索，或去文章列表按主题查找。':'The lookup index is unavailable. Try site search or browse articles by topic.';}
   finally{busy=false;if(submit)submit.disabled=false;log.scrollTop += reply.getBoundingClientRect().top-log.getBoundingClientRect().top;input.focus();}

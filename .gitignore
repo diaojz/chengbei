@@ -7,3 +7,12 @@ crawl-output/
 .vercel
 .astro/
 dist/
+
+# Assistant secrets, durable quota ledger, generated public corpus
+services/assistant/.env*
+!services/assistant/.env.example
+services/assistant/data/
+services/assistant/generated/
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
