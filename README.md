@@ -20,7 +20,7 @@
 | 一个人的 Mac 直播间 | /mac-livestream-setup/ | 2026-08-31 · 从0搭建个人直播间实录：调研→制定计划→两次被B站账号权限推翻（5000粉门槛+Mac客户端无开播）→改道微信视频号跑通 · Codex 生封面图 + Figma 流程图 · 站内独立页 |
 | AI 原生 SDLC 六阶段闭环 | #/p/ai-native-sdlc-playbook | 2026-08-26 · Claude 官方《The AI-native SDLC playbook》中文通俗解读 · Plan/Design/Build/Test/Deploy/Maintain 六阶段怎么重做一遍 · 随笔文章，非独立页 |
 | AI 求职每日一课 | /tech-notes/ | 2026-08-24 · 面向 AI 应用/Agent 工程岗位的 12 周递进课程：会调用→会构建→会上生产；每天一个可验证技能，每周一个项目；原 438 条技术笔记保留为知识库 |
-| Codex 重连问题修复指南 | /codex-reconnect/ | 2026-08-05 · 「正在重新连接 N/5」成因与修法 · 主体是一段可复制给 AI 自助执行的指令 · 站内独立页 |
+| Codex 重连问题修复指南 | /codex-reconnect/ | 2026-08-05 · 2026-10-19 更新 · 重连诊断提示词、条件配置与验证方法 · 站内独立页 |
 | 手工短视频 SOP 拆解 | /sop-teardown/ | 2026-07-27 · 手工赛道 SOP 逐页拆解 · 工具全不通用但判据通用 · 12 条发布检查清单（流程图依赖共享 `/lib/`）|
 | 裁判模型准确率提升清单 | /judge-accuracy/ | 2026-07-24 · LLM-judge 从 88% 提到 90% · 按性价比排的 8 条方法 + 执行顺序 · 站内独立页 |
 | 苹果开发者迁移指南 | /apple-dev-migration/ | 2026-06-12 · 换电脑证书迁移 · 三条路线（流程图依赖站点共享 `/lib/mermaid.min.js`）|
