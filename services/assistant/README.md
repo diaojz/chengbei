@@ -16,11 +16,11 @@ GitHub Pages 继续托管网站，Node 24 + SQLite 服务部署在独立服务�
 
 2026-10-19查询官方 https://api-docs.deepseek.com/quick_start/pricing 和 https://api-docs.deepseek.com/api/create-chat-completion ：Flash高峰缓存未命中输入$0.30/百万token、输出$1.20/百万token。按高峰、未命中价格估算。模型默认开启思考，因此请求显式 `thinking: {type: disabled}`。
 
-服务端预算使用USD；¥30若按保守汇率8换算约$3.75，须用户确认。预留输入按消息UTF-8字节数加1024模板余量估算，输出按上限计。模型价格可能变动，估算不等同于供应商账单硬限额；上线时使用独立API Key，并在供应商控制台设置余额/限额以形成第二道止损。外部托管/验证码费用不在token预算内。
+用户已确认模型费每月¥10；服务端按保守汇率8换算为$1.25预留额度，配置高于$1.25时拒绝启动，避免误配扩大预算。预留输入按消息UTF-8字节数加1024模板余量估算，输出按上限计。模型价格可能变动，估算不等同于供应商账单硬限额；上线时使用独立API Key，并在供应商控制台设置余额/限额以形成第二道止损。外部托管/验证码费用不在token预算内。
 
 ## 配置与上线顺序
 
-1. 用户确认预算、API Key安全位置和服务器。密钥不得粘贴到公开仓库或前端；复制 `.env.example` 到服务器私有环境文件填写。`CHAT_IP_SECRET`用32字节以上随机值。
+1. 预算已确认每月¥10；仍需用户提供API Key安全位置和服务器。密钥不得粘贴到公开仓库或前端；复制 `.env.example` 到服务器私有环境文件填写。`CHAT_IP_SECRET`用32字节以上随机值。
 2. 为 `chengbei.org` 创建Turnstile组件；服务端保存secret，前端只放公开site key。
 3. `npm run build && node scripts/build-assistant-corpus.mjs` 生成只含公开内容的服务端语料。
 4. 仓库根目录构建：`docker build -f services/assistant/Dockerfile -t chengbei-assistant .`。容器只绑定服务器回环接口：`-p 127.0.0.1:8787:8787`；挂载受保护的持久化 `/data` 数据卷，传入环境文件。数据目录需由容器node用户拥有，勿将SQLite放进公开静态目录。

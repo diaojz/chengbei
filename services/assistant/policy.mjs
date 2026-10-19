@@ -1,5 +1,7 @@
 import { createHash } from 'node:crypto';
-export const DEFAULTS=Object.freeze({minute:3,visitorDaily:10,globalDaily:200,concurrency:3,maxQuestion:400,maxOutput:600,maxContextBytes:12000,monthlyNanoUsd:3_750_000_000,inputNanoUsd:300,outputNanoUsd:1200});
+export const DEFAULTS=Object.freeze({minute:3,visitorDaily:10,globalDaily:200,concurrency:3,maxQuestion:400,maxOutput:600,maxContextBytes:12000,monthlyNanoUsd:1_250_000_000,inputNanoUsd:300,outputNanoUsd:1200});
+// User approved ¥10/month. Reserve at a conservative 8 CNY/USD; never silently raise it.
+export function configuredBudget(value){const usd=Number(value);if(!Number.isFinite(usd)||usd<=0||usd>1.25)throw new Error('CHAT_MONTHLY_BUDGET_USD must be >0 and <=1.25 (approved monthly budget: CNY 10).');return Math.floor(usd*1e9);}
 export function validateQuestion(value){
  if(typeof value!=='string'||!value.trim()||value.length>DEFAULTS.maxQuestion)throw Object.assign(new Error('请用400字以内说明与本站内容有关的问题。'),{status:400});
  const text=value.trim();

@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import http from 'node:http';
 import {Ledger} from '../services/assistant/ledger.mjs';
-import {DEFAULTS,validateQuestion,retrieve,buildMessages,reservation,validateAnswer} from '../services/assistant/policy.mjs';
+import {DEFAULTS,validateQuestion,retrieve,buildMessages,reservation,validateAnswer,configuredBudget} from '../services/assistant/policy.mjs';
 import {createHandler} from '../services/assistant/server.mjs';
 function ledger(t,config={}){const dir=mkdtempSync(path.join(tmpdir(),'chengbei-ledger-'));const file=path.join(dir,'usage.sqlite');const value=new Ledger(file,config);t.after(()=>{value.close();rmSync(dir,{recursive:true,force:true});});return {value,file};}
 test('额度跨实例持久化，访客次数和全站次数均无法靠重启清零',t=>{
@@ -50,4 +50,9 @@ test('生产验证码校验拒绝错误hostname/action，失败不调用模型',
  const request=body=>fetch(url,{method:'POST',headers:{Origin:config.origin,'Content-Type':'application/json'},body:JSON.stringify(body)});
  assert.equal((await request({question:'Codex 重连'})).status,403);assert.equal(calls,0);
  assert.equal((await request({question:'Codex 重连',challenge:'token'})).status,403);assert.equal(calls,1);
+});
+
+test('用户月预算10元不能因环境变量误配而提高',()=>{
+ assert.equal(configuredBudget('1.25'),1_250_000_000);assert.equal(configuredBudget('0.5'),500_000_000);
+ for(const value of ['',undefined,'0','-1','3.75','NaN','Infinity'])assert.throws(()=>configuredBudget(value));
 });
