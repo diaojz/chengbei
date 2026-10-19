@@ -1,6 +1,6 @@
-# 城北站内助手服务端（尚未上线）
+# 城北站内助手服务端（后端已部署，聊天未开放）
 
-GitHub Pages 继续托管网站，Node 24 + SQLite 服务部署在独立服务器。Cloudflare Worker 需要不同运行时适配，本实现不直接运行在 Worker。当前 `content/assistant.json` 关闭AI，线上原文检索不变。没有真实模型调用、密钥配置或生产服务验收。
+GitHub Pages 继续托管网站，Node 24 + SQLite 服务部署在独立服务器。Cloudflare Worker 需要不同运行时适配，本实现不直接运行在 Worker。当前 `content/assistant.json` 关闭AI，线上原文检索不变。日本网关独立容器已部署，DeepSeek Key已由本机钥匙串安全传入并加密存储；HTTPS地址为 `https://assistant.chengbei.org/health`。仍缺Turnstile生产配置，健康检查 `ready:false`；尚未做真实付费模型问答验收。
 
 ## 默认限制
 
@@ -20,7 +20,7 @@ GitHub Pages 继续托管网站，Node 24 + SQLite 服务部署在独立服务�
 
 ## 配置与上线顺序
 
-1. 预算已确认每月¥10；仍需用户提供API Key安全位置和服务器。密钥不得粘贴到公开仓库或前端；复制 `.env.example` 到服务器私有环境文件填写。`CHAT_IP_SECRET`用32字节以上随机值。
+1. 预算已确认每月¥10；API Key已保存本机钥匙串，目标为日本网关aigw。密钥不得粘贴到公开仓库或前端；复制 `.env.example` 到服务器私有环境文件填写。`CHAT_IP_SECRET`用32字节以上随机值。
 2. 为 `chengbei.org` 创建Turnstile组件；服务端保存secret，前端只放公开site key。
 3. `npm run build && node scripts/build-assistant-corpus.mjs` 生成只含公开内容的服务端语料。
 4. 仓库根目录构建：`docker build -f services/assistant/Dockerfile -t chengbei-assistant .`。容器只绑定服务器回环接口：`-p 127.0.0.1:8787:8787`；挂载受保护的持久化 `/data` 数据卷，传入环境文件。数据目录需由容器node用户拥有，勿将SQLite放进公开静态目录。
@@ -30,7 +30,7 @@ GitHub Pages 继续托管网站，Node 24 + SQLite 服务部署在独立服务�
 
 ## 运维
 
-账本丢失会丢失额度记录，备份SQLite需使用SQLite备份API或停服后同时处理WAL，不能只复制活动主文件。IP密钥轮换会重置访客识别，但全站额度/月预算仍保留。停用可设前端开关false并停止服务；停止服务不删除账本。部署计费由账号决定，尚未创建任何付费资源。
+账本丢失会丢失额度记录，备份SQLite需使用SQLite备份API或停服后同时处理WAL，不能只复制活动主文件。IP密钥轮换会重置访客识别，但全站额度/月预算仍保留。停用可设前端开关false并停止服务；停止服务不删除账本。复用现有服务器，未新购服务器；真实模型调用按供应商账单计费。
 
 ## 密钥与代码管理
 
@@ -40,7 +40,7 @@ GitHub Pages 继续托管网站，Node 24 + SQLite 服务部署在独立服务�
 - `npm run secret:scan` 检查常见密钥格式；构建结束额外检查公开dist。提交可使用 `git -c core.hooksPath=.githooks commit ...`；仓库维护者也可在合适工作区启用hooks。hook读取真正暂存的blob，避免工作区与暂存区内容不一致导致漏检。
 - GitHub已开启Secret Scanning与Push Protection，2026-10-19查询未发现告警。公共规则与本地扫描都不能识别所有可能的凭证格式；若误推送，先撤销/轮换Key，再清理历史，不能只删最新文件。
 - 密钥只在服务端内存及发往官方HTTPS接口的Authorization头中使用，不进入模型上下文、前端响应或应用日志。部署时不要在反向代理、APM和错误收集中记录请求凭证/环境变量；不要将私有配置或Secret备份到公开仓库。
-- 接入目前仍未启用，实际平台静态加密、HTTPS及密钥轮换要在部署环境确定后验收。独立Key、每月10元预算及供应商余额止损一起使用。
+- 聊天目前仍未启用；静态加密和HTTPS已部署，密钥轮换仍需后续实际演练。独立Key、每月10元预算及供应商余额止损一起使用。
 
 ## 日本网关机部署（2026-10-19）
 
@@ -51,3 +51,11 @@ GitHub Pages 继续托管网站，Node 24 + SQLite 服务部署在独立服务�
 容器限制192MiB内存、0.35 CPU、64进程、只读根文件系统；持久账本位于 `/var/lib/chengbei-assistant/data`。部署前保存Caddy配置和原容器ID。仅在真实验证码、HTTPS和问答验收通过后开启前端。
 
 回滚：将前端开关关闭；`systemctl disable --now chengbei-assistant` 停止独立服务，保留密文及账本。镜像版本由 `/etc/chengbei-assistant/runtime.env` 的 `ASSISTANT_IMAGE` 指定，切回原版本后只重启助手服务。若增加独立Caddy站点，移除该站点后先validate再reload；勿直接恢复旧全量配置覆盖后续其它变更。不得删除原网关容器。
+
+### 本次部署证据
+
+- 版本 `1583c0d`，45项本地测试通过，Astro构建及dist密钥扫描通过。
+- 健康接口HTTPS正常，`ready:false`，聊天503；这是安全关闭状态，不代表模型问答已验收。
+- 助手空闲约44MiB内存；原有三个网关容器ID、Caddy和x-ui主进程ID均保持不变。
+- 独立DNS记录ID `47be2fcd9a5370907279c9fa9ab51a9c`，仅新增assistant子域名。Caddy原配置备份在服务器 `/opt/chengbei-assistant/backups/Caddyfile.initial`（含私有配置，不应下载提交）。
+- 本机代理路径访问新子域出现TLS握手错误；本机绕过代理并指定目标IP的HTTPS已通过。其它网络访问另行验证，不把服务启动当作所有网络均可用。
