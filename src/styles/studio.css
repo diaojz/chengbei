@@ -231,3 +231,11 @@ body[data-theme='dark'] { --paper:#151922; --card:#1c222d; --ink:#eef1f8; --mute
 
 /* Avoid the dialog UA inset stretching auto height on narrow screens. */
 .search-dialog { bottom:auto; }
+
+/* Global search comes before page navigation on the desktop sidebar. */
+.site-header .sidebar-search { display:none; }
+@media (min-width:1001px) {
+  .site-header .brand { margin-bottom:1.5rem; }
+  .site-header .sidebar-search { display:flex; margin:0 0 1.5rem; }
+  .site-header .mobile-search { display:none; }
+}

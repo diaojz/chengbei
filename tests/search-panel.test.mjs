@@ -19,3 +19,12 @@ test('搜索清空后恢复推荐，并防止旧异步结果覆盖新查询',()=
 });
 
 test('搜索弹窗解除底部约束，窄屏按内容高度展示',async()=>{const css=await readFile('src/styles/studio.css','utf8');assert.match(css,/\.search-dialog\s*\{\s*bottom:auto;/);});
+
+test('桌面搜索位于导航前，小屏保留顶部导航搜索',async()=>{
+ const layout=await readFile('src/layouts/BaseLayout.astro','utf8');
+ assert.ok(layout.indexOf('nav-action sidebar-search')<layout.indexOf('class="sidebar-label"'));
+ assert.ok(layout.indexOf('nav-action sidebar-search')<layout.indexOf('<nav class="site-nav"'));
+ assert.match(layout,/nav-action mobile-search/);
+ const css=await readFile('src/styles/studio.css','utf8');
+ assert.match(css,/\.site-header \.mobile-search\s*\{\s*display:none/);
+});
