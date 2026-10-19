@@ -242,3 +242,5 @@ node tech-notes/tests/validate-course.mjs
 - `llms.txt` 与 `content-index.json` 由公开文章、项目数据生成；构建后 `write-discovery.mjs` 输出 sitemap，robots 声明入口。Article JSON-LD 保留真实首次发布日期，不伪造修订日期。
 - `AskArticles.astro` 当前为带来源的对话式原文检索，不调用模型。真实AI聊天需独立服务端，公开仓库和前端不得存放模型密钥。
 - 备案号尚未提供，不应虚构。完整说明见 `docs/reading-brand-discovery-20261019.md`。
+
+新版 GoatCounter 客户端从 `/assets/vendor/goatcounter.js` 加载，官方来源与许可见同目录 README；数据仍进入原账号，避免外部脚本域名超时导致漏计。

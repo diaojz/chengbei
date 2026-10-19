@@ -16,7 +16,7 @@ test('移动阅读工具支持目录、字号、图片查看和安全区',async(
 test('新版恢复原 GoatCounter，失败不显示伪造数字',async()=>{
  const layout=await readFile('src/layouts/BaseLayout.astro','utf8');const stats=await readFile('src/components/VisitStats.astro','utf8');
  assert.match(layout,/data-goatcounter="https:\/\/chengbei.goatcounter.com\/count"/);
- assert.equal((layout.match(/data-goatcounter=/g)||[]).length,1);assert.match(stats,/Asia\/Shanghai/);assert.match(stats,/AbortSignal.timeout/);assert.match(stats,/data-visit-total>—/);
+ assert.equal((layout.match(/data-goatcounter=/g)||[]).length,1);assert.match(layout,/src="\/assets\/vendor\/goatcounter.js"/);assert.match(stats,/Asia\/Shanghai/);assert.match(stats,/AbortSignal.timeout/);assert.match(stats,/data-visit-total>—/);
 });
 test('提供机器可读目录和文章结构化数据，无模型密钥进前端',async()=>{
  const layout=await readFile('src/layouts/BaseLayout.astro','utf8');const article=await readFile('src/components/ArticlePage.astro','utf8');const ask=await readFile('src/components/AskArticles.astro','utf8');
