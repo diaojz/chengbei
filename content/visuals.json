@@ -1,0 +1,137 @@
+{
+  "articles": {
+    "npm-npx-node-explained": {
+      "src": "/assets/img/about-studio/workspace.webp"
+    },
+    "buying-vs-renting-fangshan": {
+      "src": "/assets/img/article-covers/housing.webp"
+    },
+    "ai-coding-agent-landscape-2026": {
+      "src": "/assets/img/about-studio/build.webp"
+    },
+    "choose-a-proxy-protocol": {
+      "src": "/assets/img/project-covers/reconnect.webp"
+    },
+    "validate-before-build": {
+      "src": "/assets/img/article-covers/validate-before-build.webp",
+      "original": "/assets/img/posts/validate-before-build/cover.png"
+    },
+    "java-to-ai-agent-career-guide": {
+      "src": "/assets/img/article-covers/java-to-ai-agent-career-guide.webp",
+      "original": "/assets/img/posts/java-to-ai-agent-career-guide/cover.png"
+    },
+    "dify-self-hosting": {
+      "src": "/assets/img/article-covers/dify-self-hosting.webp",
+      "original": "/assets/img/posts/dify-self-hosting/cover.png"
+    },
+    "dify-production-operations": {
+      "src": "/assets/img/article-covers/dify-production-operations.webp",
+      "original": "/assets/img/posts/dify-production-operations/cover.png"
+    },
+    "dify-agent-tools": {
+      "src": "/assets/img/article-covers/dify-agent-tools.webp",
+      "original": "/assets/img/posts/dify-agent-tools/cover.png"
+    },
+    "dify-batch-loop": {
+      "src": "/assets/img/article-covers/dify-batch-loop.webp",
+      "original": "/assets/img/posts/dify-batch-loop/cover.png"
+    },
+    "dify-rag-knowledge-base": {
+      "src": "/assets/img/article-covers/dify-rag-knowledge-base.webp",
+      "original": "/assets/img/posts/dify-rag-knowledge-base/cover.png"
+    },
+    "dify-http-request": {
+      "src": "/assets/img/article-covers/dify-http-request.webp",
+      "original": "/assets/img/posts/dify-http-request/cover.png"
+    },
+    "dify-variables": {
+      "src": "/assets/img/article-covers/dify-variables.webp",
+      "original": "/assets/img/posts/dify-variables/cover.png"
+    },
+    "dify-branching-nodes": {
+      "src": "/assets/img/article-covers/dify-branching-nodes.webp",
+      "original": "/assets/img/posts/dify-branching-nodes/cover.png"
+    },
+    "dify-platform-landscape": {
+      "src": "/assets/img/article-covers/dify-platform-landscape.webp",
+      "original": "/assets/img/posts/dify-platform-landscape/cover.png"
+    },
+    "ai-agent-model-landscape-2026": {
+      "src": "/assets/img/article-covers/ai-agent-model-landscape-2026.webp",
+      "original": "/assets/img/posts/ai-agent-model-landscape-2026/cover.png"
+    },
+    "mcp-python-sdk-v2-migration": {
+      "src": "/assets/img/article-covers/mcp-python-sdk-v2-migration.webp",
+      "original": "/assets/img/posts/mcp-python-sdk-v2-migration/cover.png"
+    },
+    "claude-code-quota-keepalive": {
+      "src": "/assets/img/article-covers/claude-code-quota-keepalive.webp",
+      "original": "/assets/img/posts/claude-code-quota-keepalive/cover.png"
+    },
+    "ai-native-sdlc-playbook": {
+      "src": "/assets/img/article-covers/ai-native-sdlc-playbook.webp",
+      "original": "/assets/img/posts/ai-native-sdlc/loop.webp"
+    },
+    "http-status-codes-quick-reference": {
+      "src": "/assets/img/project-covers/diagnostics.webp"
+    },
+    "codex-terminal-scrollback": {
+      "src": "/assets/img/about-studio/workspace.webp"
+    },
+    "codex-permissions-guide": {
+      "src": "/assets/img/article-covers/security.webp"
+    },
+    "claude-code-permissions-guide": {
+      "src": "/assets/img/article-covers/security.webp"
+    },
+    "stop-clicking-yes": {
+      "src": "/assets/img/article-covers/security.webp"
+    },
+    "tokens-2026-06": {
+      "src": "/assets/img/article-covers/tokens-2026-06.webp",
+      "original": "/assets/img/posts/tokens-2026-06/overview.png"
+    },
+    "feishu-claude-code-bridge": {
+      "src": "/assets/img/article-covers/feishu-claude-code-bridge.webp",
+      "original": "/assets/img/posts/feishu-bridge/cover.png"
+    },
+    "agent-orchestration-death-valley": {
+      "src": "/assets/img/project-covers/evaluation.webp"
+    },
+    "fable-5-four-days": {
+      "src": "/assets/img/article-covers/fable-5-four-days.webp",
+      "original": "/assets/posts/fable-5-four-days/card-cover.png"
+    },
+    "bar-moved": {
+      "src": "/assets/img/about-studio/explore.webp"
+    },
+    "zero-basics": {
+      "src": "/assets/img/about-studio/learn.webp"
+    },
+    "segment-by-scenario": {
+      "src": "/assets/img/about-studio/build.webp"
+    },
+    "prompts-are-code": {
+      "src": "/assets/img/about-studio/workspace.webp"
+    },
+    "atomic-delivery": {
+      "src": "/assets/img/about-studio/build.webp"
+    },
+    "build-first": {
+      "src": "/assets/img/about-studio/explore.webp"
+    },
+    "voice-input-bottleneck": {
+      "src": "/assets/img/project-covers/voice.webp"
+    },
+    "claude-login-guide": {
+      "src": "/assets/img/article-covers/security.webp"
+    },
+    "claude-login-faq": {
+      "src": "/assets/img/article-covers/security.webp"
+    },
+    "dify-cloud-first-app": {
+      "src": "/assets/img/article-covers/dify-cloud-first-app.webp",
+      "original": "/assets/img/posts/dify-cloud-first-app/cover.png"
+    }
+  }
+}

@@ -82,3 +82,7 @@ gh run watch --repo diaojz/chengbei
 
 - 计数脚本挂在 4 个页面 `</body>` 前；`js/stats.js` 负责 SPA 路由补计 + 首页「总访问/今日」展示（接口失败自动隐藏整条）
 - 换账号 / 改 code 时：同步改 `js/stats.js` 的 `SITE` 常量 + 4 处 `data-goatcounter` 地址
+
+## 全站配图维护
+
+文章封面映射在 `content/visuals.json`，项目封面在 `src/data/projects.ts`；优先静态 WebP，尺寸明确、懒加载。概念插画不能充当产品截图。正文原图和发布日期不得随配图更新改写。构建后运行 `python3 scripts/audit-site-images.py` 检查全站本地图片路径。

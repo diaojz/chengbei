@@ -10,16 +10,11 @@ const zh = lang === 'zh';
 const prefix = zh ? '' : '/en';
 const dify = series.find((item) => item.id === 'dify');
 const featured = projects.filter((project) => project.featured).slice(0, 3);
-const covers: Record<string, string> = {
-  '/ai-jobs/': '/assets/img/ai-jobs/job-library-hero.webp',
-  '/livestream-compliance/': '/livestream-compliance/assets/抖音直播手册/hero.png',
-  '/mac-livestream-setup/': '/mac-livestream-setup/assets/cover.png'
-};
 const topics = zh ? ['AI Agent', 'Dify', 'Codex', '实用指南', '产品与工程'] : ['AI Agent', 'Dify', 'Codex', 'Guide', 'Product & Engineering'];
 const entries = [
-  { number: '01', label: zh ? '从一个小问题开始' : 'START WITH A QUESTION', title: zh ? '工具入门' : 'Everyday tools', description: zh ? 'npm、npx、终端与 AI 编程工具，把不熟悉的概念逐个讲清。' : 'Understand npm, npx, terminals, and AI coding tools, one concept at a time.', href: `${prefix}/articles/npm-npx-node-explained/`, action: zh ? '读一篇入门指南' : 'Read a practical guide', icon: '>_' },
-  { number: '02', label: zh ? '沿着路线慢慢学' : 'FOLLOW A LEARNING PATH', title: zh ? '从零开始学 Dify' : 'Dify, from zero', description: zh ? '从第一个 Chatflow 到知识库、Agent 与部署，十篇文章串成一条路。' : 'Ten connected guides, from your first Chatflow to RAG, agents, and deployment.', href: `${prefix}/series/dify/`, action: zh ? '查看完整路线' : 'Explore the series', icon: '↗' },
-  { number: '03', label: zh ? '带着目标做准备' : 'WORK TOWARD A GOAL', title: zh ? 'AI 岗位与面试' : 'AI roles & interviews', description: zh ? '看真实岗位需要交付什么，再准备能力、作品与面试表达。' : 'Explore what AI roles actually deliver, then prepare skills, projects, and interviews.', href: '/ai-jobs/', action: zh ? '进入岗位集锦' : 'Browse the job guide', icon: '◎' }
+  { number: '01', label: zh ? '从一个小问题开始' : 'START WITH A QUESTION', title: zh ? '工具入门' : 'Everyday tools', description: zh ? 'npm、npx、终端与 AI 编程工具，把不熟悉的概念逐个讲清。' : 'Understand npm, npx, terminals, and AI coding tools, one concept at a time.', href: `${prefix}/articles/npm-npx-node-explained/`, action: zh ? '读一篇入门指南' : 'Read a practical guide', icon: '>_', cover: '/assets/img/about-studio/workspace.webp' },
+  { number: '02', label: zh ? '沿着路线慢慢学' : 'FOLLOW A LEARNING PATH', title: zh ? '从零开始学 Dify' : 'Dify, from zero', description: zh ? '从第一个 Chatflow 到知识库、Agent 与部署，十篇文章串成一条路。' : 'Ten connected guides, from your first Chatflow to RAG, agents, and deployment.', href: `${prefix}/series/dify/`, action: zh ? '查看完整路线' : 'Explore the series', icon: '↗', cover: '/assets/img/article-covers/dify-cloud-first-app.webp' },
+  { number: '03', label: zh ? '带着目标做准备' : 'WORK TOWARD A GOAL', title: zh ? 'AI 岗位与面试' : 'AI roles & interviews', description: zh ? '看真实岗位需要交付什么，再准备能力、作品与面试表达。' : 'Explore what AI roles actually deliver, then prepare skills, projects, and interviews.', href: '/ai-jobs/', action: zh ? '进入岗位集锦' : 'Browse the job guide', icon: '◎', cover: '/assets/img/project-covers/jobs.webp' }
 ];
 ---
 <BaseLayout title={zh ? '城北 · 独立开发者' : 'Chengbei · Independent Developer'} description={zh ? 'AI 开发、工具使用与产品实践。城北的文章、项目和学习路线。' : 'Articles, projects, and learning paths on AI development and building useful products.'} lang={lang}>
@@ -39,7 +34,7 @@ const entries = [
 
     <section class="start-section" aria-labelledby="start-title">
       <div class="start-heading"><h2 id="start-title">{zh ? '想从哪里开始？' : 'Where would you like to start?'}</h2><p>{zh ? '找答案，学工具，或为下一步做准备。' : 'Find an answer, learn a tool, or plan your next step.'}</p></div>
-      <div class="entry-grid">{entries.map((entry) => <a class="entry-card" href={entry.href}><div class="entry-top"><span>{entry.number} / {entry.label}</span><b aria-hidden="true">{entry.icon}</b></div><h3>{entry.title}</h3><p>{entry.description}</p><span class="entry-action">{entry.action} <span aria-hidden="true">→</span></span></a>)}</div>
+      <div class="entry-grid">{entries.map((entry) => <a class="entry-card" href={entry.href}><div class="entry-cover"><img src={entry.cover} alt="" width="720" height="480" loading="lazy" decoding="async" /></div><div class="entry-top"><span>{entry.number} / {entry.label}</span><b aria-hidden="true">{entry.icon}</b></div><h3>{entry.title}</h3><p>{entry.description}</p><span class="entry-action">{entry.action} <span aria-hidden="true">→</span></span></a>)}</div>
     </section>
 
     <div class="content-columns home-reading">
@@ -56,7 +51,7 @@ const entries = [
 
     <section class="product-section">
       <div class="product-section-head"><div><span class="section-kicker">SELECTED WORK</span><h2>{zh ? '做过的一些东西' : 'A few things I’ve built'}</h2></div><a href={`${prefix}/projects/`}>{zh ? '全部项目' : 'All projects'} →</a></div>
-      <div class="work-grid">{featured.map((project, index) => { const text = projectText(project, lang); return <a class="work-card" href={project.href} style={`--work-index:'0${index + 1}'`}><div class="work-cover"><img src={covers[project.href]} alt="" loading="lazy" width="640" height="360" /><span>{zh ? project.kind : 'PROJECT'}</span></div><div class="work-copy"><h3>{text.title}</h3><p>{text.description}</p><div><time>{project.date}</time><b>{zh ? '看看项目' : 'Explore'} ↗</b></div></div></a>; })}</div>
+      <div class="work-grid">{featured.map((project, index) => { const text = projectText(project, lang); return <a class="work-card" href={project.href} style={`--work-index:'0${index + 1}'`}><div class="work-cover"><img src={project.cover} alt="" loading="lazy" width="640" height="360" /><span>{zh ? project.kind : 'PROJECT'}</span></div><div class="work-copy"><h3>{text.title}</h3><p>{text.description}</p><div><time>{project.date}</time><b>{zh ? '看看项目' : 'Explore'} ↗</b></div></div></a>; })}</div>
     </section>
     {zh && <section class="quiet-gallery" aria-label="影像记录">{siteData.images.map((image) => <figure><img src={`/${image.url}`} alt={image.caption_zh} loading="lazy" /><figcaption>{image.caption_zh}</figcaption></figure>)}</section>}
   </div>

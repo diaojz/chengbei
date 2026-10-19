@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { formatDate, postExcerpt, postTags, postTitle, readPost, posts, series, type Lang, type Post } from '../lib/content';
+import { formatDate, postExcerpt, postTags, postTitle, postCover, readPost, posts, series, type Lang, type Post } from '../lib/content';
 import { seriesNeighbours } from '../lib/reading.mjs';
 interface Props { post: Post; lang: Lang; }
 const { post, lang } = Astro.props;
@@ -27,6 +27,7 @@ const next = posts.find((item) => item.slug === neighbours.next);
         {relatedSeries && <a class="series-link" href={`${prefix}/series/${relatedSeries.id}/`}>{zh ? relatedSeries.title_zh : relatedSeries.title_en} · {post.series_order}/{relatedSeries.slugs.length}</a>}
       </header>
       {content.headings.length > 0 && <details class="mobile-toc" data-pagefind-ignore><summary>{zh ? '本文目录' : 'On this page'}<span>{content.headings.length}</span></summary><nav aria-label={zh ? '本文目录' : 'On this page'}>{content.headings.map((heading) => <a href={`#${heading.id}`} class:list={{ 'toc-sub': heading.depth === 3 }}>{heading.text}</a>)}</nav></details>}
+      {!/<img\b/i.test(content.html) && postCover(post) && <figure class="reader-cover"><img src={postCover(post)} alt="" width="720" height="480" loading="lazy" /></figure>}
       <div class="article-body" data-reading-body set:html={content.html} />
       {(previous || next) && <nav class="chapter-pagination" aria-label={zh ? '系列文章导航' : 'Series navigation'} data-pagefind-ignore>
         {previous ? <a href={`${prefix}/articles/${previous.slug}/`} rel="prev"><span>← {zh ? '上一篇' : 'Previous'}</span><b>{postTitle(previous, lang)}</b></a> : <div />}

@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { projects, projectText, type Project } from '../data/projects';
+import type { Lang } from '../lib/content';
+interface Props { lang?: Lang; }
+const { lang = 'zh' } = Astro.props;
+const zh = lang === 'zh';
+const kinds: Record<Project['kind'], string> = { '专题': 'FEATURE', '课程': 'COURSE', '工具': 'TOOL', '项目': 'PROJECT' };
+---
+<BaseLayout title={zh ? '项目 · 城北' : 'Projects · Chengbei'} description={zh ? '城北做过的项目、课程、工具和独立专题。' : 'Projects, courses, tools, and features by Chengbei.'} lang={lang}>
+  <div class="portfolio-page">
+    <header class="portfolio-heading"><div><span class="studio-eyebrow">THE PROJECT COLLECTION</span><h1>{zh ? '做过的一些东西' : 'Things I’ve been building'}</h1><p>{zh ? '工具、课程与实践专题。从一个具体的问题，走到一个能用的结果。' : 'Tools, courses, and practical features. From a concrete question to something useful.'}</p></div><span class="portfolio-count">{String(projects.length).padStart(2, '0')} <small>{zh ? '个项目与专题' : 'projects & features'}</small></span></header>
+    <section class="portfolio-grid" aria-label={zh ? '项目集合' : 'Project collection'}>
+      {projects.map((project, index) => { const text = projectText(project, lang); const external = project.href.startsWith('http'); return (
+        <a class="portfolio-card" href={project.href} target={external ? '_blank' : undefined} rel={external ? 'noopener noreferrer' : undefined}>
+          <div class="portfolio-cover"><img src={project.cover} alt="" width="720" height="480" loading={index < 3 ? 'eager' : 'lazy'} decoding="async" /><span class="portfolio-number">{String(index + 1).padStart(2, '0')}</span><span class="portfolio-kind">{zh ? project.kind : kinds[project.kind]}</span></div>
+          <div class="portfolio-copy"><h2>{text.title}</h2><p>{text.description}</p><div class="portfolio-card-foot">{project.date ? <time datetime={project.date}>{project.date}</time> : <span>{zh ? '公开项目' : 'PUBLIC PROJECT'}</span>}<b>{external ? (zh ? '访问项目' : 'Visit project') : (zh ? '查看详情' : 'Explore')} <span aria-hidden="true">{external ? '↗' : '→'}</span></b></div></div>
+        </a>
+      ); })}
+    </section>
+  </div>
+</BaseLayout>

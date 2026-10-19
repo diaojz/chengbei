@@ -4,6 +4,7 @@ import { marked } from 'marked';
 import { createHeadingCollector } from './reading.mjs';
 import postsIndex from '../../content/posts/index.json';
 import seriesIndex from '../../content/series.json';
+import visuals from '../../content/visuals.json';
 
 export type Lang = 'zh' | 'en';
 export type Post = (typeof postsIndex)[number];
@@ -25,6 +26,10 @@ export function formatDate(ts: number, lang: Lang) {
   return new Intl.DateTimeFormat(lang === 'zh' ? 'zh-CN' : 'en-GB', {
     timeZone: 'Asia/Shanghai', year: 'numeric', month: 'short', day: 'numeric'
   }).format(new Date(ts));
+}
+
+export function postCover(post: Post) {
+  return (visuals.articles as Record<string, { src: string }>)[post.slug]?.src;
 }
 
 export function postTags(post: Post, lang: Lang) {
@@ -62,7 +67,14 @@ export async function readPost(post: Post, lang: Lang) {
     const id = collector.add(depth, text);
     return `<h${depth} id="${id}">${label}</h${depth}>\n`;
   };
-  const html = await marked.parse(markdown, { gfm: true, breaks: false, renderer });
+  let html = await marked.parse(markdown, { gfm: true, breaks: false, renderer });
+  html = html.replace(/src="assets\//g, 'src="/assets/');
+  for (const visual of Object.values(visuals.articles)) {
+    if ('original' in visual && visual.original) {
+      html = html.replaceAll(`src="${visual.original}"`, `src="${visual.src}"`)
+        .replaceAll(`src="${visual.original.slice(1)}"`, `src="${visual.src}"`);
+    }
+  }
   return {
     markdown,
     headings: collector.headings,

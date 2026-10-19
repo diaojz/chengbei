@@ -1,0 +1,8 @@
+---
+import { postCover, type Post, type Lang } from '../lib/content';
+interface Props { item: any; items: Post[]; lang?: Lang; }
+const { item, items, lang = 'zh' } = Astro.props;
+const zh = lang === 'zh';
+const prefix = zh ? '' : '/en';
+---
+<section class="shell learning-overview"><div><span class="studio-eyebrow">LEARNING PATH · {items.length} {zh ? '篇教程' : 'GUIDES'}</span><h1>{zh ? item.title_zh : item.title_en}</h1><p>{zh ? item.desc_zh : item.desc_en}</p><div class="learning-actions"><a href={`${prefix}/articles/${items[0].slug}/`}>{zh ? '从第一篇开始' : 'Start with part one'} →</a><span>{zh ? '选型 → 应用 → 知识库 → Agent → 部署' : 'Explore → Build → RAG → Agents → Deploy'}</span></div></div><figure><img src={postCover(items[0])} alt="" width="720" height="480" fetchpriority="high" /></figure></section>

@@ -77,6 +77,14 @@
 
 已发布双语正文、每种语言 3 张图表及 JSON/CSV 复算资料。房价由作者提供，贷款利息为固定利率情景估算；报价截至 2026-09-27，不能写成实际成交或实际银行账单。构建和线上资源已验证，桌面/手机浏览器可视验收仍待补充，具体证据与限制见维护记录。
 
+## 项目卡片封面（2026-10-19）
+
+项目页中英文共用 `src/components/ProjectsPage.astro`，16 个项目均有封面，首页代表作品共用 `src/data/projects.ts` 的必填 `cover` 字段。新增或调整项目时，封面随项目数据维护，不按列表序号绑定。
+
+本次新增 8 张原生生成插画，压缩复用 4 张原有项目封面，并使用 4 张关于页插画；素材和提示词见 [封面说明](assets/img/project-covers/README.md)。封面均为静态 WebP，完整集合预算 900 KiB，首屏之后懒加载。项目页采用紧凑标题和响应式图文网格，保留原项目地址与日期。
+
+回滚基线标签：`backup/pre-project-covers-20261019`（指向 `cf3cc37`）。需要回滚时，对本次封面改造提交执行 `git revert` 后正常推送部署，避免影响后续文章。
+
 ## 侧边导航与关于页（2026-10-19）
 
 [关于页](https://chengbei.org/about/) 改为独立图文首屏、三张插画卡片和简短阅读入口；中英文共用 `src/components/AboutPage.astro`。产品页桌面采用左侧导航，小屏恢复顶部导航。**首次默认浅色**，保留用户主动切换后的主题选择。
@@ -212,3 +220,9 @@ python3 -c "import json; json.load(open('content/data.json'))"
 python3 -c "import json; json.load(open('content/posts/index.json'))"
 node tech-notes/tests/validate-course.mjs
 ```
+
+## 全站配图维护
+
+文章封面统一由 `content/visuals.json` 管理；项目封面由 `src/data/projects.ts` 管理。首页三个入口、文章列表、系列目录和中英文页面复用相同资源。正文已有封面的文章不再重复插入主题图；步骤截图与图表保留原图。八个旧独立页使用 `assets/site-context-covers.css`。
+
+新增配图优先使用静态 WebP，声明尺寸并延迟加载；避免循环动画、视频背景和持续绘制。概念插画不作为产品截图或操作证据。详情见 `docs/site-visual-audit-20261019.md`。

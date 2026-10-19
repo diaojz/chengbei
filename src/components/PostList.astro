@@ -1,20 +1,18 @@
 ---
-import { formatDate, postExcerpt, postTags, postTitle, type Lang, type Post } from '../lib/content';
-
-interface Props { items: Post[]; lang?: Lang; compact?: boolean; }
-const { items, lang = 'zh', compact = false } = Astro.props;
+import { formatDate, postExcerpt, postTags, postTitle, postCover, type Lang, type Post } from '../lib/content';
+interface Props { items: Post[]; lang?: Lang; compact?: boolean; series?: boolean; }
+const { items, lang = 'zh', compact = false, series = false } = Astro.props;
 const prefix = lang === 'en' ? '/en' : '';
 ---
-
-<div class:list={['post-list', { compact }]}>
-  {items.map((post) => (
-    <article class="post-row" data-tags={postTags(post, lang).join(',')}>
-      <div class="post-row-meta">
-        <time datetime={new Date(post.ts).toISOString()}>{formatDate(post.ts, lang)}</time>
-        <span>{postTags(post, lang).join(' · ')}</span>
+<div class:list={['post-list', { compact, 'illustrated-series': series }]}>
+  {items.map((post, index) => (
+    <article class:list={['post-row', { 'post-row-illustrated': Boolean(postCover(post)) }]} data-tags={postTags(post, lang).join(',')}>
+      {postCover(post) && <a class="post-thumbnail" href={`${prefix}/articles/${post.slug}/`} tabindex="-1" aria-hidden="true"><img src={postCover(post)} alt="" width="720" height="480" loading="lazy" decoding="async" /></a>}
+      <div class="post-row-content">
+        <div class="post-row-meta">{series && <span class="chapter-index">{lang === 'zh' ? `第 ${String(index + 1).padStart(2, '0')} 篇` : `PART ${String(index + 1).padStart(2, '0')}`}</span>}<time datetime={new Date(post.ts).toISOString()}>{formatDate(post.ts, lang)}</time><span>{postTags(post, lang).join(' · ')}</span></div>
+        <h2><a href={`${prefix}/articles/${post.slug}/`}>{postTitle(post, lang)}</a></h2>
+        {!compact && <p>{postExcerpt(post, lang)}</p>}
       </div>
-      <h2><a href={`${prefix}/articles/${post.slug}/`}>{postTitle(post, lang)}</a></h2>
-      {!compact && <p>{postExcerpt(post, lang)}</p>}
     </article>
   ))}
 </div>
