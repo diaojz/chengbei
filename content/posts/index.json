@@ -1,5 +1,14 @@
 [
   {
+    "slug": "npm-npx-node-explained",
+    "ts": 1792339200000,
+    "category": "help",
+    "title_zh": "npm、npx、Node.js 到底是什么？把终端里那些相似命令一次讲清",
+    "title_en": "npm, npx, and Node.js: Making Sense of Similar Terminal Commands",
+    "excerpt_zh": "从 npm install、npm run 和 npx 的区别出发，讲清 Node.js、包与命令、本地与全局安装、package.json、lock 文件、npm ci，以及把一个项目跑起来的完整顺序。",
+    "excerpt_en": "Understand Node.js, npm install, npm run, npx, local and global tools, manifests, lockfiles, and npm ci through a practical project workflow."
+  },
+  {
     "slug": "buying-vs-renting-fangshan",
     "ts": 1791540000000,
     "category": "thought",

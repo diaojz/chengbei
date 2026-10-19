@@ -30,6 +30,7 @@ window.I18N = {
     archive_posts: '随笔与答疑',
     read_more: '阅读全文 →',
     help: [
+      { label: 'npm、npx、Node.js · 终端命令入门', href: '#/p/npm-npx-node-explained' },
       { label: 'HTTP 状态码速查 · 一眼判断问题方向', href: '#/p/http-status-codes-quick-reference' },
       { label: 'Codex CLI 滚轮失灵 · 恢复完整对话滚动', href: '#/p/codex-terminal-scrollback' },
       { label: 'Codex 权限配置 · config.toml 完整教程', href: '#/p/codex-permissions-guide' },
@@ -115,6 +116,7 @@ window.I18N = {
     archive_posts: 'Writing & Help',
     read_more: 'Read more →',
     help: [
+      { label: 'npm, npx, and Node.js · terminal basics', href: '#/p/npm-npx-node-explained' },
       { label: 'HTTP status codes · quick troubleshooting reference', href: '#/p/http-status-codes-quick-reference' },
       { label: 'Codex CLI scrolling · restore full conversation history', href: '#/p/codex-terminal-scrollback' },
       { label: 'Codex permissions · complete config guide', href: '#/p/codex-permissions-guide' },

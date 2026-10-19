@@ -77,6 +77,13 @@
 
 已发布双语正文、每种语言 3 张图表及 JSON/CSV 复算资料。房价由作者提供，贷款利息为固定利率情景估算；报价截至 2026-09-27，不能写成实际成交或实际银行账单。构建和线上资源已验证，桌面/手机浏览器可视验收仍待补充，具体证据与限制见维护记录。
 
+## npm / npx / Node.js 科普文章（2026-10-19）
+
+- [中文文章](https://chengbei.org/articles/npm-npx-node-explained/) · [English](https://chengbei.org/en/articles/npm-npx-node-explained/)。归类 Help，沿用现有 Markdown 文章模板，经典版 Help 入口中英文同步。
+- 正文：`content/posts/npm-npx-node-explained.{zh,en}.md`；索引：`content/posts/index.json`；旧版入口：`js/i18n.js`；新增正文后同步更新 `content-integrity.json`。
+- 基于 Node.js 官方资料及 npm CLI v11 文档，解释运行时、包与命令、依赖安装、项目脚本、npx 缓存执行、全局安装、lock 文件和 `npm ci`；示例命令用于说明，不代表已在读者设备执行。
+- 维护重点：不要把 npx 写成“完全不安装”，不要假定包名等于命令名，也不要把本地预览等同生产发布。版本、下载确认行为及参数说明需以对应工具的当前文档为准。
+
 ## Codex 重连指南维护记录（2026-10-19）
 
 - 页面：[`codex-reconnect/index.html`](codex-reconnect/index.html)；线上地址：[Codex 重连问题修复指南](https://chengbei.org/codex-reconnect/)。这是独立 HTML 页，不需要新增 Markdown 文章或修改文章完整性清单。
