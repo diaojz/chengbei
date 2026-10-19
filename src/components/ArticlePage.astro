@@ -1,39 +1,67 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { formatDate, postExcerpt, postTags, postTitle, readPost, series, type Lang, type Post } from '../lib/content';
-
+import { formatDate, postExcerpt, postTags, postTitle, readPost, posts, series, type Lang, type Post } from '../lib/content';
+import { seriesNeighbours } from '../lib/reading.mjs';
 interface Props { post: Post; lang: Lang; }
 const { post, lang } = Astro.props;
 const content = await readPost(post, lang);
 const prefix = lang === 'en' ? '/en' : '';
+const zh = lang === 'zh';
 const title = postTitle(post, lang);
 const relatedSeries = series.find((item) => item.id === post.series);
+const chapters = relatedSeries?.slugs.map((slug) => posts.find((item) => item.slug === slug)).filter((item): item is Post => Boolean(item)) || [];
+const neighbours = seriesNeighbours(chapters.map((item) => item.slug), post.slug);
+const previous = posts.find((item) => item.slug === neighbours.previous);
+const next = posts.find((item) => item.slug === neighbours.next);
 ---
-
 <BaseLayout title={`${title} · 城北`} description={postExcerpt(post, lang)} lang={lang}>
   <div class="reading-progress" aria-hidden="true"><i></i></div>
-  <article class:list={["article-shell", post.slug === 'ai-coding-agent-landscape-2026' && 'ai-coding-agent-landscape', post.slug === 'buying-vs-renting-fangshan' && 'housing-essay']} data-pagefind-meta={`type:${lang === 'zh' ? '文章' : 'Article'}`}>
-    <a class="back-link" href={`${prefix}/articles/`}>← {lang === 'zh' ? '全部文章' : 'All articles'}</a>
-    <header class="article-header">
-      <span class="article-kicker">FIELD NOTE</span>
-      <div class="tag-row">{postTags(post, lang).map((tag) => <span>{tag}</span>)}</div>
-      <h1 data-pagefind-meta="title">{title}</h1>
-      <div class="article-meta">
-        <time data-pagefind-meta="date" datetime={new Date(post.ts).toISOString()}>{formatDate(post.ts, lang)}</time>
-        {content.actualLang !== lang && <span>中文原文</span>}
-      </div>
-      {relatedSeries && <a class="series-link" href={`${prefix}/series/${relatedSeries.id}/`}>{lang === 'zh' ? relatedSeries.title_zh : relatedSeries.title_en} · {post.series_order}/{relatedSeries.slugs.length}</a>}
-    </header>
-    <div class="article-body" set:html={content.html} />
-  </article>
+  <div class="reader-layout">
+    <article class:list={["article-shell", post.slug === 'ai-coding-agent-landscape-2026' && 'ai-coding-agent-landscape']} data-pagefind-meta={`type:${zh ? '文章' : 'Article'}`}>
+      <a class="back-link" href={`${prefix}/articles/`}>← {zh ? '全部文章' : 'All articles'}</a>
+      <header class="article-header">
+        <span class="article-kicker">FIELD NOTE</span>
+        <div class="tag-row">{postTags(post, lang).map((tag) => <a href={`${prefix}/articles/?topic=${encodeURIComponent(tag)}`}>{tag}</a>)}</div>
+        <h1 data-pagefind-meta="title">{title}</h1>
+        <div class="article-meta"><time data-pagefind-meta="date" datetime={new Date(post.ts).toISOString()}>{formatDate(post.ts, lang)}</time><span>{zh ? `约 ${content.readingMinutes} 分钟阅读` : `About ${content.readingMinutes} min read`}</span>{content.actualLang !== lang && <span>中文原文</span>}</div>
+        {relatedSeries && <a class="series-link" href={`${prefix}/series/${relatedSeries.id}/`}>{zh ? relatedSeries.title_zh : relatedSeries.title_en} · {post.series_order}/{relatedSeries.slugs.length}</a>}
+      </header>
+      {content.headings.length > 0 && <details class="mobile-toc" data-pagefind-ignore><summary>{zh ? '本文目录' : 'On this page'}<span>{content.headings.length}</span></summary><nav aria-label={zh ? '本文目录' : 'On this page'}>{content.headings.map((heading) => <a href={`#${heading.id}`} class:list={{ 'toc-sub': heading.depth === 3 }}>{heading.text}</a>)}</nav></details>}
+      <div class="article-body" data-reading-body set:html={content.html} />
+      {(previous || next) && <nav class="chapter-pagination" aria-label={zh ? '系列文章导航' : 'Series navigation'} data-pagefind-ignore>
+        {previous ? <a href={`${prefix}/articles/${previous.slug}/`} rel="prev"><span>← {zh ? '上一篇' : 'Previous'}</span><b>{postTitle(previous, lang)}</b></a> : <div />}
+        {next && <a href={`${prefix}/articles/${next.slug}/`} rel="next"><span>{zh ? '下一篇' : 'Next'} →</span><b>{postTitle(next, lang)}</b></a>}
+      </nav>}
+      <div class="reader-end" data-pagefind-ignore><p>{zh ? '读完了，接着逛逛？' : 'Where to next?'}</p><a href={`${prefix}/articles/`}>{zh ? '返回全部文章' : 'Back to all articles'} →</a><a href="#content">↑ {zh ? '回到顶部' : 'Back to top'}</a></div>
+    </article>
+    <aside class="reader-aside" data-pagefind-ignore>
+      {content.headings.length > 0 && <nav class="desktop-toc" aria-label={zh ? '本文目录' : 'On this page'}><span class="section-kicker">{zh ? '本文目录' : 'ON THIS PAGE'}</span>{content.headings.map((heading) => <a href={`#${heading.id}`} data-toc-link={heading.id} class:list={{ 'toc-sub': heading.depth === 3 }}>{heading.text}</a>)}</nav>}
+      {relatedSeries && <details class="reader-series" open><summary>{zh ? relatedSeries.title_zh : relatedSeries.title_en}</summary><ol>{chapters.map((chapter, index) => <li><a href={`${prefix}/articles/${chapter.slug}/`} aria-current={chapter.slug === post.slug ? 'page' : undefined}><span>{String(index + 1).padStart(2, '0')}</span>{postTitle(chapter, lang)}</a></li>)}</ol></details>}
+    </aside>
+  </div>
   <script>
+    import { readingProgress } from '../lib/reading.mjs';
     const progress = document.querySelector<HTMLElement>('.reading-progress i');
-    const updateProgress = () => {
-      if (!progress) return;
-      const total = document.documentElement.scrollHeight - innerHeight;
-      progress.style.transform = `scaleX(${total > 0 ? Math.min(scrollY / total, 1) : 0})`;
+    const body = document.querySelector<HTMLElement>('[data-reading-body]');
+    const links = [...document.querySelectorAll<HTMLAnchorElement>('[data-toc-link]')];
+    const headings = links.map((link) => document.getElementById(link.dataset.tocLink || '')).filter((heading): heading is HTMLElement => Boolean(heading));
+    let scheduled = false;
+    const update = () => {
+      scheduled = false;
+      if (!body) return;
+      const rect = body.getBoundingClientRect();
+      const start = scrollY + rect.top - 150;
+      const end = scrollY + rect.bottom - innerHeight;
+      if (progress) progress.style.transform = `scaleX(${readingProgress(start, end, scrollY)})`;
+      let active = headings[0]?.id;
+      for (const heading of headings) { if (heading.getBoundingClientRect().top <= 180) active = heading.id; }
+      links.forEach((link) => { if (link.dataset.tocLink === active) link.setAttribute('aria-current', 'location'); else link.removeAttribute('aria-current'); });
     };
-    addEventListener('scroll', updateProgress, { passive: true });
-    updateProgress();
+    const requestUpdate = () => { if (!scheduled) { scheduled = true; requestAnimationFrame(update); } };
+    addEventListener('scroll', requestUpdate, { passive: true });
+    addEventListener('resize', requestUpdate);
+    addEventListener('load', requestUpdate);
+    update();
+    document.querySelectorAll('.mobile-toc a').forEach((link) => link.addEventListener('click', () => { const details = link.closest('details'); if (details) details.open = false; }));
   </script>
 </BaseLayout>

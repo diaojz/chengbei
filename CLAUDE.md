@@ -4,14 +4,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 仓库定位
 
-城北个人站（[chengbei.org](https://chengbei.org)），独立 git 仓 `github.com/diaojz/chengbei`（**公开**）。纯 HTML / CSS / JS，**无构建工具、无依赖安装**，push 到 `main` 即由 GitHub Actions 自动部署到 GitHub Pages。
+城北个人站（[chengbei.org](https://chengbei.org)），独立 git 仓 `github.com/diaojz/chengbei`（**公开**）。当前默认站点为 **Astro + TypeScript + Markdown + Pagefind** 静态构建；经典版及独立旧页保留 HTML / CSS / JS。push 到 `main` 后由 GitHub Actions 安装依赖、测试、构建并部署 GitHub Pages。
 
 站点身份是**独立开发者**——全站（含文章正文、课件页）**禁止出现「讲师 / Instructor」字眼**，需要表达教课角色时用「讲课的人」「我」等中性/第一人称表述（2026-06-12 用户定规，已全站清理过一轮）。
 
 ## 常用命令
 
 ```bash
-# 本地预览（无构建，起静态服务即可）
+# 当前站点：npm ci 安装依赖；npm run dev 本地开发
+# 完整检查与构建：npm run check && npm run build
+# 仅预览旧版静态资源时，可用：
 python3 -m http.server 5173
 open "http://localhost:5173/"        # 一律用系统默认浏览器
 
@@ -26,7 +28,15 @@ gh run watch --repo diaojz/chengbei
 # 部署后线上验证注意 CDN 缓存（js 缓存约 10 分钟），用 ?v=时间戳 绕过
 ```
 
-## 架构速览
+## 当前产品版入口（2026-10-19）
+
+- 首页 `src/components/HomePage.astro`、文章库 `ArticleLibrary.astro` 和阅读页 `ArticlePage.astro` 为中英文共用组件；页面路由在 `src/pages/`。
+- 公共导航与主题逻辑在 `src/layouts/BaseLayout.astro`；本次内容发现样式在 `src/styles/discovery.css`，其加载顺序晚于旧样式。
+- 文章库主题链接使用真实 `?topic=` 条件；`q` 仅筛选列表标题、摘要与标签，全文搜索仍走 Pagefind。新增筛选需保持 URL 分享、前后退、重置和空状态可用。
+- 目录由 `src/lib/content.ts` 在构建时生成，渲染使用每篇独立 heading collector。不得给重复标题生成相同锚点，也不得更改源文章或首次发布日期来实现界面改版。
+- 修改后执行 `npm run check`、`npm run build`；保留经典版切换和独立旧页。备份与回滚见 `docs/site-refresh-20261019.md`。
+
+## 架构速览（以下为经典版）
 
 三栏 grid 布局（`styles.css` 的 `.page`），每栏 `100vh` 独立滚动，**没有页级 footer**——「站点最底部」类需求放第一栏（`.col-1`，overflow hidden 固定不滚）底部，如现有的访问统计条。
 

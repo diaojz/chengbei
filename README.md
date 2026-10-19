@@ -2,7 +2,7 @@
 
 [chengbei.org](https://chengbei.org)
 
-独立开发者的个人站，把 AI 开发带给零基础学员。三栏布局：第一栏身份 + Ships + Help 学员答疑 + Writing + Social，第二栏随笔文章流（摘要卡，点开进详情页），第三栏图片画廊。
+独立开发者的个人站，记录 AI 开发、工具使用和产品实践。默认采用 Astro 静态站：按目的进入的首页、可筛选的文章库、带目录的阅读页、项目与岗位集锦。原三栏站点保留在 `/classic/`，可通过导航切换。
 
 **第 1 栏的 Ships 区充当所有上线项目的统一入口**，下面列出当前所有已上线项目。
 
@@ -77,6 +77,17 @@
 
 已发布双语正文、每种语言 3 张图表及 JSON/CSV 复算资料。房价由作者提供，贷款利息为固定利率情景估算；报价截至 2026-09-27，不能写成实际成交或实际银行账单。构建和线上资源已验证，桌面/手机浏览器可视验收仍待补充，具体证据与限制见维护记录。
 
+## 内容发现与阅读体验改版（2026-10-19）
+
+参考 useHook 的公开导航、学习路径结构及中性配色，优化首页入口、文章发现和长文阅读。实施范围、证据边界和回滚流程见 [改版维护记录](docs/site-refresh-20261019.md)。
+
+- `src/components/HomePage.astro`：中英文共用首页，工具入门、系列学习和岗位准备入口；项目图片按实际项目绑定。
+- `src/components/ArticleLibrary.astro`：主题和标题/摘要筛选，数量、空状态、重置，以及可分享的 `topic` / `q` URL；浏览器前后退恢复条件。
+- `src/components/ArticlePage.astro`：桌面目录、手机折叠目录、预计阅读时间、系列前后篇和返回入口；`src/lib/content.ts` 在构建时生成目录。
+- `src/styles/discovery.css`：本次视觉和响应式调整；`tests/discovery-reading.test.mjs` 覆盖筛选、锚点、系列边界与阅读进度。
+- 改版前线上提交 `73e006b`；远程备份标签 `backup/pre-usehook-refresh-20261019`。本机另存仓库 bundle、未提交差异和改版前静态产物。
+- 回滚使用 `git revert <本次改版提交>` 产生新提交后正常推送部署，不强推、不覆盖后续文章。文章正文、首次发布日期及经典版原地址保留。
+
 ## npm / npx / Node.js 科普文章（2026-10-19）
 
 - [中文文章](https://chengbei.org/articles/npm-npx-node-explained/) · [English](https://chengbei.org/en/articles/npm-npx-node-explained/)。归类 Help，沿用现有 Markdown 文章模板，经典版 Help 入口中英文同步。
@@ -118,7 +129,7 @@
 
 ## 技术栈
 
-纯 HTML / CSS / JS，**无构建工具**。修改后直接 commit push → GitHub Actions 自动部署到 GitHub Pages。
+当前站点使用 **Astro + TypeScript + Markdown + Pagefind** 构建静态页面；经典版与独立旧页继续保留 HTML / CSS / JS。运行 `npm ci` 安装锁定依赖，`npm run check` 检查，`npm run build` 产出 `dist/`；push main 后由 GitHub Actions 测试、构建并部署 GitHub Pages。
 
 - 主题切换：D（白昼）/ N（夜晚）/ S（晚夏 + 飘叶森林音）/ M（深夜 + 月色虫鸣）/ R（雨天 + 雨声）/ C（混沌坍塌）/ Q（安静模式 · 一键关全部动效，省电防发烫）
   - 快捷键用 `e.code` 物理键位，中文输入法下也能用

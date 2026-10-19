@@ -1,6 +1,7 @@
 import { access, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { marked } from 'marked';
+import { createHeadingCollector } from './reading.mjs';
 import postsIndex from '../../content/posts/index.json';
 import seriesIndex from '../../content/series.json';
 
@@ -53,10 +54,19 @@ export async function readPost(post: Post, lang: Lang) {
   const fallback = path.join(process.cwd(), 'content', 'posts', `${post.slug}.zh.md`);
   const file = await exists(preferred) ? preferred : fallback;
   const markdown = await readFile(file, 'utf8');
-  marked.setOptions({ gfm: true, breaks: false });
-  const html = await marked.parse(markdown);
+  const collector = createHeadingCollector();
+  const renderer = new marked.Renderer();
+  renderer.heading = function ({ tokens, depth }) {
+    const label = this.parser.parseInline(tokens);
+    const text = label.replace(/<[^>]*>/g, '').replace(/&(?:amp|lt|gt|quot|#39);/g, (entity) => ({ '&amp;': '&', '&lt;': '<', '&gt;': '>', '&quot;': '"', '&#39;': "'" })[entity] || entity);
+    const id = collector.add(depth, text);
+    return `<h${depth} id="${id}">${label}</h${depth}>\n`;
+  };
+  const html = await marked.parse(markdown, { gfm: true, breaks: false, renderer });
   return {
     markdown,
+    headings: collector.headings,
+    readingMinutes: Math.max(1, Math.ceil((markdown.match(/[\u3400-\u9fff]/g) || []).length / 350 + (markdown.match(/[A-Za-z0-9]+/g) || []).length / 220)),
     html: html
       .replaceAll('href="/#/p/', 'href="/articles/')
       .replaceAll('href="#/p/', 'href="/articles/')

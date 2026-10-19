@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PostList from '../../../components/PostList.astro';
+import VisualHeading from '../../../components/VisualHeading.astro';
+import { posts, series } from '../../../lib/content';
+export function getStaticPaths() { return series.map((item) => ({ params: { id: item.id }, props: { item } })); }
+const { item } = Astro.props;
+const items = item.slugs
+  .map((slug: string) => posts.find((post) => post.slug === slug))
+  .filter((post): post is (typeof posts)[number] => Boolean(post));
+---
+<BaseLayout title={`${item.title_en} · Chengbei`} description={item.desc_en} lang="en">
+  <VisualHeading eyebrow={`SERIES · ${items.length}`} title={item.title_en} description={item.desc_en} variant="dify" mark="01 → 10 · FROM ZERO TO PRODUCTION" />
+  <section class="shell series-index"><PostList items={items} lang="en" /></section>
+</BaseLayout>

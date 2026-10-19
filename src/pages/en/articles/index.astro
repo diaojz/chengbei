@@ -1,10 +1,9 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import PostList from '../../../components/PostList.astro';
-import VisualHeading from '../../../components/VisualHeading.astro';
+import ArticleLibrary from '../../../components/ArticleLibrary.astro';
 import { posts } from '../../../lib/content';
 ---
 <BaseLayout title="Articles · Chengbei" description="Essays, practical guides and learning series by Chengbei." lang="en">
-  <VisualHeading eyebrow={`WRITING · ${posts.length}`} title="Articles" description="Essays, guides and learning series, in one place." />
-  <section class="shell article-index"><PostList items={posts} lang="en" /></section>
+  <section class="shell library-heading"><span class="section-kicker">THE NOTEBOOK · {posts.length}</span><h1>Clearer questions.<br />Useful answers.</h1><p>Notes on AI development, everyday tools, and building products. Browse a topic or find an answer.</p></section>
+  <ArticleLibrary lang="en" />
 </BaseLayout>

@@ -1,0 +1,67 @@
+---
+import PostList from './PostList.astro';
+import { posts, postTags, type Lang } from '../lib/content';
+interface Props { lang?: Lang; }
+const { lang = 'zh' } = Astro.props;
+const tags = [...new Set(posts.flatMap((post) => postTags(post, lang)))];
+const zh = lang === 'zh';
+---
+<section class="shell article-library" data-article-library data-language={lang}>
+  <div class="library-tools">
+    <form class="library-search" data-library-form role="search">
+      <label for="library-query">{zh ? '筛选标题与摘要' : 'Filter titles and summaries'}</label>
+      <div><span aria-hidden="true">⌕</span><input id="library-query" name="q" type="search" placeholder={zh ? '输入关键词，如 npm、部署、Agent' : 'Try npm, deployment, Agent'} data-library-query autocomplete="off" /></div>
+    </form>
+    <button class="library-full-search" type="button" data-search-open>{zh ? '查找正文里的内容' : 'Search inside articles'} <span aria-hidden="true">↗</span></button>
+  </div>
+  <div class="library-columns">
+    <nav class="library-topics" aria-label={zh ? '按主题浏览' : 'Browse by topic'}>
+      <span class="section-kicker">{zh ? '按主题浏览' : 'BROWSE BY TOPIC'}</span>
+      <button type="button" data-library-topic="" aria-pressed="true"><span>{zh ? '全部文章' : 'All articles'}</span><small>{posts.length}</small></button>
+      {tags.map((tag) => <button type="button" data-library-topic={tag} aria-pressed="false"><span>{tag}</span><small>{posts.filter((post) => postTags(post, lang).includes(tag)).length}</small></button>)}
+    </nav>
+    <div class="library-results">
+      <div class="library-summary"><p data-library-count aria-live="polite">{zh ? `共 ${posts.length} 篇文章` : `${posts.length} articles`}</p><button type="button" data-library-reset hidden>{zh ? '清除筛选' : 'Clear filters'}</button></div>
+      <PostList items={posts} lang={lang} />
+      <div class="library-empty" data-library-empty hidden><span aria-hidden="true">⌕</span><h2>{zh ? '换个关键词试试' : 'Try another keyword'}</h2><p>{zh ? '没有符合当前条件的文章，也可以清除主题或搜索正文。' : 'No articles match these filters. Clear the topic or search article contents.'}</p><button type="button" data-library-reset>{zh ? '查看全部文章' : 'Show all articles'}</button></div>
+      <noscript><p>{zh ? '全部文章已列出，也可以使用浏览器的页内查找。' : 'All articles are listed. You can also use your browser’s Find command.'}</p></noscript>
+    </div>
+  </div>
+</section>
+<script>
+  import { readArticleFilters, articleMatches, articleFilterURL } from '../lib/article-discovery.mjs';
+  const root = document.querySelector<HTMLElement>('[data-article-library]');
+  if (root) {
+    const input = root.querySelector<HTMLInputElement>('[data-library-query]')!;
+    const buttons = [...root.querySelectorAll<HTMLButtonElement>('[data-library-topic]')];
+    const topics = buttons.map((button) => button.dataset.libraryTopic || '');
+    const rows = [...root.querySelectorAll<HTMLElement>('.post-row')];
+    const reset = [...root.querySelectorAll<HTMLButtonElement>('[data-library-reset]')];
+    const count = root.querySelector<HTMLElement>('[data-library-count]')!;
+    const empty = root.querySelector<HTMLElement>('[data-library-empty]')!;
+    let state = readArticleFilters(location.href, topics);
+    const render = () => {
+      input.value = state.query;
+      let visible = 0;
+      rows.forEach((row) => {
+        row.hidden = !articleMatches({ text: row.textContent || '', topics: (row.dataset.tags || '').split(',') }, state);
+        if (!row.hidden) visible++;
+      });
+      buttons.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.libraryTopic === state.topic)));
+      count.textContent = root.dataset.language === 'zh' ? `共 ${visible} 篇文章` : `${visible} articles`;
+      empty.hidden = visible !== 0;
+      reset[0].hidden = !state.topic && !state.query;
+    };
+    const syncURL = (push = false) => {
+      const url = articleFilterURL(location.href, state);
+      if (url !== location.pathname + location.search + location.hash) history[push ? 'pushState' : 'replaceState']({}, '', url);
+      render();
+    };
+    buttons.forEach((button) => button.addEventListener('click', () => { state.topic = button.dataset.libraryTopic || ''; syncURL(true); }));
+    input.addEventListener('input', () => { state.query = input.value; syncURL(); });
+    root.querySelector('[data-library-form]')?.addEventListener('submit', (event) => { event.preventDefault(); state.query = input.value; syncURL(); });
+    reset.forEach((button) => button.addEventListener('click', () => { state = { topic: '', query: '' }; syncURL(true); input.focus(); }));
+    addEventListener('popstate', () => { state = readArticleFilters(location.href, topics); render(); });
+    render();
+  }
+</script>
