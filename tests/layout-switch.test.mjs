@@ -2,10 +2,11 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
-test('产品版提供可持久化的经典布局入口', async () => {
+test('首页默认新版并保留手动经典布局入口', async () => {
   const layout = await readFile('src/layouts/BaseLayout.astro', 'utf8');
   assert.match(layout, /data-layout-switch/);
-  assert.match(layout, /chengbei-layout/);
+  assert.doesNotMatch(layout, /savedLayout|localStorage.getItem\(['"]chengbei-layout/);
+  assert.doesNotMatch(layout, /location.replace\(['"]\/classic\//);
   assert.match(layout, /\/classic\//);
 });
 

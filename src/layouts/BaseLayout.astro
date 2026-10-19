@@ -39,7 +39,7 @@ const navigation = [
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="site-version" content="site-search-20261019" />
+    <meta name="site-version" content="site-default-modern-20261019" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
@@ -96,16 +96,6 @@ const navigation = [
     <Search />
     <script is:inline>
       (() => {
-        const layoutKey = 'chengbei-layout';
-        let savedLayout;
-        try { savedLayout = localStorage.getItem(layoutKey); } catch {}
-        if (location.pathname === '/' && savedLayout === 'classic') {
-          location.replace('/classic/');
-          return;
-        }
-        document.querySelector('[data-layout-switch]')?.addEventListener('click', () => {
-          try { localStorage.setItem(layoutKey, 'classic'); } catch {}
-        });
         const oldPost = /^#\/p\/([\w-]+)$/.exec(location.hash);
         if (oldPost) location.replace(`/articles/${oldPost[1]}/`);
         document.querySelector('[data-theme-toggle]')?.addEventListener('click', () => {

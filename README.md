@@ -226,3 +226,7 @@ node tech-notes/tests/validate-course.mjs
 文章封面统一由 `content/visuals.json` 管理；项目封面由 `src/data/projects.ts` 管理。首页三个入口、文章列表、系列目录和中英文页面复用相同资源。正文已有封面的文章不再重复插入主题图；步骤截图与图表保留原图。八个旧独立页使用 `assets/site-context-covers.css`。
 
 新增配图优先使用静态 WebP，声明尺寸并延迟加载；避免循环动画、视频背景和持续绘制。概念插画不作为产品截图或操作证据。详情见 `docs/site-visual-audit-20261019.md`。
+
+## 默认布局
+
+根地址 `/` 始终使用新版布局，不根据历史 `chengbei-layout` 偏好自动跳转。需要时点击「经典布局」进入 `/classic/`，经典版的「新版布局」可返回首页。
