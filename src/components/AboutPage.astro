@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import type { Lang } from '../lib/content';
+interface Props { lang?: Lang; }
+const { lang = 'zh' } = Astro.props;
+const zh = lang === 'zh';
+const prefix = zh ? '' : '/en';
+const areas = [
+  { image: 'build', label: 'BUILD', title: zh ? 'AI 应用与工具' : 'AI applications & tools', description: zh ? '把模型、工作流和工具接进实际场景，做成能持续使用的应用。' : 'Connecting models, workflows, and tools to make useful, dependable applications.', href: `${prefix}/projects/`, link: zh ? '看看做过的项目' : 'Explore the projects' },
+  { image: 'learn', label: 'SHARE', title: zh ? '教程与实践笔记' : 'Guides & field notes', description: zh ? '记录选型、实现和排错过程，让第一次接触的人也能找到入口。' : 'Documenting choices, implementation, and troubleshooting, with a clear place to start.', href: `${prefix}/articles/`, link: zh ? '找一篇实用指南' : 'Find a practical guide' },
+  { image: 'explore', label: 'EXPLORE', title: zh ? '个人产品与实验' : 'Independent experiments', description: zh ? '从一个具体的小问题开始，尝试新工具，也公开值得复用的结果。' : 'Starting with small, concrete problems and sharing the experiments worth reusing.', href: 'https://github.com/diaojz', link: zh ? '到 GitHub 逛逛' : 'Visit my GitHub' }
+];
+const principles = zh ? [
+  ['01', '从问题出发', '先明确谁会用、解决什么，再选择工具。'],
+  ['02', '把过程讲清', '保留关键步骤、选择依据和排错方法。'],
+  ['03', '用结果验证', '关注实际运行和使用反馈，持续改进。']
+] : [
+  ['01', 'Start with the problem', 'Understand who it serves before choosing the tools.'],
+  ['02', 'Make the process clear', 'Share the steps, decisions, and troubleshooting.'],
+  ['03', 'Check the outcome', 'Learn from real operation and useful feedback.']
+];
+const reading = [
+  { title: zh ? '从零开始学 Dify' : 'Learning Dify From Zero', detail: zh ? '10 篇系列 · 从第一个应用到部署' : '10 guides · from first application to deployment', href: `${prefix}/series/dify/` },
+  { title: zh ? 'npm、npx 与 Node.js 入门' : 'npm, npx, and Node.js', detail: zh ? '工具入门 · 看懂终端里的常见命令' : 'Everyday tools · understand the terminal commands', href: `${prefix}/articles/npm-npx-node-explained/` },
+  { title: zh ? 'AI 岗位与面试准备' : 'AI roles & interview preparation', detail: zh ? '岗位集锦 · 从实际要求看能力方向' : 'Role guide · prepare around real requirements', href: '/ai-jobs/' }
+];
+---
+<BaseLayout title={zh ? '关于 · 城北' : 'About · Chengbei'} description={zh ? '城北，独立开发者。专注 AI 应用、实用工具和技术写作。' : 'Chengbei, an independent developer focused on AI applications, useful tools, and practical writing.'} lang={lang}>
+  <div class="studio-page">
+    <div class="studio-topline"><span>{zh ? '关于我' : 'About me'}</span><span>INDEPENDENT DEVELOPER</span></div>
+    <section class="studio-intro" aria-labelledby="studio-title">
+      <div class="studio-intro-copy">
+        <span class="studio-eyebrow"><i aria-hidden="true"></i>{zh ? '你好，我是城北' : 'HELLO, I’M CHENGBEI'}</span>
+        <h1 id="studio-title">{zh ? '做有用的产品，' : 'Useful products.'}<br /><span>{zh ? '分享实用的方法。' : 'Practical ideas.'}</span></h1>
+        <p>{zh ? '独立开发者，专注 AI 应用与工具。' : 'An independent developer building AI applications and tools.'}</p>
+        <p>{zh ? '在这里，记录做产品的实践，也分享技术学习中的经验。' : 'This is where I share the work, the decisions, and what I learn along the way.'}</p>
+        <div class="studio-tags"><span>AI Applications</span><span>Open Source</span><span>Writing</span></div>
+        <div class="studio-intro-links"><a class="studio-primary" href={`${prefix}/projects/`}>{zh ? '查看我的项目' : 'Explore my work'} <span aria-hidden="true">↗</span></a><a href="https://github.com/diaojz">GitHub <span aria-hidden="true">↗</span></a></div>
+      </div>
+      <figure class="studio-intro-visual"><img src="/assets/img/about-studio/workspace.webp" alt={zh ? '蓝色模块、笔记本电脑与橙色台灯组成的创作工作台插画' : 'An illustrated creative desk with blue modules, a laptop, and an orange lamp'} width="1200" height="800" fetchpriority="high" /><figcaption><span>THE MAKING OF THINGS</span><span aria-hidden="true">✳</span></figcaption></figure>
+    </section>
+
+    <section class="studio-work" aria-labelledby="studio-work-title">
+      <div class="studio-section-heading"><div><span class="studio-eyebrow">A FEW THINGS I DO</span><h2 id="studio-work-title">{zh ? '平时在做这些' : 'What I spend time on'}</h2></div><p>{zh ? '开发、写作，还有一些小实验。' : 'Building, writing, and trying things out.'}</p></div>
+      <div class="studio-card-grid">{areas.map((area) => <a class="studio-card" href={area.href}><div class="studio-card-art"><img src={`/assets/img/about-studio/${area.image}.webp`} alt="" width="720" height="480" loading="lazy" /><span>{area.label}</span></div><div class="studio-card-copy"><h3>{area.title}</h3><p>{area.description}</p><span class="studio-card-action">{area.link}<span aria-hidden="true">↗</span></span></div></a>)}</div>
+    </section>
+
+    <section class="studio-principles" aria-label={zh ? '做事的方法' : 'How I work'}>{principles.map(([number, title, detail]) => <div><span>{number}</span><h2>{title}</h2><p>{detail}</p></div>)}</section>
+
+    <section class="studio-reading" aria-labelledby="studio-reading-title"><div class="studio-reading-heading"><span class="studio-eyebrow">START READING</span><h2 id="studio-reading-title">{zh ? '初次来，读这几篇' : 'A few places to start'}</h2><p>{zh ? '从一个感兴趣的主题，认识这座站。' : 'Pick a topic and make yourself at home.'}</p><a href={`${prefix}/articles/`}>{zh ? '全部文章' : 'All writing'} →</a></div><div class="studio-reading-list">{reading.map((item, index) => <a href={item.href}><span>{String(index + 1).padStart(2, '0')}</span><div><h3>{item.title}</h3><p>{item.detail}</p></div><span aria-hidden="true">↗</span></a>)}</div></section>
+    <section class="studio-connect"><div><span class="studio-eyebrow">ELSEWHERE</span><h2>{zh ? '也可以在这些地方找到我' : 'You can also find me here'}</h2></div><div><a href="https://github.com/diaojz">GitHub <span aria-hidden="true">↗</span></a><a href="https://www.xiaohongshu.com/user/profile/5c15f5c50000000005012559">{zh ? '小红书' : 'RedNote'} <span aria-hidden="true">↗</span></a></div></section>
+  </div>
+</BaseLayout>

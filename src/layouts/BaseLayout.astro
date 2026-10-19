@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import '../styles/product.css';
 import '../styles/discovery.css';
+import '../styles/studio.css';
 import Search from '../components/Search.astro';
 
 interface Props {
@@ -24,11 +25,11 @@ const labels = lang === 'zh'
   ? { home: '首页', learning: '系列', articles: '文章', projects: '项目', jobs: '岗位集锦', about: '关于', search: '搜索', skip: '跳到正文', classic: '经典布局' }
   : { home: 'Home', learning: 'Series', articles: 'Articles', projects: 'Projects', jobs: 'Job guide', about: 'About', search: 'Search', skip: 'Skip to content', classic: 'Classic' };
 const navigation = [
-  { href: prefix || '/', match: '/', label: labels.home },
-  { href: `${prefix}/articles/`, match: '/articles/', label: labels.articles },
-  { href: `${prefix}/series/dify/`, match: '/series/', label: labels.learning },
-  { href: `${prefix}/projects/`, match: '/projects/', label: labels.projects },
-  { href: `${prefix}/about/`, match: '/about/', label: labels.about }
+  { href: prefix || '/', match: '/', label: labels.home, icon: 'home' },
+  { href: `${prefix}/articles/`, match: '/articles/', label: labels.articles, icon: 'writing' },
+  { href: `${prefix}/series/dify/`, match: '/series/', label: labels.learning, icon: 'book' },
+  { href: `${prefix}/projects/`, match: '/projects/', label: labels.projects, icon: 'grid' },
+  { href: `${prefix}/about/`, match: '/about/', label: labels.about, icon: 'user' }
 ];
 ---
 
@@ -38,7 +39,7 @@ const navigation = [
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="site-version" content="discovery-20261019" />
+    <meta name="site-version" content="studio-20261019" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
@@ -53,7 +54,7 @@ const navigation = [
   <body data-theme="light">
     <script is:inline>
       (() => {
-        let theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        let theme = 'light';
         try { const saved = localStorage.getItem('chengbei-theme'); if (saved === 'light' || saved === 'dark') theme = saved; } catch {}
         document.body.dataset.theme = theme;
         document.documentElement.style.colorScheme = theme;
@@ -62,13 +63,21 @@ const navigation = [
     <a class="skip-link" href="#content">{labels.skip}</a>
     <header class="site-header" data-pagefind-ignore>
       <a class="brand" href={prefix || '/'} aria-label={lang === 'zh' ? '城北首页' : 'Chengbei home'}>
-        <span class="brand-mark">CBEI</span>
+        <span class="brand-symbol" aria-hidden="true">c.</span><span class="brand-mark">城北<span class="brand-domain">chengbei.org</span></span>
         <span class="brand-role">{lang === 'zh' ? '独立开发者' : 'Independent developer'}</span>
       </a>
+      <span class="sidebar-label" aria-hidden="true">{lang === 'zh' ? '探索这座站' : 'EXPLORE'}</span>
       <nav class="site-nav" aria-label={lang === 'zh' ? '主导航' : 'Main navigation'}>
-        {navigation.map((item) => <a href={item.href} aria-current={current(item.match) ? 'page' : undefined}>{item.label}</a>)}
-        <button class="nav-action" type="button" data-search-open aria-haspopup="dialog">⌕ <span>{labels.search}</span><kbd>/</kbd></button>
+        {navigation.map((item) => <a href={item.href} aria-current={current(item.match) ? 'page' : undefined}><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          {item.icon === 'home' && <path d="m3 10 9-7 9 7v10H3V10Zm6 10v-7h6v7" />}
+          {item.icon === 'writing' && <path d="M14 4H4v16h16V10M12 12l1-4 6-6 3 3-6 6-4 1Z" />}
+          {item.icon === 'book' && <path d="M12 5C9 3 5 3 2 4v15c3-1 7-1 10 1 3-2 7-2 10-1V4c-3-1-7-1-10 1Zm0 0v15" />}
+          {item.icon === 'grid' && <path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z" />}
+          {item.icon === 'user' && <><circle cx="12" cy="8" r="4" /><path d="M4 21v-2a8 8 0 0 1 16 0v2" /></>}
+        </svg><span>{item.label}</span></a>)}
+        <button class="nav-action" type="button" data-search-open aria-haspopup="dialog"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><span>{labels.search}</span><kbd>/</kbd></button>
       </nav>
+      <div class="sidebar-note"><span class="sidebar-note-mark" aria-hidden="true">✳</span><p>{lang === 'zh' ? '边做，边记录。' : 'Build. Learn. Share.'}</p><a href="https://github.com/diaojz">GitHub <span aria-hidden="true">↗</span></a></div>
       <div class="header-actions">
         <a class="layout-switch" href="/classic/" data-layout-switch data-target-layout="classic">
           <span aria-hidden="true">◫</span>{labels.classic}

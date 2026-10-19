@@ -28,6 +28,14 @@ gh run watch --repo diaojz/chengbei
 # 部署后线上验证注意 CDN 缓存（js 缓存约 10 分钟），用 ?v=时间戳 绕过
 ```
 
+## 侧栏、主题与动效规则（2026-10-19）
+
+- 产品页公共侧栏在 `BaseLayout.astro`，最新样式 `src/styles/studio.css` 最后加载。宽度 >1000px 为侧栏，较小屏幕恢复顶部导航；变更时同时检查首页、文章库与阅读页。
+- **首次默认浅色，不跟随系统暗色偏好**；保留用户手动保存的主题。localStorage 不可用时仍应可初始化与切换。
+- 关于页中英文共用 `src/components/AboutPage.astro`。图片与文字分区，不恢复大幅空白背景加贴边标题，不添加大段自我评价。
+- 新图在 `assets/img/about-studio/`，静态 WebP，总预算 240 KiB。动效采用短暂、一次性 CSS transform/opacity 和悬停；尊重减少动态效果，禁用装饰性持续动画/视频/Canvas。
+- 备份及回滚见 `docs/sidebar-about-20261019.md`；检查入口为 `npm run check`、`npm run build`。
+
 ## 当前产品版入口（2026-10-19）
 
 - 首页 `src/components/HomePage.astro`、文章库 `ArticleLibrary.astro` 和阅读页 `ArticlePage.astro` 为中英文共用组件；页面路由在 `src/pages/`。
