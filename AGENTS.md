@@ -84,3 +84,7 @@ gh run watch --repo diaojz/chengbei
 ## 全站配图维护
 
 文章封面映射在 `content/visuals.json`，项目封面在 `src/data/projects.ts`；优先静态 WebP，尺寸明确、懒加载。概念插画不能充当产品截图。正文原图和发布日期不得随配图更新改写。构建后运行 `python3 scripts/audit-site-images.py` 检查全站本地图片路径。
+
+## 移动阅读、统计和内容发现
+
+新版统计在 `VisitStats.astro` 与 `BaseLayout.astro`，沿用 GoatCounter chengbei；不要改版时漏接或重复计数。Logo 在 `assets/brand/`。移动阅读工具由 `ReadingTools.astro` 管理，本地图片尺寸在构建时提取。canonical/JSON-LD/llms.txt/content-index.json/sitemap 随内容构建。`AskArticles.astro` 当前只检索原文，不生成回答；未获服务端/模型配置前不得宣称AI聊天可用，前端禁止密钥。备案号必须真实提供，不造占位号。

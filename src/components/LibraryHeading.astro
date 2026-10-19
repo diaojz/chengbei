@@ -5,6 +5,6 @@ const { lang = 'zh' } = Astro.props;
 const zh = lang === 'zh';
 ---
 <section class="shell library-heading library-heading-visual">
-  <div><span class="section-kicker">THE NOTEBOOK · {posts.length}</span><h1>{zh ? '把问题讲明白，' : 'Clearer questions.'}<br />{zh ? '把方法留下来。' : 'Useful answers.'}</h1><p>{zh ? 'AI 开发、工具使用与产品实践。按主题慢慢翻，或直接找一个答案。' : 'Notes on AI development, everyday tools, and building products. Browse a topic or find an answer.'}</p></div>
+  <div><span class="section-kicker">THE NOTEBOOK · {posts.length}</span><h1>{zh ? '写过的东西，' : 'Notes from my work.'}<br />{zh ? '都放在这里。' : 'All in one place.'}</h1><p>{zh ? '工具怎么用，项目怎么做，还有做事时的一些想法。可以按主题翻，也可以直接搜。' : 'Notes on AI development, everyday tools, and building products. Browse a topic or find an answer.'}</p></div>
   <div class="notebook-mosaic" aria-hidden="true"><img src="/assets/img/about-studio/workspace.webp" alt="" width="720" height="480" decoding="async" /><img src="/assets/img/about-studio/build.webp" alt="" width="720" height="480" decoding="async" /><span>TOOLS · IDEAS · FIELD NOTES</span></div>
 </section>

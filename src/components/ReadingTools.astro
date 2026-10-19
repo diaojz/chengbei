@@ -1,0 +1,36 @@
+---
+interface Props { headings: Array<{id:string;text:string;depth:number}>; lang:'zh'|'en'; }
+const { headings, lang }=Astro.props;
+const zh=lang==='zh';
+---
+<div class="mobile-reading-tools" data-pagefind-ignore role="group" aria-label={zh?'阅读工具':'Reading tools'}>
+ {headings.length>0 && <button type="button" data-reader-toc-open aria-haspopup="dialog">☷ <span>{zh?'目录':'Contents'}</span></button>}
+ <button type="button" data-reader-font aria-label={zh?'切换正文字号':'Change text size'}>Aa <span>{zh?'字号':'Text size'}</span></button>
+ <button type="button" data-ask-open aria-haspopup="dialog">⌕ <span>{zh?'问文章':'Ask'}</span></button>
+ <span class="reading-percent" data-reader-percent aria-label={zh?'阅读进度':'Reading progress'}>0%</span>
+ <a href="#content" aria-label={zh?'回到文章顶部':'Back to article top'}>↑ <span>{zh?'顶部':'Top'}</span></a>
+</div>
+<dialog class="reader-toc-dialog" data-reader-toc-dialog aria-labelledby="reader-toc-title" data-pagefind-ignore><div class="reader-dialog-heading"><b id="reader-toc-title">{zh?'本文目录':'On this page'}</b><button type="button" data-reader-toc-close aria-label={zh?'关闭目录':'Close contents'}>×</button></div><nav aria-label={zh?'文章章节':'Article sections'}>{headings.map(h=><a class:list={{'toc-sub':h.depth===3}} href={`#${h.id}`}>{h.text}</a>)}</nav></dialog>
+<dialog class="reader-image-dialog" data-reader-image-dialog aria-label={zh?'查看图片':'View image'} data-pagefind-ignore><div class="reader-dialog-heading"><span>{zh?'图片详情':'Image details'}</span><div><button type="button" data-image-zoom aria-pressed="false">{zh?'原图尺寸':'Original size'}</button><button type="button" data-image-close aria-label={zh?'关闭图片':'Close image'}>×</button></div></div><div class="reader-image-scroll"><img alt="" data-image-preview /></div><p>{zh?'可缩放、滑动查看；按 Esc 或关闭按钮返回文章。':'Zoom or scroll for details. Press Esc or close to return.'}</p></dialog>
+<script>
+ const body=document.querySelector<HTMLElement>('[data-reading-body]');
+ const toc=document.querySelector<HTMLDialogElement>('[data-reader-toc-dialog]');
+ document.querySelector('[data-reader-toc-open]')?.addEventListener('click',()=>toc?.showModal());
+ document.querySelector('[data-reader-toc-close]')?.addEventListener('click',()=>toc?.close());
+ toc?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>toc.close()));
+ const sizes=[17,19,21];let size=17;
+ try { const saved=Number(localStorage.getItem('chengbei-reading-size'));if(sizes.includes(saved))size=saved; } catch {}
+ const fontButton=document.querySelector<HTMLButtonElement>('[data-reader-font]');
+ const apply=()=>{body?.style.setProperty('--reading-size',`${size}px`);if(fontButton)fontButton.title=`${size}px`;};apply();
+ fontButton?.addEventListener('click',()=>{size=sizes[(sizes.indexOf(size)+1)%sizes.length];apply();try{localStorage.setItem('chengbei-reading-size',String(size));}catch{}});
+ const viewer=document.querySelector<HTMLDialogElement>('[data-reader-image-dialog]');
+ const preview=viewer?.querySelector<HTMLImageElement>('[data-image-preview]');
+ const zoom=viewer?.querySelector<HTMLButtonElement>('[data-image-zoom]');
+ let trigger:HTMLImageElement|undefined;
+ const showImage=(image:HTMLImageElement)=>{if(!viewer||!preview)return;trigger=image;preview.src=image.currentSrc||image.src;preview.alt=image.alt;preview.classList.remove('is-original');zoom?.setAttribute('aria-pressed','false');viewer.showModal();};
+ document.querySelectorAll<HTMLImageElement>('[data-reading-body] img, .reader-cover img').forEach(image=>{if(image.closest('a'))return;image.tabIndex=0;image.setAttribute('role','button');image.setAttribute('aria-haspopup','dialog');image.setAttribute('aria-label',document.documentElement.lang.startsWith('zh')?'放大查看图片':'Enlarge image');image.addEventListener('click',()=>showImage(image));image.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();showImage(image);}});});
+ viewer?.querySelector('[data-image-close]')?.addEventListener('click',()=>viewer.close());
+ zoom?.addEventListener('click',()=>{const original=preview?.classList.toggle('is-original');zoom.setAttribute('aria-pressed',String(original));});
+ viewer?.addEventListener('close',()=>trigger?.focus({preventScroll:true}));
+ [viewer,toc].forEach(dialog=>dialog?.addEventListener('click',e=>{if(e.target===dialog)dialog.close();}));
+</script>

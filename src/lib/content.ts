@@ -2,6 +2,7 @@ import { access, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { marked } from 'marked';
 import { createHeadingCollector } from './reading.mjs';
+import { localImageDimensions } from './image-dimensions.mjs';
 import postsIndex from '../../content/posts/index.json';
 import seriesIndex from '../../content/series.json';
 import visuals from '../../content/visuals.json';
@@ -75,6 +76,15 @@ export async function readPost(post: Post, lang: Lang) {
         .replaceAll(`src="${visual.original.slice(1)}"`, `src="${visual.src}"`);
     }
   }
+  const imageTags=[...html.matchAll(/<img\b([^>]*?)>/gi)];
+  const rendered=await Promise.all(imageTags.map(async ([tag,attrs])=>{
+    const src=/\bsrc=["']([^"']+)["']/.exec(attrs)?.[1];
+    const size=await localImageDimensions(src);
+    const extra=`${/\bloading=/.test(attrs)?'':' loading="lazy"'}${/\bdecoding=/.test(attrs)?'':' decoding="async"'}${size&&!/\bwidth=/.test(attrs)?` width="${size.width}"`:''}${size&&!/\bheight=/.test(attrs)?` height="${size.height}"`:''}`;
+    return `<img${attrs}${extra}>`;
+  }));
+  let imageIndex=0;html=html.replace(/<img\b([^>]*?)>/gi,()=>rendered[imageIndex++]);
+
   return {
     markdown,
     headings: collector.headings,

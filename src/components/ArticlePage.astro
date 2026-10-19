@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ReadingTools from './ReadingTools.astro';
 import { formatDate, postExcerpt, postTags, postTitle, postCover, readPost, posts, series, type Lang, type Post } from '../lib/content';
 import { seriesNeighbours } from '../lib/reading.mjs';
 interface Props { post: Post; lang: Lang; }
@@ -8,6 +9,7 @@ const content = await readPost(post, lang);
 const prefix = lang === 'en' ? '/en' : '';
 const zh = lang === 'zh';
 const title = postTitle(post, lang);
+const articleSchema = { '@context':'https://schema.org', '@type':'BlogPosting', headline:title, description:postExcerpt(post,lang), datePublished:new Date(post.ts).toISOString(), inLanguage:content.actualLang==='zh'?'zh-CN':'en', mainEntityOfPage:`https://chengbei.org${prefix}/articles/${post.slug}/`, author:{'@type':'Person','@id':'https://chengbei.org/#author',name:'城北',url:'https://chengbei.org/about/'}, ...(postCover(post)?{image:`https://chengbei.org${postCover(post)}`}:{}) };
 const relatedSeries = series.find((item) => item.id === post.series);
 const chapters = relatedSeries?.slugs.map((slug) => posts.find((item) => item.slug === slug)).filter((item): item is Post => Boolean(item)) || [];
 const neighbours = seriesNeighbours(chapters.map((item) => item.slug), post.slug);
@@ -16,7 +18,7 @@ const next = posts.find((item) => item.slug === neighbours.next);
 const tags = postTags(post, lang);
 const recommendations = posts.filter(item => item.slug !== post.slug && item.slug !== previous?.slug && item.slug !== next?.slug).map(item => ({ item, score: postTags(item, lang).filter(tag => tags.includes(tag)).length })).sort((a, b) => b.score - a.score).slice(0, 3).map(({item}) => item);
 ---
-<BaseLayout title={`${title} · 城北`} description={postExcerpt(post, lang)} lang={lang}>
+<BaseLayout title={`${title} · 城北`} description={postExcerpt(post, lang)} lang={lang} structuredData={articleSchema} image={postCover(post)}>
   <div class="reading-progress" aria-hidden="true"><i></i></div>
   <div class="reader-layout">
     <article class:list={["article-shell", post.slug === 'ai-coding-agent-landscape-2026' && 'ai-coding-agent-landscape']} data-pagefind-meta={`type:${zh ? '文章' : 'Article'}`}>
@@ -43,6 +45,7 @@ const recommendations = posts.filter(item => item.slug !== post.slug && item.slu
       {relatedSeries && <details class="reader-series" open><summary>{zh ? relatedSeries.title_zh : relatedSeries.title_en}</summary><ol>{chapters.map((chapter, index) => <li><a href={`${prefix}/articles/${chapter.slug}/`} aria-current={chapter.slug === post.slug ? 'page' : undefined}><span>{String(index + 1).padStart(2, '0')}</span>{postTitle(chapter, lang)}</a></li>)}</ol></details>}
     </aside>
   </div>
+  <ReadingTools headings={content.headings} lang={lang} />
   <script>
     import { readingProgress } from '../lib/reading.mjs';
     const progress = document.querySelector<HTMLElement>('.reading-progress i');
@@ -56,7 +59,10 @@ const recommendations = posts.filter(item => item.slug !== post.slug && item.slu
       const rect = body.getBoundingClientRect();
       const start = scrollY + rect.top - 150;
       const end = scrollY + rect.bottom - innerHeight;
-      if (progress) progress.style.transform = `scaleX(${readingProgress(start, end, scrollY)})`;
+      const fraction=readingProgress(start, end, scrollY);
+      if (progress) progress.style.transform = `scaleX(${fraction})`;
+      const percent=document.querySelector('[data-reader-percent]');
+      if(percent)percent.textContent=`${Math.round(fraction*100)}%`;
       let active = headings[0]?.id;
       for (const heading of headings) { if (heading.getBoundingClientRect().top <= 180) active = heading.id; }
       links.forEach((link) => { if (link.dataset.tocLink === active) link.setAttribute('aria-current', 'location'); else link.removeAttribute('aria-current'); });

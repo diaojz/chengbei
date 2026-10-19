@@ -124,8 +124,8 @@
 
 [GoatCounter](https://www.goatcounter.com)：开源、免费托管、无 Cookie（不用挂隐私横幅）。
 
-- **计数**：四个页面（首页 + 三个课件页）`</body>` 前都挂了 `data-goatcounter` 脚本；SPA 文章路由（`#/p/slug`）由 `js/stats.js` 监听 hashchange 补计
-- **展示**：首页第一栏底部「总访问 / 今日」，数据来自公开 counter API（`/counter/TOTAL.json`），拿不到数据时整条自动隐藏
+- **计数**：新版公共布局 `BaseLayout.astro` 为全部新版页面加载一次 GoatCounter；经典版与已有课件页保留原计数脚本，经典版 hash 路由由 `js/stats.js` 补计。
+- **展示**：新版页脚 `VisitStats.astro` 展示「总访问 / 今日」，今日按北京时间计算；接口失败保留统计看板链接，数字显示 —，不伪造为零。经典版仍在第一栏底部展示。
 - **看板**：https://chengbei.goatcounter.com —— 已设为 **Anyone 公开**，访客点首页「统计 ↗」即可看路径/来源/地区/设备等完整维度
 
 账号状态（2026-06-12 已全部开通，无需重复操作）：
@@ -133,7 +133,7 @@
 - 账号：diaojz@126.com，code = `chengbei`（代码里写死的子域名），邮箱已验证
 - Settings 已勾选 "Allow adding visitor counts on your website"（counter API 开放，首页数字依赖它）
 - "Dashboard viewable by" = Anyone（公开看板）
-- ⚠️ 若以后换账号/改 code，需同步改 `js/stats.js` 的 `SITE` 常量和 4 个页面里的 `data-goatcounter` 地址
+- 换账号时同步修改 `VisitStats.astro`、`BaseLayout.astro`、`js/stats.js` 及旧页 `data-goatcounter`。
 
 ---
 
@@ -234,3 +234,11 @@ node tech-notes/tests/validate-course.mjs
 ## 页面打磨与交互
 
 文章列表页头由 `LibraryHeading.astro` 统一中英文；项目分类在 `ProjectsPage.astro`，相关推荐在 `ArticlePage.astro`。全局视觉规则集中在 `studio.css`；动效仅短暂入场或悬停，必须支持 `prefers-reduced-motion`。复用既有静态 WebP，禁止为装饰增加常驻绘制循环。检查记录见 `docs/global-polish-20261019.md`。
+
+## 移动阅读与内容发现
+
+- `ReadingTools.astro` 管理移动目录/字号/图片查看；字号本地保存，正文图片宽高由 `image-dimensions.mjs` 在构建时读取。阅读进度复用原有滚动调度，不增加持续循环。
+- `assets/brand/` 保存原生生成 Logo 及说明；新版 Logo/favicon 共用。
+- `llms.txt` 与 `content-index.json` 由公开文章、项目数据生成；构建后 `write-discovery.mjs` 输出 sitemap，robots 声明入口。Article JSON-LD 保留真实首次发布日期，不伪造修订日期。
+- `AskArticles.astro` 当前为带来源的对话式原文检索，不调用模型。真实AI聊天需独立服务端，公开仓库和前端不得存放模型密钥。
+- 备案号尚未提供，不应虚构。完整说明见 `docs/reading-brand-discovery-20261019.md`。

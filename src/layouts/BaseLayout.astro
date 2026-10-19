@@ -4,18 +4,27 @@ import '../styles/product.css';
 import '../styles/discovery.css';
 import '../styles/studio.css';
 import Search from '../components/Search.astro';
+import VisitStats from '../components/VisitStats.astro';
+import AskArticles from '../components/AskArticles.astro';
 
 interface Props {
   title?: string;
   description?: string;
   lang?: 'zh' | 'en';
+  structuredData?: Record<string, unknown>;
+  image?: string;
 }
 
 const {
   title = '城北 · 独立开发者',
   description = '城北的文章、项目与实践记录。',
-  lang = 'zh'
+  lang = 'zh',
+  structuredData,
+  image = '/assets/img/about-studio/workspace.webp'
 } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site || 'https://chengbei.org').href;
+const siteSchema = { '@context':'https://schema.org', '@type':'WebSite', '@id':'https://chengbei.org/#website', name:'城北', url:'https://chengbei.org/', inLanguage:['zh-CN','en'], author:{'@type':'Person','@id':'https://chengbei.org/#author',name:'城北',url:'https://chengbei.org/about/',sameAs:['https://github.com/diaojz']} };
+const schemaJSON = JSON.stringify(structuredData || siteSchema).replace(/</g, '\\u003c');
 const prefix = lang === 'en' ? '/en' : '';
 const path = Astro.url.pathname.replace(/^\/en(?=\/|$)/, '') || '/';
 const languageHref = lang === 'en' ? path : (/^\/(articles|projects|about|series)(\/|$)/.test(path) || path === '/' ? `/en${path}` : path.startsWith('/series/') ? '/en/articles/?topic=Dify' : '/en/projects/');
@@ -37,18 +46,24 @@ const navigation = [
 <html lang={lang === 'zh' ? 'zh-CN' : 'en'}>
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="description" content={description} />
-    <meta name="site-version" content="site-global-polish-20261019" />
+    <meta name="site-version" content="site-reading-brand-20261019" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content={Astro.url} />
+    <meta property="og:url" content={canonical} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:image" content={new URL(image, Astro.site).href} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="author" content="城北" />
+    <script type="application/ld+json" set:html={schemaJSON} />
     <meta name="theme-color" content="#f7f8fa" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono&family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@600;700;900&display=swap" rel="stylesheet" />
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%23c45d2d%22/><text x=%2215%22 y=%2245%22 font-size=%2238%22 fill=%22white%22>C</text></svg>" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/brand/favicon.png" />
+    <link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png" />
     <title>{title}</title>
   </head>
   <body data-theme="light">
@@ -63,7 +78,7 @@ const navigation = [
     <a class="skip-link" href="#content">{labels.skip}</a>
     <header class="site-header" data-pagefind-ignore>
       <a class="brand" href={prefix || '/'} aria-label={lang === 'zh' ? '城北首页' : 'Chengbei home'}>
-        <span class="brand-symbol" aria-hidden="true">c.</span><span class="brand-mark">城北<span class="brand-domain">chengbei.org</span></span>
+        <span class="brand-symbol" aria-hidden="true"><img src="/assets/brand/chengbei-logo.webp" alt="" width="40" height="40" /></span><span class="brand-mark">城北<span class="brand-domain">chengbei.org</span></span>
         <span class="brand-role">{lang === 'zh' ? '独立开发者' : 'Independent developer'}</span>
       </a>
       <button class="nav-action sidebar-search" type="button" data-search-open aria-haspopup="dialog"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><span>{labels.search}</span><kbd>/</kbd></button>
@@ -92,9 +107,12 @@ const navigation = [
     </main>
     <footer class="site-footer" data-pagefind-ignore>
       <span>© {new Date().getFullYear()} 城北</span>
-      <span>Built in public · chengbei.org</span>
+      <VisitStats lang={lang} />
+      <span>{lang === 'zh' ? '我一个人写，也慢慢维护。' : 'Written and maintained by Chengbei.'}</span>
     </footer>
     <Search />
+    <AskArticles lang={lang} />
+    <script is:inline data-goatcounter="https://chengbei.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
     <script is:inline>
       (() => {
         const oldPost = /^#\/p\/([\w-]+)$/.exec(location.hash);

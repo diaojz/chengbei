@@ -1,0 +1,27 @@
+---
+interface Props { lang?: 'zh' | 'en'; }
+const { lang = 'zh' } = Astro.props;
+const zh = lang === 'zh';
+---
+<div class="footer-stats" data-visit-stats data-pagefind-ignore aria-label={zh ? '站点访问统计' : 'Site visits'}>
+ <span>{zh ? '总访问' : 'All visits'} <b data-visit-total>—</b></span><span>{zh ? '今日' : 'Today'} <b data-visit-today>—</b></span><a href="https://chengbei.goatcounter.com" target="_blank" rel="noopener noreferrer">{zh ? '访问统计' : 'Statistics'} ↗</a>
+</div>
+<script>
+ const stats = document.querySelector<HTMLElement>('[data-visit-stats]');
+ if (stats) {
+  const today = new Intl.DateTimeFormat('en-CA', { timeZone:'Asia/Shanghai', year:'numeric', month:'2-digit', day:'2-digit' }).format(new Date());
+  const fetchCount = async (query: string, selector: string) => {
+   const node=stats.querySelector<HTMLElement>(selector);
+   try {
+    const res=await fetch(`https://chengbei.goatcounter.com/counter/TOTAL.json${query}`,{signal:AbortSignal.timeout(8000)});
+    if(!res.ok) throw new Error(`counter ${res.status}`);
+    const data=await res.json(); const count=String(data.count ?? '').replace(/[^\d]/g,'');
+    if(!count) throw new Error('Invalid counter response');
+    if(node) node.textContent=Number(count).toLocaleString(document.documentElement.lang);
+   } catch {
+    if(node) node.title=document.documentElement.lang.startsWith('zh')?'统计暂时无法读取':'Statistics temporarily unavailable';
+   }
+  };
+  void Promise.allSettled([fetchCount('', '[data-visit-total]'),fetchCount(`?start=${today}`, '[data-visit-today]')]);
+ }
+</script>
