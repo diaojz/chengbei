@@ -41,3 +41,13 @@ GitHub Pages 继续托管网站，Node 24 + SQLite 服务部署在独立服务�
 - GitHub已开启Secret Scanning与Push Protection，2026-10-19查询未发现告警。公共规则与本地扫描都不能识别所有可能的凭证格式；若误推送，先撤销/轮换Key，再清理历史，不能只删最新文件。
 - 密钥只在服务端内存及发往官方HTTPS接口的Authorization头中使用，不进入模型上下文、前端响应或应用日志。部署时不要在反向代理、APM和错误收集中记录请求凭证/环境变量；不要将私有配置或Secret备份到公开仓库。
 - 接入目前仍未启用，实际平台静态加密、HTTPS及密钥轮换要在部署环境确定后验收。独立Key、每月10元预算及供应商余额止损一起使用。
+
+## 日本网关机部署（2026-10-19）
+
+目标为现有 `aigw`，网站仍托管 GitHub Pages。新增独立 `chengbei-assistant` systemd服务与容器；只监听127.0.0.1:8787，不修改原网关和VPN配置。`CHAT_ENABLED` 必须显式为1才开放；默认0时健康接口 `ready:false`，聊天503，前端继续关闭。
+
+`deploy/credential-store.py` 由root运行，使用AES-256-GCM加密凭据；密文在 `/var/lib/chengbei-assistant/secrets.aesgcm`，主机根密钥在 `/etc/chengbei-assistant/host.key`，均不得进入仓库、镜像或普通备份。启动时仅解密到 `/run/chengbei-assistant`，以0400文件逐个只读挂载。此方式不能抵御同机root失陷。原始DeepSeek Key从本机钥匙串经SSH标准输入传递，不写本机明文临时文件。
+
+容器限制192MiB内存、0.35 CPU、64进程、只读根文件系统；持久账本位于 `/var/lib/chengbei-assistant/data`。部署前保存Caddy配置和原容器ID。仅在真实验证码、HTTPS和问答验收通过后开启前端。
+
+回滚：将前端开关关闭；`systemctl disable --now chengbei-assistant` 停止独立服务，保留密文及账本。镜像版本由 `/etc/chengbei-assistant/runtime.env` 的 `ASSISTANT_IMAGE` 指定，切回原版本后只重启助手服务。若增加独立Caddy站点，移除该站点后先validate再reload；勿直接恢复旧全量配置覆盖后续其它变更。不得删除原网关容器。

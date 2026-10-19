@@ -10,10 +10,11 @@ export function createHandler({ledger,corpus,config,fetchImpl=fetch}){
  const respond=(res,status,data)=>{res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Vary':'Origin','Access-Control-Allow-Origin':origin});res.end(JSON.stringify(data));};
  return async(req,res)=>{
   const pathname=new URL(req.url,'http://localhost').pathname;
-  if(req.method==='GET'&&pathname==='/health')return respond(res,200,{ok:true,ready:true});
+  if(req.method==='GET'&&pathname==='/health')return respond(res,200,{ok:true,ready:config.enabled!==false});
   if(req.headers.origin!==origin)return respond(res,403,{error:'此服务仅供城北网站使用。'});
   if(req.method==='OPTIONS'){res.writeHead(204,{'Access-Control-Allow-Origin':origin,'Access-Control-Allow-Methods':'POST, OPTIONS','Access-Control-Allow-Headers':'Content-Type','Access-Control-Max-Age':'600','Vary':'Origin'});return res.end();}
   if(req.method!=='POST'||pathname!=='/chat')return respond(res,404,{error:'Not found'});
+  if(config.enabled===false)return respond(res,503,{error:'助手暂未开放，请使用原文检索。'});
   let job;
   try{
    if(!String(req.headers['content-type']||'').startsWith('application/json'))throw Object.assign(new Error('JSON required'),{status:415});
@@ -47,10 +48,11 @@ export function createHandler({ledger,corpus,config,fetchImpl=fetch}){
 
 if(process.argv[1]&&new URL(import.meta.url).pathname===process.argv[1]){
  const env=process.env;const monthlyNanoUsd=configuredBudget(env.CHAT_MONTHLY_BUDGET_USD);
+ const enabled=env.CHAT_ENABLED==='1';
  const production=!['development','test'].includes(env.NODE_ENV);
- const apiKey=loadSecret('DEEPSEEK_API_KEY',env);const ipSecret=loadSecret('CHAT_IP_SECRET',env,{minLength:32});const challengeSecret=loadSecret('TURNSTILE_SECRET_KEY',env,{required:production});
+ const apiKey=loadSecret('DEEPSEEK_API_KEY',env);const ipSecret=loadSecret('CHAT_IP_SECRET',env,{minLength:32});const challengeSecret=loadSecret('TURNSTILE_SECRET_KEY',env,{required:production&&enabled});
  const dataDir=env.CHAT_DATA_DIR||'./data';mkdirSync(dataDir,{recursive:true});
- const config={...DEFAULTS,apiKey,apiURL:'https://api.deepseek.com/chat/completions',model:'deepseek-flash',origin:env.CHAT_ALLOWED_ORIGIN||'https://chengbei.org',ipSecret,monthlyNanoUsd,requireChallenge:production,challengeSecret,trustProxy:env.CHAT_TRUST_PROXY==='1'};
+ const config={...DEFAULTS,enabled,apiKey,apiURL:'https://api.deepseek.com/chat/completions',model:'deepseek-flash',origin:env.CHAT_ALLOWED_ORIGIN||'https://chengbei.org',ipSecret,monthlyNanoUsd,requireChallenge:production,challengeSecret,trustProxy:env.CHAT_TRUST_PROXY==='1'};
  const corpus=JSON.parse(readFileSync(new URL('./generated/corpus.json',import.meta.url),'utf8'));
  const ledger=new Ledger(`${dataDir}/usage.sqlite`,config);
  const server=http.createServer(createHandler({ledger,corpus,config}));server.requestTimeout=35000;server.headersTimeout=10000;server.listen(Number(env.PORT)||8787,'0.0.0.0',()=>console.log('Site assistant listening; budget and challenge checks enabled according to configuration.'));

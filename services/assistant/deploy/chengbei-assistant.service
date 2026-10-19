@@ -1,0 +1,17 @@
+[Unit]
+Description=Chengbei article assistant
+Requires=docker.service
+After=docker.service network-online.target
+
+[Service]
+Type=simple
+EnvironmentFile=/etc/chengbei-assistant/runtime.env
+ExecStartPre=/usr/bin/python3 /opt/chengbei-assistant/credential-store.py prepare
+ExecStart=/usr/bin/docker run --rm --name chengbei-assistant --memory=192m --cpus=0.35 --pids-limit=64 --read-only --cap-drop=ALL --security-opt=no-new-privileges --tmpfs /tmp:rw,noexec,nosuid,size=16m -p 127.0.0.1:8787:8787 --env-file /etc/chengbei-assistant/app.env --mount type=bind,src=/var/lib/chengbei-assistant/data,dst=/data --mount type=bind,src=/run/chengbei-assistant/deepseek_api_key,dst=/run/secrets/deepseek_api_key,readonly --mount type=bind,src=/run/chengbei-assistant/chat_ip_secret,dst=/run/secrets/chat_ip_secret,readonly --mount type=bind,src=/run/chengbei-assistant/turnstile_secret_key,dst=/run/secrets/turnstile_secret_key,readonly ${ASSISTANT_IMAGE}
+ExecStop=/usr/bin/docker stop -t 30 chengbei-assistant
+Restart=on-failure
+RestartSec=10
+TimeoutStopSec=40
+
+[Install]
+WantedBy=multi-user.target

@@ -56,3 +56,11 @@ test('用户月预算10元不能因环境变量误配而提高',()=>{
  assert.equal(configuredBudget('1.25'),1_250_000_000);assert.equal(configuredBudget('0.5'),500_000_000);
  for(const value of ['',undefined,'0','-1','3.75','NaN','Infinity'])assert.throws(()=>configuredBudget(value));
 });
+
+test('部署未开放时健康检查报告未就绪，聊天不触碰账本和上游',async t=>{
+ const server=http.createServer(createHandler({ledger:{},corpus:{},config:{enabled:false,origin:'https://chengbei.org'},fetchImpl:()=>{throw new Error('must not call');}}));
+ await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));t.after(()=>server.close());
+ const base=`http://127.0.0.1:${server.address().port}`;
+ assert.deepEqual(await (await fetch(base+'/health')).json(),{ok:true,ready:false});
+ assert.equal((await fetch(base+'/chat',{method:'POST',headers:{Origin:'https://chengbei.org'}})).status,503);
+});
