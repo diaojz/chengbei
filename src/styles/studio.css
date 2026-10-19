@@ -228,3 +228,6 @@ body[data-theme='dark'] { --paper:#151922; --card:#1c222d; --ink:#eef1f8; --mute
 .search-picks img { width:86px; height:65px; border-radius:5px; object-fit:cover; }.search-picks b,.search-picks small,.search-picks a > span > span { display:block; }.search-picks small { color:var(--muted); font-size:.52rem; }.search-picks b { margin:.2rem 0; font-size:.8rem; }.search-picks a > span > span { color:var(--muted); font-size:.64rem; }.search-picks i { color:var(--accent); font-style:normal; }.search-picks a:hover { border-color:var(--accent); }
 .search-results { max-height:45dvh; }.search-result { grid-template-columns:1.5rem minmax(0,1fr); gap:.6rem; padding:1rem 0; }.search-result b { font:600 .86rem/1.7 'Noto Sans SC',sans-serif; }.search-result small { font-size:.68rem; }
 @media (max-width:640px) { .search-dialog { width:calc(100% - 24px); max-height:calc(100dvh - 32px); margin:16px auto; border-radius:12px; }.search-panel { padding:1.15rem; }.search-intro { font-size:1.1rem; }.search-picks > a { grid-template-columns:64px minmax(0,1fr) 12px; gap:.7rem; }.search-picks img { width:64px; height:60px; }.search-picks a > span > span { font-size:.6rem; }.search-topics { gap:.4rem; }.search-results { max-height:46dvh; } }
+
+/* Avoid the dialog UA inset stretching auto height on narrow screens. */
+.search-dialog { bottom:auto; }

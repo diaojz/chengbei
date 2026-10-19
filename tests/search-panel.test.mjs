@@ -17,3 +17,5 @@ test('搜索清空后恢复推荐，并防止旧异步结果覆盖新查询',()=
  assert.match(source,/data-search-term/);
  assert.match(source,/timer = setTimeout\(search, 120\)/);
 });
+
+test('搜索弹窗解除底部约束，窄屏按内容高度展示',async()=>{const css=await readFile('src/styles/studio.css','utf8');assert.match(css,/\.search-dialog\s*\{\s*bottom:auto;/);});
