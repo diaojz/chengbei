@@ -47,6 +47,15 @@ gh run watch --repo diaojz/chengbei
 4. **终端/代码块配色**：浅色方案 = 用户 Ghostty 的 `GitHub Light Default`（bg `#ffffff` / fg `#1f2328` / 注释 `#6e7781` / 绿 `#116329`，嵌在白卡内的命令条用 `#f6f8fa` + 边框 `#d0d7de`）。不要用纯黑底（用户明确否决过 `#12161c`）。
 5. **README 的 Ships 表必须和 `js/i18n.js` 实际展示一致**——上下架项目时两处一起改。
 
+## Codex 重连指南维护
+
+- 对应 `codex-reconnect/index.html`，更新记录见 README「Codex 重连指南维护记录」。修改现有独立 HTML 即可，不新增同主题文章。
+- 首发日期 `2026-08-05`、水印和 `js/i18n.js` 日期不变；修订日期单独展示，README 入口说明同步更新。
+- 先核对当前官方文档与版本支持，再写诊断和配置方案。不得把所有 Reconnecting N/5 归因于 WebSocket，不得承诺固定五次重试后必然降级成功。
+- `stream_max_retries` 的本次文档定义为 SSE 流中断重试次数；不得为了“加固”统一增加重试次数或超时。HTTP/SSE 方案须注明适用条件，保留原有认证、provider 与计费方式。
+- 区分 TOML 语法通过、配置实际加载、真实请求成功和重启复测通过；错误表作用域可能语法合法但设置无效。不得将登录刷新错误当作传输问题处理。
+- 文章发布验证与用户设备故障修复是两件事。发布后核实部署结果和绕过缓存的线上正文；未做浏览器可视验收或用户环境实测时明确说明。
+
 ## 访问统计（GoatCounter）
 
 开源托管方案，账号 2026-06-12 已开通（详见 README「访问统计」节）：code = `chengbei`，counter API 已开放，看板 chengbei.goatcounter.com 已设 Anyone 公开。

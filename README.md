@@ -77,6 +77,17 @@
 
 已发布双语正文、每种语言 3 张图表及 JSON/CSV 复算资料。房价由作者提供，贷款利息为固定利率情景估算；报价截至 2026-09-27，不能写成实际成交或实际银行账单。构建和线上资源已验证，桌面/手机浏览器可视验收仍待补充，具体证据与限制见维护记录。
 
+## Codex 重连指南维护记录（2026-10-19）
+
+- 页面：[`codex-reconnect/index.html`](codex-reconnect/index.html)；线上地址：[Codex 重连问题修复指南](https://chengbei.org/codex-reconnect/)。这是独立 HTML 页，不需要新增 Markdown 文章或修改文章完整性清单。
+- 保留首次发布日期 `2026-08-05`、角落水印和 `js/i18n.js` 的入口日期；正文单独标注 `2026-10-19` 更新。
+- 本次将固定配置教程改为“先诊断，再最小修改”：提供可复制提示词，检查版本、实际登录、配置覆盖关系与错误日志；仅在证据支持时考虑关闭 WebSocket。
+- 修正旧说法：N/5 不能直接证明 WebSocket 失败；官方参考中的 `stream_max_retries` 是 SSE 流中断重试次数；不再统一增加重试、超时或要求按固定版本门槛升级。
+- ChatGPT 订阅、API Key 和第三方 provider 必须保留各自认证及端点；登录状态不能仅凭旧字段判断。TOML 解析通过也不等于字段受支持、配置已加载或故障已解决。
+- 官方核对来源：[配置参考](https://developers.openai.com/codex/config-reference/)、[基础配置](https://developers.openai.com/codex/config-basic/)、[认证](https://developers.openai.com/codex/auth/)。后续更新需重新核对当前版本，不能把本次资料快照当作永久结论。
+- 发布提交：`2353867`；[GitHub Pages 部署 39195033263](https://github.com/diaojz/chengbei/actions/runs/39195033263) 成功。发布前现有 9 项测试、构建通过；发布后用带版本参数的线上请求确认更新日期、新提示词和修正说明已返回。
+- 验证边界：上述验证证明文章已发布；不代表已在读者设备上修复 Codex，也未完成桌面和手机的浏览器可视验收。
+
 ## 访问统计（GoatCounter）
 
 [GoatCounter](https://www.goatcounter.com)：开源、免费托管、无 Cookie（不用挂隐私横幅）。
