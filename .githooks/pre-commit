@@ -1,0 +1,3 @@
+#!/bin/sh
+# Read staged blobs, not working-tree files, so partial staging cannot hide a secret.
+exec node scripts/check-secrets.mjs --staged

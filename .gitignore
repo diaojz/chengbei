@@ -16,3 +16,14 @@ services/assistant/generated/
 *.sqlite
 *.sqlite-shm
 *.sqlite-wal
+
+# Local/provider credentials are never source artifacts
+.env*
+!.env.example
+!**/.env.example
+secrets/
+**/secrets/
+*.pem
+*.key
+*.p12
+*.pfx

@@ -1,0 +1,8 @@
+# Only application code and the generated PUBLIC corpus may enter the build context.
+**
+!services/
+!services/assistant/
+!services/assistant/*.mjs
+!services/assistant/Dockerfile
+!services/assistant/generated/
+!services/assistant/generated/corpus.json

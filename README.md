@@ -248,3 +248,7 @@ node tech-notes/tests/validate-course.mjs
 ## 受限模型助手（接入准备）
 
 `services/assistant/` 是独立 Node 24 服务，带SQLite持久化额度、Turnstile、站内检索与DeepSeek接口。模型费预算已确认每月¥10；密钥和部署位置仍待提供，`content/assistant.json` 默认关闭，不会产生模型调用。限制、测试和部署步骤见服务目录README；上线前不得把原文检索宣传成已接入模型。
+
+## 凭证保护
+
+`npm run secret:scan` 扫描当前受跟踪文件；`.githooks/pre-commit` 扫描真正暂存内容；CI在部署前及构建产物中检查常见凭证格式。GitHub已启用Secret Scanning与Push Protection。API Key仅从后端环境或受限权限Secret文件加载，实际静态加密由部署平台提供，不把解密根密钥放进仓库。

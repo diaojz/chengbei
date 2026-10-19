@@ -2,6 +2,7 @@ import http from 'node:http';
 import { readFileSync,mkdirSync } from 'node:fs';
 import { createHmac } from 'node:crypto';
 import { Ledger } from './ledger.mjs';
+import { loadSecret } from './secrets.mjs';
 import { DEFAULTS,validateQuestion,retrieve,buildMessages,reservation,cacheKey,validateAnswer,configuredBudget } from './policy.mjs';
 
 export function createHandler({ledger,corpus,config,fetchImpl=fetch}){
@@ -46,10 +47,10 @@ export function createHandler({ledger,corpus,config,fetchImpl=fetch}){
 
 if(process.argv[1]&&new URL(import.meta.url).pathname===process.argv[1]){
  const env=process.env;const monthlyNanoUsd=configuredBudget(env.CHAT_MONTHLY_BUDGET_USD);
- if(!env.DEEPSEEK_API_KEY||!env.CHAT_IP_SECRET||env.CHAT_IP_SECRET.length<32)throw new Error('Set DEEPSEEK_API_KEY, CHAT_IP_SECRET (32+ chars), CHAT_MONTHLY_BUDGET_USD before starting.');
- const production=!['development','test'].includes(env.NODE_ENV);if(production&&!env.TURNSTILE_SECRET_KEY)throw new Error('Production requires TURNSTILE_SECRET_KEY.');
+ const production=!['development','test'].includes(env.NODE_ENV);
+ const apiKey=loadSecret('DEEPSEEK_API_KEY',env);const ipSecret=loadSecret('CHAT_IP_SECRET',env,{minLength:32});const challengeSecret=loadSecret('TURNSTILE_SECRET_KEY',env,{required:production});
  const dataDir=env.CHAT_DATA_DIR||'./data';mkdirSync(dataDir,{recursive:true});
- const config={...DEFAULTS,apiKey:env.DEEPSEEK_API_KEY,apiURL:'https://api.deepseek.com/chat/completions',model:'deepseek-flash',origin:env.CHAT_ALLOWED_ORIGIN||'https://chengbei.org',ipSecret:env.CHAT_IP_SECRET,monthlyNanoUsd,requireChallenge:production,challengeSecret:env.TURNSTILE_SECRET_KEY,trustProxy:env.CHAT_TRUST_PROXY==='1'};
+ const config={...DEFAULTS,apiKey,apiURL:'https://api.deepseek.com/chat/completions',model:'deepseek-flash',origin:env.CHAT_ALLOWED_ORIGIN||'https://chengbei.org',ipSecret,monthlyNanoUsd,requireChallenge:production,challengeSecret,trustProxy:env.CHAT_TRUST_PROXY==='1'};
  const corpus=JSON.parse(readFileSync(new URL('./generated/corpus.json',import.meta.url),'utf8'));
  const ledger=new Ledger(`${dataDir}/usage.sqlite`,config);
  const server=http.createServer(createHandler({ledger,corpus,config}));server.requestTimeout=35000;server.headersTimeout=10000;server.listen(Number(env.PORT)||8787,'0.0.0.0',()=>console.log('Site assistant listening; budget and challenge checks enabled according to configuration.'));

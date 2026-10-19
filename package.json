@@ -4,10 +4,11 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && node scripts/copy-legacy.mjs && node scripts/write-discovery.mjs && pagefind --site dist",
+    "build": "astro build && node scripts/copy-legacy.mjs && node scripts/write-discovery.mjs && pagefind --site dist && node scripts/check-secrets.mjs --dist",
     "preview": "astro preview",
     "test": "node --test tests/*.test.mjs",
-    "check": "astro check && npm test"
+    "check": "astro check && npm test",
+    "secret:scan": "node scripts/check-secrets.mjs"
   },
   "dependencies": {
     "@astrojs/check": "latest",
