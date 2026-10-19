@@ -1,9 +1,9 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import ArticleLibrary from '../../../components/ArticleLibrary.astro';
-import { posts } from '../../../lib/content';
+import LibraryHeading from '../../../components/LibraryHeading.astro';
 ---
 <BaseLayout title="Articles · Chengbei" description="Essays, practical guides and learning series by Chengbei." lang="en">
-  <section class="shell library-heading"><span class="section-kicker">THE NOTEBOOK · {posts.length}</span><h1>Clearer questions.<br />Useful answers.</h1><p>Notes on AI development, everyday tools, and building products. Browse a topic or find an answer.</p></section>
+  <LibraryHeading lang="en" />
   <ArticleLibrary lang="en" />
 </BaseLayout>

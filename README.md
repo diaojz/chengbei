@@ -230,3 +230,7 @@ node tech-notes/tests/validate-course.mjs
 ## 默认布局
 
 根地址 `/` 始终使用新版布局，不根据历史 `chengbei-layout` 偏好自动跳转。需要时点击「经典布局」进入 `/classic/`，经典版的「新版布局」可返回首页。
+
+## 页面打磨与交互
+
+文章列表页头由 `LibraryHeading.astro` 统一中英文；项目分类在 `ProjectsPage.astro`，相关推荐在 `ArticlePage.astro`。全局视觉规则集中在 `studio.css`；动效仅短暂入场或悬停，必须支持 `prefers-reduced-motion`。复用既有静态 WebP，禁止为装饰增加常驻绘制循环。检查记录见 `docs/global-polish-20261019.md`。

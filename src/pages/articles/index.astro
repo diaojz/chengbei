@@ -1,9 +1,9 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ArticleLibrary from '../../components/ArticleLibrary.astro';
-import { posts } from '../../lib/content';
+import LibraryHeading from '../../components/LibraryHeading.astro';
 ---
 <BaseLayout title="文章 · 城北" description="城北的全部文章、实践笔记与系列教程。">
-  <section class="shell library-heading"><span class="section-kicker">THE NOTEBOOK · {posts.length}</span><h1>把问题讲明白，<br />把方法留下来。</h1><p>AI 开发、工具使用与产品实践。按主题慢慢翻，或直接找一个答案。</p></section>
+  <LibraryHeading />
   <ArticleLibrary />
 </BaseLayout>

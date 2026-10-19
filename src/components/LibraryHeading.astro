@@ -1,0 +1,10 @@
+---
+import { posts, type Lang } from '../lib/content';
+interface Props { lang?: Lang; }
+const { lang = 'zh' } = Astro.props;
+const zh = lang === 'zh';
+---
+<section class="shell library-heading library-heading-visual">
+  <div><span class="section-kicker">THE NOTEBOOK · {posts.length}</span><h1>{zh ? '把问题讲明白，' : 'Clearer questions.'}<br />{zh ? '把方法留下来。' : 'Useful answers.'}</h1><p>{zh ? 'AI 开发、工具使用与产品实践。按主题慢慢翻，或直接找一个答案。' : 'Notes on AI development, everyday tools, and building products. Browse a topic or find an answer.'}</p></div>
+  <div class="notebook-mosaic" aria-hidden="true"><img src="/assets/img/about-studio/workspace.webp" alt="" width="720" height="480" decoding="async" /><img src="/assets/img/about-studio/build.webp" alt="" width="720" height="480" decoding="async" /><span>TOOLS · IDEAS · FIELD NOTES</span></div>
+</section>
