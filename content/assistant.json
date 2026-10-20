@@ -1,5 +1,5 @@
 {
-  "enabled": false,
-  "endpoint": "",
-  "turnstileSiteKey": ""
+  "enabled": true,
+  "endpoint": "https://assistant.chengbei.org/chat",
+  "turnstileSiteKey": "0x4AAAAAAFde6ervrPTRSzG_"
 }
