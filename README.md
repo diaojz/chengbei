@@ -245,9 +245,9 @@ node tech-notes/tests/validate-course.mjs
 
 新版 GoatCounter 客户端从 `/assets/vendor/goatcounter.js` 加载，官方来源与许可见同目录 README；数据仍进入原账号，避免外部脚本域名超时导致漏计。
 
-## 受限模型助手（接入准备）
+## 受限模型助手
 
-`services/assistant/` 是独立 Node 24 服务，带SQLite持久化额度、Turnstile、站内检索与DeepSeek接口。模型费预算已确认每月¥10；密钥和部署位置仍待提供，`content/assistant.json` 默认关闭，不会产生模型调用。限制、测试和部署步骤见服务目录README；上线前不得把原文检索宣传成已接入模型。
+`services/assistant/` 是独立 Node 24 服务，部署在日本网关的独立容器中；网站仍托管GitHub Pages。使用DeepSeek官方模型、Turnstile验证、本站资料检索和SQLite持久化额度，模型费预算每月¥10。密钥仅在后端AES-GCM加密存储，前端只有公开Site Key和HTTPS API地址；验证失败、服务不可用或限额时回退原文检索。配置开关为 `content/assistant.json`，部署、验收和回滚步骤见 [助手文档](services/assistant/README.md)。
 
 ## 凭证保护
 

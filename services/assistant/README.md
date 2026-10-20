@@ -1,6 +1,6 @@
-# 城北站内助手服务端（后端已部署，聊天未开放）
+# 城北站内文章助手
 
-GitHub Pages 继续托管网站，Node 24 + SQLite 服务部署在独立服务器。Cloudflare Worker 需要不同运行时适配，本实现不直接运行在 Worker。当前 `content/assistant.json` 关闭AI，线上原文检索不变。日本网关独立容器已部署，DeepSeek Key已由本机钥匙串安全传入并加密存储；HTTPS地址为 `https://assistant.chengbei.org/health`。仍缺Turnstile生产配置，健康检查 `ready:false`；尚未做真实付费模型问答验收。
+GitHub Pages 继续托管网站，Node 24 + SQLite 服务部署在独立服务器。Cloudflare Worker 需要不同运行时适配，本实现不直接运行在 Worker。日本网关独立容器已部署，DeepSeek Key和Turnstile Secret均在服务器加密存储。HTTPS健康接口为 `https://assistant.chengbei.org/health`，配置齐全后返回 `ready:true`。`content/assistant.json` 已启用AI，前端仅含公开Site Key和API地址，验证码或模型不可用时回退原文检索。
 
 ## 默认限制
 
@@ -21,7 +21,7 @@ GitHub Pages 继续托管网站，Node 24 + SQLite 服务部署在独立服务�
 ## 配置与上线顺序
 
 1. 预算已确认每月¥10；API Key已保存本机钥匙串，目标为日本网关aigw。密钥不得粘贴到公开仓库或前端；复制 `.env.example` 到服务器私有环境文件填写。`CHAT_IP_SECRET`用32字节以上随机值。
-2. 为 `chengbei.org` 创建Turnstile组件；服务端保存secret，前端只放公开site key。
+2. Turnstile组件“城北站内助手”已创建，允许主机名 `chengbei.org`，托管模式，关闭预清除。服务端验证hostname和 `site_chat` action；Secret只存后端，前端只放公开Site Key。
 3. `npm run build && node scripts/build-assistant-corpus.mjs` 生成只含公开内容的服务端语料。
 4. 仓库根目录构建：`docker build -f services/assistant/Dockerfile -t chengbei-assistant .`。容器只绑定服务器回环接口：`-p 127.0.0.1:8787:8787`；挂载受保护的持久化 `/data` 数据卷，传入环境文件。数据目录需由容器node用户拥有，勿将SQLite放进公开静态目录。
 5. 通过HTTPS反向代理暴露独立API域名；限制body到4KiB、连接频率、超时。只有代理覆盖 `X-Real-IP` 且容器端口不对公网开放时，才设 `CHAT_TRUST_PROXY=1`；否则保持0。示例Nginx：`proxy_set_header X-Real-IP $remote_addr;`。代理禁止日志记录Authorization及请求体。
@@ -40,7 +40,7 @@ GitHub Pages 继续托管网站，Node 24 + SQLite 服务部署在独立服务�
 - `npm run secret:scan` 检查常见密钥格式；构建结束额外检查公开dist。提交可使用 `git -c core.hooksPath=.githooks commit ...`；仓库维护者也可在合适工作区启用hooks。hook读取真正暂存的blob，避免工作区与暂存区内容不一致导致漏检。
 - GitHub已开启Secret Scanning与Push Protection，2026-10-19查询未发现告警。公共规则与本地扫描都不能识别所有可能的凭证格式；若误推送，先撤销/轮换Key，再清理历史，不能只删最新文件。
 - 密钥只在服务端内存及发往官方HTTPS接口的Authorization头中使用，不进入模型上下文、前端响应或应用日志。部署时不要在反向代理、APM和错误收集中记录请求凭证/环境变量；不要将私有配置或Secret备份到公开仓库。
-- 聊天目前仍未启用；静态加密和HTTPS已部署，密钥轮换仍需后续实际演练。独立Key、每月10元预算及供应商余额止损一起使用。
+- 静态加密和HTTPS已部署，聊天配置已启用；密钥轮换仍需后续实际演练。独立Key、每月10元预算及供应商余额止损一起使用。
 
 ## 日本网关机部署（2026-10-19）
 
@@ -55,7 +55,15 @@ GitHub Pages 继续托管网站，Node 24 + SQLite 服务部署在独立服务�
 ### 本次部署证据
 
 - 版本 `1583c0d`，45项本地测试通过，Astro构建及dist密钥扫描通过。
-- 健康接口HTTPS正常，`ready:false`，聊天503；这是安全关闭状态，不代表模型问答已验收。
+- 初次部署以 `ready:false`、聊天503完成安全关闭检查；2026-10-20补齐Turnstile后启用，健康接口 `ready:true`。非法Origin、缺失验证码、无效验证码均返回403。
 - 助手空闲约44MiB内存；原有三个网关容器ID、Caddy和x-ui主进程ID均保持不变。
 - 独立DNS记录ID `47be2fcd9a5370907279c9fa9ab51a9c`，仅新增assistant子域名。Caddy原配置备份在服务器 `/opt/chengbei-assistant/backups/Caddyfile.initial`（含私有配置，不应下载提交）。
 - 本机代理路径访问新子域出现TLS握手错误；本机绕过代理并指定目标IP的HTTPS已通过。其它网络访问另行验证，不把服务启动当作所有网络均可用。
+
+### 2026-10-20接通验收
+
+生产Turnstile Secret通过已登录浏览器的页面输入值读取，在本机进程内存中经SSH标准输入传入加密库，未写明文临时文件、代码或终端输出。生产服务保持强制验证码验证。
+
+管理员在容器内进行一次真实DeepSeek资料回答验收，使用同一生产账本预留并结算预算，未修改公开接口验证码规则。npm/npx问题引用本站文章，返回1433输入token和115输出token，按高峰未命中价格及保守汇率估算¥0.0045432；实际供应商账单为准。
+
+前端配置提交 `7f1caeb` 已由GitHub Pages发布成功；实际浏览器确认 `data-ai-enabled=true`、生产API HTTPS健康检查200，以及托管模式Turnstile组件正常显示。验证码要求人工勾选，当前等待用户完成；浏览器从验证码到模型回答的最终验收尚未通过，不应把管理员容器内的模型测试当作网页端完整验收。
