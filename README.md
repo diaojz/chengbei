@@ -249,6 +249,8 @@ node tech-notes/tests/validate-course.mjs
 
 `services/assistant/` 是独立 Node 24 服务，部署在日本网关的独立容器中；网站仍托管GitHub Pages。使用DeepSeek官方模型、Turnstile验证、本站资料检索和SQLite持久化额度，模型费预算每月¥10。密钥仅在后端AES-GCM加密存储，前端只有公开Site Key和HTTPS API地址；验证失败、服务不可用或限额时回退原文检索。配置开关为 `content/assistant.json`，部署、验收和回滚步骤见 [助手文档](services/assistant/README.md)。
 
+2026-10-21核对：服务就绪，已有两次通过生产验证码校验的站点模型问答，均返回本站原文引用；累计估算模型费约¥0.0135（含一次管理员验收，非实时余额）。验证码过期时按页面提示重验，无需重新配置。后端语料需单独构建部署，前端Pages发布不会自动更新远程容器。
+
 ## 凭证保护
 
 `npm run secret:scan` 扫描当前受跟踪文件；`.githooks/pre-commit` 扫描真正暂存内容；CI在部署前及构建产物中检查常见凭证格式。GitHub已启用Secret Scanning与Push Protection。API Key仅从后端环境或受限权限Secret文件加载，实际静态加密由部署平台提供，不把解密根密钥放进仓库。

@@ -24,7 +24,7 @@ GitHub Pages 继续托管网站，Node 24 + SQLite 服务部署在独立服务�
 2. Turnstile组件“城北站内助手”已创建，允许主机名 `chengbei.org`，托管模式，关闭预清除。服务端验证hostname和 `site_chat` action；Secret只存后端，前端只放公开Site Key。
 3. `npm run build && node scripts/build-assistant-corpus.mjs` 生成只含公开内容的服务端语料。
 4. 仓库根目录构建：`docker build -f services/assistant/Dockerfile -t chengbei-assistant .`。容器只绑定服务器回环接口：`-p 127.0.0.1:8787:8787`；挂载受保护的持久化 `/data` 数据卷，传入环境文件。数据目录需由容器node用户拥有，勿将SQLite放进公开静态目录。
-5. 通过HTTPS反向代理暴露独立API域名；限制body到4KiB、连接频率、超时。只有代理覆盖 `X-Real-IP` 且容器端口不对公网开放时，才设 `CHAT_TRUST_PROXY=1`；否则保持0。示例Nginx：`proxy_set_header X-Real-IP $remote_addr;`。代理禁止日志记录Authorization及请求体。
+5. 通过HTTPS反向代理暴露独立API域名；当前Caddy限制body到4KiB，应用限制请求频率和上游超时。只有代理覆盖 `X-Real-IP` 且容器端口不对公网开放时，才设 `CHAT_TRUST_PROXY=1`；否则保持0。示例Nginx：`proxy_set_header X-Real-IP $remote_addr;`。代理禁止日志记录Authorization及请求体。
 6. 验证 `/health`、验证码失败、站外来源、无关问题、次数/预算耗尽、重启后账本保留，以及真实模型引用与实际usage。仅在用户授权预算后做真实付费测试。
 7. 最后修改 `content/assistant.json` 为 `enabled:true`，配置HTTPS `/chat` 及公开Turnstile key，再正常提交推送部署前端。前端限额/验证码失败自动回退原文检索，不影响看文章。
 
@@ -58,7 +58,7 @@ GitHub Pages 继续托管网站，Node 24 + SQLite 服务部署在独立服务�
 - 初次部署以 `ready:false`、聊天503完成安全关闭检查；2026-10-20补齐Turnstile后启用，健康接口 `ready:true`。非法Origin、缺失验证码、无效验证码均返回403。
 - 助手空闲约44MiB内存；原有三个网关容器ID、Caddy和x-ui主进程ID均保持不变。
 - 独立DNS记录ID `47be2fcd9a5370907279c9fa9ab51a9c`，仅新增assistant子域名。Caddy原配置备份在服务器 `/opt/chengbei-assistant/backups/Caddyfile.initial`（含私有配置，不应下载提交）。
-- 本机代理路径访问新子域出现TLS握手错误；本机绕过代理并指定目标IP的HTTPS已通过。其它网络访问另行验证，不把服务启动当作所有网络均可用。
+- 初期本机代理路径访问新子域曾出现TLS握手错误；随后本机直连及实际浏览器跨域健康请求均返回200。该记录不代表所有访客网络均已验收。
 
 ### 2026-10-20接通验收
 
@@ -66,4 +66,21 @@ GitHub Pages 继续托管网站，Node 24 + SQLite 服务部署在独立服务�
 
 管理员在容器内进行一次真实DeepSeek资料回答验收，使用同一生产账本预留并结算预算，未修改公开接口验证码规则。npm/npx问题引用本站文章，返回1433输入token和115输出token，按高峰未命中价格及保守汇率估算¥0.0045432；实际供应商账单为准。
 
-前端配置提交 `7f1caeb` 已由GitHub Pages发布成功；实际浏览器确认 `data-ai-enabled=true`、生产API HTTPS健康检查200，以及托管模式Turnstile组件正常显示。验证码要求人工勾选，当前等待用户完成；浏览器从验证码到模型回答的最终验收尚未通过，不应把管理员容器内的模型测试当作网页端完整验收。
+前端配置提交 `7f1caeb` 已由GitHub Pages发布成功；实际浏览器确认 `data-ai-enabled=true`、生产API HTTPS健康检查200，以及托管模式Turnstile组件正常显示。2026-10-20当时等待人工勾选；该等待状态已由下述2026-10-21生产记录核对结果更新。管理员容器内测试与站点请求分别记载，不混作同一项证据。
+
+
+### 2026-10-21生产记录核对
+
+- 服务健康检查返回 `{"ok":true,"ready":true}`；前端启用提交 `7f1caeb` 和文档提交 `2948498` 的GitHub Pages发布、密钥扫描均已成功。
+- SQLite账本有3条已完成模型任务：1条管理员验收、2条站点请求；另有2份有效回答缓存。站点回答分别涉及npm/npx和Dify，均含本站文章来源。这确认了公开接口的验证码校验、资料检索、真实模型调用、回答校验和缓存写入链路已成功执行。
+- 账本月度计费值为1,681,800 nano-USD，按配置汇率8折算约¥0.0134544，包含管理员验收及两次站点请求。这是核对时快照和应用估算，并非DeepSeek账单或实时余额。
+- 用户已确认完成真人验证。未保留当时回答在浏览器中的截图；生产记录证明后端完整请求成功，不替代所有设备、网络和移动界面的可视验收。
+- 验证令牌会过期且仅可使用一次；用户后续按页面提示重新验证即可，不需要重建组件或重新配置Secret。
+
+### 日常维护
+
+- 前端：`content/assistant.json` 控制开关、`/chat`地址及公开Site Key；`src/components/AskArticles.astro` 管理验证码和检索兜底。
+- 服务配置：服务器 `/etc/chengbei-assistant/app.env`，生产保持 `CHAT_ENABLED=1`、月预算不高于1.25 USD；密钥使用 `*_FILE` 挂载，不写入环境文件明文值。
+- 健康检查只证明服务就绪，不调用付费模型；回归问答应走正常验证码流程，调用成本会计入同一持久账本。不要清库“恢复额度”。
+- 新增或修订公开内容后重新生成语料、构建版本镜像，并只重启助手服务；GitHub Pages自动部署不会同步更新远程容器语料。
+- 密钥轮换需先导入加密库，再重启助手以重新解密和挂载；前端Site Key更换则需另行提交部署。根密钥备份与密文分离保管，不提交到公开仓库。

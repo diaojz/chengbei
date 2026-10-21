@@ -89,4 +89,13 @@ gh run watch --repo diaojz/chengbei
 
 ## 移动阅读、统计和内容发现
 
-新版统计在 `VisitStats.astro` 与 `BaseLayout.astro`，沿用 GoatCounter chengbei；不要改版时漏接或重复计数。Logo 在 `assets/brand/`。移动阅读工具由 `ReadingTools.astro` 管理，本地图片尺寸在构建时提取。canonical/JSON-LD/llms.txt/content-index.json/sitemap 随内容构建。`AskArticles.astro` 当前只检索原文，不生成回答；未获服务端/模型配置前不得宣称AI聊天可用，前端禁止密钥。备案号必须真实提供，不造占位号。
+新版统计在 `VisitStats.astro` 与 `BaseLayout.astro`，沿用 GoatCounter chengbei；不要改版时漏接或重复计数。Logo 在 `assets/brand/`。移动阅读工具由 `ReadingTools.astro` 管理，本地图片尺寸在构建时提取。canonical/JSON-LD/llms.txt/content-index.json/sitemap 随内容构建。`AskArticles.astro` 已接入受限DeepSeek站内助手，验证码、模型或额度不可用时回退原文检索；前端禁止密钥。备案号必须真实提供，不造占位号。
+
+
+## 站内文章助手维护
+
+- 前端配置为 `content/assistant.json`，组件为 `src/components/AskArticles.astro`；独立服务位于 `services/assistant/`，运行在日本网关 `aigw` 的 `chengbei-assistant` 容器中，网站继续由GitHub Pages托管。当前已启用；2026-10-21生产账本核对有两次站点模型问答成功，不再沿用“仅原文检索”或“等待配置”的旧状态。
+- 仅依据本站公开资料回答，模型费预算每月¥10（保守折算1.25 USD上限）；不得擅自扩大预算、关闭生产Turnstile校验、清空持久账本或提供通用AI代理。
+- API与Turnstile Secret由宿主机AES-GCM加密，启动时解密到/run并只读挂载；前端只含公开Site Key。不得读取输出秘密、提交凭据或将私有配置打进镜像。
+- Pages发布与助手容器发布是两条流程；内容更新后需重新生成公开语料并单独部署容器。只操作助手服务，不重启或改动原网关/VPN服务。
+- 验收区分健康检查、管理员模型测试、通过验证码的站点请求及浏览器可视检查。费用记录带核对日期，不当作供应商实际账单。部署、密钥轮换和回滚详见 `services/assistant/README.md`。
