@@ -27,3 +27,6 @@ secrets/
 *.key
 *.p12
 *.pfx
+
+# 本地工具产物
+.playwright-cli/
