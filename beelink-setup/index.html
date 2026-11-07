@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Beelink Mini S — Step-by-step Setup Guide</title>
+<style>
+:root{--bg:#ece7de;--card:#fff;--ink:#1f1d1a;--mute:#6b665d;--acc:#d9622b;--ok:#2f7d4f;--warn:#b7791f;--line:#ddd6c8}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.65 -apple-system,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif}
+body[data-lang=en] .zh{display:none}
+body[data-lang=zh] .en{display:none}
+.wrap{max-width:860px;margin:0 auto;padding:24px 18px 80px}
+header.top{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 18px}
+.top-in{max-width:860px;margin:0 auto;display:flex;align-items:center;gap:14px}
+.bar{flex:1;height:10px;background:#d8d1c3;border-radius:9px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--acc);transition:width .3s}
+.pct{font-size:14px;color:var(--mute);min-width:64px;text-align:right}
+.lang{border:1px solid var(--ink);background:none;border-radius:20px;padding:4px 12px;cursor:pointer;font-size:14px}
+h1{font-family:Georgia,"Songti SC",serif;font-size:2.3rem;line-height:1.2;margin:28px 0 8px}
+.sub{color:var(--mute);margin:0 0 22px}
+.hero{background:var(--card);border-radius:18px;padding:22px;margin-bottom:26px}
+.pill{display:inline-block;background:var(--acc);color:#fff;border-radius:20px;padding:2px 12px;font-size:14px;margin:0 6px 6px 0}
+.step{background:var(--card);border-radius:18px;padding:22px;margin:22px 0;border:2px solid transparent}
+.step.done{border-color:var(--ok)}
+.step h2{margin:0 0 12px;font-size:1.5rem;display:flex;gap:12px;align-items:center}
+.num{flex:none;width:40px;height:40px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:700}
+.step.done .num{background:var(--ok)}
+.fig{margin:14px 0;background:#faf7f1;border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}
+.fig svg{max-width:100%;height:auto}
+.fig small{display:block;color:var(--mute);margin-top:6px}
+ol,ul{padding-left:22px}li{margin:6px 0}
+.note,.warn,.ok{border-radius:12px;padding:10px 14px;margin:12px 0;font-size:.95rem}
+.note{background:#eaf1fb;border-left:5px solid #3b78c9}
+.warn{background:#fff3dc;border-left:5px solid var(--warn)}
+.ok{background:#e6f4ea;border-left:5px solid var(--ok)}
+kbd{background:#2b2926;color:#fff;border-radius:6px;padding:1px 8px;font-family:ui-monospace,Menlo,monospace;font-size:.9em;box-shadow:0 2px 0 #000}
+code,pre{font-family:ui-monospace,Menlo,Consolas,monospace}
+pre{background:#1e1e1e;color:#e6e6e6;padding:12px 14px;border-radius:10px;overflow:auto;font-size:.92rem}
+code{background:#efe9dc;padding:1px 6px;border-radius:5px}
+.done-btn{margin-top:10px;background:var(--ink);color:#fff;border:0;border-radius:24px;padding:9px 20px;font-size:1rem;cursor:pointer}
+.step.done .done-btn{background:var(--ok)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.item{background:#faf7f1;border:1px solid var(--line);border-radius:14px;padding:10px;text-align:center;font-size:.92rem}
+.item svg{width:84px;height:64px}
+a{color:var(--acc)}
+footer{color:var(--mute);font-size:.9rem;margin-top:30px}
+</style>
+</head>
+<body data-lang="en">
+
+<header class="top"><div class="top-in">
+  <div class="bar"><i id="barfill"></i></div>
+  <div class="pct" id="pct">0 / 8</div>
+  <button class="lang" id="langbtn">中文</button>
+</div></header>
+
+<div class="wrap">
+
+<h1><span class="en">Set up your Beelink Mini S</span><span class="zh">安装你的 Beelink Mini S</span></h1>
+<p class="sub"><span class="en">Follow the 8 steps in order. No experience needed. Tick “Done” after each step — your progress is saved.</span><span class="zh">按顺序做 8 步即可，零基础可用。每完成一步点“Done”，进度会自动保存。</span></p>
+
+<div class="hero">
+  <span class="pill">⏱ 45–60 min</span><span class="pill">🧰 No tech skills needed</span><span class="pill">🔒 No router settings</span>
+  <p><span class="en">We will turn the little computer into an always-on Linux box (Ubuntu Server 24.04 LTS) that sits next to your router. After that, we connect to it remotely. You <b>never</b> need to open router ports or share personal passwords.</span><span class="zh">我们要把这台小主机装成一台常开的 Linux 小主机（Ubuntu Server 24.04 LTS），放在路由器旁边，之后由我们远程连接。你<b>不需要</b>改路由器端口，也不用提供任何个人密码。</span></p>
+  <div class="warn"><span class="en"><b>Heads-up:</b> the Beelink comes with Windows. This guide <b>erases Windows</b> and replaces it. That is expected — the machine is new.</span><span class="zh"><b>提醒：</b>Beelink 自带 Windows，本教程会<b>清除 Windows</b> 并替换，这是预期的，机器是新的。</span></div>
+</div>
+
+<div class="step" id="s0" data-s="0">
+<h2><span class="num">0</span><span class="en">What you need</span><span class="zh">先准备这些</span></h2>
+<div class="grid">
+  <div class="item"><svg viewBox="0 0 84 64"><rect x="10" y="22" width="64" height="30" rx="6" fill="#2b4fa3"/><circle cx="22" cy="37" r="4" fill="#fff"/><text x="42" y="42" font-size="11" fill="#fff" font-family="sans-serif">Mini S</text></svg><span class="en">Beelink Mini S + power adapter</span><span class="zh">Beelink 主机 + 电源适配器</span></div>
+  <div class="item"><svg viewBox="0 0 84 64"><path d="M8 40 Q30 10 42 32 T76 24" stroke="#d9622b" stroke-width="5" fill="none"/><rect x="2" y="36" width="12" height="10" fill="#444"/><rect x="70" y="18" width="12" height="10" fill="#444"/></svg><span class="en"><b>Ethernet cable</b> to your router</span><span class="zh"><b>网线</b>（接路由器）</span></div>
+  <div class="item"><svg viewBox="0 0 84 64"><rect x="26" y="8" width="32" height="44" rx="4" fill="#555"/><rect x="32" y="2" width="20" height="10" fill="#aaa"/><text x="42" y="36" font-size="11" fill="#fff" text-anchor="middle" font-family="sans-serif">8GB+</text></svg><span class="en">USB stick, 8 GB or bigger (will be erased)</span><span class="zh">U 盘 8GB 以上（会被清空）</span></div>
+  <div class="item"><svg viewBox="0 0 84 64"><rect x="8" y="8" width="68" height="40" rx="4" fill="#222"/><rect x="34" y="50" width="16" height="6" fill="#222"/></svg><span class="en">Monitor/TV with HDMI + HDMI cable</span><span class="zh">带 HDMI 的显示器 + HDMI 线</span></div>
+  <div class="item"><svg viewBox="0 0 84 64"><rect x="4" y="18" width="76" height="30" rx="5" fill="#ddd" stroke="#888"/><g fill="#fff" stroke="#999"><rect x="9" y="23" width="8" height="8"/><rect x="20" y="23" width="8" height="8"/><rect x="31" y="23" width="8" height="8"/><rect x="42" y="23" width="8" height="8"/><rect x="53" y="23" width="8" height="8"/><rect x="64" y="23" width="8" height="8"/><rect x="18" y="35" width="48" height="8"/></g></svg><span class="en">USB keyboard (setup only)</span><span class="zh">USB 键盘（仅安装时用）</span></div>
+  <div class="item"><svg viewBox="0 0 84 64"><rect x="6" y="12" width="72" height="34" rx="4" fill="#666"/><rect x="2" y="48" width="80" height="6" rx="3" fill="#888"/></svg><span class="en">A second computer (Windows or Mac) to prepare the USB</span><span class="zh">另一台电脑（Win/Mac）用来做启动 U 盘</span></div>
+</div>
+<button class="done-btn">✓ Done</button>
+</div>
+
+<div class="step" id="s1" data-s="1">
+<h2><span class="num">1</span><span class="en">Download Ubuntu Server</span><span class="zh">下载 Ubuntu Server</span></h2>
+<ol>
+<li><span class="en">On your <b>other computer</b>, open <a href="https://ubuntu.com/download/server" target="_blank">ubuntu.com/download/server</a></span><span class="zh">在<b>另一台电脑</b>上打开 <a href="https://ubuntu.com/download/server" target="_blank">ubuntu.com/download/server</a></span></li>
+<li><span class="en">Download <b>Ubuntu Server 24.04 LTS</b>. It is one <code>.iso</code> file, about 2–3 GB. Wait until it finishes.</span><span class="zh">下载 <b>Ubuntu Server 24.04 LTS</b>，是一个 <code>.iso</code> 文件，约 2–3 GB，等它下载完。</span></li>
+</ol>
+<div class="fig"><svg viewBox="0 0 520 150" width="520"><rect x="4" y="4" width="512" height="142" rx="10" fill="#fff" stroke="#bbb"/><rect x="4" y="4" width="512" height="26" rx="10" fill="#eee"/><text x="20" y="22" font-size="12" font-family="sans-serif" fill="#555">ubuntu.com/download/server</text><text x="30" y="68" font-size="20" font-family="sans-serif" font-weight="700">Get Ubuntu Server</text><rect x="30" y="86" width="260" height="38" rx="6" fill="#e95420"/><text x="44" y="110" font-size="15" font-family="sans-serif" fill="#fff">Download Ubuntu Server 24.04 LTS</text></svg><small><span class="en">Illustration — the real page may look slightly different.</span><span class="zh">示意图，真实页面可能略有不同。</span></small></div>
+<button class="done-btn">✓ Done</button>
+</div>
+
+<div class="step" id="s2" data-s="2">
+<h2><span class="num">2</span><span class="en">Make the bootable USB stick</span><span class="zh">制作启动 U 盘</span></h2>
+<ol>
+<li><span class="en">Install <b>balenaEtcher</b> (free): <a href="https://etcher.balena.io" target="_blank">etcher.balena.io</a>. (On Windows, Rufus also works.)</span><span class="zh">安装免费工具 <b>balenaEtcher</b>：<a href="https://etcher.balena.io" target="_blank">etcher.balena.io</a>（Windows 也可用 Rufus）。</span></li>
+<li><span class="en">Plug the USB stick into this computer and open Etcher.</span><span class="zh">把 U 盘插到这台电脑，打开 Etcher。</span></li>
+<li><span class="en"><b>①</b> Flash from file → pick the Ubuntu <code>.iso</code> · <b>②</b> Select target → pick your USB stick · <b>③</b> Flash!</span><span class="zh"><b>①</b> Flash from file 选 Ubuntu 的 <code>.iso</code> · <b>②</b> Select target 选你的 U 盘 · <b>③</b> 点 Flash!</span></li>
+</ol>
+<div class="fig"><svg viewBox="0 0 540 150" width="540"><g font-family="sans-serif" font-size="13"><rect x="10" y="20" width="150" height="110" rx="12" fill="#fff" stroke="#999"/><text x="85" y="60" text-anchor="middle" font-size="22">①</text><text x="85" y="90" text-anchor="middle">Flash from file</text><text x="85" y="108" text-anchor="middle" fill="#777">ubuntu-24.04.iso</text>
+<rect x="195" y="20" width="150" height="110" rx="12" fill="#fff" stroke="#999"/><text x="270" y="60" text-anchor="middle" font-size="22">②</text><text x="270" y="90" text-anchor="middle">Select target</text><text x="270" y="108" text-anchor="middle" fill="#777">your USB stick</text>
+<rect x="380" y="20" width="150" height="110" rx="12" fill="#fff" stroke="#999"/><text x="455" y="60" text-anchor="middle" font-size="22">③</text><rect x="400" y="76" width="110" height="34" rx="6" fill="#2f7d4f"/><text x="455" y="98" text-anchor="middle" fill="#fff" font-weight="700">Flash!</text></g></svg><small><span class="en">Etcher has just 3 buttons. Wait until it says “Flash Complete”.</span><span class="zh">Etcher 只有 3 个按钮，等它显示 “Flash Complete”。</span></small></div>
+<div class="warn"><span class="en"><b>Check twice:</b> the “target” must be your USB stick, not another drive. Everything on the stick will be erased.</span><span class="zh"><b>再确认一遍：</b>目标必须是 U 盘，不是别的硬盘；U 盘里的内容会被清空。</span></div>
+<button class="done-btn">✓ Done</button>
+</div>
+
+<div class="step" id="s3" data-s="3">
+<h2><span class="num">3</span><span class="en">Connect everything &amp; boot from the USB</span><span class="zh">接线并从 U 盘启动</span></h2>
+<ol>
+<li><span class="en">Plug into the Beelink: <b>Ethernet cable → router</b>, HDMI → monitor, keyboard, and the <b>USB stick</b>.</span><span class="zh">给 Beelink 接上：<b>网线 → 路由器</b>、HDMI → 显示器、键盘和<b>启动 U 盘</b>。</span></li>
+<li><span class="en">Plug in the power. The Beelink turns on.</span><span class="zh">最后接电源，主机会开机。</span></li>
+<li><span class="en">Right away, <b>tap <kbd>F7</kbd> again and again</b> (about once per second) until a boot menu appears.</span><span class="zh">立刻<b>连续点按 <kbd>F7</kbd></b>（约每秒一次），直到出现启动菜单。</span></li>
+<li><span class="en">Choose the USB entry — best the one starting with <b>UEFI:</b> — and press <kbd>Enter</kbd>.</span><span class="zh">选择 U 盘那一项（最好是以 <b>UEFI:</b> 开头的），按 <kbd>Enter</kbd>。</span></li>
+</ol>
+<div class="fig"><svg viewBox="0 0 560 190" width="560"><g font-family="sans-serif" font-size="13"><rect x="20" y="30" width="190" height="90" rx="10" fill="#2b4fa3"/><text x="115" y="80" text-anchor="middle" fill="#fff" font-weight="700">Beelink Mini S</text>
+<rect x="210" y="52" width="40" height="8" fill="#888"/><text x="310" y="50" fill="#d9622b" font-weight="700">LAN → router</text>
+<path d="M210 56 H300" stroke="#d9622b" stroke-width="4"/>
+<rect x="210" y="76" width="40" height="8" fill="#444"/><path d="M210 80 H300" stroke="#444" stroke-width="4"/><text x="310" y="85" fill="#444" font-weight="700">HDMI → monitor</text>
+<rect x="210" y="100" width="40" height="8" fill="#999"/><path d="M210 104 H300" stroke="#999" stroke-width="4"/><text x="310" y="109" fill="#555" font-weight="700">USB: keyboard + the USB stick</text>
+<rect x="20" y="130" width="190" height="8" fill="#fff"/><path d="M115 120 V160" stroke="#c33" stroke-width="4"/><text x="125" y="170" fill="#c33" font-weight="700">Power (plug in LAST)</text></g></svg><small><span class="en">Illustration. Port positions on your Beelink may differ — match them by the little icons next to each port.</span><span class="zh">示意图，实际接口位置可能不同，请按接口旁边的小图标对号入座。</span></small></div>
+<div class="fig"><svg viewBox="0 0 380 130" width="380"><g font-family="sans-serif"><rect x="30" y="40" width="80" height="60" rx="8" fill="#2b2926"/><text x="70" y="78" font-size="26" fill="#fff" text-anchor="middle" font-weight="700">F7</text><text x="140" y="70" font-size="14">Boot menu</text><text x="140" y="90" font-size="12" fill="#777">tap repeatedly</text><rect x="240" y="40" width="110" height="60" rx="8" fill="#2b2926"/><text x="295" y="78" font-size="24" fill="#fff" text-anchor="middle" font-weight="700">Del</text><text x="295" y="118" font-size="12" fill="#777" text-anchor="middle">BIOS (Step 5)</text></g></svg><small><span class="en">The two keys you will use.</span><span class="zh">会用到的两个按键。</span></small></div>
+<div class="note"><span class="en"><b>Not working?</b><br>• No USB in the menu: unplug the stick, wait 5 s, plug it back, restart and tap <kbd>F7</kbd> again.<br>• Black screen after choosing it: restart; when the Ubuntu menu shows press <kbd>e</kbd>, add <code>nomodeset</code> at the end of the line starting with <code>linux</code>, then press <kbd>F10</kbd>.<br>• Still won’t start: restart, tap <kbd>Del</kbd> to enter BIOS, turn <b>Secure Boot</b> off, save &amp; exit, retry.<br>• Stuck? Take a photo and send it to us.</span><span class="zh"><b>不成功？</b><br>• 菜单里没有 U 盘：拔掉 U 盘等 5 秒再插回，重启后再按 <kbd>F7</kbd>。<br>• 选了之后黑屏：重启，出现 Ubuntu 菜单时按 <kbd>e</kbd>，在以 <code>linux</code> 开头那行末尾加上 <code>nomodeset</code>，按 <kbd>F10</kbd>。<br>• 仍然启动不了：重启按 <kbd>Del</kbd> 进 BIOS，把 <b>Secure Boot</b> 关掉，保存退出再试。<br>• 卡住了就拍照发给我们。</span></div>
+<button class="done-btn">✓ Done</button>
+</div>
+
+<div class="step" id="s4" data-s="4">
+<h2><span class="num">4</span><span class="en">Install Ubuntu Server</span><span class="zh">安装 Ubuntu Server</span></h2>
+<p><span class="en">The installer is a text screen. Use <kbd>↑</kbd> <kbd>↓</kbd> to move, <kbd>Enter</kbd> to choose, <kbd>Space</kbd> to tick a box. Go screen by screen:</span><span class="zh">安装界面是文字界面：<kbd>↑</kbd> <kbd>↓</kbd> 移动，<kbd>Enter</kbd> 确认，<kbd>Space</kbd> 勾选。逐屏操作：</span></p>
+<ol>
+<li><span class="en">Language <b>English</b> → keyboard: your layout → Done.</span><span class="zh">语言选 <b>English</b> → 键盘选你自己的布局 → Done。</span></li>
+<li><span class="en">Type of install: <b>Ubuntu Server</b> (NOT “minimized”).</span><span class="zh">安装类型选 <b>Ubuntu Server</b>（不要选 minimized）。</span></li>
+<li><span class="en">Network: you should see a wired connection with an IP number like <code>192.168.x.x</code>. Leave defaults → Done.</span><span class="zh">网络：应看到有线连接和类似 <code>192.168.x.x</code> 的 IP，保持默认 → Done。</span></li>
+<li><span class="en">Proxy and mirror: leave defaults → Done.</span><span class="zh">代理和镜像源：保持默认 → Done。</span></li>
+<li><span class="en">Storage: choose <b>Use an entire disk</b> and select the Beelink’s <b>internal drive</b> (not the USB stick). Accept the rest → Done → Continue. <b>This erases Windows.</b></span><span class="zh">存储：选 <b>Use an entire disk</b>，目标选 Beelink 的<b>内置硬盘</b>（不是 U 盘），其余默认 → Done → Continue。<b>这一步会清除 Windows。</b></span></li>
+</ol>
+<div class="fig"><svg viewBox="0 0 520 190" width="520"><rect x="4" y="4" width="512" height="182" fill="#1a0a2a" stroke="#555"/><g font-family="ui-monospace,Menlo,monospace" font-size="13" fill="#eee"><text x="20" y="28">Guided storage configuration</text><text x="20" y="56" fill="#fff">(X) Use an entire disk</text><text x="20" y="80" fill="#aaa">    [ Samsung SSD 256GB  local disk  238G ]  &lt;-- choose THIS (internal)</text><text x="20" y="104" fill="#aaa">    [ USB DISK 8GB  local disk  7.5G ]       &lt;-- NOT this</text><rect x="20" y="130" width="90" height="28" fill="#e95420"/><text x="42" y="149" fill="#fff">[ Done ]</text></g></svg><small><span class="en">Example. Pick the big internal drive, not the small USB stick.</span><span class="zh">示例：选容量大的内置硬盘，不要选小的 U 盘。</span></small></div>
+<ol start="6">
+<li><span class="en">Profile: your name, a server name (e.g. <code>homebox</code>), a <b>username</b> and a <b>password</b>. <b>Write them down and keep them safe.</b></span><span class="zh">账户：填姓名、主机名（如 <code>homebox</code>）、<b>用户名</b>和<b>密码</b>。<b>请抄下来妥善保管。</b></span></li>
+<li><span class="en">Ubuntu Pro: choose Skip.</span><span class="zh">Ubuntu Pro：选 Skip 跳过。</span></li>
+<li><span class="en"><b>SSH setup: press <kbd>Space</kbd> to tick “Install OpenSSH server”</b> so it shows <code>[X]</code>. This is very important — it lets us help you remotely.</span><span class="zh"><b>SSH 设置：按 <kbd>Space</kbd> 勾选 “Install OpenSSH server”</b>，使其显示 <code>[X]</code>。这一步很重要，我们要靠它远程协助。</span></li>
+<li><span class="en">Featured snaps: tick nothing → Done.</span><span class="zh">Featured snaps：什么都不勾 → Done。</span></li>
+<li><span class="en">Wait for the installation (5–15 min). When it says <b>Install complete</b>, choose <b>Reboot Now</b>. When asked, <b>unplug the USB stick</b> and press <kbd>Enter</kbd>.</span><span class="zh">等待安装（5–15 分钟）。出现 <b>Install complete</b> 后选 <b>Reboot Now</b>；提示时<b>拔掉 U 盘</b>并按 <kbd>Enter</kbd>。</span></li>
+</ol>
+<div class="fig"><svg viewBox="0 0 520 130" width="520"><rect x="4" y="4" width="512" height="122" fill="#1a0a2a" stroke="#555"/><g font-family="ui-monospace,Menlo,monospace" font-size="13" fill="#eee"><text x="20" y="28">SSH configuration</text><text x="20" y="62" fill="#7CFC9A">[X] Install OpenSSH server      &lt;-- must show [X]</text><text x="20" y="86" fill="#aaa">[ ] Allow password authentication over SSH</text></g></svg><small><span class="en">The OpenSSH box must be ticked.</span><span class="zh">OpenSSH 这一项必须打勾。</span></small></div>
+<div class="warn"><span class="en">If a screen looks different from this list, <b>stop and send us a photo</b> — do not guess.</span><span class="zh">如果某一屏和上面不一样，<b>先停下来拍照发给我们</b>，不要猜。</span></div>
+<button class="done-btn">✓ Done</button>
+</div>
+
+<div class="step" id="s5" data-s="5">
+<h2><span class="num">5</span><span class="en">Auto-restart after a power cut</span><span class="zh">设置断电后自动开机</span></h2>
+<ol>
+<li><span class="en">Restart the Beelink and tap <kbd>Del</kbd> again and again to enter the <b>BIOS</b> (a blue/grey settings screen).</span><span class="zh">重启 Beelink，连续点按 <kbd>Del</kbd> 进入 <b>BIOS</b>（蓝/灰色设置界面）。</span></li>
+<li><span class="en">Look for a power option — on Beelink usually <b>Chipset → PCH-IO Configuration → State After G3</b> (or “Restore on AC Power Loss”). Set it to <b>S0 State</b> / <b>Power On</b>.</span><span class="zh">找电源选项，Beelink 通常在 <b>Chipset → PCH-IO Configuration → State After G3</b>（或 “Restore on AC Power Loss”），设为 <b>S0 State</b> / <b>Power On</b>。</span></li>
+<li><span class="en">Check the boot order: the internal drive (Ubuntu) should be first.</span><span class="zh">确认启动顺序：内置硬盘（Ubuntu）排第一。</span></li>
+<li><span class="en">Save &amp; exit (<kbd>F4</kbd> or the “Save &amp; Exit” tab).</span><span class="zh">保存并退出（<kbd>F4</kbd> 或 “Save &amp; Exit” 页）。</span></li>
+</ol>
+<div class="note"><span class="en">Menu names differ by model. If you can’t find it, <b>photograph the BIOS screens</b> and send them to us.</span><span class="zh">不同机型菜单名不同，找不到就<b>把 BIOS 画面拍照</b>发给我们。</span></div>
+<button class="done-btn">✓ Done</button>
+</div>
+
+<div class="step" id="s6" data-s="6">
+<h2><span class="num">6</span><span class="en">Log in &amp; check the network</span><span class="zh">登录并检查网络</span></h2>
+<ol>
+<li><span class="en">After the restart you see a black screen with <code>login:</code>. Type your <b>username</b>, press <kbd>Enter</kbd>, then your <b>password</b> (nothing shows while typing — that’s normal), <kbd>Enter</kbd>.</span><span class="zh">重启后出现黑屏和 <code>login:</code>。输入<b>用户名</b>回车，再输入<b>密码</b>（输入时屏幕不显示，这是正常的），回车。</span></li>
+<li><span class="en">Type these two commands (one at a time, <kbd>Enter</kbd> after each):</span><span class="zh">依次输入这两条命令（每条后回车）：</span></li>
+</ol>
+<pre>ip -br a
+ping -c 3 1.1.1.1</pre>
+<div class="fig"><svg viewBox="0 0 540 190" width="540"><rect x="4" y="4" width="532" height="182" fill="#111" stroke="#555"/><g font-family="ui-monospace,Menlo,monospace" font-size="13" fill="#e6e6e6"><text x="16" y="28">homebox login: yourname</text><text x="16" y="48">Password:</text><text x="16" y="72" fill="#7CFC9A">$ ip -br a</text><text x="16" y="92">lo      UNKNOWN  127.0.0.1/8</text><text x="16" y="112" fill="#fff">enp1s0  UP       192.168.1.23/24   &lt;-- an address like this = good</text><text x="16" y="136" fill="#7CFC9A">$ ping -c 3 1.1.1.1</text><text x="16" y="156">3 packets transmitted, 3 received, 0% packet loss</text><text x="16" y="176" fill="#7CFC9A">                                    &lt;-- 0% loss = good</text></g></svg><small><span class="en">What a good result looks like (numbers will differ).</span><span class="zh">正常结果长这样（数字会不同）。</span></small></div>
+<div class="ok"><span class="en">✔ Good: an address like <code>192.168.x.x</code> and <b>0% packet loss</b>.</span><span class="zh">✔ 正常：有 <code>192.168.x.x</code> 这样的地址，且 <b>0% packet loss</b>。</span></div>
+<div class="warn"><span class="en">No address or packet loss? Check the Ethernet cable is firmly in both the Beelink and the router, then retry. Still bad → send us a photo.</span><span class="zh">没有地址或丢包？检查网线两头都插紧，再试一次。仍不行就拍照发给我们。</span></div>
+<button class="done-btn">✓ Done</button>
+</div>
+
+<div class="step" id="s7" data-s="7">
+<h2><span class="num">7</span><span class="en">Send us two things</span><span class="zh">发给我们两样东西</span></h2>
+<ol>
+<li><span class="en">A <b>photo of the screen</b> showing the result of the two commands in Step 6.</span><span class="zh">第 6 步两条命令结果的<b>屏幕照片</b>。</span></li>
+<li><span class="en">The <b>model name</b> on the sticker under the Beelink (e.g. “Mini S12 Pro” or “Mini S13”).</span><span class="zh">主机底部标签上的<b>型号</b>（如 “Mini S12 Pro” / “Mini S13”）。</span></li>
+</ol>
+<div class="warn"><span class="en"><b>Never send your password.</b> We don’t need it now. Later we will send you a private one-time setup link and a small installer — treat that link like a password: don’t post it in groups or public places.</span><span class="zh"><b>不要发密码。</b>现在不需要。之后我们会给你一个私密的一次性设置链接和一个小安装包；这个链接等同于密码，不要发到群里或公开场合。</span></div>
+<button class="done-btn">✓ Done</button>
+</div>
+
+<div class="step" id="s8" data-s="8">
+<h2><span class="num">8</span><span class="en">Leave it running</span><span class="zh">保持运行</span></h2>
+<p><span class="en">When we confirm everything works:</span><span class="zh">我们确认一切正常后：</span></p>
+<ul>
+<li><span class="en">Remove the monitor, keyboard and USB stick.</span><span class="zh">拔掉显示器、键盘和 U 盘。</span></li>
+<li><span class="en">Keep <b>power and Ethernet connected 24/7</b>, in a spot with some airflow (not covered).</span><span class="zh"><b>电源和网线 24 小时保持连接</b>，放在通风处，不要盖住。</span></li>
+<li><span class="en">Don’t turn it off or unplug the network unless we ask. Tell us first if you need to move it.</span><span class="zh">没有我们通知不要关机或拔网线，需要挪位置请先告诉我们。</span></li>
+</ul>
+<div class="ok"><span class="en">🎉 That’s it — thank you! You never have to touch router settings.</span><span class="zh">🎉 完成，谢谢！全程不需要动路由器设置。</span></div>
+<button class="done-btn">✓ Done</button>
+</div>
+
+<footer>
+<span class="en">Please make sure your internet plan allows a device to run continuously. On a work/shared network, get the owner’s permission first.</span><span class="zh">请确认你的宽带套餐允许设备长期运行；公司/共享网络需先征得所有者同意。</span>
+<br>Sources: <a href="https://medium.com/@luukb/setting-up-plex-media-server-on-ubuntu-docker-on-beelink-s12-n100-60688bd56cc2">Medium</a> · <a href="https://gist.github.com/yofreke/0ece1a845dbe507ac1e4388c6ed84e3d">GitHub gist</a> · <a href="https://community.getchannels.com/t/setting-up-a-new-beelink-mini-pc-with-linux/38701">Channels Community</a> · <a href="https://github.com/minibolt-guide/minibolt/blob/main/index-1/operating-system.md">MiniBolt</a>
+</footer>
+</div>
+
+<script>
+const steps=[...document.querySelectorAll('.step')],K='beelink-guide-done';
+let done=JSON.parse(localStorage.getItem(K)||'[]');
+function render(){
+  steps.forEach(s=>s.classList.toggle('done',done.includes(s.dataset.s)));
+  const n=done.length;
+  document.getElementById('pct').textContent=n+' / '+steps.length;
+  document.getElementById('barfill').style.width=(n/steps.length*100)+'%';
+}
+steps.forEach(s=>s.querySelector('.done-btn').addEventListener('click',()=>{
+  const id=s.dataset.s;
+  done=done.includes(id)?done.filter(x=>x!==id):[...done,id];
+  localStorage.setItem(K,JSON.stringify(done));render();
+  if(done.includes(id)){const nx=steps[steps.indexOf(s)+1];if(nx)nx.scrollIntoView({behavior:'smooth',block:'start'})}
+}));
+const b=document.getElementById('langbtn');
+b.onclick=()=>{const z=document.body.dataset.lang==='en';document.body.dataset.lang=z?'zh':'en';b.textContent=z?'English':'中文';document.documentElement.lang=z?'zh':'en'};
+render();
+</script>
+<script data-goatcounter="https://chengbei.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

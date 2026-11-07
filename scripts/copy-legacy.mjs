@@ -6,6 +6,7 @@ const out = path.join(root, 'dist');
 const legacyPaths = [
   'apple-dev-migration',
   'assets',
+  'beelink-setup',
   'codex-reconnect',
   'classic',
   'content',
