@@ -199,6 +199,7 @@ PY</code></pre></div>
 
 <div class="card">
   <h2><span class="n">!</span>仍然失败，看具体错误</h2>
+  <p>访问局域网或公司内网的第三方 provider 时，还要分清三处配置：应用的 <code>NO_PROXY</code>/<code>no_proxy</code> 决定请求是否绕过环境变量代理；macOS 系统代理例外决定系统代理是否绕过该地址；Clash 的 <code>DIRECT</code> 规则只处理已经进入 Clash 的流量。若内网请求经代理返回 502，先核对实际启动环境中的代理排除项，再用同一接口做直连请求验证。修改启动环境后开启新会话复测。</p>
   <table>
     <tr><th>线索</th><th>下一步</th></tr>
     <tr><td>WebSocket Upgrade / 握手失败</td><td>核对代理与 provider 的传输支持；确认字段受当前版本支持后，再尝试 HTTP/SSE。</td></tr>
