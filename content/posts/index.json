@@ -181,6 +181,15 @@
     "excerpt_en": "A practical HTTP status-code reference for users and vibe coders: identify the problem family by the first digit, then distinguish common codes such as 400, 401, 403, 404, 429, 500, 502, 503, and 504. Includes useful 2xx–5xx codes, vendor-specific codes, and a repeatable debugging checklist."
   },
   {
+    "slug": "claude-code-moat",
+    "ts": 1786554778000,
+    "category": "thought",
+    "title_zh": "Claude Code 断档领先，但赢的不是跑分",
+    "title_en": "Claude Code Leads by a Mile — Just Not on Benchmarks",
+    "excerpt_zh": "有人问我 Claude Code 相比 Codex、Cursor、v0 这些对手到底强在哪，还是我了解得不够深。我把跑分、架构、生态、五类真实用户的选择全部核对了一遍：跑分层面没有断档，Claude 和 GPT-5.5 系常年咬得很紧；真正拉开差距的，是模型公司自己下场打磨的终端 harness、子代理架构和 MCP 生态——这条护城河目前只有一家挖到了生产级深度，换个战场（PM、业务人员、剪辑、自媒体）答案又完全不同。",
+    "excerpt_en": "Someone asked whether Claude Code is really ahead of Codex, Cursor, and v0 — or if the field has caught up. I checked the benchmarks, the architecture, the ecosystems, and what five kinds of real users actually reach for: benchmarks are basically tied with the GPT-5.5 line, but the gap comes from the terminal harness, sub-agent architecture, and MCP ecosystem Anthropic has spent a year building to production depth — a moat only one team has reached so far, though the answer flips entirely for PMs, business users, editors, and creators."
+  },
+  {
     "slug": "codex-terminal-scrollback",
     "ts": 1786377600000,
     "category": "help",
