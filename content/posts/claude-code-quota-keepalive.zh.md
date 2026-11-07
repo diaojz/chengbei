@@ -7,7 +7,7 @@ Claude（包括 Claude Code）的用量窗口，不是每天在固定钟点统�
 > 核对日期：2026-08-28。Opus 与 Sonnet 分别计算 5 小时窗口，是我本人使用中的实测观察，不是官方文档明文承诺；产品行为以后也可能变化。
 
 <figure>
-  <img src="/assets/img/posts/claude-code-quota-keepalive/cover.png" alt="Claude Code 在真正开始工作前预热 5 小时用量窗口的示意图">
+  <img src="/assets/img/posts/claude-code-quota-keepalive/cover.webp" alt="Claude Code 在真正开始工作前预热 5 小时用量窗口的示意图">
   <figcaption>“预热窗口”的核心：在真正开始重度使用前，用一条最小请求对齐窗口起点。</figcaption>
 </figure>
 
@@ -24,7 +24,7 @@ Claude（包括 Claude Code）的用量窗口，不是每天在固定钟点统�
 另一个关键点是：根据我自己的实测观察，Opus 与 Sonnet 是两个独立配额池，各自计算自己的 5 小时窗口。因此，只给其中一个模型发预热消息，并不能同时替另一个模型启动窗口。这个“分池”结论来自实际使用观察，不能当成 Anthropic 对未来产品行为的官方保证。
 
 <figure>
-  <img src="/assets/img/posts/claude-code-quota-keepalive/mechanism.png" alt="Claude Code 五小时滚动窗口以及 Opus 与 Sonnet 独立配额池示意图">
+  <img src="/assets/img/posts/claude-code-quota-keepalive/mechanism.webp" alt="Claude Code 五小时滚动窗口以及 Opus 与 Sonnet 独立配额池示意图">
   <figcaption>5 小时窗口从首次实际请求开始；Opus 与 Sonnet 分池是作者实测观察，并非官方明文规格。</figcaption>
 </figure>
 

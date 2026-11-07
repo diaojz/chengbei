@@ -1,6 +1,6 @@
 # 把 Dify 装进自己的服务器：Docker Compose 私有化部署实战
 
-<figure><img src="/assets/img/posts/dify-self-hosting/cover.png" alt="深夜数据中心中，公网流量经过安全网关进入容器服务并流向持久化数据库和备份保险库"><figcaption>私有化不是把容器跑起来，而是把入口、Secret、数据、升级和恢复一起接管。</figcaption></figure>
+<figure><img src="/assets/img/posts/dify-self-hosting/cover.webp" alt="深夜数据中心中，公网流量经过安全网关进入容器服务并流向持久化数据库和备份保险库"><figcaption>私有化不是把容器跑起来，而是把入口、Secret、数据、升级和恢复一起接管。</figcaption></figure>
 
 系列第一篇我们问过：什么时候应该用云版，什么时候值得私有化。走到收官篇，答案可以更具体了——当数据边界、网络接入、成本结构或定制能力要求你掌握运行环境时，私有化才有价值；它也意味着可用性、安全、备份和升级都由你负责。
 

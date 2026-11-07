@@ -4,7 +4,7 @@ You upgrade `mcp`, fix the first `ModuleNotFoundError`, and assume the rest of t
 
 Here is MCP in plain language. The Model Context Protocol is a little like a shared USB interface for AI: tools, files, and databases may work differently internally, but an AI application can discover and use them through a common contract. The Python SDK is the toolkit that implements this contract so you do not have to build message formats, connections, and error handling from scratch. If you work on AI tools, agents, or knowledge applications, this upgrade matters even when you never touch protocol internals.
 
-<figure><img src="/assets/img/posts/mcp-python-sdk-v2-migration/cover.png" alt="An engineer facing a calm-looking system whose underlying layers have quietly changed"><figcaption>No visible error does not mean nothing has changed underneath.</figcaption></figure>
+<figure><img src="/assets/img/posts/mcp-python-sdk-v2-migration/cover.webp" alt="An engineer facing a calm-looking system whose underlying layers have quietly changed"><figcaption>No visible error does not mean nothing has changed underneath.</figcaption></figure>
 
 That is the real story of MCP Python SDK 2.0. The visible layer contains renamed APIs. Underneath it, the SDK adopts a different operating model.
 
@@ -39,7 +39,7 @@ A legacy session is like a phone call. You dial first, keep the call connected, 
 
 A modern MCP request is closer to a postcard. Each card includes its own address and the information needed to process it, so any suitable worker can handle it without finding the person who answered last time.
 
-<figure><img src="/assets/img/posts/mcp-python-sdk-v2-migration/diagram-old-vs-new.png" alt="A continuous legacy connection compared with independent self-contained modern requests"><figcaption>The old model resembles a continuous call; the new model uses self-contained postcards that any server can handle.</figcaption></figure>
+<figure><img src="/assets/img/posts/mcp-python-sdk-v2-migration/diagram-old-vs-new.webp" alt="A continuous legacy connection compared with independent self-contained modern requests"><figcaption>The old model resembles a continuous call; the new model uses self-contained postcards that any server can handle.</figcaption></figure>
 
 MCP `2026-07-28` removes the initialization handshake and long-lived protocol session. Each request carries the protocol version and client capabilities, allowing any server replica to process it.
 
@@ -185,7 +185,7 @@ The modern model resembles submitting paperwork at a service counter. If somethi
 
 The high-level API expresses this multi-round flow through `Resolve`:
 
-<figure><img src="/assets/img/posts/mcp-python-sdk-v2-migration/diagram-resolve-flow.png" alt="A four-step Resolve loop for requesting, confirming, and retrying"><figcaption>The task starts, discovers missing information, asks for human confirmation, and retries with the answer.</figcaption></figure>
+<figure><img src="/assets/img/posts/mcp-python-sdk-v2-migration/diagram-resolve-flow.webp" alt="A four-step Resolve loop for requesting, confirming, and retrying"><figcaption>The task starts, discovers missing information, asks for human confirmation, and retries with the answer.</figcaption></figure>
 
 The old tool invokes `ctx.elicit()` while running:
 
@@ -407,7 +407,7 @@ Keeping those boundaries explicit is more credible than filling the gaps with an
 
 Do not migrate like moving house in the dark. Use four checkpoints: inspect, test both paths, switch, and verify the deployed result.
 
-<figure><img src="/assets/img/posts/mcp-python-sdk-v2-migration/diagram-migration-path.png" alt="Four checkpoints on the path from the old SDK to the new version"><figcaption>Inspect first, test both paths, switch deliberately, and verify the deployed result.</figcaption></figure>
+<figure><img src="/assets/img/posts/mcp-python-sdk-v2-migration/diagram-migration-path.webp" alt="Four checkpoints on the path from the old SDK to the new version"><figcaption>Inspect first, test both paths, switch deliberately, and verify the deployed result.</figcaption></figure>
 
 I recommend this order:
 

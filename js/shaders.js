@@ -3,7 +3,7 @@
 // 图片/视频默认就挂 WebGL halftone 动效
 // 省电手段：1) IntersectionObserver 出视口自动暂停渲染（卸 RAF）
 //          2) 安静模式（html.quiet）一键全部卸载，退出后重挂
-// CDN_VERSION: 18.3.1 — 改版本要同步改此文件 line 8-10（3 处 import）和 index.html（3 处 modulepreload），共 6 处
+// CDN_VERSION: 18.3.1 — 改版本要同步改此文件 line 8-10（3 处 import）；classic/index.html 改为空闲时动态加载本文件
 // ──────────────────────────────────────────────
 import React from 'https://esm.sh/react@18.3.1';
 import { createRoot } from 'https://esm.sh/react-dom@18.3.1/client';

@@ -13,7 +13,7 @@
       "sample_count": 0,
       "updated_at": "2026-09-20",
       "status": "researching",
-      "card": "content/ai-jobs/cards/fde.jpg",
+      "card": "content/ai-jobs/cards/fde.webp",
       "thumbnail": "/assets/img/ai-jobs/fde.webp",
       "evidence_zh": ["已归档知识卡；结构化招聘样本与来源链接仍在补齐。"],
       "sections": [
@@ -33,8 +33,8 @@
       "sample_count": 25,
       "updated_at": "2026-09-20",
       "status": "published",
-      "card": "content/ai-jobs/cards/ai-product-manager.png",
-      "detail_image": "content/ai-jobs/ai-product-manager-workspace.png",
+      "card": "content/ai-jobs/cards/ai-product-manager.webp",
+      "detail_image": "content/ai-jobs/ai-product-manager-workspace.webp",
       "thumbnail": "/assets/img/ai-jobs/ai-product-manager.webp",
       "evidence_zh": ["BOSS直聘北京、上海职位列表：25 条去重样本。", "另以猎聘公开完整 JD 与企业招聘官网核验岗位分支。"],
       "sections": [
@@ -55,7 +55,7 @@
       "sample_count": 30,
       "updated_at": "2026-09-21",
       "status": "published",
-      "card": "content/ai-jobs/cards/ai-application-engineer.png",
+      "card": "content/ai-jobs/cards/ai-application-engineer.webp",
       "thumbnail": "/assets/img/ai-jobs/ai-application-engineer.webp",
       "evidence_zh": ["已归档北京、上海共 30 条公开职位列表，文件内 URL 已去重；仍待逐条有效性复核。", "已归档企业官网与公开搜索结果，用于核验业务语境。"],
       "sections": [
@@ -76,7 +76,7 @@
       "sample_count": 29,
       "updated_at": "2026-09-21",
       "status": "published",
-      "card": "content/ai-jobs/cards/llm-engineer.png",
+      "card": "content/ai-jobs/cards/llm-engineer.webp",
       "thumbnail": "/assets/img/ai-jobs/llm-engineer.webp",
       "evidence_zh": ["已核验字节跳动官网 20 条、腾讯招聘官网 10 条公开职位详情；按职位名、业务群和城市保守去重后为 29 条。", "样本来自两家企业官方招聘官网，不代表整个市场；官网未公开薪资，未做薪资统计。"],
       "sections": [

@@ -1,6 +1,6 @@
 # Don't Learn Dify Yet—First Learn the Map of AI Application Platforms
 
-<figure><img src="/assets/img/posts/dify-platform-landscape/cover.png" alt="A hand-drawn technology selection map spread across a late-night study under the warm glow of a desk lamp, with abstract workflow nodes glowing on a laptop screen"><figcaption>Before choosing a tool, learn the whole map.</figcaption></figure>
+<figure><img src="/assets/img/posts/dify-platform-landscape/cover.webp" alt="A hand-drawn technology selection map spread across a late-night study under the warm glow of a desk lamp, with abstract workflow nodes glowing on a laptop screen"><figcaption>Before choosing a tool, learn the whole map.</figcaption></figure>
 
 When people inherit an AI project, their first instinct is often to start hunting for buttons: Where do I create a knowledge base? Where do I configure the model? How do I connect workflow nodes? Where are the error logs?
 

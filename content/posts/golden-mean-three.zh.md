@@ -6,7 +6,7 @@
 > 中国人给它取了个名字，叫**中庸**；也铸成了一件礼器，叫**鼎**。
 
 <figure>
-  <img src="assets/posts/golden-mean-three/hero-ding.png" alt="一只三足青铜鼎，三足稳立">
+  <img src="assets/posts/golden-mean-three/hero-ding.webp" alt="一只三足青铜鼎，三足稳立">
   <figcaption>三足鼎立——用最少的支点，换最稳的站立。这是中国人对「最稳结构」的终极概括。</figcaption>
 </figure>
 
@@ -101,7 +101,7 @@
 **这，就是中庸落在"数量"上的具象——三足鼎立。** 它从来不只是形容三国，而是中国人对"最稳结构"的终极概括。
 
 <figure>
-  <img src="assets/posts/golden-mean-three/balance.png" alt="三个发光节点连成等边三角，互相牵制">
+  <img src="assets/posts/golden-mean-three/balance.webp" alt="三个发光节点连成等边三角，互相牵制">
   <figcaption>任意两方之和都大于第三方——谁想吞掉谁，另两方就联手把它摁回去。谁也吃不掉谁，于是谁都守规矩。</figcaption>
 </figure>
 
@@ -296,7 +296,7 @@
 **恰恰相反。烟草不是反例，它是这套理论最极端、也最精彩的一次印证。**
 
 <figure>
-  <img src="assets/posts/golden-mean-three/monopoly.png" alt="众多微弱光点中，唯一一根孤峰般的巨型光柱矗立">
+  <img src="assets/posts/golden-mean-three/monopoly.webp" alt="众多微弱光点中，唯一一根孤峰般的巨型光柱矗立">
   <figcaption>当目标不是「做大」而是「摁住」，最优解就从「三家分立」翻转成「一家独占」。工具相反，目的相同——殊途同归于中庸。</figcaption>
 </figure>
 

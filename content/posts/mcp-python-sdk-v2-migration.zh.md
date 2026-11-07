@@ -4,7 +4,7 @@
 
 先用几句话说清 MCP 是什么。MCP（Model Context Protocol）有点像给 AI 准备的一套通用 USB 接口：工具、文件、数据库各不相同，但只要遵守同一套接口，AI 就能用相似的方式发现和调用它们。Python SDK 则是帮你实现这套接口的工具箱，让你不用从头处理消息格式、连接和错误。即使你不写协议底层，只要在做 AI 工具、Agent 或知识库应用，这次升级迟早会影响你。
 
-<figure><img src="/assets/img/posts/mcp-python-sdk-v2-migration/cover.png" alt="工程师深夜面对看似平静、底层却已悄然变化的系统界面"><figcaption>看起来没有报错，不代表系统底层什么都没变。</figcaption></figure>
+<figure><img src="/assets/img/posts/mcp-python-sdk-v2-migration/cover.webp" alt="工程师深夜面对看似平静、底层却已悄然变化的系统界面"><figcaption>看起来没有报错，不代表系统底层什么都没变。</figcaption></figure>
 
 这就是 MCP Python SDK 2.0 最值得警惕的地方：表面上是一批 API 改名，底下却换了一整套运行方式。
 
@@ -39,7 +39,7 @@ mcp>=1.28,<2
 
 现代 MCP 请求更像寄明信片：每一张都写好了地址和必要信息，任何合适的工作人员收到后都能独立处理，不必先找到上次接电话的那个人。
 
-<figure><img src="/assets/img/posts/mcp-python-sdk-v2-migration/diagram-old-vs-new.png" alt="旧模式的持续连接与新模式的独立自包含请求对比"><figcaption>旧模式像持续通话；新模式像每次都带齐信息、可由任意服务处理的明信片。</figcaption></figure>
+<figure><img src="/assets/img/posts/mcp-python-sdk-v2-migration/diagram-old-vs-new.webp" alt="旧模式的持续连接与新模式的独立自包含请求对比"><figcaption>旧模式像持续通话；新模式像每次都带齐信息、可由任意服务处理的明信片。</figcaption></figure>
 
 MCP `2026-07-28` 取消了初始化握手和长生命周期 session。每个请求携带协议版本与客户端能力，因此可以由任意服务端实例处理。
 
@@ -185,7 +185,7 @@ Client(server, mode="legacy", ...)
 
 高层 API 用 `Resolve` 处理这个多轮过程：
 
-<figure><img src="/assets/img/posts/mcp-python-sdk-v2-migration/diagram-resolve-flow.png" alt="Resolve 多轮交互的四步循环流程"><figcaption>提出任务、发现缺项、由人确认，再带着答案重新完成。</figcaption></figure>
+<figure><img src="/assets/img/posts/mcp-python-sdk-v2-migration/diagram-resolve-flow.webp" alt="Resolve 多轮交互的四步循环流程"><figcaption>提出任务、发现缺项、由人确认，再带着答案重新完成。</figcaption></figure>
 
 下面的旧工具会在执行过程中主动调用 `ctx.elicit()`，询问是否确认订桌：
 
@@ -407,7 +407,7 @@ mcp.run(
 
 迁移不要像在黑暗中一次性搬家，而应该像过四道检查站：先盘点，再双路测试，然后切换，最后验证部署。
 
-<figure><img src="/assets/img/posts/mcp-python-sdk-v2-migration/diagram-migration-path.png" alt="从旧版本迁移到新版本的四个关键检查点"><figcaption>先检查，再测试，然后切换，最后验证部署结果。</figcaption></figure>
+<figure><img src="/assets/img/posts/mcp-python-sdk-v2-migration/diagram-migration-path.webp" alt="从旧版本迁移到新版本的四个关键检查点"><figcaption>先检查，再测试，然后切换，最后验证部署结果。</figcaption></figure>
 
 建议顺序是：
 

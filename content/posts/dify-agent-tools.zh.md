@@ -1,6 +1,6 @@
 # 别让模型只会聊天：用 Dify Agent 学会选择和调用工具
 
-<figure><img src="/assets/img/posts/dify-agent-tools/cover.png" alt="深夜书房中，智能决策核心连接搜索、工具、数据库与远方 MCP 桥梁"><figcaption>工作流把步骤提前画好；Agent 则在运行时根据目标决定下一步调用什么工具。</figcaption></figure>
+<figure><img src="/assets/img/posts/dify-agent-tools/cover.webp" alt="深夜书房中，智能决策核心连接搜索、工具、数据库与远方 MCP 桥梁"><figcaption>工作流把步骤提前画好；Agent 则在运行时根据目标决定下一步调用什么工具。</figcaption></figure>
 
 前七集，我们一直在画流程：分支写在哪、变量从哪来、API 在哪调用，都是开发者提前决定的。可有些任务无法预先列出固定步骤。例如“查一下北京明天的天气，如果下雨就给我一份室内行程”，模型要先理解目标，再决定是否查天气、是否继续搜索景点，最后组织答案。
 

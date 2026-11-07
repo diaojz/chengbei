@@ -6,7 +6,7 @@ After reading enough of these posts, the obvious question is: what are developer
 
 The answer depends on what “using” means. Did someone try a tool once in the past year, or do they rely on it at work every day? Are we talking about autocomplete in an editor, or an agent that can read a repository, edit files, and run commands? Mix those questions together and the rankings become confusing.
 
-![Two developer surveys on AI coding tools. Stack Overflow asks which tools respondents used in the past year; JetBrains reports adoption at work. The figures use different definitions and should not be combined into one ranking.](/assets/img/posts/ai-coding-agent-landscape-2026/01-survey-comparison.png)
+![Two developer surveys on AI coding tools. Stack Overflow asks which tools respondents used in the past year; JetBrains reports adoption at work. The figures use different definitions and should not be combined into one ranking.](/assets/img/posts/ai-coding-agent-landscape-2026/01-survey-comparison.webp)
 
 ## Put the two surveys side by side
 
@@ -30,7 +30,7 @@ By 2026, the debate was no longer only about which model writes better code. Som
 
 ## They look like one category, but they are different layers
 
-![A diagram of an AI coding setup: interface, agent, model, and provider routing are separate components that can be combined.](/assets/img/posts/ai-coding-agent-landscape-2026/02-tool-layers.png)
+![A diagram of an AI coding setup: interface, agent, model, and provider routing are separate components that can be combined.](/assets/img/posts/ai-coding-agent-landscape-2026/02-tool-layers.webp)
 
 The names are easy to mix up. Claude Code, Codex, OpenCode, and Pi are agents or agent frameworks. Claude, GPT, Gemini, DeepSeek, MiniMax, Qwen, and Grok are models. OpenRouter and LiteLLM connect to or route between model services. The IDE is the workspace. These pieces can form one setup, but they are not the same kind of product.
 
@@ -43,13 +43,13 @@ OpenClaw receives tasks through chat channels and routes them to one or more age
 
 ## More tools, more ways in
 
-![A map of AI coding tools by their main entry point. Products can overlap categories; this is not a popularity or capability ranking.](/assets/img/posts/ai-coding-agent-landscape-2026/03-tool-map.png)
+![A map of AI coding tools by their main entry point. Products can overlap categories; this is not a popularity or capability ranking.](/assets/img/posts/ai-coding-agent-landscape-2026/03-tool-map.webp)
 
 The map puts several common routes side by side. Copilot, Cursor, Windsurf, JetBrains AI / Junie, TRAE, Baidu Comate, and Tencent CodeBuddy enter through an editor or IDE. Claude Code, Codex, Grok Build, Qwen Code, and MiniMax Code are coding agents that can take on repository tasks. Pi, OpenCode, Cline, Roo Code, Aider, Goose, and OpenHands offer varying degrees of model and workflow configuration.
 
 Two other groups often get lumped in with “coding tools.” Devin, Jules, Codex Cloud, and GitHub Copilot Coding Agent can run tasks asynchronously in the cloud. Replit Agent, Bolt.new, Lovable, and v0 are closer to describing an app and getting an interactive prototype to iterate on. Some can also edit code, but their starting points and deliverables differ. WorkBuddy and OpenClaw start from a desktop or chat entry point, which brings file access, permissions, and cross-app actions into the discussion.
 
-![A task-based guide to choosing among an IDE edit, repository agent, app prototype, cloud task, workbench, or configurable agent.](/assets/img/posts/ai-coding-agent-landscape-2026/04-task-guide.png)
+![A task-based guide to choosing among an IDE edit, repository agent, app prototype, cloud task, workbench, or configurable agent.](/assets/img/posts/ai-coding-agent-landscape-2026/04-task-guide.webp)
 
 For a small change, staying in the IDE is often the simplest start. For repository-wide work, give a coding agent a bounded task. For testing an idea, a prototyping tool may save a few steps. If a task can run unattended, consider a cloud agent. This is a way to start narrowing the options, not a product ranking.
 

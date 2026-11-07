@@ -1,6 +1,6 @@
 # 给 Dify 应用装上"分岔路"：什么时候写规则，什么时候让模型判断
 
-<figure><img src="/assets/img/posts/dify-branching-nodes/cover.png" alt="深夜书房里一张地图在暖光下分出两条路径，一条笔直规则、一条柔和弯曲，隐喻规则判断与模型判断两种分支方式"><figcaption>同一张地图，从这一集开始分出两条路：一条交给写死的规则，一条交给模型判断。</figcaption></figure>
+<figure><img src="/assets/img/posts/dify-branching-nodes/cover.webp" alt="深夜书房里一张地图在暖光下分出两条路径，一条笔直规则、一条柔和弯曲，隐喻规则判断与模型判断两种分支方式"><figcaption>同一张地图，从这一集开始分出两条路：一条交给写死的规则，一条交给模型判断。</figcaption></figure>
 
 一个只能回答正确问题的应用，离"可靠"还很远。
 
@@ -277,7 +277,7 @@ If/Else 节点会根据定义好的条件评估变量，再决定工作流进入
 
 如果条件不成立，也就是输入非空，则从 ELSE 继续进入上一集原有的 LLM，再由原有直接回复节点返回首都答案。
 
-<figure><img src="/assets/img/posts/dify-branching-nodes/05-if-else-config.png" alt="条件分支节点配置面板，IF 条件为用户输入 query 为空，ELSE 连接到 LLM 节点，IF 连接到空输入兜底节点"><figcaption>If/Else 不需要理解语言，只需要一个能算清楚的条件。</figcaption></figure>
+<figure><img src="/assets/img/posts/dify-branching-nodes/05-if-else-config.webp" alt="条件分支节点配置面板，IF 条件为用户输入 query 为空，ELSE 连接到 LLM 节点，IF 连接到空输入兜底节点"><figcaption>If/Else 不需要理解语言，只需要一个能算清楚的条件。</figcaption></figure>
 
 严格来说，这个检查放在问题分类器之后，正常情况下几乎不会触发。
 
@@ -381,7 +381,7 @@ If/Else 只是评估已经定义好的条件。问题分类器背后需要 LLM �
 
 If/Else 的空值兜底则应该单独验证：当 `sys.query` 没有有效内容时，它是否进入预期的固定回复路径；当输入非空时，是否继续进入原有 LLM。
 
-<figure><img src="/assets/img/posts/dify-branching-nodes/06-preview-tests.png" alt="Dify 预览面板里连续测试三类输入：德国被问题分类器判定为国家名称并经 LLM 正确回复柏林；你好被判定为问候或闲聊并触发问候引导；帮我写一段 Python 代码被判定为无法识别并触发无法识别兜底"><figcaption>三句话，三条路：分类器把“德国”“你好”“帮我写代码”分别送去了它们该去的地方。</figcaption></figure>
+<figure><img src="/assets/img/posts/dify-branching-nodes/06-preview-tests.webp" alt="Dify 预览面板里连续测试三类输入：德国被问题分类器判定为国家名称并经 LLM 正确回复柏林；你好被判定为问候或闲聊并触发问候引导；帮我写一段 Python 代码被判定为无法识别并触发无法识别兜底"><figcaption>三句话，三条路：分类器把“德国”“你好”“帮我写代码”分别送去了它们该去的地方。</figcaption></figure>
 
 这组测试的重点不是看回答文案是否足够漂亮，而是检查路由是否正确。
 

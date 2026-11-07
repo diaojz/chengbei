@@ -1,4 +1,4 @@
-<figure><img src="/assets/img/posts/validate-before-build/cover.png" alt="一张工作台上摆着未完工的桥梁模型，右侧一只手把一张小订单卡片放到聚光灯下，远处两条路径分别通向黑暗与亮起的道路"><figcaption>先确认有人愿意过桥，再决定要不要把桥修到能通车。</figcaption></figure>
+<figure><img src="/assets/img/posts/validate-before-build/cover.webp" alt="一张工作台上摆着未完工的桥梁模型，右侧一只手把一张小订单卡片放到聚光灯下，远处两条路径分别通向黑暗与亮起的道路"><figcaption>先确认有人愿意过桥，再决定要不要把桥修到能通车。</figcaption></figure>
 
 我想讲一个特别简单、但大多数人每天都做反了的道理：
 

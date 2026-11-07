@@ -6,7 +6,7 @@
 
 我把这轮资料翻了一遍，发现答案得先看你说的“用”是哪一种。是过去一年试过一次，还是现在上班每天都在用？是代码编辑器里的补全，还是能自己读仓库、改文件、跑命令的 Agent？这些问题混在一起，榜单自然越看越乱。
 
-![两份开发者调查的 AI 编程工具数据。Stack Overflow 统计过去一年用过哪些工具；JetBrains 统计工作中的采用率。两组数字口径不同，不能合并为单一排名。](/assets/img/posts/ai-coding-agent-landscape-2026/01-survey-comparison.png)
+![两份开发者调查的 AI 编程工具数据。Stack Overflow 统计过去一年用过哪些工具；JetBrains 统计工作中的采用率。两组数字口径不同，不能合并为单一排名。](/assets/img/posts/ai-coding-agent-landscape-2026/01-survey-comparison.webp)
 
 ## 先把两份调查放在桌上
 
@@ -30,7 +30,7 @@ JetBrains 还发现，90% 的受访专业开发者每周至少用一种编码 Ag
 
 ## 名字看起来都像工具，其实不在同一层
 
-![AI 编程方案的组成图：工作界面、Agent、模型和服务连接是不同组件，一套工作流可以按需组合。](/assets/img/posts/ai-coding-agent-landscape-2026/02-tool-layers.png)
+![AI 编程方案的组成图：工作界面、Agent、模型和服务连接是不同组件，一套工作流可以按需组合。](/assets/img/posts/ai-coding-agent-landscape-2026/02-tool-layers.webp)
 
 这里最容易混淆的是：Claude Code、Codex、OpenCode、Pi 这些是 Agent 或执行框架；Claude、GPT、Gemini、DeepSeek、MiniMax、Qwen、Grok 是模型；OpenRouter、LiteLLM 这类服务负责连接或路由。IDE 是你工作的界面。它们可以组成一套方案，但不是同一类产品。
 
@@ -43,13 +43,13 @@ OpenClaw 主要从聊天渠道接收任务，再调度一个或多个 Agent；�
 
 ## 工具越来越多，入口也不止一个
 
-![AI 编程工具路线图：按主要工作入口列出代表性产品，类别可以交叉，不是热度或能力排名。](/assets/img/posts/ai-coding-agent-landscape-2026/03-tool-map.png)
+![AI 编程工具路线图：按主要工作入口列出代表性产品，类别可以交叉，不是热度或能力排名。](/assets/img/posts/ai-coding-agent-landscape-2026/03-tool-map.webp)
 
 这张图把常见路线放在一起看。Copilot、Cursor、Windsurf、JetBrains AI / Junie，以及 TRAE、百度 Comate、腾讯 CodeBuddy，主要从编辑器或 IDE 进入；Claude Code、Codex、Grok Build、Qwen Code 和 MiniMax Code 更像直接接手代码任务的 Agent。Pi、OpenCode、Cline、Roo Code、Aider、Goose、OpenHands 则给了不同程度的模型和工作流配置空间。
 
 还有两类经常被放在“编程工具”里一起讨论：Devin、Jules、Codex Cloud、GitHub Copilot Coding Agent 可以把任务放到云端异步处理；Replit Agent、Bolt.new、Lovable、v0 更适合先从描述搭一个能点的原型。它们有些也能改代码，但起步方式和交付结果并不一样。WorkBuddy 与 OpenClaw 则从桌面或聊天入口派活，讨论重点会多出文件访问、授权范围和跨应用操作。
 
-![按任务类型选择工具的参考图：编辑器修改、仓库级 Agent、快速原型、云端异步、工作台编排和可配置 Agent。](/assets/img/posts/ai-coding-agent-landscape-2026/04-task-guide.png)
+![按任务类型选择工具的参考图：编辑器修改、仓库级 Agent、快速原型、云端异步、工作台编排和可配置 Agent。](/assets/img/posts/ai-coding-agent-landscape-2026/04-task-guide.webp)
 
 如果只是改眼前一段，先留在 IDE 里通常最直接；要读懂仓库、跨文件修改，再给代码 Agent 一个有边界的任务；想验证产品交互，原型工具可能省几步；任务可以等一会儿再看，就考虑云端 Agent。这个顺序只是帮我开始筛选，不是产品排名。
 

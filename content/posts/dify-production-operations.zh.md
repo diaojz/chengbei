@@ -1,6 +1,6 @@
 # 能跑不等于能上线：把 Dify Demo 变成可运营的生产应用
 
-<figure><img src="/assets/img/posts/dify-production-operations/cover.png" alt="深夜控制室中，AI 原型沿版本、日志、监控、权限与回滚管线进入生产控制台"><figcaption>Demo 证明路径能走通；生产系统还要证明它出了问题能看见、能止损、能恢复。</figcaption></figure>
+<figure><img src="/assets/img/posts/dify-production-operations/cover.webp" alt="深夜控制室中，AI 原型沿版本、日志、监控、权限与回滚管线进入生产控制台"><figcaption>Demo 证明路径能走通；生产系统还要证明它出了问题能看见、能止损、能恢复。</figcaption></figure>
 
 前八集已经把 Dify 的主要构建能力走了一遍。到这里最危险的误区是：预览成功、发布按钮点亮，就把应用交给真实用户。
 
@@ -26,9 +26,9 @@ Dify 对 Chatflow 和 Workflow 区分三种状态：当前草稿是开发中的�
 
 发布时不要写“修了一点 Prompt”。采用可检索的命名：`2026-09-10-rag-threshold-0.72`，发布说明记录变更、影响、验证样本和回滚条件。
 
-<figure><img src="/assets/img/posts/dify-production-operations/04-version-history.png" alt="Dify 官方版本历史入口与版本列表"><figcaption>历史版本不是装饰，它是发布审计和回滚准备的基础。来源：Dify 官方文档。</figcaption></figure>
+<figure><img src="/assets/img/posts/dify-production-operations/04-version-history.webp" alt="Dify 官方版本历史入口与版本列表"><figcaption>历史版本不是装饰，它是发布审计和回滚准备的基础。来源：Dify 官方文档。</figcaption></figure>
 
-<figure><img src="/assets/img/posts/dify-production-operations/05-named-versions.jpg" alt="Dify 官方命名版本筛选界面"><figcaption>给关键版本命名，避免在一串自动版本中靠时间猜测。来源：Dify 官方文档。</figcaption></figure>
+<figure><img src="/assets/img/posts/dify-production-operations/05-named-versions.webp" alt="Dify 官方命名版本筛选界面"><figcaption>给关键版本命名，避免在一串自动版本中靠时间猜测。来源：Dify 官方文档。</figcaption></figure>
 
 官方当前说明中，恢复旧版本到草稿、导出指定版本 DSL、通过 Service API 运行指定已发布版本需要付费套餐；Sandbox 始终运行最新发布版本。因此免费套餐不能把“存在历史记录”等同于“随时一键回滚”。
 

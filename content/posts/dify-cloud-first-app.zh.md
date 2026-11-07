@@ -1,6 +1,6 @@
 # 从零搭出第一个 Dify 应用：用云版完成一次 Chatflow 上线
 
-<figure><img src="/assets/img/posts/dify-cloud-first-app/cover.png" alt="从地图走向 Dify 应用工作台，准备推开门完成第一次真实搭建"><figcaption>地图已经看过了，现在推开门，完成第一次真实搭建。</figcaption></figure>
+<figure><img src="/assets/img/posts/dify-cloud-first-app/cover.webp" alt="从地图走向 Dify 应用工作台，准备推开门完成第一次真实搭建"><figcaption>地图已经看过了，现在推开门，完成第一次真实搭建。</figcaption></figure>
 
 上一篇结尾，我说下一步要“进入机器房”，从私有化部署开始真正动手。
 
@@ -213,7 +213,7 @@ Chatflow 会把这三部分直接画在画布上。你能看到数据从哪里�
 
 所以这一次选 Chatflow，不是因为案例必须用它，而是因为它最适合承担第一张“可运行的结构图”。
 
-<figure><img src="/assets/img/posts/dify-cloud-first-app/02-create-chatflow.png" alt="Dify 创建应用弹窗，已选择 Chatflow 应用类型"><figcaption>选择 Chatflow：既保留聊天体验，也让应用逻辑完整地出现在画布上。</figcaption></figure>
+<figure><img src="/assets/img/posts/dify-cloud-first-app/02-create-chatflow.webp" alt="Dify 创建应用弹窗，已选择 Chatflow 应用类型"><figcaption>选择 Chatflow：既保留聊天体验，也让应用逻辑完整地出现在画布上。</figcaption></figure>
 
 在创建弹窗中：
 

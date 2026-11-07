@@ -5,7 +5,7 @@ By Chengbei
 The terminal felt unusually crowded on the first day of September. Claude Code had just displayed an update notice; Codex CLI was refreshing in the next pane. Browser tabs held Anthropic’s Fable 5.1, SpaceXAI’s Grok 4.6, Google’s Gemini 3.1 Pro, still in Preview, and OpenAI’s summer release, GPT-5.6. Kimi, GLM, Qwen, DeepSeek, and other Chinese contenders were filling the same window with updates of their own.
 
 <figure>
-  <img src="/assets/img/posts/ai-agent-model-landscape-2026/cover.png" alt="A developer facing surrounding displays filled with model and agent networks">
+  <img src="/assets/img/posts/ai-agent-model-landscape-2026/cover.webp" alt="A developer facing surrounding displays filled with model and agent networks">
   <figcaption>Models arrived at the workbench together, but the real competition had already expanded to agents and complete workflows.</figcaption>
 </figure>
 

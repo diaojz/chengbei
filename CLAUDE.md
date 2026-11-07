@@ -48,7 +48,7 @@ gh run watch --repo diaojz/chengbei
 
 三栏 grid 布局（`styles.css` 的 `.page`），每栏 `100vh` 独立滚动，**没有页级 footer**——「站点最底部」类需求放第一栏（`.col-1`，overflow hidden 固定不滚）底部，如现有的访问统计条。
 
-- `index.html`：唯一主页面；SEO/OG meta 在顶部；第一栏 = 身份 + Ships + Help + Writing + Social + 访问统计
+- `classic/index.html`：经典版主页（`<base href="/">`，复用根目录 `styles.css`、`js/`）；第一栏 = 身份 + Ships + Help + Writing + Social + 访问统计。根目录 `index.html` 已于 2026-11-06 删除（不参与部署），不要再建。shader 在空闲时动态 import，失败静默
 - `js/i18n.js`：**所有面向用户的文案**（zh / en 两个字典）。⚠️ 改 `artifacts` / `social` / `help` 数组必须 zh / en 两边同步，长度顺序一致，否则切语言后列表不一致
 - `js/app.js`：拉 `content/data.json` + `content/posts/index.json`，渲染中栏（thought 摘要卡 + 媒体）和第三栏画廊
 - `js/posts.js`：文章详情页（hash 路由 `#/p/<slug>`，marked 按需 CDN 加载，弱网有纯文本兜底）
@@ -80,12 +80,14 @@ gh run watch --repo diaojz/chengbei
 
 开源托管方案，账号 2026-06-12 已开通（详见 README「访问统计」节）：code = `chengbei`，counter API 已开放，看板 chengbei.goatcounter.com 已设 Anyone 公开。
 
-- 计数脚本挂在 4 个页面 `</body>` 前；`js/stats.js` 负责 SPA 路由补计 + 首页「总访问/今日」展示（接口失败自动隐藏整条）
-- 换账号 / 改 code 时：同步改 `js/stats.js` 的 `SITE` 常量 + 4 处 `data-goatcounter` 地址
+- 计数脚本：Astro 页由 `src/components/VisitStats.astro` / `BaseLayout.astro` 统一挂；经典版与各独立页挂在各自 `</body>` 前；`js/stats.js` 负责 SPA 路由补计 + 首页「总访问/今日」展示（接口失败自动隐藏整条）
+- 换账号 / 改 code 时：同步改 `js/stats.js` 的 `SITE` 常量 + Astro 组件与各旧页面的 `data-goatcounter` 地址
 
 ## 全站配图维护
 
-文章封面映射在 `content/visuals.json`，项目封面在 `src/data/projects.ts`；优先静态 WebP，尺寸明确、懒加载。概念插画不能充当产品截图。正文原图和发布日期不得随配图更新改写。构建后运行 `python3 scripts/audit-site-images.py` 检查全站本地图片路径。
+文章封面映射在 `content/visuals.json`，项目封面在 `src/data/projects.ts`；优先静态 WebP，尺寸明确、懒加载。概念插画不能充当产品截图。正文原图和发布日期不得随配图更新改写。构建后运行 `python3 scripts/audit-site-images.py` 检查全站本地图片路径。部署目录（assets/public/content/独立页）里 >300KB 的 PNG/JPG 已于 2026-11-06 批量转 WebP（最长边 ≤2400）；新图用 `cwebp -q 82` 转后再入库，改了 Markdown 要 `node scripts/content-manifest.mjs --write` 更新正文哈希基线。
+
+其他约定：`/rss.xml` 由 `src/pages/rss.xml.ts` 生成；`BaseLayout` 的 hreflang 只对有英文版的路由输出；依赖版本全部锁定具体号，不用 `latest`；Google Fonts 异步加载并带系统中文字体兜底。
 
 ## 移动阅读、统计和内容发现
 

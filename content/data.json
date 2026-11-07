@@ -15,25 +15,25 @@
   ],
   "images": [
     {
-      "url": "assets/img/gallery/night.png",
+      "url": "assets/img/gallery/night.webp",
       "ts": 1779717600000,
       "caption_zh": "深夜 · 银河流星",
       "caption_en": "Night · meteor through the milky way"
     },
     {
-      "url": "assets/img/gallery/summer.png",
+      "url": "assets/img/gallery/summer.webp",
       "ts": 1779609600000,
       "caption_zh": "晚夏 · 林间斜光",
       "caption_en": "Late summer · light through the woods"
     },
     {
-      "url": "assets/img/gallery/rain.png",
+      "url": "assets/img/gallery/rain.webp",
       "ts": 1779516000000,
       "caption_zh": "雨天 · 雨落成纹",
       "caption_en": "Rain · ripples on dark water"
     },
     {
-      "url": "assets/img/gallery/snow.png",
+      "url": "assets/img/gallery/snow.webp",
       "ts": 1779411600000,
       "caption_zh": "白昼 · 雪线之上",
       "caption_en": "Dawn · above the snowline"

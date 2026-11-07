@@ -5,7 +5,7 @@
 九月第一天的终端窗口格外拥挤。Claude Code 刚弹出新版提示，另一边的 Codex CLI 也更新了；浏览器标签页里，Anthropic 的 Fable 5.1、SpaceXAI 的 Grok 4.6、Google 尚处预览阶段的 Gemini 3.1 Pro，以及 OpenAI 夏天发布的 GPT-5.6，像是约好了在同一个工作台上争夺光标。与此同时，Kimi、GLM、Qwen、DeepSeek 等国产模型也在迅速补位。
 
 <figure>
-  <img src="/assets/img/posts/ai-agent-model-landscape-2026/cover.png" alt="开发者面对环绕式屏幕上的多组大模型与 Agent 网络">
+  <img src="/assets/img/posts/ai-agent-model-landscape-2026/cover.webp" alt="开发者面对环绕式屏幕上的多组大模型与 Agent 网络">
   <figcaption>模型同时涌入工作台，真正的竞争已经延伸到 Agent 与完整工作流。</figcaption>
 </figure>
 

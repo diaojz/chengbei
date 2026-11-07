@@ -7,7 +7,7 @@ My solution is to use Claude Code's built-in Scheduled cloud agents, commonly ca
 > Checked on August 28, 2026. Separate five-hour windows for Opus and Sonnet are my own observed behavior, not an explicit promise in the official documentation. Product behavior may change.
 
 <figure>
-  <img src="/assets/img/posts/claude-code-quota-keepalive/cover.png" alt="A scheduled request warming up a Claude Code usage window before a real work session">
+  <img src="/assets/img/posts/claude-code-quota-keepalive/cover.webp" alt="A scheduled request warming up a Claude Code usage window before a real work session">
   <figcaption>Window “warm-up”: use one minimal request shortly before heavy work to align the start time.</figcaption>
 </figure>
 
@@ -24,7 +24,7 @@ The first actual request starts a rolling five-hour window. If you send a casual
 There is one more important detail. In my own testing and observation, Opus and Sonnet use separate quota pools and calculate their five-hour windows independently. Warming up one model therefore does not start the other model's window. This is an observed result, not an official guarantee of future behavior.
 
 <figure>
-  <img src="/assets/img/posts/claude-code-quota-keepalive/mechanism.png" alt="Five-hour rolling windows with separate observed quota pools for Claude Opus and Sonnet">
+  <img src="/assets/img/posts/claude-code-quota-keepalive/mechanism.webp" alt="Five-hour rolling windows with separate observed quota pools for Claude Opus and Sonnet">
   <figcaption>The window starts with the first request. Separate Opus and Sonnet pools are an observed behavior, not an explicitly documented specification.</figcaption>
 </figure>
 

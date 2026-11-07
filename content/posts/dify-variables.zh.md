@@ -1,6 +1,6 @@
 # 别只让数据路过：用变量给 Dify 应用打地基
 
-<figure><img src="/assets/img/posts/dify-variables/cover.png" alt="深夜书房里一张地图，多条光路从地图节点汇入中央的透明容器，容器下方发散出根系状金色光纹，象征变量的汇聚与留存"><figcaption>地图上的每一条路径，最终都要汇进同一处地基。</figcaption></figure>
+<figure><img src="/assets/img/posts/dify-variables/cover.webp" alt="深夜书房里一张地图，多条光路从地图节点汇入中央的透明容器，容器下方发散出根系状金色光纹，象征变量的汇聚与留存"><figcaption>地图上的每一条路径，最终都要汇进同一处地基。</figcaption></figure>
 
 一条 Dify 工作流刚搭出来时，很容易给人一种错觉：节点已经连上，数据自然就会流过去；用户连续说了几句话，应用自然就知道这些话来自同一场对话。
 
@@ -136,7 +136,7 @@ Dify 的变量聚合器支持字符串、数字、对象、布尔值、数组和
 
 如果一条复杂流程需要同时收敛多项数据，例如分别聚合"回答正文"和"来源信息"，还可以在同一个变量聚合器里建立多个分组，各自独立聚合。不过这个案例只有一份最终回复，不需要增加额外复杂度。
 
-<figure><img src="/assets/img/posts/dify-variables/03-aggregator-config.png" alt="变量聚合器配置面板，变量赋值列表里有两项：LLM 的 text 字符串输出，以及空输入兜底的 output 字符串输出，两者都标注为 String 类型"><figcaption>两个候选输入，同一种类型，聚合器只关心谁真的交了值。</figcaption></figure>
+<figure><img src="/assets/img/posts/dify-variables/03-aggregator-config.webp" alt="变量聚合器配置面板，变量赋值列表里有两项：LLM 的 text 字符串输出，以及空输入兜底的 output 字符串输出，两者都标注为 String 类型"><figcaption>两个候选输入，同一种类型，聚合器只关心谁真的交了值。</figcaption></figure>
 
 ## 让直接回复只认一个上游结果
 
@@ -290,7 +290,7 @@ Chatflow 还提供 `sys.conversation_id` 和 `sys.dialogue_count` 等系统变�
 
 第二，写入发生在最终回复之前。只要用户看到了这次回答，工作流就应该已经完成对应的状态更新，而不是先把消息发出去，再依赖后续节点补记。
 
-<figure><img src="/assets/img/posts/dify-variables/06-variable-assigner.png" alt="变量赋值节点配置面板，变量选择 queried_countries（Array[String]），赋值方式为追加，赋值内容引用用户输入的 query（String）；背景画布可见该节点位于变量聚合器与直接回复之间"><figcaption>追加，不是覆盖——这是这一步唯一不能选错的地方。</figcaption></figure>
+<figure><img src="/assets/img/posts/dify-variables/06-variable-assigner.webp" alt="变量赋值节点配置面板，变量选择 queried_countries（Array[String]），赋值方式为追加，赋值内容引用用户输入的 query（String）；背景画布可见该节点位于变量聚合器与直接回复之间"><figcaption>追加，不是覆盖——这是这一步唯一不能选错的地方。</figcaption></figure>
 
 这里沿用 EP3 的教学结构：空输入兜底位于问题分类器后的"国家名称"分支，正常情况下几乎不会被触发。我们真正需要验证的是"法国""日本的首都是什么？"这类有效查询会被追加到历史。
 
@@ -346,7 +346,7 @@ Chatflow 还提供 `sys.conversation_id` 和 `sys.dialogue_count` 等系统变�
 
 数组的第一项被当成了紧跟在冒号后面的行内文本、用短横线引出，后面的项却各自换行、前面带着一个实心圆点——这是 Dify 把数组变量转成文本时套用的默认 Markdown 列表语法，前端再把 Markdown 渲染成这个不算工整的混合样式。它不是我们配置错了，就是这个界面版本的真实行为。
 
-<figure><img src="/assets/img/posts/dify-variables/07-preview-memory-test.png" alt="Dify 预览面板：先后输入德国、日本的首都是什么？，均由直接回复正确返回首都答案；再输入你好，问候引导分支读取 queried_countries 并展示为德国和日本的首都是什么？两条记录"><figcaption>数组变量真实的渲染效果——第一项内联、后面几项换行加圆点，没有想象中工整，但历史确实被记住了。</figcaption></figure>
+<figure><img src="/assets/img/posts/dify-variables/07-preview-memory-test.webp" alt="Dify 预览面板：先后输入德国、日本的首都是什么？，均由直接回复正确返回首都答案；再输入你好，问候引导分支读取 queried_countries 并展示为德国和日本的首都是什么？两条记录"><figcaption>数组变量真实的渲染效果——第一项内联、后面几项换行加圆点，没有想象中工整，但历史确实被记住了。</figcaption></figure>
 
 这段实测结果值得记一条经验：**会话变量存进去的是干净的数据结构，但它变成用户能读的文字之后，格式主动权并不完全在你手上**。如果最终要交付给用户的是一份整齐的列表，几乎肯定需要在这一步之后再接一个模板转换节点，自己把数组拼成想要的样子——这一集不做这层加工，留一个明确的入口给读者：模板转换节点的完整用法，正好是这个格式问题的答案，也是下一集会用到的工具。
 

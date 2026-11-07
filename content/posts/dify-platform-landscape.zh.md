@@ -1,6 +1,6 @@
 # 别急着学 Dify：先看懂 AI 应用平台这张地图
 
-<figure><img src="/assets/img/posts/dify-platform-landscape/cover.png" alt="深夜书房里，暖光台灯下摊开着一张手绘技术选型地图，笔记本电脑屏幕上是抽象的流程节点光效"><figcaption>选工具之前，先看清整张地图。</figcaption></figure>
+<figure><img src="/assets/img/posts/dify-platform-landscape/cover.webp" alt="深夜书房里，暖光台灯下摊开着一张手绘技术选型地图，笔记本电脑屏幕上是抽象的流程节点光效"><figcaption>选工具之前，先看清整张地图。</figcaption></figure>
 
 很多人接手一个 AI 项目后的第一反应，是先找按钮：知识库在哪里建，模型在哪里配，工作流节点怎么连，报错日志去哪里看。
 

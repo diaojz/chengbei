@@ -4,7 +4,7 @@
 
 这篇教程我会把整个东西是怎么搭起来的、飞书后台每一步怎么配、代码大致怎么跑通，全都写清楚，尤其是那个折腾了我很久的「私聊死活不回」的坑——我会用最醒目的方式讲，让你别再踩一遍。文末附上桥的**完整可复制代码**，配好飞书直接就能用。
 
-![人在外面用手机飞书遥控电脑里的 Claude Code 干活](/assets/img/posts/feishu-bridge/cover.png)
+![人在外面用手机飞书遥控电脑里的 Claude Code 干活](/assets/img/posts/feishu-bridge/cover.webp)
 
 ## 这套东西到底解决了什么
 
@@ -88,7 +88,7 @@ npm install @larksuiteoapi/node-sdk
 
 这是整篇教程我最想让你记住的地方，专门加粗醒目地讲。
 
-![群里@能用、私聊却不回：根因是缺一条独立的 p2p 权限](/assets/img/posts/feishu-bridge/perm.png)
+![群里@能用、私聊却不回：根因是缺一条独立的 p2p 权限](/assets/img/posts/feishu-bridge/perm.webp)
 
 我当时的现象是这样的：桥的日志显示长连接**明明连上了**，我在**群里 @ 机器人**它能正常收到、能干活；可我一旦跟它**单聊**（私聊），它就**死活不回**——飞书那边压根没往我这推单聊的消息事件。日志干干净净，一点动静都没有，像是石沉大海。
 
@@ -121,7 +121,7 @@ npm install @larksuiteoapi/node-sdk
 
 代码整体不复杂，文末会附完整可复制版本，这里只讲清楚数据是怎么流的和几个关键点。整条链路就三段：**收飞书消息 → 调 `claude -p` → 把输出回推飞书。**
 
-![飞书消息 → 桥 → claude -p → 进度回推 的三段链路](/assets/img/posts/feishu-bridge/arch.png)
+![飞书消息 → 桥 → claude -p → 进度回推 的三段链路](/assets/img/posts/feishu-bridge/arch.webp)
 
 ### 收消息：WSClient 长连接
 

@@ -13,7 +13,7 @@
 要解开它，需要三把钥匙——一把来自两千年前的中国哲学，一把来自十九世纪的法国经济学，还有一把来自达尔文。而它们最终指向同一个答案。
 
 <figure>
-  <img src="assets/posts/golden-mean-three/hero-ding.png" alt="三足青铜鼎">
+  <img src="assets/posts/golden-mean-three/hero-ding.webp" alt="三足青铜鼎">
   <figcaption>三足鼎立——用最少的支点，换最稳的站立。</figcaption>
 </figure>
 
@@ -36,7 +36,7 @@
 **三**，刚刚好。这里有个连博弈论都认可的硬道理：**当三方中任意两方之和都大于第三方时，结构最稳。** 因为任何一方想吞并另一方，剩下两方必然联手把它摁回去。谁也吃不掉谁，于是都守规矩——这不靠道德，靠结构性牵制。
 
 <figure>
-  <img src="assets/posts/golden-mean-three/balance.png" alt="三个发光节点连成等边三角，互相牵制">
+  <img src="assets/posts/golden-mean-three/balance.webp" alt="三个发光节点连成等边三角，互相牵制">
   <figcaption>任意两方之和都大于第三方——谁想吞谁，另两方就联手摁回去。</figcaption>
 </figure>
 
@@ -70,7 +70,7 @@
 恰恰相反，它是这套理论最极端的印证。关键在一个目标反转：**前面所有「三家分立」的目的，都是鼓励竞争、把市场做大；但烟草，国家根本不想把它做大**——做得越大，烟民越多、健康损害越重。
 
 <figure>
-  <img src="assets/posts/golden-mean-three/monopoly.png" alt="众多微弱光点中一根孤峰般的巨型光柱矗立">
+  <img src="assets/posts/golden-mean-three/monopoly.webp" alt="众多微弱光点中一根孤峰般的巨型光柱矗立">
   <figcaption>当目标不是「做大」而是「摁住」，最优解就从「三家分立」翻转成「一家独占」。</figcaption>
 </figure>
 

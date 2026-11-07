@@ -1,6 +1,6 @@
 # 把外部世界接进来：让 Dify 真正调用一条 API
 
-<figure><img src="/assets/img/posts/dify-http-request/cover.png" alt="深夜书房的窗户敞开，来自城市与星空的蓝金色光流涌入室内，照亮书桌上彼此相连的工作流节点"><figcaption>画布终于打开了一扇窗：外部世界的数据，开始沿着节点之间的连线进入应用。</figcaption></figure>
+<figure><img src="/assets/img/posts/dify-http-request/cover.webp" alt="深夜书房的窗户敞开，来自城市与星空的蓝金色光流涌入室内，照亮书桌上彼此相连的工作流节点"><figcaption>画布终于打开了一扇窗：外部世界的数据，开始沿着节点之间的连线进入应用。</figcaption></figure>
 
 前四集里，"国家信息小助手"已经会理解问题、选择分支、保存会话状态。可它回答"法国有多少人口"时，真正提供事实的仍然是语言模型。
 
@@ -143,7 +143,7 @@ country_name_zh 输出该国常用中文名。
 
 这里不把 `__reason` 原样暴露给用户。它更适合留在调试日志中；面向用户的失败消息应该说明下一步怎么改输入。
 
-<figure><img src="/assets/img/posts/dify-http-request/03-parameter-extractor.png" alt="参数提取器配置面板，输入为 sys.query，包含 country_name_en、country_name_zh 两个必填参数和提取指令"><figcaption>自然语言先被整理成两个有名称、有类型的字段。</figcaption></figure>
+<figure><img src="/assets/img/posts/dify-http-request/03-parameter-extractor.webp" alt="参数提取器配置面板，输入为 sys.query，包含 country_name_en、country_name_zh 两个必填参数和提取指令"><figcaption>自然语言先被整理成两个有名称、有类型的字段。</figcaption></figure>
 
 ## HTTP Request：让工作流按协议去取数据
 
@@ -165,7 +165,7 @@ HTTP Request 节点负责连接外部 API、Webhook 和其他接受 HTTP 请求�
 
 Dify 会把 HTTP 响应拆成下游可用的结构化输出，包括响应体、状态码、响应头、文件和大小信息。本例后续主要使用 `body`，调试时同时检查状态码：拿到一段 JSON 文本，只说明服务给了响应，还不能证明业务上查到了国家。
 
-<figure><img src="/assets/img/posts/dify-http-request/04-http-request.png" alt="HTTP Request 节点配置，使用 GET 请求固定 URL，name 查询参数引用 country_name_en，X-Api-Key Header 引用 Secret 环境变量"><figcaption>URL、Query 和 Header 各归各位，运行日志才能准确显示最终请求。</figcaption></figure>
+<figure><img src="/assets/img/posts/dify-http-request/04-http-request.webp" alt="HTTP Request 节点配置，使用 GET 请求固定 URL，name 查询参数引用 country_name_en，X-Api-Key Header 引用 Secret 环境变量"><figcaption>URL、Query 和 Header 各归各位，运行日志才能准确显示最终请求。</figcaption></figure>
 
 ## HTTP 失败不能交给下一节点猜
 
@@ -181,7 +181,7 @@ Key 无效通常也会进入请求失败路径。此时对用户继续重试没�
 
 生产环境还应该根据接口语义决定是否重试。`GET` 查询通常可以安全重试；会创建订单或扣款的 `POST` 请求需要考虑幂等性，盲目重试可能重复产生业务动作。
 
-<figure><img src="/assets/img/posts/dify-http-request/05-http-error-handling.png" alt="HTTP Request 节点的超时、重试和异常分支配置，失败分支连接外部服务不可用模板"><figcaption>网络异常交给失败分支处理，不让底层报错直接暴露给用户。</figcaption></figure>
+<figure><img src="/assets/img/posts/dify-http-request/05-http-error-handling.webp" alt="HTTP Request 节点的超时、重试和异常分支配置，失败分支连接外部服务不可用模板"><figcaption>网络异常交给失败分支处理，不让底层报错直接暴露给用户。</figcaption></figure>
 
 ## Code 节点：把外部 JSON 变成稳定输出
 
@@ -262,7 +262,7 @@ def main(body: str, country_name_zh: str) -> dict:
 
 这样的工作适合 Code，因为规则明确、同样输入应该得到同样输出。若把格式化也交给 LLM，模型会增加一次调用成本，还可能改写数字或漏掉字段。需要语言润色时当然可以再接模型，但原始事实和展示格式最好先在确定性节点里站稳。
 
-<figure><img src="/assets/img/posts/dify-http-request/06-code-node.png" alt="Code 节点配置，输入包含 body 与 country_name_zh，Python 代码解析 JSON，并声明 ok、result、error 三个输出"><figcaption>Code 把接口字段转换成稳定、可读的回复文本。</figcaption></figure>
+<figure><img src="/assets/img/posts/dify-http-request/06-code-node.webp" alt="Code 节点配置，输入包含 body 与 country_name_zh，Python 代码解析 JSON，并声明 ok、result、error 三个输出"><figcaption>Code 把接口字段转换成稳定、可读的回复文本。</figcaption></figure>
 
 ## 参数提取器和 Code 都在处理数据，差别在哪里
 
@@ -301,7 +301,7 @@ Code 后面再接一个 If/Else，判断 `ok` 是否等于 `true`：
 
 这里有一个值得讨论的状态语义：失败查询要不要写进历史？沿用 EP4 的结构，这四类结果（其中 Code 分支又分成功回复和查无结果两种具体文案，合计五种具体文案）都会经过变量赋值器，因此失败输入也会进入查询历史。教学稿先保留这个行为，便于把改造范围锁定在外部调用链路。如果产品把 `queried_countries` 定义成"成功查到的国家"，就应该把变量赋值器移到成功路径，或改为追加参数提取器输出的标准国家名。变量放在哪里，取决于你准备怎样解释这份历史。
 
-<figure><img src="/assets/img/posts/dify-http-request/07-branch-detail.png" alt="国家名称分支局部全景，五个候选字符串汇入变量聚合器，再连接变量赋值器和唯一直接回复节点"><figcaption>五条互斥路径共用一个聚合出口、一次变量赋值和一个直接回复节点。</figcaption></figure>
+<figure><img src="/assets/img/posts/dify-http-request/07-branch-detail.webp" alt="国家名称分支局部全景，五个候选字符串汇入变量聚合器，再连接变量赋值器和唯一直接回复节点"><figcaption>五条互斥路径共用一个聚合出口、一次变量赋值和一个直接回复节点。</figcaption></figure>
 
 ## 一条成功路径，要从输入查到每个中间值
 
@@ -325,7 +325,7 @@ Code 后面再接一个 If/Else，判断 `ok` 是否等于 `true`：
 
 重点观察 Query 参数是否被正确编码，以及参数提取器有没有输出 API 可接受的 `United States` 或 `US`。这能验证我们把参数放进 Query 配置区的选择确实生效。
 
-<figure><img src="/assets/img/posts/dify-http-request/08-preview-success-tests.png" alt="成功路径预览，分别查询日本和美国，最终返回首都、货币、人口和国土面积"><figcaption>中文问题和英文问题都进入同一条外部查询链路，并生成统一格式的回复。</figcaption></figure>
+<figure><img src="/assets/img/posts/dify-http-request/08-preview-success-tests.webp" alt="成功路径预览，分别查询日本和美国，最终返回首都、货币、人口和国土面积"><figcaption>中文问题和英文问题都进入同一条外部查询链路，并生成统一格式的回复。</figcaption></figure>
 
 ## 越界路径测试：外部世界不会永远配合
 
@@ -363,7 +363,7 @@ Code 后面再接一个 If/Else，判断 `ok` 是否等于 `true`：
 
 错误处理的目标，是把失败限制在它发生的那一段。参数理解失败不该发请求，HTTP 失败不该让 Code 解析错误页，查无结果也不该伪装成一份正常的国家数据。
 
-<figure><img src="/assets/img/posts/dify-http-request/09-preview-error-tests.png" alt="越界路径测试组合图，展示歧义国家名和外部服务异常时的稳定兜底回复"><figcaption>歧义留给用户澄清，鉴权失败和网络超时统一收口到外部服务兜底。</figcaption></figure>
+<figure><img src="/assets/img/posts/dify-http-request/09-preview-error-tests.webp" alt="越界路径测试组合图，展示歧义国家名和外部服务异常时的稳定兜底回复"><figcaption>歧义留给用户澄清，鉴权失败和网络超时统一收口到外部服务兜底。</figcaption></figure>
 
 ## 接上 API 之后，模型应该站在什么位置
 

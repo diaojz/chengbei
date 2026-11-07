@@ -1,6 +1,6 @@
 # 别把循环当复制粘贴：用 Dify 批量处理一组数据
 
-<figure><img src="/assets/img/posts/dify-batch-loop/cover.png" alt="深夜书房中，一叠发光数据卡片被分流到多条独立处理轨道，右侧另一组结果沿螺旋轨道逐轮演化"><figcaption>一组输入，各自跑一次，是 Iteration；同一个结果，带进下一轮继续改，是 Loop。</figcaption></figure>
+<figure><img src="/assets/img/posts/dify-batch-loop/cover.webp" alt="深夜书房中，一叠发光数据卡片被分流到多条独立处理轨道，右侧另一组结果沿螺旋轨道逐轮演化"><figcaption>一组输入，各自跑一次，是 Iteration；同一个结果，带进下一轮继续改，是 Loop。</figcaption></figure>
 
 前六集里，我们已经让 Dify 学会了分支、变量、外部 API 和知识库。可这些流程大多一次只处理一个输入：问一个国家、调一次接口、检索一次知识。
 
@@ -252,7 +252,7 @@ quality_score >= 0.90 OR round >= 3
 5. 运行日志能否看见每轮输入、输出和耗时；
 6. 单轮失败时是终止、重试还是保留上一版。
 
-<figure><img src="/assets/img/posts/dify-batch-loop/05-loop-results.png" alt="Dify 官方 Loop 运行追踪截图，展示不同循环轮次的变量、节点输出和最终结果"><figcaption>判断 Loop 是否正确，不能只看最后一句回答；要展开运行追踪，确认每轮状态确实变化，并且在预期条件下停止。来源：Dify 官方文档。</figcaption></figure>
+<figure><img src="/assets/img/posts/dify-batch-loop/05-loop-results.webp" alt="Dify 官方 Loop 运行追踪截图，展示不同循环轮次的变量、节点输出和最终结果"><figcaption>判断 Loop 是否正确，不能只看最后一句回答；要展开运行追踪，确认每轮状态确实变化，并且在预期条件下停止。来源：Dify 官方文档。</figcaption></figure>
 
 如果循环内部有 HTTP 写请求，必须明确它是否幂等。比如“每轮把草稿保存为新版本”可以设计成有意保留历史；“每轮创建一条订单”则几乎一定是事故。
 

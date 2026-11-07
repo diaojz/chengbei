@@ -31,7 +31,7 @@
 
 ## 死亡之谷：90% 的 Agent 死在这里
 
-![demo 到生产之间的死亡之谷](/assets/img/posts/agent-orchestration/valley.png)
+![demo 到生产之间的死亡之谷](/assets/img/posts/agent-orchestration/valley.webp)
 
 我见过太多这样的场景：一个 Agent demo 演示的时候惊为天人，老板拍板要上，三个月后还在「优化中」，悄无声息地黄了。
 
@@ -57,7 +57,7 @@ demo 的时候，这些你一个都用不上——反正就跑一次给人看。
 
 ## 三层分类：先搞清楚你在哪一层
 
-![代码框架 / 低代码平台 / 云厂商方案 三层](/assets/img/posts/agent-orchestration/layers.png)
+![代码框架 / 低代码平台 / 云厂商方案 三层](/assets/img/posts/agent-orchestration/layers.webp)
 
 回到开头那个产品经理的问题。LangGraph、Dify、Coze 为什么不能放一起比？因为它们分属三个完全不同的层，**面向的人都不一样**。
 
@@ -113,7 +113,7 @@ AWS 的 Bedrock、谷歌的 Vertex、微软的 Copilot Studio，国内的阿里�
 
 ## 可控 还是 自由：一条绕不开的光谱
 
-![从确定性编排到自主 Agent 的光谱](/assets/img/posts/agent-orchestration/spectrum.png)
+![从确定性编排到自主 Agent 的光谱](/assets/img/posts/agent-orchestration/spectrum.webp)
 
 企业落地，本质上是在一条光谱上做取舍：
 

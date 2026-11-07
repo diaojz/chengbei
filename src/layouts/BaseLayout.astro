@@ -13,6 +13,7 @@ interface Props {
   lang?: 'zh' | 'en';
   structuredData?: Record<string, unknown>;
   image?: string;
+  type?: 'website' | 'article';
 }
 
 const {
@@ -20,7 +21,8 @@ const {
   description = '城北的文章、项目与实践记录。',
   lang = 'zh',
   structuredData,
-  image = '/assets/img/about-studio/workspace.webp'
+  image = '/assets/img/about-studio/workspace.webp',
+  type = 'website'
 } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site || 'https://chengbei.org').href;
 const siteSchema = { '@context':'https://schema.org', '@type':'WebSite', '@id':'https://chengbei.org/#website', name:'城北', url:'https://chengbei.org/', inLanguage:['zh-CN','en'], author:{'@type':'Person','@id':'https://chengbei.org/#author',name:'城北',url:'https://chengbei.org/about/',sameAs:['https://github.com/diaojz']} };
@@ -28,6 +30,9 @@ const schemaJSON = JSON.stringify(structuredData || siteSchema).replace(/</g, '\
 const prefix = lang === 'en' ? '/en' : '';
 const path = Astro.url.pathname.replace(/^\/en(?=\/|$)/, '') || '/';
 const languageHref = lang === 'en' ? path : (/^\/(articles|projects|about|series)(\/|$)/.test(path) || path === '/' ? `/en${path}` : path.startsWith('/series/') ? '/en/articles/?topic=Dify' : '/en/projects/');
+// 有中英对照页的路由才声明 hreflang（岗位集锦等只有中文的页面不声明）
+const hasAlternate = path === '/' || /^\/(articles|projects|about|series)(\/|$)/.test(path);
+const ogImage = new URL(image, Astro.site).href;
 const current = (href: string) => href === '/' ? path === '/' : path.startsWith(href);
 
 const labels = lang === 'zh'
@@ -51,17 +56,26 @@ const navigation = [
     <meta name="site-version" content="site-reading-brand-20261019" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content="城北" />
     <meta property="og:url" content={canonical} />
     <link rel="canonical" href={canonical} />
-    <meta property="og:image" content={new URL(image, Astro.site).href} />
+    <meta property="og:image" content={ogImage} />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    {hasAlternate && <link rel="alternate" hreflang="zh-CN" href={new URL(path, Astro.site).href} />}
+    {hasAlternate && <link rel="alternate" hreflang="en" href={new URL(path === '/' ? '/en/' : `/en${path}`, Astro.site).href} />}
+    <link rel="alternate" type="application/rss+xml" title="城北" href="/rss.xml" />
     <meta name="author" content="城北" />
     <script type="application/ld+json" set:html={schemaJSON} />
     <meta name="theme-color" content="#f7f8fa" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono&family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@600;700;900&display=swap" rel="stylesheet" />
+    <!-- 字体异步加载：Google Fonts 在国内慢/不可达时不阻塞首屏，先用系统中文字体 -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fragment+Mono&family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@600;700;900&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fragment+Mono&family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@600;700;900&display=swap" /></noscript>
     <link rel="icon" type="image/png" sizes="48x48" href="/assets/brand/favicon.png" />
     <link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png" />
     <title>{title}</title>
