@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
 <title>Beelink Mini S — Step-by-step Setup Guide</title>
 <style>
 :root{--bg:#ece7de;--card:#fff;--ink:#1f1d1a;--mute:#6b665d;--acc:#d9622b;--ok:#2f7d4f;--warn:#b7791f;--line:#ddd6c8}
@@ -182,7 +183,31 @@ ping -c 3 1.1.1.1</pre>
 </div>
 
 <div class="step" id="s8" data-s="8">
-<h2><span class="num">8</span><span class="en">Leave it running</span><span class="zh">保持运行</span></h2>
+<h2><span class="num">8</span><span class="en">Install the connector (from your laptop)</span><span class="zh">安装连接器（在你自己的电脑上操作）</span></h2>
+<p><span class="en">Wait until we send you the <b>one-time device link</b>. Do this step from your <b>own laptop</b> on the same home network — there you can copy &amp; paste, which the Beelink’s black screen cannot do.</span><span class="zh">等我们把<b>一次性设备接入链接</b>发给你后再做。这一步在<b>你自己的电脑</b>上操作（连同一个家庭网络），因为电脑上可以复制粘贴，Beelink 的黑屏终端不行。</span></p>
+<ol>
+<li><span class="en">Open a terminal on your laptop — Mac: <b>Terminal</b> app; Windows: <b>PowerShell</b>.</span><span class="zh">在你电脑上打开终端：Mac 用「终端 Terminal」，Windows 用 <b>PowerShell</b>。</span></li>
+<li><span class="en">Log in to the Beelink. Replace <code>yourname</code> with your Step-4 username and the address with the one from Step 6. Type <code>yes</code> if asked, then your password:</span><span class="zh">登录 Beelink。把 <code>yourname</code> 换成第 4 步的用户名，地址换成第 6 步看到的地址；如提示就输入 <code>yes</code>，再输入密码：</span></li>
+</ol>
+<pre>ssh yourname@192.168.1.23</pre>
+<ol start="3">
+<li><span class="en">Copy &amp; paste these lines one at a time (password prompts are normal):</span><span class="zh">逐行复制粘贴下面的命令（提示输入密码是正常的）：</span></li>
+</ol>
+<pre>curl -fLo chengbei-home-connector.deb https://my.chengbei.org/api/residential/connector.deb
+sudo apt install -y ./chengbei-home-connector.deb
+sudo chengbei-home-connector bind
+sudo systemctl restart chengbei-home-connector</pre>
+<ol start="4">
+<li><span class="en">After the <code>bind</code> line it asks for the link: <b>paste the one-time link we sent</b> and press <kbd>Enter</kbd>. Nothing appears while pasting — that is on purpose.</span><span class="zh">运行 <code>bind</code> 后会提示输入链接：<b>粘贴我们发的一次性链接</b>，按 <kbd>Enter</kbd>。粘贴时屏幕不显示内容，这是有意的。</span></li>
+<li><span class="en">Tell us “done”. We check it from our side — you don’t need to do anything else.</span><span class="zh">告诉我们“好了”，我们会在后台检测，你不用再做别的。</span></li>
+</ol>
+<div class="note"><span class="en"><b>If something fails:</b><br>• <code>ssh: connect … timed out</code>: your laptop must be on the same Wi-Fi/router as the Beelink; check the address from Step 6.<br>• <code>invalid_binding_link</code> or “expired”: the link is one-time and short-lived — ask us for a new one.<br>• A message about <code>sch_cake</code>: run <code>sudo apt install -y linux-modules-extra-$(uname -r)</code>, reboot, then repeat the last two lines.<br>• Anything else: copy the whole screen text and send it to us.</span><span class="zh"><b>出错了？</b><br>• <code>ssh: connect … timed out</code>：电脑要连在和 Beelink 同一个路由器上，并核对第 6 步的地址。<br>• 提示 <code>invalid_binding_link</code> 或已过期：链接一次性且有效期短，找我们要新链接。<br>• 提示 <code>sch_cake</code>：运行 <code>sudo apt install -y linux-modules-extra-$(uname -r)</code>，重启后再执行最后两行。<br>• 其他情况：把整屏文字复制发给我们。</span></div>
+<div class="warn"><span class="en">The one-time link works like a password: never post it in a group chat or anywhere public.</span><span class="zh">一次性链接等同于密码，不要发到群里或任何公开地方。</span></div>
+<button class="done-btn">✓ Done</button>
+</div>
+
+<div class="step" id="s9" data-s="9">
+<h2><span class="num">9</span><span class="en">Leave it running</span><span class="zh">保持运行</span></h2>
 <p><span class="en">When we confirm everything works:</span><span class="zh">我们确认一切正常后：</span></p>
 <ul>
 <li><span class="en">Remove the monitor, keyboard and USB stick.</span><span class="zh">拔掉显示器、键盘和 U 盘。</span></li>
@@ -218,5 +243,6 @@ const b=document.getElementById('langbtn');
 b.onclick=()=>{const z=document.body.dataset.lang==='en';document.body.dataset.lang=z?'zh':'en';b.textContent=z?'English':'中文';document.documentElement.lang=z?'zh':'en'};
 render();
 </script>
+<script data-goatcounter="https://chengbei.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
 </html>
