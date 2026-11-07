@@ -166,7 +166,7 @@ footer{color:var(--mute);font-size:.9rem;margin-top:30px}
 </ol>
 <pre>ip -br a
 ping -c 3 1.1.1.1</pre>
-<div class="fig"><svg viewBox="0 0 540 190" width="540"><rect x="4" y="4" width="532" height="182" fill="#111" stroke="#555"/><g font-family="ui-monospace,Menlo,monospace" font-size="13" fill="#e6e6e6"><text x="16" y="28">homebox login: yourname</text><text x="16" y="48">Password:</text><text x="16" y="72" fill="#7CFC9A">$ ip -br a</text><text x="16" y="92">lo      UNKNOWN  127.0.0.1/8</text><text x="16" y="112" fill="#fff">enp1s0  UP       192.168.1.23/24   &lt;-- an address like this = good</text><text x="16" y="136" fill="#7CFC9A">$ ping -c 3 1.1.1.1</text><text x="16" y="156">3 packets transmitted, 3 received, 0% packet loss</text><text x="16" y="176" fill="#7CFC9A">                                    &lt;-- 0% loss = good</text></g></svg><small><span class="en">What a good result looks like (numbers will differ).</span><span class="zh">正常结果长这样（数字会不同）。</span></small></div>
+<div class="fig"><svg viewBox="0 0 540 190" width="540"><rect x="4" y="4" width="532" height="182" fill="#111" stroke="#555"/><g font-family="ui-monospace,Menlo,monospace" font-size="13" fill="#e6e6e6"><text x="16" y="28">homebox login: paopao</text><text x="16" y="48">Password:</text><text x="16" y="72" fill="#7CFC9A">$ ip -br a</text><text x="16" y="92">lo      UNKNOWN  127.0.0.1/8</text><text x="16" y="112" fill="#fff">enp1s0  UP       192.168.1.23/24   &lt;-- an address like this = good</text><text x="16" y="136" fill="#7CFC9A">$ ping -c 3 1.1.1.1</text><text x="16" y="156">3 packets transmitted, 3 received, 0% packet loss</text><text x="16" y="176" fill="#7CFC9A">                                    &lt;-- 0% loss = good</text></g></svg><small><span class="en">What a good result looks like (numbers will differ).</span><span class="zh">正常结果长这样（数字会不同）。</span></small></div>
 <div class="ok"><span class="en">✔ Good: an address like <code>192.168.x.x</code> and <b>0% packet loss</b>.</span><span class="zh">✔ 正常：有 <code>192.168.x.x</code> 这样的地址，且 <b>0% packet loss</b>。</span></div>
 <div class="warn"><span class="en">No address or packet loss? Check the Ethernet cable is firmly in both the Beelink and the router, then retry. Still bad → send us a photo.</span><span class="zh">没有地址或丢包？检查网线两头都插紧，再试一次。仍不行就拍照发给我们。</span></div>
 <button class="done-btn">✓ Done</button>
@@ -187,9 +187,9 @@ ping -c 3 1.1.1.1</pre>
 <p><span class="en">Wait until we send you the <b>one-time device link</b>. Do this step from your <b>own laptop</b> on the same home network — there you can copy &amp; paste, which the Beelink’s black screen cannot do.</span><span class="zh">等我们把<b>一次性设备接入链接</b>发给你后再做。这一步在<b>你自己的电脑</b>上操作（连同一个家庭网络），因为电脑上可以复制粘贴，Beelink 的黑屏终端不行。</span></p>
 <ol>
 <li><span class="en">Open a terminal on your laptop — Mac: <b>Terminal</b> app; Windows: <b>PowerShell</b>.</span><span class="zh">在你电脑上打开终端：Mac 用「终端 Terminal」，Windows 用 <b>PowerShell</b>。</span></li>
-<li><span class="en">Log in to the Beelink. Replace <code>yourname</code> with your Step-4 username and the address with the one from Step 6. Type <code>yes</code> if asked, then your password:</span><span class="zh">登录 Beelink。把 <code>yourname</code> 换成第 4 步的用户名，地址换成第 6 步看到的地址；如提示就输入 <code>yes</code>，再输入密码：</span></li>
+<li><span class="en">Log in to the Beelink. If your address from Step 6 is different, change the numbers after <code>@</code>. Type <code>yes</code> if asked, then your password:</span><span class="zh">登录 Beelink。如果第 6 步看到的地址不同，把 <code>@</code> 后面的数字换成你的；如提示就输入 <code>yes</code>，再输入密码：</span></li>
 </ol>
-<pre>ssh yourname@192.168.1.23</pre>
+<pre>ssh paopao@192.168.1.23</pre>
 <ol start="3">
 <li><span class="en">Copy &amp; paste these lines one at a time (password prompts are normal):</span><span class="zh">逐行复制粘贴下面的命令（提示输入密码是正常的）：</span></li>
 </ol>
