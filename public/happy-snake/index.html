@@ -1,0 +1,1882 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>快乐贪吃蛇 · 糖果乐园 v1.4.0</title>
+<link rel="icon" href="data:,">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100%; height: 100%; overflow: hidden; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #d7f0d0;
+    user-select: none;
+  }
+  #game {
+    display: block;
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    touch-action: none;
+  }
+  .hud {
+    position: fixed;
+    top: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    font-size: 24px;
+    font-weight: 800;
+    color: #2e6b41;
+    background: linear-gradient(180deg, rgba(255,255,255,.82), rgba(255,255,255,.62));
+    padding: 10px 14px 10px 26px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,.9);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 26px rgba(46,107,65,.16);
+    z-index: 5;
+  }
+  .hud span { color: #e67e22; margin-left: 4px; }
+  .hud button {
+    font-size: 17px;
+    font-weight: 800;
+    padding: 9px 20px;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    color: #fff;
+    background: #9aa5a0;
+    box-shadow: 0 3px 10px rgba(0,0,0,.12);
+    transition: background .15s, transform .12s;
+  }
+  .hud button:active { transform: scale(.95); }
+  .hud button.on { background: linear-gradient(180deg, #35a066, #2e8b57); }
+  .leaderboard {
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    min-width: 176px;
+    background: linear-gradient(180deg, rgba(255,255,255,.82), rgba(255,255,255,.62));
+    border: 1px solid rgba(255,255,255,.9);
+    backdrop-filter: blur(10px);
+    border-radius: 18px;
+    padding: 13px 16px;
+    box-shadow: 0 8px 26px rgba(46,107,65,.16);
+    z-index: 5;
+  }
+  .leaderboard h3 {
+    font-size: 12px;
+    color: #3c5e44;
+    margin-bottom: 8px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: .8;
+  }
+  .leaderboard .row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 6px;
+    border-radius: 10px;
+    font-size: 15px;
+    color: #2e6b41;
+    transition: background .2s;
+  }
+  .leaderboard .row.me { background: rgba(46,139,87,.2); font-weight: 800; }
+  .leaderboard .dot { width: 10px; height: 10px; border-radius: 50%; flex: 0 0 auto; }
+  .leaderboard .name {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .leaderboard .val { color: #e67e22; font-weight: 800; }
+  .controls-bar {
+    position: fixed;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    color: #3c5e44;
+    background: rgba(255,255,255,.62);
+    border: 1px solid rgba(255,255,255,.8);
+    padding: 9px 20px;
+    border-radius: 999px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 6px 18px rgba(46,107,65,.12);
+    z-index: 5;
+    white-space: nowrap;
+    max-width: 94vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  /* ===== 糖果弹药槽：固定在屏幕底部，吃到的好东西不再挂在蛇身上 ===== */
+  .ammo-belt { position:fixed; left:50%; bottom:58px; transform:translateX(-50%); display:flex; align-items:center; gap:7px; padding:8px 12px; border:4px solid #fff; border-radius:24px; background:linear-gradient(#ffe9fa,#ffc9e4); box-shadow:0 6px 0 #e889b8,0 12px 26px #dc75a544; z-index:7; }
+  /* 窄屏时弹药槽抬高，避免盖住左下角的图鉴/皮肤按钮和右下角发射按钮 */
+  @media (max-width:1100px) { .ammo-belt { bottom:96px; } }
+  .ammo-label { color:#a34378; font-size:15px; white-space:nowrap; }
+  .ammo-slots { display:flex; gap:10px; max-width:min(70vw,520px); padding:12px 8px 10px; overflow:visible; }
+  .ammo-slot { position:relative; flex:none; width:52px; height:52px; padding:0; display:grid; place-items:center; border-radius:15px; background:#fff8dfcc; border:2px solid #f5a8cb; box-shadow:inset 0 2px 3px #fff; cursor:pointer; }
+  .ammo-slot.selected { border-color:#6d48db; box-shadow:0 0 0 3px #fff,0 0 0 6px #a982ff,inset 0 2px 3px #fff; animation:ammo-selected .7s ease-in-out infinite alternate; }
+  .ammo-slot .ammo-num,.ammo-slot .ammo-lv { position:absolute; padding:1px 4px; border-radius:9px; font:900 12px -apple-system,sans-serif; color:#fff; text-shadow:0 1px #9b4675; line-height:1.2; }
+  .ammo-slot .ammo-num { right:-6px; bottom:-8px; z-index:2; background:#ef5b9a; }
+  .ammo-slot .ammo-lv { left:-6px; top:-10px; z-index:2; background:#7353ce; }
+  .ammo-more { flex:none; align-self:center; min-width:44px; height:40px; padding:0 8px; border:2px solid #f5a8cb; border-radius:15px; background:#fff8dfcc; font:900 16px -apple-system,sans-serif; color:#a34378; cursor:pointer; }
+  .ammo-slot.empty::after { content:'·'; color:#eaa8c5; font-size:26px; line-height:1; }
+  .ammo-slot.pop { animation:ammo-pop .48s cubic-bezier(.22,1.55,.5,1); }
+  @keyframes ammo-pop { 0% { transform:scale(.7); filter:brightness(1); } 42% { transform:scale(1.35) rotate(-10deg); filter:brightness(1.45); } 100% { transform:scale(1); filter:brightness(1); } }
+  @keyframes ammo-selected { to { transform:translateY(-4px) scale(1.08) rotate(-3deg); filter:brightness(1.15); } }
+  .ammo-level-up { position:fixed; left:50%; top:43%; transform:translate(-50%,-50%); z-index:20; padding:18px 25px; border:5px solid #fff; border-radius:26px; color:#8d3778; background:linear-gradient(135deg,#fff9a7,#ffc6ea); box-shadow:0 8px 0 #df7eb2,0 15px 38px #a6538c70; font:900 25px -apple-system,"PingFang SC",sans-serif; pointer-events:none; animation:level-up 1.6s both; }
+  @keyframes level-up { 0%{opacity:0;transform:translate(-50%,-50%) scale(.35) rotate(-8deg)} 18%{opacity:1;transform:translate(-50%,-50%) scale(1.12) rotate(3deg)} 78%{opacity:1} 100%{opacity:0;transform:translate(-50%,-72%) scale(.9)} }
+  .fire-btn { position:fixed; right:18px; bottom:18px; width:92px; height:92px; border:5px solid #fff; border-radius:50%; color:#fff; background:radial-gradient(circle at 32% 25%,#fff5a8 0 8%,#ff9dcb 10% 42%,#ef4d91 72%); box-shadow:0 7px 0 #c63775,0 14px 28px #d33e853d; font-size:18px; font-weight:900; line-height:1.1; cursor:pointer; z-index:8; touch-action:manipulation; text-shadow:0 2px #b83169; }
+  .fire-btn:active { transform:translateY(5px) scale(.92); box-shadow:0 2px 0 #c63775; }
+  .fire-btn[aria-disabled="true"] { cursor:not-allowed; filter:grayscale(.9); opacity:.58; box-shadow:0 5px 0 #9a7c89; }
+  .fire-btn.empty-shake { animation:empty-shake .36s ease; }
+  @keyframes empty-shake { 20%,60% { transform:translateX(-7px); } 40%,80% { transform:translateX(7px); } }
+  .corner-btns {
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    display: flex;
+    gap: 10px;
+    z-index: 6;
+  }
+  .corner-btn {
+    font-size: 15px;
+    font-weight: 800;
+    color: #2e6b41;
+    background: rgba(255,255,255,.72);
+    border: 1px solid rgba(255,255,255,.9);
+    padding: 10px 18px;
+    border-radius: 999px;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 6px 18px rgba(46,107,65,.14);
+    transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+  }
+  .corner-btn:hover { transform: translateY(-2px); background: rgba(255,255,255,.92); box-shadow: 0 10px 24px rgba(46,107,65,.2); }
+  .corner-btn:active { transform: translateY(0); }
+
+  /* ===== 皮肤选择器（开始页 + 面板通用） ===== */
+  .skins {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+  }
+  .skin {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+    padding: 10px 8px 8px;
+    width: 84px;
+    border: 2px solid transparent;
+    border-radius: 16px;
+    background: rgba(255,255,255,.14);
+    cursor: pointer;
+    transition: transform .12s ease, border-color .12s ease, background .12s ease;
+  }
+  .skin:hover { transform: translateY(-3px); background: rgba(255,255,255,.24); }
+  .skin.active {
+    border-color: #ffd479;
+    background: rgba(255,255,255,.28);
+    box-shadow: 0 6px 18px rgba(0,0,0,.18);
+  }
+  .skin-dot {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    box-shadow: inset 0 2px 6px rgba(255,255,255,.55), 0 4px 12px rgba(0,0,0,.22);
+  }
+  .skin-name { font-size: 13px; font-weight: 800; }
+  .skin-picker { margin-top: 4px; }
+  .skin-picker-label {
+    text-align: center;
+    font-size: 15px;
+    font-weight: 800;
+    color: #ffd479;
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+  }
+  /* 面板内（浅底）皮肤卡片文字用深色 */
+  .dex-panel .skin { background: rgba(46,107,65,.06); }
+  .dex-panel .skin:hover { background: rgba(46,107,65,.12); }
+  .dex-panel .skin.active { background: rgba(46,139,87,.16); border-color: #2e8b57; }
+  .dex-panel .skin-name { color: #2e4a33; }
+  .dex {
+    position: fixed;
+    inset: 0;
+    background: rgba(20,40,25,.7);
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .dex-panel {
+    background: #fefdf8;
+    border-radius: 24px;
+    max-width: 760px;
+    width: 100%;
+    max-height: 82vh;
+    overflow-y: auto;
+    padding: 26px 30px;
+    color: #2e4a33;
+    box-shadow: 0 20px 60px rgba(0,0,0,.35);
+  }
+  .dex-panel h2 { font-size: 24px; margin-bottom: 16px; color: #2e6b41; }
+  .dex-cat { margin-bottom: 14px; padding: 6px 0 6px 12px; }
+  .dex-cat .cat-name { font-weight: 800; font-size: 15px; color: #3c5e44; margin-bottom: 4px; }
+  .dex-cat .cat-score { font-size: 13px; color: #e67e22; font-weight: 800; }
+  .dex-cat .cat-emojis { font-size: 26px; letter-spacing: 4px; line-height: 1.6; }
+  .dex-panel button {
+    margin-top: 12px;
+    padding: 10px 28px;
+    border: none;
+    border-radius: 999px;
+    background: #2e8b57;
+    color: #fff;
+    font-weight: 800;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  .overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at 50% 30%, rgba(30,70,45,.55), rgba(15,35,22,.72));
+    backdrop-filter: blur(4px);
+    color: #fff;
+    gap: 18px;
+    z-index: 10;
+    cursor: pointer;
+    padding: 24px;
+    overflow-y: auto;
+  }
+  .overlay h1 {
+    font-size: 54px;
+    text-shadow: 0 4px 20px rgba(0,0,0,.35), 0 0 40px rgba(120,255,180,.25);
+    letter-spacing: 2px;
+  }
+  .overlay p { font-size: 21px; opacity: .9; text-align: center; line-height: 1.7; }
+  .opponents {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: min(460px, 90vw);
+  }
+  .opponents .op {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 15px;
+    text-align: left;
+    background: rgba(255,255,255,.14);
+    padding: 10px 16px;
+    border-radius: 14px;
+    line-height: 1.5;
+  }
+  .opponents .op .dot { width: 16px; height: 16px; border-radius: 50%; flex: 0 0 auto; }
+  .opponents .op b { color: #ffd479; }
+  .overlay button {
+    font-size: 26px;
+    padding: 16px 54px;
+    border: none;
+    border-radius: 999px;
+    background: linear-gradient(180deg, #38a468, #2e8b57);
+    color: #fff;
+    cursor: pointer;
+    font-weight: 800;
+    box-shadow: 0 10px 26px rgba(46,139,87,.45), inset 0 1px 0 rgba(255,255,255,.35);
+    transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
+  }
+  .overlay button:hover { filter: brightness(1.06); transform: translateY(-2px); box-shadow: 0 14px 32px rgba(46,139,87,.5), inset 0 1px 0 rgba(255,255,255,.35); }
+  .overlay button:active { transform: translateY(0); }
+  .hidden { display: none; }
+
+  /* ===== v1.2.0 糖果乐园：只调整外观，不改变玩法 ===== */
+  body, button { font-family: "PingFang SC", "Hiragino Maru Gothic ProN", ui-rounded, system-ui, sans-serif; font-weight: 800; }
+  body { background: #cef3dd; color: #435779; }
+  button { min-height: 52px; touch-action: manipulation; }
+  .hud { border: 3px solid #fff; background: linear-gradient(#fff9d8, #ffe9a0); color: #526684; box-shadow: 0 6px 0 #eacb75, 0 12px 28px #589cb32b; gap: 18px; }
+  .hud span, .leaderboard .val { color: #e75089; }
+  .hud button { background: linear-gradient(#ff94bf,#ed5f98); font-size: 18px; }
+  .hud button.on { background: linear-gradient(#6bdcb6,#22ac94); }
+  .leaderboard { background: linear-gradient(#fff5fb,#ffe1ee); border: 3px solid white; border-radius: 28px; box-shadow: 0 6px 0 #efb7d0; }
+  .leaderboard h3 { color: #a34378; font-size: 15px; }
+  .leaderboard .row { color: #55627f; border-radius: 16px; padding: 6px; }
+  .leaderboard .row.me { background: #fff2ac; }
+  .corner-btn, .dex-panel button { background: linear-gradient(#73dafa,#43b9e4); color: #184b70; border: 3px solid #fff; font-size: 19px; padding: 12px 24px; box-shadow: 0 5px 0 #288eb6; }
+  .corner-btn:nth-child(2) { background: linear-gradient(#ffc3df,#fa8bb9); color: #863d66; box-shadow: 0 5px 0 #d46d9c; }
+  .controls-bar { background: #fff9e6eb; color: #626d85; bottom: 12px; max-width: 58vw; }
+  .dex { background: #5b83ac88; backdrop-filter: blur(8px); }
+  .dex-panel { background: linear-gradient(145deg,#fff9e9,#e5faff); border: 5px solid #fff; border-radius: 36px; color: #52617e; }
+  .dex-panel h2 { color: #d74c88; }
+  .overlay { background: radial-gradient(ellipse at 15% 10%,#fff9c3,transparent 45%), linear-gradient(155deg,#9de4ff,#d8f8ef 55%,#ffe0ed); color: #4f6080; cursor: default; display: grid; grid-template-columns: minmax(0,1.05fr) minmax(0,1fr); grid-template-rows: auto auto 1fr auto; gap: 14px 32px; padding: 24px max(28px,calc((100vw - 1300px)/2)); align-content: center; }
+  .hero-art { grid-column: 1; grid-row: 1 / 5; width: 100%; height: min(76vh,760px); object-fit: cover; object-position: 48% center; border: 8px solid #fff; border-radius: 48% 48% 36% 36% / 25% 25% 22% 22%; box-shadow: 0 12px 0 #82cfc355,0 22px 55px #4593b433; }
+  .overlay h1 { grid-column: 2; width: 100%; min-height: 110px; display: flex; align-items: center; justify-content: center; background: url('assets/logo_banner.webp') center / 100% 100% no-repeat; font-size: clamp(28px,3.2vw,48px); color: #d54c88; text-shadow: 0 3px white,0 5px #f5c0d3; letter-spacing: 2px; }
+  .overlay p { grid-column: 2; font-size: 18px; line-height: 1.7; opacity: 1; }
+  .welcome-copy { background: #ffffff9c; border-radius: 26px; padding: 12px 18px; }
+  .friends-art { display: block; width: min(260px,80%); height: 65px; object-fit: contain; margin: 0 auto 6px; }
+  .overlay .opponents { grid-column: 2; display: none; }
+  .skin-picker { grid-column: 2; align-self: center; }
+  .skin-picker-label { color: #83618c; margin-bottom: 10px; }
+  .skins { gap: 8px; }
+  .skin { width: 78px; min-height: 84px; border-radius: 22px; background: #ffffffa6; border: 3px solid #fff; color: #58647f; }
+  .skin:hover { background: #fff4ce; }
+  .skin.active, .dex-panel .skin.active { background: #fff1b2; border-color: #f3b64c; box-shadow: 0 5px 0 #efcb7b; }
+  .skin-name { font-size: 13px; }
+  .overlay button { grid-column: 2; justify-self: center; width: min(100%,350px); font-size: 30px; min-height: 76px; padding: 16px 30px; background: linear-gradient(#ff92bb,#ef5b96); border: 4px solid #fff; box-shadow: 0 7px 0 #cb427c,0 14px 25px #d95c8f33; }
+  button:active, .overlay button:active, .corner-btn:active, .hud button:active { animation: candy-press .3s ease; transform: translateY(4px) scale(.95); }
+  @keyframes candy-press { 0% { transform: scale(1); } 55% { transform: translateY(5px) scale(.92); } 80% { transform: scale(1.03); } 100% { transform: translateY(4px) scale(.95); } }
+  @media(max-width: 1000px) { .hud { left: 14px; transform: none; top: 12px; font-size: 19px; gap: 12px; padding: 8px 12px; } .leaderboard { top: 12px; right: 12px; min-width: 145px; padding: 10px; } .controls-bar { display: none; } .overlay { gap: 12px 20px; padding: 20px; } .skin { width: 66px; } .ammo-belt { bottom:14px; } }
+  @media(max-width: 650px) { .overlay { display: flex; justify-content: flex-start; gap: 14px; padding: 18px 18px 30px; } .overlay h1 { order: -2; flex-shrink: 0; min-height: 100px; width: min(100%,430px); font-size: 34px; } .hero-art { order: -1; width: min(100%,430px); height: 240px; flex-shrink: 0; border-radius: 36px; object-position: center 43%; } .overlay p { font-size: 16px; } .skin-picker { align-self: center; } .skin { width: 66px; } .overlay button { flex-shrink: 0; } .hud { font-size: 15px; gap: 8px; left: 8px; right: 8px; justify-content: center; } .hud button { font-size: 15px; padding: 8px 12px; } .leaderboard { top: 91px; min-width: 130px; } .corner-btn { padding: 10px 18px; } .ammo-belt { gap:3px; padding:6px 7px; bottom:10px; } .ammo-label { font-size:12px; } .ammo-slot { width:25px; height:25px; border-radius:9px; } .fire-btn { width:88px; height:88px; right:10px; bottom:52px; } }
+  @media(prefers-reduced-motion: reduce) { button:active { animation: none; } }
+  .hidden { display: none; }
+
+  .atlas-icon { display:inline-block; flex-shrink:0; vertical-align:middle; background-repeat:no-repeat; }
+  .cat-emojis { display:flex; flex-wrap:wrap; align-items:center; gap:4px; }
+</style>
+</head>
+<body>
+  <canvas id="game"></canvas>
+
+  <div class="hud">
+    <div><span id="scoreIcon">⭐</span>得分 <span id="score">0</span></div>
+    <div><span id="lengthIcon">♥</span>长度 <span id="length">3</span></div>
+    <button id="autoBtn">自动吃：关</button>
+  </div>
+
+  <div class="leaderboard">
+    <h3><span id="rankIcon">🏆</span>排行榜</h3>
+    <div id="lbRows"></div>
+  </div>
+
+  <div class="controls-bar">· 方向键/WASD/滑动 · Q/E 或 1~6 换弹 · F / Enter / 右下角按钮发射 · 空格加速 · 点水果让它去吃 · 撞墙调头 · 撞自己不死 · 撞到别的蛇能把它撞死，自己不会死</div>
+  <div class="ammo-belt" id="ammoBelt" aria-label="糖果弹药槽"><span class="ammo-label">糖果弹</span><div class="ammo-slots" id="ammoSlots"></div><span class="ammo-label" id="ammoCount">0/30</span></div>
+  <button class="fire-btn" id="fireBtn" aria-label="发射糖果弹">🍬<br>发射</button>
+  <div class="corner-btns">
+    <button class="corner-btn" id="dexBtn">📖 图鉴</button>
+    <button class="corner-btn" id="skinBtn">🎨 皮肤</button>
+  </div>
+
+  <div class="dex hidden" id="dexModal">
+    <div class="dex-panel">
+      <h2>食物图鉴</h2>
+      <div id="dexBody"></div>
+      <button id="dexCloseBtn">关闭</button>
+    </div>
+  </div>
+
+  <div class="dex hidden" id="skinModal">
+    <div class="dex-panel">
+      <h2>选择皮肤</h2>
+      <div class="skins" id="skinsModal"></div>
+      <button id="skinCloseBtn">关闭</button>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlay">
+    <img class="hero-art" src="assets/start_hero.webp" alt="糖果乐园里笑眯眯的彩虹小蛇">
+    <h1>快乐贪吃蛇</h1>
+    <p class="welcome-copy"><img class="friends-art" src="assets/friends.webp" alt="小熊、小兔、小猫和小鸭">和小伙伴一起，吃水果、长大大！<br>滑一滑，或点点水果，小蛇就出发啦 ✨</p>
+    <div class="opponents" id="opponents"></div>
+    <div class="skin-picker">
+      <div class="skin-picker-label">🎨 选择你的皮肤</div>
+      <div class="skins" id="skinsOverlay"></div>
+    </div>
+    <button id="startBtn">开始游戏</button>
+  </div>
+
+<script>
+(function () {
+  const canvas = document.getElementById('game');
+  const ctx = canvas.getContext('2d');
+  const scoreEl = document.getElementById('score');
+  const lengthEl = document.getElementById('length');
+  const lbRows = document.getElementById('lbRows');
+  const dexBtn = document.getElementById('dexBtn');
+  const dexModal = document.getElementById('dexModal');
+  const dexBody = document.getElementById('dexBody');
+  const dexCloseBtn = document.getElementById('dexCloseBtn');
+  const opponentsEl = document.getElementById('opponents');
+  const overlay = document.getElementById('overlay');
+  const startBtn = document.getElementById('startBtn');
+  const autoBtn = document.getElementById('autoBtn');
+  const skinBtn = document.getElementById('skinBtn');
+  const skinModal = document.getElementById('skinModal');
+  const skinCloseBtn = document.getElementById('skinCloseBtn');
+  const skinBoxes = [document.getElementById('skinsOverlay'), document.getElementById('skinsModal')];
+  const ammoSlotsEl = document.getElementById('ammoSlots');
+  const ammoCountEl = document.getElementById('ammoCount');
+  const fireBtn = document.getElementById('fireBtn');
+
+  // 本地主题素材：加载失败时保留原来的棋盘与蛇头绘制。
+  const boardImage = new Image();
+  boardImage.src = 'assets/bg_board.webp';
+  // 元数据内联，直接双击 HTML 时也不依赖 fetch 或服务器。
+  // ATLAS_DATA_BEGIN
+  const ATLAS_DATA = {"food":{"file":"assets/atlas_food.webp","width":960,"height":1536,"sprites":{"🍒":{"x":0,"y":0,"w":96,"h":96},"🍓":{"x":96,"y":0,"w":96,"h":96},"🍇":{"x":192,"y":0,"w":96,"h":96},"🫐":{"x":288,"y":0,"w":96,"h":96},"🍅":{"x":384,"y":0,"w":96,"h":96},"🫒":{"x":480,"y":0,"w":96,"h":96},"🍊":{"x":576,"y":0,"w":96,"h":96},"🍋":{"x":672,"y":0,"w":96,"h":96},"🥝":{"x":768,"y":0,"w":96,"h":96},"🍎":{"x":864,"y":0,"w":96,"h":96},"🍏":{"x":0,"y":96,"w":96,"h":96},"🍐":{"x":96,"y":96,"w":96,"h":96},"🍑":{"x":192,"y":96,"w":96,"h":96},"🍍":{"x":288,"y":96,"w":96,"h":96},"🥥":{"x":384,"y":96,"w":96,"h":96},"🍌":{"x":480,"y":96,"w":96,"h":96},"🥑":{"x":576,"y":96,"w":96,"h":96},"🍈":{"x":672,"y":96,"w":96,"h":96},"🥭":{"x":768,"y":96,"w":96,"h":96},"🍉":{"x":864,"y":96,"w":96,"h":96},"🐰":{"x":0,"y":192,"w":96,"h":96},"🐶":{"x":96,"y":192,"w":96,"h":96},"🐱":{"x":192,"y":192,"w":96,"h":96},"🐸":{"x":288,"y":192,"w":96,"h":96},"🦊":{"x":384,"y":192,"w":96,"h":96},"🐨":{"x":480,"y":192,"w":96,"h":96},"🐵":{"x":576,"y":192,"w":96,"h":96},"🐯":{"x":672,"y":192,"w":96,"h":96},"🦁":{"x":768,"y":192,"w":96,"h":96},"🐼":{"x":864,"y":192,"w":96,"h":96},"🍭":{"x":0,"y":288,"w":96,"h":96},"🍬":{"x":96,"y":288,"w":96,"h":96},"🍪":{"x":192,"y":288,"w":96,"h":96},"🍯":{"x":288,"y":288,"w":96,"h":96},"🍫":{"x":384,"y":288,"w":96,"h":96},"🍩":{"x":480,"y":288,"w":96,"h":96},"🍦":{"x":576,"y":288,"w":96,"h":96},"🧁":{"x":672,"y":288,"w":96,"h":96},"🍰":{"x":768,"y":288,"w":96,"h":96},"🎂":{"x":864,"y":288,"w":96,"h":96},"🐠":{"x":0,"y":384,"w":96,"h":96},"🐟":{"x":96,"y":384,"w":96,"h":96},"🐡":{"x":192,"y":384,"w":96,"h":96},"🦀":{"x":288,"y":384,"w":96,"h":96},"🐙":{"x":384,"y":384,"w":96,"h":96},"🦞":{"x":480,"y":384,"w":96,"h":96},"🐢":{"x":576,"y":384,"w":96,"h":96},"🐬":{"x":672,"y":384,"w":96,"h":96},"🐳":{"x":768,"y":384,"w":96,"h":96},"🦈":{"x":864,"y":384,"w":96,"h":96},"🐛":{"x":0,"y":480,"w":96,"h":96},"🐌":{"x":96,"y":480,"w":96,"h":96},"🐜":{"x":192,"y":480,"w":96,"h":96},"🐞":{"x":288,"y":480,"w":96,"h":96},"🦋":{"x":384,"y":480,"w":96,"h":96},"🐝":{"x":480,"y":480,"w":96,"h":96},"🚲":{"x":576,"y":480,"w":96,"h":96},"🚗":{"x":672,"y":480,"w":96,"h":96},"🚕":{"x":768,"y":480,"w":96,"h":96},"🚌":{"x":864,"y":480,"w":96,"h":96},"🚓":{"x":0,"y":576,"w":96,"h":96},"🚑":{"x":96,"y":576,"w":96,"h":96},"🚒":{"x":192,"y":576,"w":96,"h":96},"🚜":{"x":288,"y":576,"w":96,"h":96},"🚂":{"x":384,"y":576,"w":96,"h":96},"🚁":{"x":480,"y":576,"w":96,"h":96},"✈️":{"x":576,"y":576,"w":96,"h":96},"🚀":{"x":672,"y":576,"w":96,"h":96},"☀️":{"x":768,"y":576,"w":96,"h":96},"🌙":{"x":864,"y":576,"w":96,"h":96},"⭐":{"x":0,"y":672,"w":96,"h":96},"🌧️":{"x":96,"y":672,"w":96,"h":96},"❄️":{"x":192,"y":672,"w":96,"h":96},"🌈":{"x":288,"y":672,"w":96,"h":96},"🌊":{"x":384,"y":672,"w":96,"h":96},"🌪️":{"x":480,"y":672,"w":96,"h":96},"🌍":{"x":576,"y":672,"w":96,"h":96},"🪐":{"x":672,"y":672,"w":96,"h":96},"☄️":{"x":768,"y":672,"w":96,"h":96},"👽":{"x":864,"y":672,"w":96,"h":96},"🌠":{"x":0,"y":768,"w":96,"h":96},"🌌":{"x":96,"y":768,"w":96,"h":96},"🎸":{"x":192,"y":768,"w":96,"h":96},"🎹":{"x":288,"y":768,"w":96,"h":96},"🎺":{"x":384,"y":768,"w":96,"h":96},"🥁":{"x":480,"y":768,"w":96,"h":96},"⚽":{"x":576,"y":768,"w":96,"h":96},"🏀":{"x":672,"y":768,"w":96,"h":96},"🏈":{"x":768,"y":768,"w":96,"h":96},"⚾":{"x":864,"y":768,"w":96,"h":96},"🎾":{"x":0,"y":864,"w":96,"h":96},"🏐":{"x":96,"y":864,"w":96,"h":96},"🏓":{"x":192,"y":864,"w":96,"h":96},"🏸":{"x":288,"y":864,"w":96,"h":96},"🎳":{"x":384,"y":864,"w":96,"h":96},"🥊":{"x":480,"y":864,"w":96,"h":96},"🎷":{"x":576,"y":864,"w":96,"h":96},"🧑‍🍳":{"x":672,"y":864,"w":96,"h":96},"👮":{"x":768,"y":864,"w":96,"h":96},"🧑‍🌾":{"x":864,"y":864,"w":96,"h":96},"🧑‍🏫":{"x":0,"y":960,"w":96,"h":96},"🧑‍⚕️":{"x":96,"y":960,"w":96,"h":96},"🧑‍🚒":{"x":192,"y":960,"w":96,"h":96},"🧑‍🚀":{"x":288,"y":960,"w":96,"h":96},"🌸":{"x":384,"y":960,"w":96,"h":96},"🌹":{"x":480,"y":960,"w":96,"h":96},"🌻":{"x":576,"y":960,"w":96,"h":96},"🌼":{"x":672,"y":960,"w":96,"h":96},"🌷":{"x":768,"y":960,"w":96,"h":96},"🌵":{"x":864,"y":960,"w":96,"h":96},"🌴":{"x":0,"y":1056,"w":96,"h":96},"🍀":{"x":96,"y":1056,"w":96,"h":96},"🧸":{"x":192,"y":1056,"w":96,"h":96},"🪀":{"x":288,"y":1056,"w":96,"h":96},"🎮":{"x":384,"y":1056,"w":96,"h":96},"🪁":{"x":480,"y":1056,"w":96,"h":96},"🎲":{"x":576,"y":1056,"w":96,"h":96},"🧩":{"x":672,"y":1056,"w":96,"h":96},"📚":{"x":768,"y":1056,"w":96,"h":96},"🦕":{"x":864,"y":1056,"w":96,"h":96},"🦖":{"x":0,"y":1152,"w":96,"h":96},"🦄":{"x":96,"y":1152,"w":96,"h":96},"🧚":{"x":192,"y":1152,"w":96,"h":96},"🐉":{"x":288,"y":1152,"w":96,"h":96},"🐦":{"x":384,"y":1152,"w":96,"h":96},"🐧":{"x":480,"y":1152,"w":96,"h":96},"🦆":{"x":576,"y":1152,"w":96,"h":96},"🕊️":{"x":672,"y":1152,"w":96,"h":96},"🦉":{"x":768,"y":1152,"w":96,"h":96},"🦅":{"x":864,"y":1152,"w":96,"h":96},"🐮":{"x":0,"y":1248,"w":96,"h":96},"🐷":{"x":96,"y":1248,"w":96,"h":96},"🐔":{"x":192,"y":1248,"w":96,"h":96},"🐑":{"x":288,"y":1248,"w":96,"h":96},"🐴":{"x":384,"y":1248,"w":96,"h":96},"🏠":{"x":480,"y":1248,"w":96,"h":96},"🏫":{"x":576,"y":1248,"w":96,"h":96},"🏥":{"x":672,"y":1248,"w":96,"h":96},"🏰":{"x":768,"y":1248,"w":96,"h":96},"🎡":{"x":864,"y":1248,"w":96,"h":96},"👕":{"x":0,"y":1344,"w":96,"h":96},"👗":{"x":96,"y":1344,"w":96,"h":96},"👟":{"x":192,"y":1344,"w":96,"h":96},"🎓":{"x":288,"y":1344,"w":96,"h":96},"🍕":{"x":384,"y":1344,"w":96,"h":96},"🍔":{"x":480,"y":1344,"w":96,"h":96},"🍟":{"x":576,"y":1344,"w":96,"h":96},"🌭":{"x":672,"y":1344,"w":96,"h":96},"🥐":{"x":768,"y":1344,"w":96,"h":96},"🍳":{"x":864,"y":1344,"w":96,"h":96},"🥩":{"x":0,"y":1440,"w":96,"h":96},"🍗":{"x":96,"y":1440,"w":96,"h":96},"🍖":{"x":192,"y":1440,"w":96,"h":96},"🥓":{"x":288,"y":1440,"w":96,"h":96},"🌮":{"x":384,"y":1440,"w":96,"h":96},"🥟":{"x":480,"y":1440,"w":96,"h":96},"🍤":{"x":576,"y":1440,"w":96,"h":96},"🍣":{"x":672,"y":1440,"w":96,"h":96},"🍱":{"x":768,"y":1440,"w":96,"h":96},"🍛":{"x":864,"y":1440,"w":96,"h":96}}},"fx":{"file":"assets/atlas_fx.webp","width":384,"height":288,"sprites":{"star0":{"x":0,"y":0,"w":96,"h":96},"star1":{"x":96,"y":0,"w":96,"h":96},"star2":{"x":192,"y":0,"w":96,"h":96},"star3":{"x":288,"y":0,"w":96,"h":96},"sprinkle0":{"x":0,"y":96,"w":96,"h":96},"sprinkle1":{"x":96,"y":96,"w":96,"h":96},"sprinkle2":{"x":192,"y":96,"w":96,"h":96},"sprinkle3":{"x":288,"y":96,"w":96,"h":96},"trophy":{"x":0,"y":192,"w":96,"h":96},"crown":{"x":96,"y":192,"w":96,"h":96},"bolt":{"x":192,"y":192,"w":96,"h":96},"heart":{"x":288,"y":192,"w":96,"h":96}}},"snake":{"file":"assets/atlas_snake.webp","width":1024,"height":640,"sprites":{"skin_white_head":{"x":0,"y":0,"w":128,"h":128},"skin_white_body":{"x":128,"y":0,"w":128,"h":128},"skin_white_tail":{"x":256,"y":0,"w":128,"h":128},"skin_blocky_head":{"x":384,"y":0,"w":128,"h":128},"skin_blocky_body":{"x":512,"y":0,"w":128,"h":128},"skin_blocky_tail":{"x":640,"y":0,"w":128,"h":128},"skin_rainbow_head":{"x":768,"y":0,"w":128,"h":128},"skin_rainbow_body":{"x":896,"y":0,"w":128,"h":128},"skin_rainbow_tail":{"x":0,"y":128,"w":128,"h":128},"skin_lava_head":{"x":128,"y":128,"w":128,"h":128},"skin_lava_body":{"x":256,"y":128,"w":128,"h":128},"skin_lava_tail":{"x":384,"y":128,"w":128,"h":128},"skin_ocean_head":{"x":512,"y":128,"w":128,"h":128},"skin_ocean_body":{"x":640,"y":128,"w":128,"h":128},"skin_ocean_tail":{"x":768,"y":128,"w":128,"h":128},"ai_bear_head":{"x":896,"y":128,"w":128,"h":128},"skin_galaxy_head":{"x":0,"y":256,"w":128,"h":128},"skin_galaxy_body":{"x":128,"y":256,"w":128,"h":128},"skin_galaxy_tail":{"x":256,"y":256,"w":128,"h":128},"skin_gold_head":{"x":384,"y":256,"w":128,"h":128},"skin_gold_body":{"x":512,"y":256,"w":128,"h":128},"skin_gold_tail":{"x":640,"y":256,"w":128,"h":128},"skin_mint_head":{"x":768,"y":256,"w":128,"h":128},"skin_mint_body":{"x":896,"y":256,"w":128,"h":128},"skin_mint_tail":{"x":0,"y":384,"w":128,"h":128},"skin_sakura_head":{"x":128,"y":384,"w":128,"h":128},"skin_sakura_body":{"x":256,"y":384,"w":128,"h":128},"skin_sakura_tail":{"x":384,"y":384,"w":128,"h":128},"ai_rabbit_head":{"x":512,"y":384,"w":128,"h":128},"ai_cat_head":{"x":640,"y":384,"w":128,"h":128},"ai_duck_head":{"x":768,"y":384,"w":128,"h":128},"ai_candy_body":{"x":896,"y":384,"w":128,"h":128},"friend0":{"x":0,"y":512,"w":128,"h":128},"friend1":{"x":128,"y":512,"w":128,"h":128},"friend2":{"x":256,"y":512,"w":128,"h":128},"friend3":{"x":384,"y":512,"w":128,"h":128},"player":{"x":512,"y":512,"w":128,"h":128}}}};
+  // ATLAS_DATA_END
+  const atlasImages = {};
+  const atlasReady = Promise.all(Object.entries(ATLAS_DATA).map(([name, data]) =>
+    new Promise(resolve => {
+      const img = new Image();
+      img.onload = () => { atlasImages[name] = img; resolve(true); };
+      img.onerror = () => resolve(false);
+      img.src = data.file;
+    })
+  ));
+
+  // 只取已加载的雪碧图；缺图时由调用处保留 emoji / 原绘制。
+  function drawSprite(atlas, key, x, y, size) {
+    const img = atlasImages[atlas], r = ATLAS_DATA[atlas].sprites[key];
+    if (!img || !r) return false;
+    ctx.drawImage(img, r.x, r.y, r.w, r.h, x-size/2, y-size/2, size, size);
+    return true;
+  }
+  function spriteMarkup(atlas, key, size, fallback = '') {
+    const data = ATLAS_DATA[atlas], r = data.sprites[key];
+    if (!atlasImages[atlas] || !r) return fallback;
+    const scale = size / r.w;
+    const label = fallback.replace(/<[^>]*>/g, '') || key;
+    return `<span class="atlas-icon" role="img" aria-label="${label}" style="width:${size}px;height:${size}px;background-image:url('${data.file}');background-size:${data.width*scale}px ${data.height*scale}px;background-position:${-r.x*scale}px ${-r.y*scale}px"></span>`;
+  }
+  function friendKey(snake) {
+    return 'friend' + (Math.max(0, AI_POOL.findIndex(p => p.name === snake.name)) % 4);
+  }
+  atlasReady.then(() => {
+    buildDex();
+    document.getElementById('scoreIcon').innerHTML = spriteMarkup('fx', 'star0', 26, '⭐');
+    document.getElementById('lengthIcon').innerHTML = spriteMarkup('fx', 'heart', 26, '♥');
+    document.getElementById('rankIcon').innerHTML = spriteMarkup('fx', 'trophy', 26, '🏆');
+    if (snakes) updateHud();
+  });
+
+  const CELL = 52;
+  const MAX_BODY_LEN = 40; // 封顶长度：超过后只加分不再变长，避免把棋盘占满看不清
+  const FOOD_FONT_SIZE = (CELL - 8) * 1.5;
+  const AMMO_MAX = 30; // 糖果弹药槽容量，满仓后继续吃只加分和长度
+  let COLS, ROWS, OFFX, OFFY, DPR;
+
+  // category: 'fruit' 常见，权重高；'animal'/'treat' 稀有彩蛋，分值和成长量都更猛
+  const FOOD_KINDS = [
+    // ===== 水果家族（常见）=====
+    { emoji: '🍒', score: 1, grow: 1, weight: 5, category: 'fruit' },
+    { emoji: '🍓', score: 1, grow: 1, weight: 5, category: 'fruit' },
+    { emoji: '🍇', score: 1, grow: 1, weight: 5, category: 'fruit' },
+    { emoji: '🫐', score: 1, grow: 1, weight: 5, category: 'fruit' },
+    { emoji: '🍅', score: 1, grow: 1, weight: 5, category: 'fruit' },
+    { emoji: '🫒', score: 1, grow: 1, weight: 5, category: 'fruit' },
+    { emoji: '🍊', score: 2, grow: 2, weight: 4, category: 'fruit' },
+    { emoji: '🍋', score: 2, grow: 2, weight: 4, category: 'fruit' },
+    { emoji: '🥝', score: 2, grow: 2, weight: 4, category: 'fruit' },
+    { emoji: '🍎', score: 2, grow: 2, weight: 4, category: 'fruit' },
+    { emoji: '🍏', score: 2, grow: 2, weight: 4, category: 'fruit' },
+    { emoji: '🍐', score: 2, grow: 2, weight: 4, category: 'fruit' },
+    { emoji: '🍑', score: 3, grow: 2, weight: 3, category: 'fruit' },
+    { emoji: '🍍', score: 3, grow: 3, weight: 3, category: 'fruit' },
+    { emoji: '🥥', score: 3, grow: 3, weight: 3, category: 'fruit' },
+    { emoji: '🍌', score: 3, grow: 2, weight: 3, category: 'fruit' },
+    { emoji: '🥑', score: 3, grow: 3, weight: 3, category: 'fruit' },
+    { emoji: '🍈', score: 4, grow: 3, weight: 2, category: 'fruit' },
+    { emoji: '🥭', score: 4, grow: 3, weight: 2, category: 'fruit' },
+    { emoji: '🍉', score: 5, grow: 4, weight: 1, category: 'fruit' },
+    // ===== 珍稀动物彩蛋（稀有，高分高成长）=====
+    { emoji: '🐰', score: 6, grow: 4, weight: 1, category: 'animal' },
+    { emoji: '🐶', score: 6, grow: 4, weight: 1, category: 'animal' },
+    { emoji: '🐱', score: 6, grow: 4, weight: 1, category: 'animal' },
+    { emoji: '🐸', score: 6, grow: 4, weight: 1, category: 'animal' },
+    { emoji: '🦊', score: 7, grow: 4, weight: 1, category: 'animal' },
+    { emoji: '🐨', score: 7, grow: 4, weight: 1, category: 'animal' },
+    { emoji: '🐵', score: 7, grow: 4, weight: 1, category: 'animal' },
+    { emoji: '🐯', score: 8, grow: 5, weight: 1, category: 'animal' },
+    { emoji: '🦁', score: 8, grow: 5, weight: 1, category: 'animal' },
+    { emoji: '🐼', score: 9, grow: 5, weight: 1, category: 'animal' },
+    // ===== 童趣甜品彩蛋（稀有，高分高成长）=====
+    { emoji: '🍭', score: 6, grow: 4, weight: 1, category: 'treat' },
+    { emoji: '🍬', score: 6, grow: 4, weight: 1, category: 'treat' },
+    { emoji: '🍪', score: 6, grow: 4, weight: 1, category: 'treat' },
+    { emoji: '🍯', score: 6, grow: 4, weight: 1, category: 'treat' },
+    { emoji: '🍫', score: 7, grow: 4, weight: 1, category: 'treat' },
+    { emoji: '🍩', score: 7, grow: 4, weight: 1, category: 'treat' },
+    { emoji: '🍦', score: 7, grow: 4, weight: 1, category: 'treat' },
+    { emoji: '🧁', score: 8, grow: 5, weight: 1, category: 'treat' },
+    { emoji: '🍰', score: 8, grow: 5, weight: 1, category: 'treat' },
+    { emoji: '🎂', score: 9, grow: 5, weight: 1, category: 'treat' },
+    // ===== 海洋世界 =====
+    { emoji: '🐠', score: 6, grow: 4, weight: 1, category: 'sea' },
+    { emoji: '🐟', score: 6, grow: 4, weight: 1, category: 'sea' },
+    { emoji: '🐡', score: 6, grow: 4, weight: 1, category: 'sea' },
+    { emoji: '🦀', score: 6, grow: 4, weight: 1, category: 'sea' },
+    { emoji: '🐙', score: 7, grow: 4, weight: 1, category: 'sea' },
+    { emoji: '🦞', score: 7, grow: 4, weight: 1, category: 'sea' },
+    { emoji: '🐢', score: 7, grow: 4, weight: 1, category: 'sea' },
+    { emoji: '🐬', score: 8, grow: 5, weight: 1, category: 'sea' },
+    { emoji: '🐳', score: 9, grow: 5, weight: 1, category: 'sea' },
+    { emoji: '🦈', score: 9, grow: 5, weight: 1, category: 'sea' },
+    // ===== 昆虫王国 =====
+    { emoji: '🐛', score: 5, grow: 3, weight: 1, category: 'insect' },
+    { emoji: '🐌', score: 5, grow: 3, weight: 1, category: 'insect' },
+    { emoji: '🐜', score: 5, grow: 3, weight: 1, category: 'insect' },
+    { emoji: '🐞', score: 6, grow: 4, weight: 1, category: 'insect' },
+    { emoji: '🦋', score: 6, grow: 4, weight: 1, category: 'insect' },
+    { emoji: '🐝', score: 6, grow: 4, weight: 1, category: 'insect' },
+    // ===== 交通工具 =====
+    { emoji: '🚲', score: 5, grow: 3, weight: 1, category: 'vehicle' },
+    { emoji: '🚗', score: 6, grow: 4, weight: 1, category: 'vehicle' },
+    { emoji: '🚕', score: 6, grow: 4, weight: 1, category: 'vehicle' },
+    { emoji: '🚌', score: 6, grow: 4, weight: 1, category: 'vehicle' },
+    { emoji: '🚓', score: 6, grow: 4, weight: 1, category: 'vehicle' },
+    { emoji: '🚑', score: 6, grow: 4, weight: 1, category: 'vehicle' },
+    { emoji: '🚒', score: 7, grow: 4, weight: 1, category: 'vehicle' },
+    { emoji: '🚜', score: 6, grow: 4, weight: 1, category: 'vehicle' },
+    { emoji: '🚂', score: 7, grow: 4, weight: 1, category: 'vehicle' },
+    { emoji: '🚁', score: 8, grow: 5, weight: 1, category: 'vehicle' },
+    { emoji: '✈️', score: 8, grow: 5, weight: 1, category: 'vehicle' },
+    { emoji: '🚀', score: 9, grow: 5, weight: 1, category: 'vehicle' },
+    // ===== 天气与自然 =====
+    { emoji: '☀️', score: 6, grow: 4, weight: 1, category: 'weather' },
+    { emoji: '🌙', score: 6, grow: 4, weight: 1, category: 'weather' },
+    { emoji: '⭐', score: 6, grow: 4, weight: 1, category: 'weather' },
+    { emoji: '🌧️', score: 6, grow: 4, weight: 1, category: 'weather' },
+    { emoji: '❄️', score: 6, grow: 4, weight: 1, category: 'weather' },
+    { emoji: '🌈', score: 7, grow: 4, weight: 1, category: 'weather' },
+    { emoji: '🌊', score: 7, grow: 4, weight: 1, category: 'weather' },
+    { emoji: '🌪️', score: 8, grow: 5, weight: 1, category: 'weather' },
+    // ===== 浩瀚宇宙 =====
+    { emoji: '🌍', score: 7, grow: 4, weight: 1, category: 'space' },
+    { emoji: '🪐', score: 8, grow: 5, weight: 1, category: 'space' },
+    { emoji: '☄️', score: 8, grow: 5, weight: 1, category: 'space' },
+    { emoji: '👽', score: 8, grow: 5, weight: 1, category: 'space' },
+    { emoji: '🌠', score: 8, grow: 5, weight: 1, category: 'space' },
+    { emoji: '🌌', score: 9, grow: 5, weight: 1, category: 'space' },
+    // ===== 趣味乐器 =====
+    { emoji: '🎸', score: 6, grow: 4, weight: 1, category: 'instrument' },
+    { emoji: '🎹', score: 6, grow: 4, weight: 1, category: 'instrument' },
+    { emoji: '🎺', score: 6, grow: 4, weight: 1, category: 'instrument' },
+    { emoji: '🥁', score: 6, grow: 4, weight: 1, category: 'instrument' },
+    { emoji: '🎷', score: 7, grow: 4, weight: 1, category: 'instrument' },
+    // ===== 运动全明星 =====
+    { emoji: '⚽', score: 6, grow: 4, weight: 1, category: 'sport' },
+    { emoji: '🏀', score: 6, grow: 4, weight: 1, category: 'sport' },
+    { emoji: '🏈', score: 6, grow: 4, weight: 1, category: 'sport' },
+    { emoji: '⚾', score: 6, grow: 4, weight: 1, category: 'sport' },
+    { emoji: '🎾', score: 6, grow: 4, weight: 1, category: 'sport' },
+    { emoji: '🏐', score: 6, grow: 4, weight: 1, category: 'sport' },
+    { emoji: '🏓', score: 6, grow: 4, weight: 1, category: 'sport' },
+    { emoji: '🏸', score: 6, grow: 4, weight: 1, category: 'sport' },
+    { emoji: '🎳', score: 6, grow: 4, weight: 1, category: 'sport' },
+    { emoji: '🥊', score: 7, grow: 4, weight: 1, category: 'sport' },
+    // ===== 职业角色 =====
+    { emoji: '🧑‍🍳', score: 6, grow: 4, weight: 1, category: 'profession' },
+    { emoji: '👮', score: 6, grow: 4, weight: 1, category: 'profession' },
+    { emoji: '🧑‍🌾', score: 6, grow: 4, weight: 1, category: 'profession' },
+    { emoji: '🧑‍🏫', score: 6, grow: 4, weight: 1, category: 'profession' },
+    { emoji: '🧑‍⚕️', score: 7, grow: 4, weight: 1, category: 'profession' },
+    { emoji: '🧑‍🚒', score: 7, grow: 4, weight: 1, category: 'profession' },
+    { emoji: '🧑‍🚀', score: 8, grow: 5, weight: 1, category: 'profession' },
+    // ===== 花草树木 =====
+    { emoji: '🌸', score: 6, grow: 4, weight: 1, category: 'plant' },
+    { emoji: '🌹', score: 6, grow: 4, weight: 1, category: 'plant' },
+    { emoji: '🌻', score: 6, grow: 4, weight: 1, category: 'plant' },
+    { emoji: '🌼', score: 6, grow: 4, weight: 1, category: 'plant' },
+    { emoji: '🌷', score: 6, grow: 4, weight: 1, category: 'plant' },
+    { emoji: '🌵', score: 6, grow: 4, weight: 1, category: 'plant' },
+    { emoji: '🌴', score: 6, grow: 4, weight: 1, category: 'plant' },
+    { emoji: '🍀', score: 7, grow: 4, weight: 1, category: 'plant' },
+    // ===== 玩具文具 =====
+    { emoji: '🧸', score: 6, grow: 4, weight: 1, category: 'toy' },
+    { emoji: '🪀', score: 6, grow: 4, weight: 1, category: 'toy' },
+    { emoji: '🎮', score: 6, grow: 4, weight: 1, category: 'toy' },
+    { emoji: '🪁', score: 6, grow: 4, weight: 1, category: 'toy' },
+    { emoji: '🎲', score: 6, grow: 4, weight: 1, category: 'toy' },
+    { emoji: '🧩', score: 6, grow: 4, weight: 1, category: 'toy' },
+    { emoji: '📚', score: 6, grow: 4, weight: 1, category: 'toy' },
+    // ===== 奇幻生物 =====
+    { emoji: '🦕', score: 7, grow: 4, weight: 1, category: 'fantasy' },
+    { emoji: '🦖', score: 8, grow: 5, weight: 1, category: 'fantasy' },
+    { emoji: '🦄', score: 8, grow: 5, weight: 1, category: 'fantasy' },
+    { emoji: '🧚', score: 8, grow: 5, weight: 1, category: 'fantasy' },
+    { emoji: '🐉', score: 9, grow: 5, weight: 1, category: 'fantasy' },
+    // ===== 鸟类天地 =====
+    { emoji: '🐦', score: 6, grow: 4, weight: 1, category: 'bird' },
+    { emoji: '🐧', score: 6, grow: 4, weight: 1, category: 'bird' },
+    { emoji: '🦆', score: 6, grow: 4, weight: 1, category: 'bird' },
+    { emoji: '🕊️', score: 6, grow: 4, weight: 1, category: 'bird' },
+    { emoji: '🦉', score: 7, grow: 4, weight: 1, category: 'bird' },
+    { emoji: '🦅', score: 7, grow: 4, weight: 1, category: 'bird' },
+    // ===== 农场动物 =====
+    { emoji: '🐮', score: 6, grow: 4, weight: 1, category: 'farm' },
+    { emoji: '🐷', score: 6, grow: 4, weight: 1, category: 'farm' },
+    { emoji: '🐔', score: 6, grow: 4, weight: 1, category: 'farm' },
+    { emoji: '🐑', score: 6, grow: 4, weight: 1, category: 'farm' },
+    { emoji: '🐴', score: 6, grow: 4, weight: 1, category: 'farm' },
+    // ===== 建筑地标 =====
+    { emoji: '🏠', score: 6, grow: 4, weight: 1, category: 'building' },
+    { emoji: '🏫', score: 6, grow: 4, weight: 1, category: 'building' },
+    { emoji: '🏥', score: 6, grow: 4, weight: 1, category: 'building' },
+    { emoji: '🏰', score: 7, grow: 4, weight: 1, category: 'building' },
+    { emoji: '🎡', score: 7, grow: 4, weight: 1, category: 'building' },
+    // ===== 穿搭服饰 =====
+    { emoji: '👕', score: 5, grow: 3, weight: 1, category: 'clothing' },
+    { emoji: '👗', score: 5, grow: 3, weight: 1, category: 'clothing' },
+    { emoji: '👟', score: 5, grow: 3, weight: 1, category: 'clothing' },
+    { emoji: '🎓', score: 6, grow: 4, weight: 1, category: 'clothing' },
+    // ===== 世界美食 =====
+    { emoji: '🍕', score: 6, grow: 4, weight: 1, category: 'worldfood' },
+    { emoji: '🍔', score: 6, grow: 4, weight: 1, category: 'worldfood' },
+    { emoji: '🍟', score: 6, grow: 4, weight: 1, category: 'worldfood' },
+    { emoji: '🌭', score: 6, grow: 4, weight: 1, category: 'worldfood' },
+    { emoji: '🥐', score: 6, grow: 4, weight: 1, category: 'worldfood' },
+    { emoji: '🍳', score: 6, grow: 4, weight: 1, category: 'worldfood' },
+    // ===== 硬核大餐（稀有，高分高成长）=====
+    { emoji: '🥩', score: 6, grow: 4, weight: 1, category: 'meat' },
+    { emoji: '🍗', score: 6, grow: 4, weight: 1, category: 'meat' },
+    { emoji: '🍖', score: 6, grow: 4, weight: 1, category: 'meat' },
+    { emoji: '🥓', score: 6, grow: 4, weight: 1, category: 'meat' },
+    { emoji: '🌮', score: 6, grow: 4, weight: 1, category: 'meat' },
+    { emoji: '🥟', score: 6, grow: 4, weight: 1, category: 'meat' },
+    { emoji: '🍤', score: 7, grow: 4, weight: 1, category: 'meat' },
+    { emoji: '🍣', score: 7, grow: 4, weight: 1, category: 'meat' },
+    { emoji: '🍱', score: 7, grow: 4, weight: 1, category: 'meat' },
+    { emoji: '🍛', score: 8, grow: 5, weight: 1, category: 'meat' },
+  ];
+  const CATEGORY_META = {
+    fruit:      { label: '水果家族',   color: '46,139,87'   },
+    animal:     { label: '珍稀动物',   color: '255,196,64'  },
+    treat:      { label: '童趣甜品',   color: '255,105,180' },
+    sea:        { label: '海洋世界',   color: '64,164,255'  },
+    insect:     { label: '昆虫王国',   color: '154,205,50'  },
+    vehicle:    { label: '交通工具',   color: '255,140,0'   },
+    weather:    { label: '天气与自然', color: '135,206,250' },
+    space:      { label: '浩瀚宇宙',   color: '147,112,219' },
+    instrument: { label: '趣味乐器',   color: '218,112,214' },
+    sport:      { label: '运动全明星', color: '50,205,50'   },
+    profession: { label: '职业角色',   color: '70,130,180'  },
+    plant:      { label: '花草树木',   color: '60,179,113'  },
+    toy:        { label: '玩具文具',   color: '255,182,193' },
+    fantasy:    { label: '奇幻生物',   color: '186,85,211'  },
+    bird:       { label: '鸟类天地',   color: '100,181,246' },
+    farm:       { label: '农场动物',   color: '205,133,63'  },
+    building:   { label: '建筑地标',   color: '176,196,222' },
+    clothing:   { label: '穿搭服饰',   color: '240,128,128' },
+    worldfood:  { label: '世界美食',   color: '255,99,71'   },
+    meat:       { label: '硬核大餐',   color: '178,34,34'   },
+  };
+  // 每种糖果弹的数值与画面都集中在这里：以后加新食物类别，只要补一行就能有独立手感。
+  // special: reward=掉奖励、slow=糖浆减速、splash=水波范围、pierce=彗星穿透、chain=闪电连锁、freeze=糖果冰冻。
+  const AMMO_FX = {
+    fruit:     { damage:1, color:'#ff5d87', trail:'#ffb62e', special:'reward' },
+    animal:    { damage:2, color:'#ffc34d', trail:'#fff2a3', special:'bounce' },
+    treat:     { damage:1, color:'#ff69b4', trail:'#ffb6dc', special:'slow' },
+    sea:       { damage:1, color:'#38bdf8', trail:'#a5f3fc', special:'splash' },
+    insect:    { damage:1, color:'#9acd32', trail:'#d9f99d', special:'sting' },
+    vehicle:   { damage:2, color:'#ff8c00', trail:'#ffe08a', special:'fast', speed:2 },
+    weather:   { damage:1, color:'#8b5cf6', trail:'#fff176', special:'chain' },
+    space:     { damage:1, color:'#7c3aed', trail:'#c4b5fd', special:'pierce', pierce:3 },
+    instrument:{ damage:1, color:'#d870d6', trail:'#f5b4ff', special:'music' },
+    sport:     { damage:2, color:'#32cd32', trail:'#b8ffb8', special:'bounce' },
+    profession:{ damage:1, color:'#4682b4', trail:'#b4dcff', special:'badge' },
+    plant:     { damage:1, color:'#3cb371', trail:'#b9f6ca', special:'seed' },
+    toy:       { damage:1, color:'#ff8eb8', trail:'#ffd1df', special:'confetti' },
+    fantasy:   { damage:1, color:'#ba55d3', trail:'#f0abfc', special:'freeze' },
+    bird:      { damage:1, color:'#64b5f6', trail:'#e0f2fe', special:'feather' },
+    farm:      { damage:2, color:'#cd853f', trail:'#ffe0b2', special:'mud' },
+    building:  { damage:3, color:'#90a4ae', trail:'#e2e8f0', special:'heavy' },
+    clothing:  { damage:1, color:'#f08080', trail:'#ffd1d1', special:'ribbon' },
+    worldfood: { damage:3, color:'#ff6347', trail:'#ffcf9b', special:'heavy' },
+    meat:      { damage:3, color:'#b22222', trail:'#ff8a80', special:'heavy' },
+  };
+  const AMMO_LEVEL_HITS = [0, 5, 10, 18, 28];
+  const FOOD_WEIGHT_TOTAL = FOOD_KINDS.reduce((sum, k) => sum + k.weight, 0);
+  const AVOCADO_KIND = FOOD_KINDS.find(k => k.emoji === '🥑'); // 蛇死亡时按自身长度原地变成一排牛油果
+
+  // ===== 玩家蛇皮肤系统 =====
+  // 每套皮肤定义如何画玩家蛇：body(i,now) 逐段返回主体颜色；edge 为底层勾边色（null 表示
+  // 不勾边、改由每段自发光，彩虹就是这种）；glow 光晕色（字符串或 (i,now)=>色）；
+  // head/headEdge/headGlow 管头部；highlight 是压在最上面的高光脊线；css 是选择器里的预览色块。
+  // blocky: true 的皮肤走另一套渲染（每节一个独立方块，经典像素贪吃蛇那种），此时
+  // edge = 方块外框色、highlight = 方块内芯色，见 drawBlockyBody()。
+  const SKINS = [
+    {
+      id: 'white', name: '珠光白', css: 'linear-gradient(135deg,#ffffff,#dfeaff)',
+      body: (i, now) => `hsl(${195 + Math.sin(now / 700 + i * 0.45) * 25}, 35%, ${96 + Math.sin(now / 400 + i * 0.35) * 3}%)`,
+      edge: 'rgba(184,208,232,.55)', glow: 'rgba(160,200,240,.9)',
+      head: () => '#ffffff', headEdge: 'rgba(150,190,225,.7)', headGlow: 'rgba(160,200,240,.95)',
+      highlight: 'rgba(255,255,255,.85)',
+    },
+    {
+      // 经典像素贪吃蛇：一节一个独立小方块，深框 + 亮身 + 中心内芯，节与节之间留缝
+      id: 'blocky', name: '方块', blocky: true,
+      // 棋盘底色是浅绿（#c7e8bd），蛇身走深绿正好压得住背景；内芯留一点亮绿点缀，
+      // 不然整条蛇会闷成一团黑
+      css: 'linear-gradient(135deg,#06301f 0 14%,#2f7d3a 14% 34%,#8ede6a 34% 66%,#2f7d3a 66% 86%,#06301f 86%)',
+      body: (i, now) => `hsl(${138 + Math.sin(now / 700 + i * 0.5) * 6}, 52%, ${i % 2 ? 34 : 29}%)`,
+      edge: '#06301f', glow: 'rgba(40,140,70,.85)',
+      head: () => '#2f7d3a', headEdge: '#06301f', headGlow: 'rgba(60,180,90,.9)',
+      highlight: 'rgba(142,222,106,.9)',
+    },
+    {
+      id: 'rainbow', name: '彩虹', css: 'conic-gradient(from 0deg,#ff5252,#ffb142,#fdfd50,#2ecc71,#54a0ff,#a55eea,#ff5252)',
+      body: (i, now) => `hsl(${(now / 8 + i * 16) % 360}, 90%, 58%)`,
+      edge: null, glow: (i, now) => `hsl(${(now / 8 + i * 16) % 360}, 100%, 62%)`,
+      head: (now) => `hsl(${(now / 8) % 360}, 90%, 46%)`, headEdge: null, headGlow: 'self',
+      highlight: 'rgba(255,255,255,.35)',
+    },
+    {
+      id: 'lava', name: '熔岩', css: 'linear-gradient(135deg,#ffca28,#ff5722,#b71c1c)',
+      body: (i, now) => `hsl(${16 + Math.sin(now / 500 + i * 0.5) * 16}, 95%, ${52 + Math.sin(now / 300 + i * 0.4) * 8}%)`,
+      edge: 'rgba(120,20,0,.5)', glow: 'rgba(255,90,20,.95)',
+      head: () => '#ff4500', headEdge: 'rgba(120,20,0,.6)', headGlow: 'rgba(255,90,20,.95)',
+      highlight: 'rgba(255,235,160,.6)',
+    },
+    {
+      id: 'ocean', name: '碧海', css: 'linear-gradient(135deg,#4dd0e1,#0097b8,#006978)',
+      body: (i, now) => `hsl(${188 + Math.sin(now / 600 + i * 0.4) * 20}, 80%, ${55 + Math.sin(now / 350 + i * 0.3) * 8}%)`,
+      edge: 'rgba(0,60,90,.4)', glow: 'rgba(0,180,230,.9)',
+      head: () => '#0097b8', headEdge: 'rgba(0,60,90,.5)', headGlow: 'rgba(0,180,230,.9)',
+      highlight: 'rgba(220,250,255,.6)',
+    },
+    {
+      id: 'galaxy', name: '星河', css: 'linear-gradient(135deg,#b388ff,#7b2ff7,#311b92)',
+      body: (i, now) => `hsl(${262 + Math.sin(now / 600 + i * 0.5) * 35}, 70%, ${48 + Math.sin(now / 300 + i * 0.4) * 12}%)`,
+      edge: 'rgba(20,0,50,.55)', glow: 'rgba(150,80,255,.95)',
+      head: () => '#6a1b9a', headEdge: 'rgba(180,140,255,.7)', headGlow: 'rgba(150,80,255,.95)',
+      highlight: 'rgba(230,210,255,.7)',
+    },
+    {
+      id: 'gold', name: '黄金', css: 'linear-gradient(135deg,#fff3b0,#ffc107,#c98a00)',
+      body: (i, now) => `hsl(${45 + Math.sin(now / 500 + i * 0.5) * 8}, 90%, ${58 + Math.sin(now / 300 + i * 0.4) * 10}%)`,
+      edge: 'rgba(120,80,0,.5)', glow: 'rgba(255,200,40,.95)',
+      head: () => '#e6a800', headEdge: 'rgba(120,80,0,.6)', headGlow: 'rgba(255,200,40,.95)',
+      highlight: 'rgba(255,250,210,.8)',
+    },
+    {
+      id: 'mint', name: '薄荷', css: 'linear-gradient(135deg,#c8ffe0,#3ddc97,#0f9d76)',
+      body: (i, now) => `hsl(${150 + Math.sin(now / 600 + i * 0.4) * 16}, 65%, ${65 + Math.sin(now / 350 + i * 0.3) * 8}%)`,
+      edge: 'rgba(10,80,50,.4)', glow: 'rgba(60,220,150,.9)',
+      head: () => '#12b981', headEdge: 'rgba(10,80,50,.5)', headGlow: 'rgba(60,220,150,.9)',
+      highlight: 'rgba(230,255,245,.7)',
+    },
+    {
+      id: 'sakura', name: '樱粉', css: 'linear-gradient(135deg,#ffe0ef,#ff9ec4,#ff5fa2)',
+      body: (i, now) => `hsl(${335 + Math.sin(now / 600 + i * 0.4) * 12}, 90%, ${76 + Math.sin(now / 350 + i * 0.3) * 6}%)`,
+      edge: 'rgba(150,20,70,.35)', glow: 'rgba(255,130,190,.9)',
+      head: () => '#ff7bb0', headEdge: 'rgba(150,20,70,.45)', headGlow: 'rgba(255,130,190,.9)',
+      highlight: 'rgba(255,240,248,.8)',
+    },
+  ];
+  let currentSkin = SKINS[0];
+  try {
+    const saved = localStorage.getItem('snakeSkin');
+    if (saved) currentSkin = SKINS.find(s => s.id === saved) || SKINS[0];
+  } catch (e) {}
+
+  function pickWeightedKind() {
+    let r = Math.random() * FOOD_WEIGHT_TOTAL;
+    for (const k of FOOD_KINDS) {
+      r -= k.weight;
+      if (r <= 0) return k;
+    }
+    return FOOD_KINDS[FOOD_KINDS.length - 1];
+  }
+
+  // 品类太多（130+ 种），塞进常驻底栏会挤爆屏幕，改成可点开的图鉴面板，
+  // 按类别分组展示，方便孩子一类一类地认。
+  function buildDex() {
+    const groups = {};
+    for (const f of FOOD_KINDS) (groups[f.category] = groups[f.category] || []).push(f);
+    dexBody.innerHTML = Object.keys(groups).map(cat => {
+      const items = groups[cat];
+      const meta = CATEGORY_META[cat] || { label: cat, color: '150,150,150' };
+      const scores = items.map(i => i.score);
+      const lo = Math.min(...scores), hi = Math.max(...scores);
+      const range = lo === hi ? `+${lo}` : `+${lo}~${hi}`;
+      return `<div class="dex-cat" style="border-left:4px solid rgba(${meta.color},.8)">
+        <div class="cat-name">${meta.label} <span class="cat-score">${range}</span></div>
+        <div class="cat-emojis">${items.map(i => spriteMarkup('food', i.emoji, 48, i.emoji)).join(' ')}</div>
+      </div>`;
+    }).join('');
+  }
+  buildDex();
+
+  // 每条 AI 蛇的「背景故事」直接决定它的选果策略：
+  //  biggest    —— 只认分值最高的果子，哪怕要绕远路
+  //  coward     —— 专挑离玩家远的果子，能躲多远躲多远
+  //  nearest    —— 谁近吃谁，反应飞快
+  //  efficient  —— 按「分数÷距离」性价比选果
+  const AI_POOL = [
+    { name: '胆小灰', color: '#7f8c8d', headColor: '#5f6a6a', strategy: 'coward',    desc: '天生怕事，专挑离你远远的水果，绝不跟你抢嘴边食。' },
+    { name: '急先锋', color: '#e67e22', headColor: '#ca6f1e', strategy: 'nearest',   desc: '脑子一根筋，谁近吃谁，速度飞快从不犹豫。' },
+    { name: '大胃王', color: '#8e44ad', headColor: '#6c3483', strategy: 'biggest',   desc: '只认分值最高的食物，哪怕要绕远路也在所不惜。' },
+    { name: '精算师', color: '#2980b9', headColor: '#1f618d', strategy: 'efficient', desc: '按性价比选食物，从不做亏本买卖。' },
+    { name: '愣头青', color: '#c0392b', headColor: '#922b21', strategy: 'nearest',   desc: '横冲直撞，毫无章法，但速度惊人。' },
+    { name: '小心眼', color: '#16a085', headColor: '#117864', strategy: 'coward',    desc: '疑心病重，总躲着大伙儿，独自觅食。' },
+  ];
+  // 撞死/射杀后重生的新对手会从整个池子里随机抽，不局限于开局这两位
+  const INITIAL_OPPONENTS = AI_POOL.slice(0, 2);
+
+  // 开场只展示初始上场的两位，避免介绍太长把「开始游戏」按钮挤出屏幕；
+  // 其余对手会在重生时随机登场，用一行小字说明即可
+  opponentsEl.innerHTML = INITIAL_OPPONENTS.map(p =>
+    `<div class="op"><span class="dot" style="background:${p.color}"></span><div><b>${p.name}</b> —— ${p.desc}</div></div>`
+  ).join('') + `<div class="op" style="opacity:.75;font-size:13px">重生的新对手会从 ${AI_POOL.length} 种性格里随机抽取，越打越有花样～</div>`;
+
+  let snakes, foods, running;
+  let lastStepTime;
+  const BASE_SPEED = 900;
+  const BOOST_DIVISOR = 3; // 长按空格加速 3 倍
+  let spaceHeld = false;
+
+  // ===== 撞击/射杀重生 =====
+  // 场上始终维持 3 条蛇（1 玩家 + 2 对手）。对手被撞死或爆头后先从 snakes 里移除，
+  // 1~2 秒后从 AI_POOL 里随机抽一个重新出生，出生即是长度 3 的小蛇。
+  let pendingRespawns = []; // 存到期时间戳（performance.now() 基准）
+  const RESPAWN_MIN_MS = 1000, RESPAWN_MAX_MS = 2000;
+
+  // ===== 武器/子弹 =====
+  let bullets = [];
+  let lastFrameTime = 0;
+  const BULLET_SPEED = 7; // 格/秒，明显快于蛇本身移动速度
+  const MAX_FX_PARTICLES = 300;
+  let ammoPopCategory = null, selectedAmmoCategory = null;
+  let ammoFxParticles = [], ammoDamageTexts = [], ammoArcs = [], screenShakeUntil = 0;
+  let ammoLevels = (() => { try { return JSON.parse(localStorage.getItem('snakeAmmoLv')) || {}; } catch (_) { return {}; } })();
+
+  function kindForEmoji(emoji) { return FOOD_KINDS.find(k => k.emoji === emoji) || FOOD_KINDS[0]; }
+  function ammoLevel(category) {
+    const saved = ammoLevels[category] || (ammoLevels[category] = { lv: 1, exp: 0 });
+    saved.lv = Math.max(1, Math.min(5, saved.lv || 1)); saved.exp = saved.exp || 0;
+    return saved;
+  }
+  function saveAmmoLevels() { localStorage.setItem('snakeAmmoLv', JSON.stringify(ammoLevels)); }
+  function playerAmmoGroups(player) {
+    const groups = {};
+    for (const emoji of player.ammo) { const kind = kindForEmoji(emoji); (groups[kind.category] ||= []).push(emoji); }
+    return groups;
+  }
+  function selectAmmo(category) { if (category) { selectedAmmoCategory = category; updateHud(); } }
+  function cycleAmmo(dir) {
+    const groups = Object.keys(playerAmmoGroups(snakes[0])); if (!groups.length) return;
+    let i = groups.indexOf(selectedAmmoCategory); selectedAmmoCategory = groups[(i + dir + groups.length) % groups.length]; updateHud();
+  }
+  function addAmmoHit(category) {
+    const level = ammoLevel(category); if (level.lv >= 5) return;
+    level.exp++;
+    if (level.exp >= AMMO_LEVEL_HITS[level.lv]) { level.lv++; level.exp = 0; showAmmoLevelUp(category, level.lv); }
+    saveAmmoLevels();
+  }
+  function showAmmoLevelUp(category, lv) {
+    const el = document.createElement('div'); el.className = 'ammo-level-up';
+    el.textContent = `🎉 ${CATEGORY_META[category].label}弹升到 Lv${lv}！`;
+    document.body.appendChild(el); setTimeout(() => el.remove(), 1650);
+    addAmmoParticles(snakes[0].body[0], AMMO_FX[category], lv, 28);
+  }
+
+  function resize() {
+    DPR = window.devicePixelRatio || 1;
+    // visualViewport 比 innerWidth/innerHeight 更准：地址栏收起展开、
+    // 浏览器动态 UI 变化时不会让画布比实际可见区域大，避免底部/顶部露出装不下的空白
+    const vv = window.visualViewport;
+    const w = vv ? vv.width : window.innerWidth;
+    const h = vv ? vv.height : window.innerHeight;
+    canvas.width = w * DPR;
+    canvas.height = h * DPR;
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    COLS = Math.max(8, Math.floor(w / CELL));
+    ROWS = Math.max(8, Math.floor(h / CELL));
+    OFFX = Math.floor((w - COLS * CELL) / 2);
+    OFFY = Math.floor((h - ROWS * CELL) / 2);
+  }
+
+  function manhattan(a, b) { return Math.abs(a.x - b.x) + Math.abs(a.y - b.y); }
+
+  function occupied(x, y) {
+    if (snakes.some(sn => sn.body.some(s => s.x === x && s.y === y))) return true;
+    if (foods && foods.some(f => f.x === x && f.y === y)) return true;
+    return false;
+  }
+
+  function foodTarget() { return 6 + snakes.length * 3; }
+  // 场上食物硬顶：撞死长蛇会一次性掉一整排牛油果，若不设顶会越堆越多，
+  // 把正常刷新的水果/动物/甜品/硬核大餐都挤没了，画面变成清一色牛油果
+  function foodCap() { return foodTarget() + 10; }
+
+  function spawnOneFood() {
+    let pos, tries = 0;
+    do {
+      pos = { x: (Math.random() * COLS) | 0, y: (Math.random() * ROWS) | 0 };
+      tries++;
+    } while (occupied(pos.x, pos.y) && tries < 200);
+    const kind = pickWeightedKind();
+    foods.push({ ...pos, ...kind });
+  }
+
+  function refillFoods() {
+    while (foods.length < foodTarget()) spawnOneFood();
+  }
+
+  // 找一块没蛇没食物、且离边界留出安全余量的格子，给新出生的蛇用
+  function findSafeSpawnCell() {
+    let pos, tries = 0;
+    const mx = Math.max(1, COLS - 4), my = Math.max(1, ROWS - 4);
+    do {
+      pos = { x: 2 + ((Math.random() * mx) | 0), y: 2 + ((Math.random() * my) | 0) };
+      tries++;
+    } while (occupied(pos.x, pos.y) && tries < 200);
+    return pos;
+  }
+
+  // 从整个 AI_POOL 里随机抽一个新对手，出生即是长度 3 的小蛇
+  function spawnOpponent() {
+    const profile = AI_POOL[(Math.random() * AI_POOL.length) | 0];
+    const pos = findSafeSpawnCell();
+    const dirs = [{ x: 1, y: 0 }, { x: -1, y: 0 }, { x: 0, y: 1 }, { x: 0, y: -1 }];
+    const dir = dirs[(Math.random() * dirs.length) | 0];
+    const body = [
+      { x: pos.x, y: pos.y },
+      { x: pos.x - dir.x, y: pos.y - dir.y },
+      { x: pos.x - 2 * dir.x, y: pos.y - 2 * dir.y },
+    ];
+    snakes.push({
+      isPlayer: false,
+      name: profile.name,
+      color: profile.color,
+      headColor: profile.headColor,
+      strategy: profile.strategy,
+      auto: true,
+      body,
+      prevBody: body.map(s => ({ ...s })),
+      contents: body.map(() => null),
+      ammo: [],
+      lastShotAt: -Infinity,
+      dir: { ...dir },
+      nextDir: { ...dir },
+      score: 0,
+      grow: 0,
+      targetFood: null,
+      wigSeed: Math.random() * 10,
+    });
+  }
+
+  // 死掉的蛇原地按自身长度变成一排牛油果，供其他蛇捡漏；
+  // 但要遵守场上食物硬顶，超出的部分不掉，等牛油果被吃掉腾出空间后，
+  // 正常的加权随机刷新才会把水果/动物/甜品等其他品类重新补回来
+  function dropAvocados(snake) {
+    let room = foodCap() - foods.length;
+    for (let i = 0; i < snake.body.length && room > 0; i++, room--) {
+      const seg = snake.body[i];
+      foods.push({ x: seg.x, y: seg.y, ...AVOCADO_KIND });
+    }
+  }
+
+  // 把撞死/爆头的对手从场上移除后排到这里，1~2 秒后补一条新的，始终保持 3 条蛇在场
+  function killOpponent(index) {
+    dropAvocados(snakes[index]);
+    snakes.splice(index, 1);
+    pendingRespawns.push(performance.now() + RESPAWN_MIN_MS + Math.random() * (RESPAWN_MAX_MS - RESPAWN_MIN_MS));
+  }
+
+  function processRespawns(now) {
+    for (let i = pendingRespawns.length - 1; i >= 0; i--) {
+      if (now >= pendingRespawns[i]) {
+        pendingRespawns.splice(i, 1);
+        spawnOpponent();
+      }
+    }
+  }
+
+  function reset() {
+    foods = [];
+    bullets = [];
+    pendingRespawns = [];
+    const starts = [
+      { x: Math.floor(COLS * 0.5),  y: Math.floor(ROWS * 0.5),  dir: { x: 1, y: 0 } },
+      { x: Math.floor(COLS * 0.15), y: Math.floor(ROWS * 0.15), dir: { x: 1, y: 0 } },
+      { x: Math.floor(COLS * 0.85), y: Math.floor(ROWS * 0.85), dir: { x: -1, y: 0 } },
+    ];
+    const defs = [
+      { isPlayer: true, name: '你', color: '#2e8b57', headColor: '#1f6b41', strategy: 'nearest', auto: false },
+      ...INITIAL_OPPONENTS.map(p => ({ isPlayer: false, name: p.name, color: p.color, headColor: p.headColor, strategy: p.strategy, auto: true })),
+    ];
+    snakes = defs.map((def, i) => {
+      const pos = starts[i];
+      const dx = pos.dir.x, dy = pos.dir.y;
+      // 玩家开局 5 节（比 AI 多 2 节），AI 保持 3 节
+      const len = def.isPlayer ? 5 : 3;
+      const body = Array.from({ length: len }, (_, k) => ({ x: pos.x - k * dx, y: pos.y - k * dy }));
+      return {
+        ...def,
+        body,
+        prevBody: body.map(s => ({ ...s })),
+        contents: body.map(() => null), // 保留身体对齐数据，不再存食物或参与渲染
+        ammo: [],
+        lastShotAt: -Infinity,
+        dir: { x: dx, y: dy },
+        nextDir: { x: dx, y: dy },
+        score: 0,
+        grow: 0,
+        targetFood: null,
+        wigSeed: Math.random() * 10,
+      };
+    });
+    refillFoods();
+    updateHud();
+    lastStepTime = performance.now();
+  }
+
+  function updateHud() {
+    const player = snakes[0];
+    scoreEl.textContent = player.score;
+    lengthEl.textContent = player.body.length;
+    lbRows.innerHTML = snakes.slice().sort((a, b) => b.score - a.score).map(s =>
+      `<div class="row${s.isPlayer ? ' me' : ''}">${spriteMarkup('snake', s.isPlayer ? 'player' : friendKey(s), 28, `<span class="dot" style="background:${s.color}"></span>`)}<span class="name">${s.name}</span><span class="val">${s.score}</span></div>`
+    ).join('');
+    renderAmmo();
+  }
+
+  // 固定糖果弹药槽：第一颗就是下一发，刚装入的一格会弹一下亮一下。
+  function renderAmmo() {
+    const player = snakes && snakes[0];
+    const ammo = player ? player.ammo : [];
+    const groups = player ? playerAmmoGroups(player) : {};
+    const categories = Object.keys(groups);
+    if (!groups[selectedAmmoCategory]) selectedAmmoCategory = categories[0] || null;
+    const shown = categories.slice(0, 6);
+    ammoSlotsEl.innerHTML = shown.map((category, i) => {
+      const emojis = groups[category], level = ammoLevel(category), emoji = emojis[0];
+      const cls = 'ammo-slot' + (category === selectedAmmoCategory ? ' selected' : '') + (category === ammoPopCategory ? ' pop' : '');
+      return `<button type="button" class="${cls}" data-ammo-category="${category}" aria-label="${CATEGORY_META[category].label}弹 ${emojis.length}颗，Lv${level.lv}">${spriteMarkup('food', emoji, 38, emoji) || emoji}<b class="ammo-num">x${emojis.length}</b><b class="ammo-lv">Lv${level.lv}</b></button>`;
+    }).join('') + (categories.length > 6 ? `<button type="button" class="ammo-more" title="还有${categories.length - 6}种弹药">+${categories.length - 6}</button>` : '');
+    ammoCountEl.textContent = `${ammo.length}/${AMMO_MAX}`;
+    fireBtn.setAttribute('aria-disabled', String(!running || !ammo.length));
+    ammoPopCategory = null;
+  }
+
+  // ===== 按每条蛇的性格选目标水果 =====
+  function pickTarget(snake, head) {
+    if (!foods.length) return null;
+    if (snake.strategy === 'biggest') {
+      let best = null, bestVal = -Infinity;
+      for (const f of foods) {
+        const val = f.score * 1000 - manhattan(f, head);
+        if (val > bestVal) { bestVal = val; best = f; }
+      }
+      return best;
+    }
+    if (snake.strategy === 'coward') {
+      const ph = snakes[0].body[0];
+      let best = null, bestVal = -Infinity;
+      for (const f of foods) {
+        const val = manhattan(f, ph) - manhattan(f, head) * 0.4;
+        if (val > bestVal) { bestVal = val; best = f; }
+      }
+      return best;
+    }
+    if (snake.strategy === 'efficient') {
+      let best = null, bestVal = -Infinity;
+      for (const f of foods) {
+        const val = f.score / (manhattan(f, head) + 1);
+        if (val > bestVal) { bestVal = val; best = f; }
+      }
+      return best;
+    }
+    // 'nearest'：谁近吃谁
+    let best = null, bestVal = Infinity;
+    for (const f of foods) {
+      const val = manhattan(f, head);
+      if (val < bestVal) { bestVal = val; best = f; }
+    }
+    return best;
+  }
+
+  // ===== 朝目标水果规划下一步方向，尽量不撞自己/别的蛇 =====
+  function chooseDir(snake) {
+    const head = snake.body[0];
+    let target = null;
+    if (snake.targetFood && foods.includes(snake.targetFood)) {
+      target = snake.targetFood;
+    } else {
+      snake.targetFood = null;
+      target = pickTarget(snake, head);
+    }
+    if (!target) return;
+
+    const cand = [
+      { x: 1, y: 0 }, { x: -1, y: 0 }, { x: 0, y: 1 }, { x: 0, y: -1 },
+    ].filter(d => !(d.x === -snake.dir.x && d.y === -snake.dir.y));
+
+    function scoreDir(d) {
+      let nx = head.x + d.x, ny = head.y + d.y;
+      let s = 0;
+      if (nx < 0 || nx >= COLS || ny < 0 || ny >= ROWS) s += 1000;
+      for (let i = 0; i < snake.body.length - 1; i++) {
+        if (snake.body[i].x === nx && snake.body[i].y === ny) { s += 500; break; }
+      }
+      for (const other of snakes) {
+        if (other === snake) continue;
+        for (const seg of other.body) {
+          if (seg.x === nx && seg.y === ny) { s += 60; break; }
+        }
+      }
+      s += Math.abs(target.x - nx) + Math.abs(target.y - ny);
+      return s;
+    }
+
+    let bestDir = null, bestScore = Infinity;
+    for (const d of cand) {
+      const sc = scoreDir(d);
+      if (sc < bestScore) { bestScore = sc; bestDir = d; }
+    }
+    if (bestDir) snake.nextDir = bestDir;
+  }
+
+  function step() {
+    for (const snake of snakes) {
+      if (snake.auto) chooseDir(snake);
+      snake.dir = snake.nextDir;
+    }
+    for (const snake of snakes) {
+      const now = performance.now();
+      // 糖果冻结时原地不动；减速则每两拍挪一次，玩家永远不会受这些效果影响。
+      if (!snake.isPlayer && snake.frozenUntil > now) continue;
+      if (!snake.isPlayer && snake.slowedUntil > now && now - (snake.lastSlowStep || 0) < BASE_SPEED * 1.7) continue;
+      snake.lastSlowStep = now;
+      snake.prevBody = snake.body.map(s => ({ ...s }));
+
+      let nx = snake.body[0].x + snake.dir.x;
+      let ny = snake.body[0].y + snake.dir.y;
+
+      // 撞墙自动调头
+      if (nx < 0 || nx >= COLS || ny < 0 || ny >= ROWS) {
+        snake.dir = { x: -snake.dir.x, y: -snake.dir.y };
+        snake.nextDir = { x: snake.dir.x, y: snake.dir.y };
+        nx = snake.body[0].x + snake.dir.x;
+        ny = snake.body[0].y + snake.dir.y;
+        if (nx < 0 || nx >= COLS || ny < 0 || ny >= ROWS) { nx = snake.body[0].x; ny = snake.body[0].y; }
+      }
+
+      const head = { x: nx, y: ny };
+      snake.body.unshift(head);
+
+      const idx = foods.findIndex(f => f.x === head.x && f.y === head.y);
+      if (idx >= 0) {
+        const eaten = foods[idx];
+        snake.score += foods[idx].score;
+        snake.grow += foods[idx].grow;
+        if (snake.ammo.length < AMMO_MAX) {
+          snake.ammo.push(eaten.emoji);
+          if (snake.isPlayer) ammoPopCategory = eaten.category;
+        }
+        if (foods[idx] === snake.targetFood) snake.targetFood = null;
+        foods.splice(idx, 1);
+      }
+      snake.contents.unshift(null);
+
+      if (snake.body.length >= MAX_BODY_LEN) {
+        snake.grow = 0;
+        snake.body.pop();
+        snake.contents.pop();
+      } else if (snake.grow > 0) {
+        snake.grow--;
+      } else {
+        snake.body.pop();
+        snake.contents.pop();
+      }
+      while (snake.prevBody.length < snake.body.length) {
+        snake.prevBody.push({ ...snake.prevBody[snake.prevBody.length - 1] });
+      }
+      while (snake.contents.length < snake.body.length) snake.contents.push(null);
+    }
+
+    // 撞击判定：玩家的头只要碰到别的蛇（哪怕是对方的头），对方直接死亡；
+    // 玩家自己永远不会因为撞击而死，所以只需要单向检测玩家头 -> 别人身体
+    const player = snakes[0];
+    if (player) {
+      const ph = player.body[0];
+      for (let i = snakes.length - 1; i >= 1; i--) {
+        if (snakes[i].body.some(s => s.x === ph.x && s.y === ph.y)) killOpponent(i);
+      }
+    }
+
+    refillFoods();
+    updateHud();
+  }
+
+  // ===== 武器：玩家从选中种类发射，AI 仍按原来的队列顺序发射 =====
+  function fireWeapon(snake) {
+    if (!snake || !snake.ammo.length) return false;
+    const now = performance.now();
+    let ammoIndex = 0, kind = kindForEmoji(snake.ammo[0]), level = { lv: 1 };
+    if (snake.isPlayer) {
+      const groups = playerAmmoGroups(snake); if (!groups[selectedAmmoCategory]) selectedAmmoCategory = Object.keys(groups)[0];
+      ammoIndex = snake.ammo.findIndex(emoji => kindForEmoji(emoji).category === selectedAmmoCategory);
+      kind = kindForEmoji(snake.ammo[ammoIndex]); level = ammoLevel(kind.category);
+    }
+    const cooldown = snake.isPlayer ? (level.lv >= 5 ? 150 : level.lv >= 3 ? 300 : 500) : 180;
+    if (now - snake.lastShotAt < cooldown) return false;
+    snake.lastShotAt = now;
+    const emoji = snake.ammo.splice(ammoIndex, 1)[0];
+    const head = snake.body[0];
+    const fx = AMMO_FX[kind.category];
+    bullets.push({
+      // 半格在头前方出生，既像从嘴里飞出，也不会马上碰到自己的身体。
+      x: head.x + 0.5 + snake.dir.x * 0.55,
+      y: head.y + 0.5 + snake.dir.y * 0.55,
+      dir: { x: snake.dir.x, y: snake.dir.y },
+      emoji,
+      owner: snake,
+      kind, fx, level: level.lv, hitsLeft: fx.pierce || 1, hitCells: new Set(),
+    });
+    // 复用糖果星星粒子，给每一发一个夸张可爱的「噗」。
+    candyBursts.push({ x: head.x, y: head.y, born: now });
+    updateHud();
+    return true;
+  }
+
+  function addAmmoParticles(pos, fx, level, count) {
+    for (let n = 0; n < count && ammoFxParticles.length < MAX_FX_PARTICLES; n++) ammoFxParticles.push({ x:pos.x+.5, y:pos.y+.5, vx:(Math.random()-.5)*(2+level), vy:(Math.random()-.5)*(2+level), born:performance.now(), life:450+Math.random()*500, color:fx.color });
+  }
+  function hurtTarget(target, hitIdx, b, gx, gy) {
+    const now = performance.now(), rare = b.kind.weight <= 1 || b.kind.score >= 6;
+    const damage = b.fx.damage + (b.level >= 3 ? 1 : 0) + (b.level >= 5 ? 1 : 0) + (rare ? 1 : 0);
+    if (hitIdx === 0) { const index = snakes.indexOf(target); if (index >= 1) killOpponent(index); }
+    else { target.body.splice(hitIdx, damage); target.contents.splice(hitIdx, damage); }
+    addAmmoHit(b.kind.category); addAmmoParticles({x:gx,y:gy}, b.fx, b.level, 8 + b.level * 3);
+    ammoDamageTexts.push({ x:gx+.5, y:gy+.4, text:`-${damage}`, born:now, color:b.fx.color });
+    if (b.fx.special === 'slow') target.slowedUntil = now + 3000;
+    if (b.fx.special === 'freeze') target.frozenUntil = now + 2000;
+    if (b.fx.special === 'reward' && foods.length < foodCap()) foods.push({ x:gx, y:gy, ...kindForEmoji(b.emoji) });
+    if (b.fx.special === 'heavy') screenShakeUntil = now + 150;
+    if (b.fx.special === 'splash') for (const other of snakes.slice(1)) for (let j = other.body.length - 1; j >= 1; j--) if (Math.hypot(other.body[j].x-gx, other.body[j].y-gy) <= 1.5) hurtTarget(other, j, {...b, fx:{...b.fx, special:'none'}}, other.body[j].x, other.body[j].y);
+    if (b.fx.special === 'chain') { let best, dist=Infinity; for (const other of snakes.slice(1)) for (let j=0;j<other.body.length;j++) { const d=Math.hypot(other.body[j].x-gx,other.body[j].y-gy); if(d>.2&&d<dist){best={other,j};dist=d;} } if(best){const to=best.other.body[best.j];ammoArcs.push({from:{x:gx+.5,y:gy+.5},to:{x:to.x+.5,y:to.y+.5},born:now,color:b.fx.color});hurtTarget(best.other,best.j,{...b,fx:{...b.fx,special:'none'}},to.x,to.y);} }
+  }
+  // 子弹连续飞行；只有玩家子弹能伤害对手，保持单向规则。
+  function updateBullets(dt) {
+    for (let i = bullets.length - 1; i >= 0; i--) {
+      const b = bullets[i];
+      b.x += b.dir.x * BULLET_SPEED * (b.fx.speed || 1) * dt;
+      b.y += b.dir.y * BULLET_SPEED * (b.fx.speed || 1) * dt;
+      if (b.x < -1 || b.x > COLS + 1 || b.y < -1 || b.y > ROWS + 1) {
+        bullets.splice(i, 1);
+        continue;
+      }
+      const gx = Math.floor(b.x), gy = Math.floor(b.y);
+      let hit = false;
+      for (let s = snakes.length - 1; s >= 0; s--) {
+        const target = snakes[s];
+        if (target === b.owner || !b.owner.isPlayer) continue;
+        const hitIdx = target.body.findIndex(seg => seg.x === gx && seg.y === gy);
+        if (hitIdx < 0 || b.hitCells.has(`${s}:${hitIdx}`)) continue;
+        hit = true;
+        b.hitCells.add(`${s}:${hitIdx}`); hurtTarget(target, hitIdx, b, gx, gy); b.hitsLeft--;
+        if (b.hitsLeft <= 0) break;
+      }
+      if (hit && b.hitsLeft <= 0) bullets.splice(i, 1);
+    }
+  }
+
+  function cellCenter(c) {
+    return { x: OFFX + c.x * CELL + CELL / 2, y: OFFY + c.y * CELL + CELL / 2 };
+  }
+
+  function lerpSeg(prev, cur, t) {
+    const gx = prev.x + (cur.x - prev.x) * t;
+    const gy = prev.y + (cur.y - prev.y) * t;
+    return { x: OFFX + gx * CELL + CELL / 2, y: OFFY + gy * CELL + CELL / 2 };
+  }
+
+  function drawBoard() {
+    for (let y = 0; y < ROWS; y++) {
+      for (let x = 0; x < COLS; x++) {
+        ctx.fillStyle = (x + y) % 2 === 0 ? '#c7e8bd' : '#d2eec9';
+        ctx.fillRect(OFFX + x * CELL, OFFY + y * CELL, CELL, CELL);
+      }
+    }
+    // 用 cover 裁切铺满画布；逻辑格坐标与碰撞边界保持不变。
+    if (boardImage.complete && boardImage.naturalWidth) {
+      const w = canvas.clientWidth, h = canvas.clientHeight;
+      const scale = Math.max(w / boardImage.naturalWidth, h / boardImage.naturalHeight);
+      const sw = w / scale, sh = h / scale;
+      ctx.drawImage(boardImage, (boardImage.naturalWidth - sw) / 2,
+        (boardImage.naturalHeight - sh) / 2, sw, sh, 0, 0, w, h);
+    }
+    ctx.strokeStyle = 'rgba(70,174,151,.35)';
+    ctx.lineWidth = 6;
+    ctx.strokeRect(OFFX + 3, OFFY + 3, COLS * CELL - 6, ROWS * CELL - 6);
+  }
+
+  // 纯视觉观察食物与对手的消失，不接触碰撞、计分或游戏随机数。
+  let lastVisualFoods = new Set(), lastVisualSnakes = new Map();
+  let candyBursts = [];
+  function drawCandyBursts() {
+    const now = performance.now();
+    const currentFoods = new Set(foods), currentSnakes = new Map(snakes.map(s => [s, s.body[0]]));
+    const add = pos => { if (candyBursts.length < 16) candyBursts.push({ ...pos, born: now }); };
+    for (const food of lastVisualFoods) if (!currentFoods.has(food)) add(food);
+    for (const [snake, pos] of lastVisualSnakes) if (!currentSnakes.has(snake)) add(pos);
+    lastVisualFoods = currentFoods;
+    lastVisualSnakes = currentSnakes;
+    candyBursts = candyBursts.filter(p => now-p.born < 420);
+    for (const p of candyBursts) {
+      const t = (now-p.born)/420, center = cellCenter(p);
+      ctx.save();
+      ctx.globalAlpha = 1-t;
+      for (let i = 0; i < 6; i++) {
+        const angle = i*Math.PI/3, radius = t*CELL*.85;
+        drawSprite('fx', i%2 ? 'sprinkle'+(i%4) : 'star'+(i%4),
+          center.x+Math.cos(angle)*radius, center.y+Math.sin(angle)*radius, CELL*.22*(1-t*.4));
+      }
+      ctx.restore();
+    }
+  }
+  function drawFoods() {
+    drawCandyBursts();
+    ctx.font = FOOD_FONT_SIZE + 'px serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    const pulse = 1 + Math.sin(performance.now() / 320) * 0.07;
+    const targeted = new Set(snakes.map(s => s.targetFood).filter(Boolean));
+    for (const f of foods) {
+      const c = cellCenter(f);
+
+      // 图标本体先画
+      ctx.save();
+      ctx.translate(c.x, c.y);
+      ctx.scale(pulse, pulse);
+      if (!drawSprite('food', f.emoji, 0, 0, FOOD_FONT_SIZE)) ctx.fillText(f.emoji, 0, 4);
+      ctx.restore();
+
+      // 稀有光圈：画在图标上面，半径按放大后的图标尺寸扩大
+      if (f.category !== 'fruit') {
+        const meta = CATEGORY_META[f.category] || { color: '255,196,64' };
+        ctx.save();
+        const glow = 0.55 + Math.sin(performance.now() / 220) * 0.25;
+        ctx.shadowColor = `rgba(${meta.color},.6)`;
+        ctx.shadowBlur = 12 * glow;
+        ctx.beginPath();
+        ctx.arc(c.x, c.y, CELL * 0.72, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(${meta.color},${glow * .35})`;
+        ctx.lineWidth = 9;
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      // 选中圈：同样画在图标最上面，半径够大才能整个套住放大后的图标
+      if (targeted.has(f)) {
+        ctx.save();
+        ctx.strokeStyle = '#e67e22';
+        ctx.lineWidth = 5;
+        ctx.setLineDash([14, 10]);
+        ctx.lineDashOffset = -(performance.now() / 30) % 24;
+        ctx.beginPath();
+        ctx.arc(c.x, c.y, CELL * 0.8, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.restore();
+      }
+    }
+  }
+
+  function drawBullets() {
+    if (!bullets.length) return;
+    ctx.font = (CELL * 0.5) + 'px serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    for (const b of bullets) {
+      const px = OFFX + b.x * CELL, py = OFFY + b.y * CELL;
+      ctx.save();
+      const size = CELL * (.42 + b.level * .035);
+      ctx.shadowColor = b.fx.trail; ctx.shadowBlur = 10 + b.level * 3;
+      ctx.strokeStyle = b.fx.trail; ctx.lineWidth = 3 + b.level;
+      ctx.beginPath(); ctx.moveTo(px-b.dir.x*CELL*.72,py-b.dir.y*CELL*.72); ctx.lineTo(px,py); ctx.stroke();
+      drawSprite('fx', 'star1', px - b.dir.x*CELL*.22, py - b.dir.y*CELL*.22, size);
+      if (!drawSprite('food', b.emoji, px, py, size)) ctx.fillText(b.emoji, px, py);
+      ctx.restore();
+    }
+  }
+
+  // 命中特效在名字牌之后再画：糖浆泡泡、冰晶、彗星星屑和闪电都不会压住蛇头。
+  function drawAmmoFx() {
+    const now = performance.now();
+    ammoFxParticles = ammoFxParticles.filter(p => now-p.born < p.life);
+    ammoDamageTexts = ammoDamageTexts.filter(p => now-p.born < 800);
+    ammoArcs = ammoArcs.filter(a => now-a.born < 260);
+    for (const p of ammoFxParticles) {
+      const t=(now-p.born)/p.life, x=OFFX+(p.x+p.vx*t)*CELL, y=OFFY+(p.y+p.vy*t)*CELL;
+      ctx.save(); ctx.globalAlpha=1-t; ctx.fillStyle=p.color; ctx.shadowColor=p.color; ctx.shadowBlur=10;
+      ctx.beginPath(); ctx.arc(x,y,(1-t)*4+2,0,Math.PI*2); ctx.fill(); ctx.restore();
+    }
+    for (const a of ammoArcs) {
+      const from={x:OFFX+a.from.x*CELL,y:OFFY+a.from.y*CELL},to={x:OFFX+a.to.x*CELL,y:OFFY+a.to.y*CELL};
+      ctx.save();ctx.strokeStyle=a.color;ctx.shadowColor='#fff176';ctx.shadowBlur=16;ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(from.x,from.y);ctx.lineTo((from.x+to.x)/2+12,(from.y+to.y)/2-13);ctx.lineTo(to.x,to.y);ctx.stroke();ctx.restore();
+    }
+    ctx.save(); ctx.textAlign='center'; ctx.font='900 23px -apple-system,"PingFang SC",sans-serif';
+    for (const d of ammoDamageTexts) { const t=(now-d.born)/800;ctx.globalAlpha=1-t;ctx.fillStyle=d.color;ctx.shadowColor='#fff';ctx.shadowBlur=5;ctx.fillText(d.text,OFFX+d.x*CELL,OFFY+(d.y-t*.8)*CELL); } ctx.restore();
+  }
+
+  function drawNameTag(snake, headPt, color) {
+    ctx.save();
+    ctx.font = '600 15px -apple-system, "PingFang SC", sans-serif';
+    const label = snake.name;
+    const w = ctx.measureText(label).width + 16;
+    const tagY = headPt.y - CELL * 0.62;
+    ctx.fillStyle = 'rgba(255,255,255,.85)';
+    ctx.beginPath();
+    if (ctx.roundRect) ctx.roundRect(headPt.x - w / 2, tagY - 12, w, 22, 11);
+    else ctx.rect(headPt.x - w / 2, tagY - 12, w, 22);
+    ctx.fill();
+    ctx.fillStyle = color || snake.color;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(label, headPt.x, tagY - 1);
+    ctx.restore();
+  }
+
+  // 玩家蛇专用：按当前皮肤画蛇身。三层结构——底层勾边柔光（skin.edge，为 null 时
+  // 改由每段自发光，彩虹就是这种）、中间逐段流动的主体色（skin.body）、最上面一条更亮的
+  // 高光脊线（skin.highlight），配合呼吸式发光，让每套皮肤都有质感而不是死板纯色。
+  function drawPlayerBody(pts, skin) {
+    if (skin.blocky) { drawBlockyBody(pts, skin); return; }
+    const now = performance.now();
+    const glow = 14 + Math.sin(now / 150) * 6;
+    const glowColor = (i) => (typeof skin.glow === 'function' ? skin.glow(i, now) : skin.glow);
+
+    // 底层：勾边柔光，把蛇身从背景里衬出来（有 edge 的皮肤才画）
+    if (skin.edge) {
+      ctx.save();
+      ctx.lineJoin = 'round';
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = skin.edge;
+      ctx.shadowColor = glowColor(0);
+      ctx.shadowBlur = glow;
+      ctx.lineWidth = CELL * 0.72;
+      strokePath(pts);
+      ctx.restore();
+    }
+
+    // 主体：逐段上色，随身体位置与时间缓缓流动
+    ctx.save();
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+    ctx.lineWidth = CELL * 0.62;
+    for (let i = 0; i < pts.length - 1; i++) {
+      ctx.strokeStyle = skin.body(i, now);
+      if (!skin.edge) { ctx.shadowColor = glowColor(i); ctx.shadowBlur = glow; }
+      ctx.beginPath();
+      ctx.moveTo(pts[i].x, pts[i].y);
+      ctx.lineTo(pts[i + 1].x, pts[i + 1].y);
+      ctx.stroke();
+    }
+    ctx.restore();
+
+    // 顶部高光：一条更细更亮的脊线，制造珍珠 / 金属般的光泽
+    ctx.strokeStyle = skin.highlight;
+    ctx.lineWidth = CELL * 0.2;
+    ctx.shadowBlur = 0;
+    strokePath(pts);
+  }
+
+  // 方块皮肤专用：不画连续曲线，改成一节一个独立正方形（外框 → 主体 → 中心内芯三层），
+  // 节间天然留缝，就是经典像素贪吃蛇的样子。位置仍用插值点，所以移动依然是平滑的。
+  function drawBlockyBody(pts, skin) {
+    const now = performance.now();
+    const glow = 10 + Math.sin(now / 150) * 5;
+    const outer = CELL * 0.84, inner = CELL * 0.62, core = CELL * 0.24;
+    const glowColor = (i) => (typeof skin.glow === 'function' ? skin.glow(i, now) : skin.glow);
+    ctx.save();
+    // 从尾往头画，后画的压在前面，转弯处不会被后一节的框切掉
+    for (let i = pts.length - 1; i >= 1; i--) {
+      const p = pts[i];
+      ctx.shadowColor = glowColor(i);
+      ctx.shadowBlur = glow;
+      ctx.fillStyle = skin.edge;
+      ctx.fillRect(p.x - outer / 2, p.y - outer / 2, outer, outer);
+      ctx.shadowBlur = 0;
+      ctx.fillStyle = skin.body(i, now);
+      ctx.fillRect(p.x - inner / 2, p.y - inner / 2, inner, inner);
+      ctx.fillStyle = skin.highlight;
+      ctx.fillRect(p.x - core / 2, p.y - core / 2, core, core);
+    }
+    ctx.restore();
+  }
+
+  function strokePath(pts) {
+    ctx.beginPath();
+    ctx.moveTo(pts[0].x, pts[0].y);
+    for (let i = 1; i < pts.length; i++) {
+      const mid = { x: (pts[i - 1].x + pts[i].x) / 2, y: (pts[i - 1].y + pts[i].y) / 2 };
+      ctx.quadraticCurveTo(pts[i - 1].x, pts[i - 1].y, mid.x, mid.y);
+    }
+    ctx.lineTo(pts[pts.length - 1].x, pts[pts.length - 1].y);
+    ctx.stroke();
+  }
+
+  // 蛇身和蛇头分两轮画：子弹夹在中间，才会像从嘴里飞出又不会盖住脑袋。
+  function drawSnakeBody(snake, t) { drawSnake(snake, t, true, false); }
+  function drawSnakeHead(snake, t) { drawSnake(snake, t, false, true); }
+
+  function drawSnake(snake, t, drawBody, drawHead) {
+    const pts = [];
+    for (let i = 0; i < snake.body.length; i++) pts.push(lerpSeg(snake.prevBody[i], snake.body[i], t));
+
+    const skin = currentSkin;
+    const headColor = snake.isPlayer ? skin.head(performance.now()) : snake.headColor;
+
+    if (drawBody) {
+      ctx.lineJoin = 'round';
+      ctx.lineCap = 'round';
+      // 糖果软糖身体：每节画一颗果冻珠子（玩家用当前皮肤的 body 精灵，AI 用糖果珠），
+      // 从尾往头画，后画的压在前面；最后几节逐渐缩小，形成圆润的尾巴。图未加载则回退原绘制。
+      const bodyKey = snake.isPlayer ? `skin_${skin.id}_body` : 'ai_candy_body';
+      const candyBody = atlasImages.snake && ATLAS_DATA.snake.sprites[bodyKey];
+      if (candyBody) {
+      // 珠子锚定在「每一节身体」和「相邻两节的中点」上：位置只取决于各节的插值坐标，
+      // 不依赖整条蛇的总长度，所以移动时珠子跟着格子平滑前进，不会前后晃动或往回缩。
+      // 从尾往头画，后画的压在前面；最后 3 节逐渐缩小成圆润的尾巴。
+      const n = pts.length, beadSize = CELL * 1.4;
+      const taperAt = (j) => (j < 3 ? 0.6 + 0.4 * j / 3 : 1); // j = 离尾巴的节数（可为小数）
+      for (let i = n - 1; i >= 1; i--) {
+        const j = n - 1 - i;
+        drawSprite('snake', bodyKey, pts[i].x, pts[i].y, beadSize * taperAt(j));
+        // 与前一节（靠近头）之间的中点珠，填满空隙让身体连成一体
+        const mx = (pts[i].x + pts[i - 1].x) / 2, my = (pts[i].y + pts[i - 1].y) / 2;
+        if (i > 1) drawSprite('snake', bodyKey, mx, my, beadSize * taperAt(j + 0.5));
+      }
+      } else if (snake.isPlayer) {
+        drawPlayerBody(pts, skin);
+      } else {
+        ctx.strokeStyle = snake.color;
+        ctx.lineWidth = CELL * 0.66;
+        strokePath(pts);
+
+        ctx.strokeStyle = 'rgba(255,255,255,.35)';
+        ctx.lineWidth = CELL * 0.18;
+        strokePath(pts);
+      }
+    }
+
+    if (!drawHead) return;
+
+    const head = pts[0];
+    const nx = snake.dir.x, ny = snake.dir.y;
+    const px = -ny, py = nx;
+
+    // 蛇头素材原始朝下，旋转到当前移动方向；只替换绘制。
+    if (atlasImages.snake) {
+      ctx.save();
+      ctx.translate(head.x, head.y);
+      // 玩家皮肤头是侧面朝右：转到移动方向，向左走时上下翻转避免倒立；
+      // AI 小动物头是正脸，保持直立最可爱，不旋转。
+      if (snake.isPlayer && ATLAS_DATA.snake.sprites[`skin_${skin.id}_head`]) {
+        ctx.rotate(Math.atan2(ny, nx));
+        if (nx < 0) ctx.scale(1, -1);
+      }
+      const size = CELL * 1.3;
+      const sprite = snake.isPlayer ? `skin_${skin.id}_head` : ['ai_bear_head', 'ai_rabbit_head', 'ai_cat_head', 'ai_duck_head'][Math.max(0, AI_POOL.findIndex(p => p.name === snake.name)) % 4];
+      drawSprite('snake', ATLAS_DATA.snake.sprites[sprite] ? sprite : (snake.isPlayer ? 'player' : friendKey(snake)), 0, 0, size);
+      ctx.restore();
+      drawNameTag(snake, head, snake.color);
+      return;
+    }
+    ctx.save();
+    if (snake.isPlayer) {
+      ctx.shadowColor = skin.headGlow === 'self' ? headColor : skin.headGlow;
+      ctx.shadowBlur = 16;
+    }
+    if (snake.isPlayer && skin.blocky) {
+      // 方块皮肤：头也是方的，比身体略大一圈，外框同色好认
+      const oh = CELL * 0.92, ih = CELL * 0.72;
+      ctx.fillStyle = skin.headEdge;
+      ctx.fillRect(head.x - oh / 2, head.y - oh / 2, oh, oh);
+      ctx.shadowBlur = 0;
+      ctx.fillStyle = headColor;
+      ctx.fillRect(head.x - ih / 2, head.y - ih / 2, ih, ih);
+    } else {
+      ctx.fillStyle = headColor;
+      ctx.beginPath();
+      ctx.arc(head.x, head.y, CELL * 0.42, 0, Math.PI * 2);
+      ctx.fill();
+      // 浅色皮肤的头容易和蛇身糊在一起，按皮肤描一圈边把它「浮」出来（headEdge 为 null 则不描）
+      if (snake.isPlayer && skin.headEdge) {
+        ctx.shadowBlur = 0;
+        ctx.strokeStyle = skin.headEdge;
+        ctx.lineWidth = 3;
+        ctx.stroke();
+      }
+    }
+    ctx.restore();
+
+    // 舌头
+    ctx.strokeStyle = '#e0463c';
+    ctx.lineWidth = 5;
+    ctx.lineCap = 'round';
+    const tip = { x: head.x + nx * CELL * 0.72, y: head.y + ny * CELL * 0.72 };
+    const wig = Math.sin(performance.now() / 120 + snake.wigSeed) * 7;
+    ctx.beginPath();
+    ctx.moveTo(head.x + nx * CELL * 0.42, head.y + ny * CELL * 0.42);
+    ctx.lineTo(tip.x, tip.y);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(tip.x, tip.y);
+    ctx.lineTo(tip.x + px * (9 + wig) + nx * 7, tip.y + py * (9 + wig) + ny * 7);
+    ctx.moveTo(tip.x, tip.y);
+    ctx.lineTo(tip.x - px * (9 - wig) + nx * 7, tip.y - py * (9 - wig) + ny * 7);
+    ctx.stroke();
+
+    // 眼睛
+    const eyeOff = CELL * 0.2, eyeFwd = CELL * 0.1;
+    const e1 = { x: head.x + nx * eyeFwd + px * eyeOff, y: head.y + ny * eyeFwd + py * eyeOff };
+    const e2 = { x: head.x + nx * eyeFwd - px * eyeOff, y: head.y + ny * eyeFwd - py * eyeOff };
+    for (const e of [e1, e2]) {
+      // 方块皮肤连眼睛也是方的，不然圆眼睛贴在方脑袋上很出戏
+      if (snake.isPlayer && skin.blocky) {
+        const ew = CELL * 0.22, pw = CELL * 0.11;
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(e.x - ew / 2, e.y - ew / 2, ew, ew);
+        ctx.fillStyle = '#111';
+        ctx.fillRect(e.x + nx * 4 - pw / 2, e.y + ny * 4 - pw / 2, pw, pw);
+        continue;
+      }
+      ctx.fillStyle = '#fff';
+      ctx.beginPath();
+      ctx.arc(e.x, e.y, CELL * 0.12, 0, Math.PI * 2);
+      ctx.fill();
+      // 浅色皮肤的白眼白会融进白头，给玩家的眼睛描一圈中性淡色勾出轮廓（各皮肤通用）
+      if (snake.isPlayer) {
+        ctx.strokeStyle = 'rgba(90,100,120,.5)';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+      }
+      ctx.fillStyle = '#111';
+      ctx.beginPath();
+      ctx.arc(e.x + nx * 4, e.y + ny * 4, CELL * 0.06, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // 名牌是白底，玩家头是白色，直接用会白字白底看不见，改用玩家本体的绿色
+    drawNameTag(snake, head, snake.isPlayer ? snake.color : headColor);
+  }
+
+  function loop(now) {
+    if (!running) return;
+    const speed = spaceHeld ? BASE_SPEED / BOOST_DIVISOR : BASE_SPEED;
+    let elapsed = now - lastStepTime;
+    // 切到后台的标签页会被浏览器节流，requestAnimationFrame 可能几秒才回来一次；
+    // 这时 elapsed 会暴涨，下面的 while 会把攒下的几十个 tick 在一帧里瞬间跑完——
+    // 表现出来就是画面「消失重排」、蛇突然窜一大截。这里做限幅：攒太多就直接丢弃多余的，
+    // 从「现在往前推一个 tick」重新起步，而不是把所有欠账都补上。
+    const maxCatchUp = speed * 8;
+    if (elapsed > maxCatchUp) {
+      lastStepTime = now - speed;
+      elapsed = speed;
+    }
+    while (elapsed >= speed) {
+      step();
+      lastStepTime += speed;
+      elapsed -= speed;
+    }
+    // 子弹和重生计时走真实帧间隔，不跟着蛇的整格步进走，动作才够快
+    const dt = Math.min(0.05, lastFrameTime ? (now - lastFrameTime) / 1000 : 0);
+    lastFrameTime = now;
+    updateBullets(dt);
+    processRespawns(now);
+    const t = Math.min(1, (now - lastStepTime) / speed);
+    const shaking = now < screenShakeUntil;
+    if (shaking) { ctx.save(); ctx.translate((Math.random()-.5)*7, (Math.random()-.5)*7); }
+    drawBoard();
+    drawFoods();
+    for (const snake of snakes) drawSnakeBody(snake, t);
+    drawBullets();
+    for (const snake of snakes) drawSnakeHead(snake, t);
+    drawAmmoFx();
+    if (shaking) ctx.restore();
+    requestAnimationFrame(loop);
+  }
+
+  function setDir(x, y) {
+    const player = snakes[0];
+    if (player.body.length > 1 && x === -player.dir.x && y === -player.dir.y) return;
+    player.nextDir = { x, y };
+  }
+
+  function toggleAuto() {
+    const player = snakes[0];
+    player.auto = !player.auto;
+    autoBtn.textContent = '自动吃：' + (player.auto ? '开' : '关');
+    autoBtn.classList.toggle('on', player.auto);
+  }
+
+  function start() {
+    resize();
+    reset();
+    running = true;
+    renderAmmo();
+    overlay.classList.add('hidden');
+    lastStepTime = performance.now();
+    lastFrameTime = performance.now();
+    requestAnimationFrame(loop);
+  }
+
+  document.addEventListener('keydown', (e) => {
+    const k = e.key.toLowerCase();
+    if (k === ' ') {
+      // 空格现在只做加速，按住快跑、松开恢复，绝不再兼任发射。
+      spaceHeld = true;
+      e.preventDefault();
+      return;
+    }
+    if (!snakes) return;
+    if (running && (k === 'q' || k === 'e')) { cycleAmmo(k === 'q' ? -1 : 1); e.preventDefault(); return; }
+    if (running && /^[1-6]$/.test(k)) {
+      const category = Object.keys(playerAmmoGroups(snakes[0]))[Number(k)-1];
+      if (category) selectAmmo(category); e.preventDefault(); return;
+    }
+    if ((k === 'f' || k === 'j' || k === 'enter') && running) {
+      requestFire();
+      e.preventDefault();
+      return;
+    }
+    const player = snakes[0];
+    // 手动操作时，按方向键自动退出自动模式
+    if (['arrowup', 'arrowdown', 'arrowleft', 'arrowright', 'w', 'a', 's', 'd'].includes(k)) {
+      if (player.auto) toggleAuto();
+    }
+    if (k === 'arrowup' || k === 'w') setDir(0, -1);
+    else if (k === 'arrowdown' || k === 's') setDir(0, 1);
+    else if (k === 'arrowleft' || k === 'a') setDir(-1, 0);
+    else if (k === 'arrowright' || k === 'd') setDir(1, 0);
+    if (['arrowup', 'arrowdown', 'arrowleft', 'arrowright'].includes(k)) e.preventDefault();
+  });
+
+  document.addEventListener('keyup', (e) => {
+    if (e.key !== ' ') return;
+    spaceHeld = false;
+    e.preventDefault();
+  });
+
+  // 没弹药时也接住小手的点击，灰按钮晃一晃告诉孩子「先去吃糖果」。
+  function requestFire() {
+    if (!running || !snakes || !snakes[0].ammo.length) {
+      fireBtn.classList.remove('empty-shake');
+      void fireBtn.offsetWidth;
+      fireBtn.classList.add('empty-shake');
+      return;
+    }
+    fireWeapon(snakes[0]);
+  }
+  ammoSlotsEl.addEventListener('click', (e) => {
+    const slot = e.target.closest('[data-ammo-category]');
+    if (slot && running) selectAmmo(slot.dataset.ammoCategory);
+  });
+
+  let touchStart = null;
+  canvas.addEventListener('touchstart', (e) => {
+    touchStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+  }, { passive: true });
+  canvas.addEventListener('touchmove', (e) => {
+    if (!touchStart || !snakes) return;
+    const dx = e.touches[0].clientX - touchStart.x;
+    const dy = e.touches[0].clientY - touchStart.y;
+    if (Math.abs(dx) < 24 && Math.abs(dy) < 24) return;
+    if (snakes[0].auto) toggleAuto();
+    if (Math.abs(dx) > Math.abs(dy)) setDir(dx > 0 ? 1 : -1, 0);
+    else setDir(0, dy > 0 ? 1 : -1);
+    touchStart = null;
+  }, { passive: true });
+
+  window.addEventListener('resize', () => {
+    resize();
+    if (!running) drawBoard();
+  });
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', () => {
+      resize();
+      if (!running) drawBoard();
+    });
+  }
+
+  // 切走标签页/切到别的窗口时松不到 keyup，别让加速卡死在开启状态
+  window.addEventListener('blur', () => { spaceHeld = false; });
+
+  // 鼠标点击：选定离点击点最近的水果，玩家的蛇自动去吃它
+  function pickFoodAt(clientX, clientY) {
+    if (!running || !foods) return;
+    const player = snakes[0];
+    const gx = (clientX - OFFX) / CELL;
+    const gy = (clientY - OFFY) / CELL;
+    let best = Infinity, pick = null;
+    for (const f of foods) {
+      const cx = f.x + 0.5, cy = f.y + 0.5;
+      const d = (cx - gx) ** 2 + (cy - gy) ** 2;
+      if (d < best) { best = d; pick = f; }
+    }
+    if (pick) {
+      player.targetFood = pick;
+      if (!player.auto) toggleAuto();
+    }
+  }
+  canvas.addEventListener('click', (e) => pickFoodAt(e.clientX, e.clientY));
+
+  fireBtn.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    requestFire();
+  });
+
+  startBtn.addEventListener('click', start);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) start(); });
+  autoBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleAuto(); });
+
+  dexBtn.addEventListener('click', () => dexModal.classList.remove('hidden'));
+  dexCloseBtn.addEventListener('click', () => dexModal.classList.add('hidden'));
+  dexModal.addEventListener('click', (e) => { if (e.target === dexModal) dexModal.classList.add('hidden'); });
+
+  skinBtn.addEventListener('click', () => skinModal.classList.remove('hidden'));
+  skinCloseBtn.addEventListener('click', () => skinModal.classList.add('hidden'));
+  skinModal.addEventListener('click', (e) => { if (e.target === skinModal) skinModal.classList.add('hidden'); });
+
+  // 皮肤选择器：开始页（#skinsOverlay）和面板（#skinsModal）共用同一份渲染，
+  // 选中状态两边同步。方块皮肤的预览色块用方角，跟它实际长相对上。
+  function renderSkins() {
+    const html = SKINS.map(s => (
+      '<div class="skin' + (s.id === currentSkin.id ? ' active' : '') + '" data-skin="' + s.id + '">' +
+      (atlasImages.snake && ATLAS_DATA.snake.sprites[`skin_${s.id}_head`]
+        ? spriteMarkup('snake', `skin_${s.id}_head`, 42, '')
+        : '<div class="skin-dot" style="background:' + s.css + (s.blocky ? ';border-radius:8px' : '') + '"></div>') +
+      '<div class="skin-name">' + s.name + '</div></div>'
+    )).join('');
+    for (const box of skinBoxes) if (box) box.innerHTML = html;
+  }
+  function selectSkin(id) {
+    const s = SKINS.find(k => k.id === id);
+    if (!s) return;
+    currentSkin = s;
+    try { localStorage.setItem('snakeSkin', id); } catch (e) {}
+    renderSkins();
+    if (!running) drawBoard();
+  }
+  for (const box of skinBoxes) {
+    if (!box) continue;
+    box.addEventListener('click', (e) => {
+      const card = e.target.closest('.skin');
+      if (card) selectSkin(card.dataset.skin);
+    });
+  }
+  renderSkins();
+
+  resize();
+  drawBoard();
+})();
+</script>
+</body>
+</html>
