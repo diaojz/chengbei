@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>快乐贪吃蛇 · 糖果乐园 v1.4.0</title>
+  <title>快乐贪吃蛇 · 糖果乐园 v1.7.0</title>
 <link rel="icon" href="data:,">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -136,6 +136,10 @@
   .fire-btn:active { transform:translateY(5px) scale(.92); box-shadow:0 2px 0 #c63775; }
   .fire-btn[aria-disabled="true"] { cursor:not-allowed; filter:grayscale(.9); opacity:.58; box-shadow:0 5px 0 #9a7c89; }
   .fire-btn.empty-shake { animation:empty-shake .36s ease; }
+  /* 技能卡靠着弹药仓排开：大图标给小朋友认，细环只负责告诉他还要等多久。 */
+  .skill-belt{position:fixed;left:50%;bottom:142px;transform:translateX(-50%);z-index:8;display:flex;gap:7px;padding:6px 9px;border:3px solid #fff;border-radius:22px;background:#fff2f9dc;box-shadow:0 5px 0 #df8db7,0 10px 22px #9d537344;backdrop-filter:blur(8px)}
+  .skill-btn{position:relative;width:51px;height:51px;border:3px solid #fff;border-radius:17px;background:linear-gradient(145deg,#fff8a9,#ff9dce);box-shadow:0 3px 0 #cf6096;color:#7d3568;font-size:25px;cursor:pointer;touch-action:manipulation}.skill-btn small{position:absolute;right:-5px;bottom:-7px;padding:1px 4px;border-radius:8px;background:#7d4ac3;color:#fff;font:900 10px -apple-system,sans-serif}.skill-btn i{position:absolute;inset:-3px;border-radius:17px;background:conic-gradient(#fff 0deg,var(--cool,#6c4bd2) var(--deg,0deg),transparent var(--deg,0deg));mask:radial-gradient(transparent 61%,#000 64%);pointer-events:none}.skill-btn.locked{filter:grayscale(1);opacity:.55}.skill-btn.ready{animation:skill-ready .75s ease-in-out infinite alternate}.skill-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #cf6096}@keyframes skill-ready{to{filter:brightness(1.16);box-shadow:0 3px 0 #cf6096,0 0 14px #fff36e}}
+  .game-tools{position:fixed;right:16px;top:76px;z-index:12;display:flex;gap:7px}.game-tools button{border:3px solid #fff;border-radius:14px;background:#ffe5f2;color:#8d3d73;box-shadow:0 3px 0 #da7bac;padding:7px 9px;font-weight:900;cursor:pointer}
   @keyframes empty-shake { 20%,60% { transform:translateX(-7px); } 40%,80% { transform:translateX(7px); } }
   .corner-btns {
     position: fixed;
@@ -338,12 +342,19 @@
   button:active, .overlay button:active, .corner-btn:active, .hud button:active { animation: candy-press .3s ease; transform: translateY(4px) scale(.95); }
   @keyframes candy-press { 0% { transform: scale(1); } 55% { transform: translateY(5px) scale(.92); } 80% { transform: scale(1.03); } 100% { transform: translateY(4px) scale(.95); } }
   @media(max-width: 1000px) { .hud { left: 14px; transform: none; top: 12px; font-size: 19px; gap: 12px; padding: 8px 12px; } .leaderboard { top: 12px; right: 12px; min-width: 145px; padding: 10px; } .controls-bar { display: none; } .overlay { gap: 12px 20px; padding: 20px; } .skin { width: 66px; } .ammo-belt { bottom:14px; } }
-  @media(max-width: 650px) { .overlay { display: flex; justify-content: flex-start; gap: 14px; padding: 18px 18px 30px; } .overlay h1 { order: -2; flex-shrink: 0; min-height: 100px; width: min(100%,430px); font-size: 34px; } .hero-art { order: -1; width: min(100%,430px); height: 240px; flex-shrink: 0; border-radius: 36px; object-position: center 43%; } .overlay p { font-size: 16px; } .skin-picker { align-self: center; } .skin { width: 66px; } .overlay button { flex-shrink: 0; } .hud { font-size: 15px; gap: 8px; left: 8px; right: 8px; justify-content: center; } .hud button { font-size: 15px; padding: 8px 12px; } .leaderboard { top: 91px; min-width: 130px; } .corner-btn { padding: 10px 18px; } .ammo-belt { gap:3px; padding:6px 7px; bottom:10px; } .ammo-label { font-size:12px; } .ammo-slot { width:25px; height:25px; border-radius:9px; } .fire-btn { width:88px; height:88px; right:10px; bottom:52px; } }
+  @media(max-width: 650px) { .overlay { display: flex; justify-content: flex-start; gap: 14px; padding: 18px 18px 30px; } .overlay h1 { order: -2; flex-shrink: 0; min-height: 100px; width: min(100%,430px); font-size: 34px; } .hero-art { order: -1; width: min(100%,430px); height: 240px; flex-shrink: 0; border-radius: 36px; object-position: center 43%; } .overlay p { font-size: 16px; } .skin-picker { align-self: center; } .skin { width: 66px; } .overlay button { flex-shrink: 0; } .hud { font-size: 15px; gap: 8px; left: 8px; right: 8px; justify-content: center; } .hud button { font-size: 15px; padding: 8px 12px; } .leaderboard { top: 91px; min-width: 130px; } .corner-btn { padding: 10px 18px; } .ammo-belt { gap:3px; padding:6px 7px; bottom:10px; } .ammo-label { font-size:12px; } .ammo-slot { width:25px; height:25px; border-radius:9px; } .fire-btn { width:88px; height:88px; right:10px; bottom:52px; } .skill-belt{bottom:48px;gap:3px;padding:4px 5px}.skill-btn{width:37px;height:37px;border-radius:12px;font-size:19px}.skill-btn i{border-radius:12px}.game-tools{top:70px;right:7px}.game-tools button{padding:5px 7px} }
   @media(prefers-reduced-motion: reduce) { button:active { animation: none; } }
   .hidden { display: none; }
 
   .atlas-icon { display:inline-block; flex-shrink:0; vertical-align:middle; background-repeat:no-repeat; }
   .cat-emojis { display:flex; flex-wrap:wrap; align-items:center; gap:4px; }
+  /* ===== v1.6.0 成长与关卡：小朋友一眼能看懂的大糖果条 ===== */
+  .growth-hud,.level-hud { position:fixed; z-index:9; border:3px solid #fff; border-radius:18px; padding:7px 12px; background:linear-gradient(#fff8ce,#ffd8ef); box-shadow:0 5px 0 #e99cc1; color:#8b4275; font-size:14px; font-weight:900; min-width:190px; }
+  .growth-hud { left:16px; top:92px; } .level-hud { left:50%; top:88px; transform:translateX(-50%); text-align:center; }
+  .candy-meter { height:11px; border-radius:99px; overflow:hidden; background:#fff; border:2px solid #f4a5ca; margin-top:4px; } .candy-meter i { display:block; height:100%; width:0; background:linear-gradient(90deg,#8ee8ff,#a784ff,#ff79b1); border-radius:99px; transition:width .25s; }
+  .skin.locked { filter:grayscale(.65); opacity:.62; } .skin.locked .skin-name::after { content:' 🔒'; } .skin.shake { animation:lock-shake .35s linear; } @keyframes lock-shake { 25%{transform:translateX(-7px)} 50%{transform:translateX(7px)} 75%{transform:translateX(-4px)} }
+  .trail-picker { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin:12px 0; } .trail { border:2px solid #f3a2c7; background:#fff4fa; color:#8b4275; border-radius:16px; padding:8px 10px; cursor:pointer; font-size:13px; } .trail.active { background:#fff1a8; border-color:#f1b94a; }
+  .candy-pop { position:fixed; z-index:30; left:50%; top:45%; transform:translate(-50%,-50%); min-width:260px; text-align:center; padding:22px; border:6px solid #fff; border-radius:30px; background:linear-gradient(135deg,#fff7a8,#ffc6eb); box-shadow:0 9px 0 #df78ad,0 20px 45px #914d7d66; color:#8c3d73; font-size:27px; font-weight:900; } .candy-pop small{display:block;font-size:16px;margin-top:8px}.candy-pop button{margin:12px 5px 0;border:3px solid #fff;border-radius:99px;padding:10px 18px;background:#ff77ad;color:#fff;font-weight:900;font-size:16px;cursor:pointer}.level-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.level-card{padding:14px 4px;border-radius:18px;border:3px solid #fff;background:#ffe7f3;color:#8b4275;font-weight:900;cursor:pointer}.level-card.locked{filter:grayscale(1);opacity:.55;cursor:not-allowed}
 </style>
 </head>
 <body>
@@ -354,6 +365,8 @@
     <div><span id="lengthIcon">♥</span>长度 <span id="length">3</span></div>
     <button id="autoBtn">自动吃：关</button>
   </div>
+  <div class="growth-hud" id="growthHud">⭐ Lv1 <span id="expText">0/20</span><div class="candy-meter"><i id="expBar"></i></div></div>
+  <div class="level-hud" id="levelHud">第 1 关　吃了 <span id="levelCount">0/8</span><div class="candy-meter"><i id="levelBar"></i></div></div>
 
   <div class="leaderboard">
     <h3><span id="rankIcon">🏆</span>排行榜</h3>
@@ -362,7 +375,9 @@
 
   <div class="controls-bar">· 方向键/WASD/滑动 · Q/E 或 1~6 换弹 · F / Enter / 右下角按钮发射 · 空格加速 · 点水果让它去吃 · 撞墙调头 · 撞自己不死 · 撞到别的蛇能把它撞死，自己不会死</div>
   <div class="ammo-belt" id="ammoBelt" aria-label="糖果弹药槽"><span class="ammo-label">糖果弹</span><div class="ammo-slots" id="ammoSlots"></div><span class="ammo-label" id="ammoCount">0/30</span></div>
+  <div class="skill-belt" id="skillBelt" aria-label="糖果技能栏"></div>
   <button class="fire-btn" id="fireBtn" aria-label="发射糖果弹">🍬<br>发射</button>
+  <div class="game-tools"><button id="pauseBtn" aria-label="暂停游戏">⏸ P</button><button id="muteBtn" aria-label="静音">🔊 M</button></div>
   <div class="corner-btns">
     <button class="corner-btn" id="dexBtn">📖 图鉴</button>
     <button class="corner-btn" id="skinBtn">🎨 皮肤</button>
@@ -380,6 +395,7 @@
     <div class="dex-panel">
       <h2>选择皮肤</h2>
       <div class="skins" id="skinsModal"></div>
+      <h2 style="margin-top:18px">选择尾迹</h2><div class="trail-picker" id="trailModal"></div>
       <button id="skinCloseBtn">关闭</button>
     </div>
   </div>
@@ -393,7 +409,7 @@
       <div class="skin-picker-label">🎨 选择你的皮肤</div>
       <div class="skins" id="skinsOverlay"></div>
     </div>
-    <button id="startBtn">开始游戏</button>
+    <button id="startBtn">开始游戏</button><button id="restartBtn" class="hidden">重新开始</button><button id="levelSelectBtn">关卡选择</button>
   </div>
 
 <script>
@@ -418,6 +434,10 @@
   const ammoSlotsEl = document.getElementById('ammoSlots');
   const ammoCountEl = document.getElementById('ammoCount');
   const fireBtn = document.getElementById('fireBtn');
+  const growthHud = document.getElementById('growthHud'), expText = document.getElementById('expText'), expBar = document.getElementById('expBar');
+  const levelHud = document.getElementById('levelHud'), levelCountEl = document.getElementById('levelCount'), levelBar = document.getElementById('levelBar');
+  const restartBtn = document.getElementById('restartBtn'), levelSelectBtn = document.getElementById('levelSelectBtn'), trailModal = document.getElementById('trailModal');
+  const skillBelt = document.getElementById('skillBelt'), pauseBtn = document.getElementById('pauseBtn'), muteBtn = document.getElementById('muteBtn');
 
   // 本地主题素材：加载失败时保留原来的棋盘与蛇头绘制。
   const boardImage = new Image();
@@ -775,11 +795,42 @@
       highlight: 'rgba(255,240,248,.8)',
     },
   ];
+  // 成长数据都放表里：以后调难度只改数字，不会把规则散落在移动逻辑中。
+  const LEVEL_EXP = [0,20,48,84,128,180,240,308,384,468,560,660,768,884,1008,1140,1280,1428,1584,1748];
+  const TRAILS = [{id:'none',name:'不带尾迹',emoji:'○'},{id:'rainbow',name:'彩虹尾迹',emoji:'🌈',lv:3},{id:'star',name:'星星尾迹',emoji:'⭐',lv:6},{id:'heart',name:'爱心尾迹',emoji:'♥',lv:10},{id:'bubble',name:'泡泡尾迹',emoji:'🫧',lv:14}];
+  // 技能和等级用同一把钥匙解锁：先给最常用的穿越、冲刺，后面的招式慢慢当礼物送出。
+  const SKILL_DEFS = [
+    {id:'ghost',key:'z',emoji:'👻',name:'幽灵穿越',lv:1,duration:4000,cooldown:8000,color:'#8d7bff'},
+    {id:'rainbow',key:'x',emoji:'🌈',name:'彩虹冲刺',lv:2,duration:2500,cooldown:10000,color:'#ff6aa9'},
+    {id:'giant',key:'c',emoji:'🦖',name:'巨人',lv:4,duration:6000,cooldown:14000,color:'#ffad39'},
+    {id:'bomb',key:'v',emoji:'💣',name:'糖果炸弹',lv:6,duration:0,cooldown:16000,color:'#ff5a83'},
+    {id:'freeze',key:'b',emoji:'❄️',name:'冰冻全场',lv:8,duration:3000,cooldown:18000,color:'#55cfff'},
+    {id:'magnet',key:'n',emoji:'🧲',name:'糖果磁铁',lv:10,duration:5000,cooldown:20000,color:'#ff70a8'},
+  ];
+  const UNLOCKS = [
+    ...SKINS.slice(1).map((s,i)=>({type:'skin',id:s.id,lv:i+2,label:s.name+'皮肤'})),
+    ...TRAILS.filter(t=>t.lv).map(t=>({type:'trail',id:t.id,lv:t.lv,label:t.name})),
+    ...Object.keys(AMMO_FX).filter(k=>k!=='fruit').slice(0,8).map((id,i)=>({type:'ammo',id,lv:i+2,label:CATEGORY_META[id].label+'弹'})),
+    ...SKILL_DEFS.filter(s=>s.lv>1).map(s=>({type:'skill',id:s.id,lv:s.lv,label:s.name})),
+  ];
+  const LEVELS = Array.from({length:10},(_,i)=>({ n:i+1, target:8+i*2+(i>5?2:0), opponents:Math.min(4,2+Math.floor(i/3)), speed:1+i*.06, stars:[42+i*7,70+i*9], killBonus:1+Math.floor(i/3), layout:i===0?[]:Array.from({length:3+Math.floor(i/2)},(_,j)=>({x:3+(j*4+i)%12,y:3+(j*3+i)%7})) }));
+  const SAVE_VERSION = 1;
+  let save, currentLevel = 1, endlessMode = false, levelEaten = 0, levelKills = 0, levelStartedAt = 0, obstacles = [], trailParticles = [], noticeQueue = [], showingNotice = false, lastFoodSave = 0;
+  function defaultSave(){ return {version:SAVE_VERSION,level:1,exp:0,unlocks:{skin:['white'],trail:['none'],ammo:['fruit'],skill:['ghost']},stars:{},highestLevel:0,highScore:0,trail:'none',muted:false}; }
+  function loadSave(){ try { const v=JSON.parse(localStorage.getItem('snakeSave')); if(!v || v.version!==SAVE_VERSION) return defaultSave(); const d=defaultSave(); return {...d,...v,unlocks:{...d.unlocks,...v.unlocks,skill:v.unlocks&&v.unlocks.skill||d.unlocks.skill},stars:v.stars||{}}; } catch(e){ return defaultSave(); } }
+  function saveGame(force=false){ if(!save) return; try { save.version=SAVE_VERSION; save.highScore=Math.max(save.highScore||0,snakes&&snakes[0]?snakes[0].score:0); localStorage.setItem('snakeSave',JSON.stringify(save)); }catch(e){} }
+  function isUnlocked(type,id){ return (save.unlocks[type]||[]).includes(id); }
+  function addUnlock(type,id){ if(isUnlocked(type,id)) return; (save.unlocks[type] ||= []).push(id); const u=UNLOCKS.find(x=>x.type===type&&x.id===id); queueNotice('解锁啦！','🎁 '+(u?u.label:'新礼物')); renderSkins(); renderTrails(); renderSkills(); saveGame(true); }
+  function gainExp(amount, why){ if(!save || save.level>=20) return; save.exp+=amount; while(save.level<20 && save.exp>=LEVEL_EXP[save.level]) { save.level++; queueNotice('升级啦！','🎉 Lv'+save.level+'！'+(why||'')); playSound('level'); for(const u of UNLOCKS) if(u.lv===save.level) addUnlock(u.type,u.id); addAmmoParticles(snakes&&snakes[0]?snakes[0].body[0]:{x:COLS/2,y:ROWS/2},{color:'#ff7ab3'},3,28); } saveGame(true); }
+  function queueNotice(title,sub){ noticeQueue.push({title,sub}); if(!showingNotice) showNextNotice(); }
+  function showNextNotice(){ const n=noticeQueue.shift(); if(!n){showingNotice=false;return;} showingNotice=true; const el=document.createElement('div');el.className='candy-pop';el.innerHTML=`${n.title}<small>${n.sub}</small>`;document.body.appendChild(el);setTimeout(()=>{el.remove();showNextNotice();},1500); }
+  save = loadSave();
   let currentSkin = SKINS[0];
   try {
     const saved = localStorage.getItem('snakeSkin');
     if (saved) currentSkin = SKINS.find(s => s.id === saved) || SKINS[0];
   } catch (e) {}
+  if(!isUnlocked('skin',currentSkin.id)) currentSkin=SKINS[0];
 
   function pickWeightedKind() {
     let r = Math.random() * FOOD_WEIGHT_TOTAL;
@@ -851,6 +902,17 @@
   let ammoPopCategory = null, selectedAmmoCategory = null;
   let ammoFxParticles = [], ammoDamageTexts = [], ammoArcs = [], screenShakeUntil = 0;
   let ammoLevels = (() => { try { return JSON.parse(localStorage.getItem('snakeAmmoLv')) || {}; } catch (_) { return {}; } })();
+  let skillEnds = {}, skillCooldowns = {}, combo = 0, lastKillAt = 0, paused = false, muted = !!save.muted, audioCtx = null;
+  const killTexts = [], killParticles = [], skillTrailParticles = [];
+  const MAX_KILL_PARTICLES = 180;
+  function skillActive(id, now=performance.now()){ return (skillEnds[id] || 0) > now; }
+  // WebAudio 小音效只在第一次手势后创建，既零依赖也不会打扰浏览器的自动播放限制。
+  function playSound(kind){ if(muted) return; try { audioCtx ||= new (window.AudioContext || window.webkitAudioContext)(); const o=audioCtx.createOscillator(), g=audioCtx.createGain(), now=audioCtx.currentTime; const conf={eat:[660,.07,'sine'],shoot:[330,.09,'square'],kill:[150,.22,'sawtooth'],skill:[520,.22,'triangle'],level:[880,.3,'sine']}[kind]||[440,.1,'sine']; o.type=conf[2];o.frequency.setValueAtTime(conf[0],now);o.frequency.exponentialRampToValueAtTime(conf[0]*1.55,now+conf[1]);g.gain.setValueAtTime(.0001,now);g.gain.exponentialRampToValueAtTime(.09,now+.015);g.gain.exponentialRampToValueAtTime(.0001,now+conf[1]);o.connect(g).connect(audioCtx.destination);o.start(now);o.stop(now+conf[1]+.03); }catch(e){} }
+  function renderSkills(){ const now=performance.now(); skillBelt.innerHTML=SKILL_DEFS.map(s=>{const unlocked=isUnlocked('skill',s.id), left=Math.max(0,(skillCooldowns[s.id]||0)-now), deg=360*(1-left/s.cooldown);return `<button class="skill-btn${unlocked&&left<=0?' ready':''}${unlocked?'':' locked'}" style="--cool:${s.color};--deg:${deg}deg" data-skill="${s.id}" aria-label="${s.name}${unlocked?'，按 '+s.key.toUpperCase():'，Lv'+s.lv+' 解锁'}">${unlocked?s.emoji:'🔒'}<i></i><small>${s.key.toUpperCase()}</small></button>`;}).join(''); }
+  function showKillFeedback(pos){ const now=performance.now(); combo=now-lastKillAt<4500?combo+1:1;lastKillAt=now;const word=['击败！','双杀！','三杀！','暴走！','糖果风暴！'][Math.min(4,combo-1)];killTexts.push({x:pos.x+.5,y:pos.y+.25,text:`${word} ×${combo}`,born:now});for(let i=0;i<26&&killParticles.length<MAX_KILL_PARTICLES;i++)killParticles.push({x:pos.x+.5,y:pos.y+.5,vx:(Math.random()-.5)*3,vy:(Math.random()-.5)*3,born:now,life:550+Math.random()*450,emoji:i%3?'✨':'🍬'});screenShakeUntil=now+160;playSound('kill'); }
+  function activateSkill(id){ const s=SKILL_DEFS.find(x=>x.id===id), now=performance.now(), player=snakes&&snakes[0];if(!s||!player||!running||paused||!isUnlocked('skill',id)||(skillCooldowns[id]||0)>now)return;skillCooldowns[id]=now+s.cooldown;skillEnds[id]=now+s.duration;playSound('skill');if(id==='bomb'){const h=player.body[0];for(let i=snakes.length-1;i>=1;i--){const foe=snakes[i],d=Math.min(...foe.body.map(p=>Math.hypot(p.x-h.x,p.y-h.y)));if(d<=3){if(foe.body.length<=5)killOpponent(i);else{foe.body.splice(Math.max(1,foe.body.length-4),4);foe.contents.splice(Math.max(1,foe.contents.length-4),4);}}}showKillFeedback(h);}if(id==='freeze')for(const foe of snakes.slice(1))foe.frozenUntil=now+s.duration;if(id==='magnet'){} queueNotice(s.emoji+' '+s.name,'甜甜的超级技能！');renderSkills(); }
+  function togglePause(){ if(!running)return;paused=!paused;pauseBtn.textContent=paused?'▶ 继续':'⏸ P';if(!paused){lastStepTime=performance.now();lastFrameTime=lastStepTime;requestAnimationFrame(loop);} }
+  function toggleMute(){ muted=!muted;save.muted=muted;saveGame(true);muteBtn.textContent=muted?'🔇 M':'🔊 M'; }
 
   function kindForEmoji(emoji) { return FOOD_KINDS.find(k => k.emoji === emoji) || FOOD_KINDS[0]; }
   function ammoLevel(category) {
@@ -905,6 +967,7 @@
   function occupied(x, y) {
     if (snakes.some(sn => sn.body.some(s => s.x === x && s.y === y))) return true;
     if (foods && foods.some(f => f.x === x && f.y === y)) return true;
+    if (obstacles.some(o => o.x === x && o.y === y)) return true;
     return false;
   }
 
@@ -983,7 +1046,9 @@
 
   // 把撞死/爆头的对手从场上移除后排到这里，1~2 秒后补一条新的，始终保持 3 条蛇在场
   function killOpponent(index) {
-    dropAvocados(snakes[index]);
+    const foe=snakes[index];
+    if(foe && !foe.isPlayer){ levelKills++; gainExp(8,'打败小伙伴'); showKillFeedback(foe.body[0]); }
+    dropAvocados(foe);
     snakes.splice(index, 1);
     pendingRespawns.push(performance.now() + RESPAWN_MIN_MS + Math.random() * (RESPAWN_MAX_MS - RESPAWN_MIN_MS));
   }
@@ -1001,14 +1066,18 @@
     foods = [];
     bullets = [];
     pendingRespawns = [];
+    skillEnds = {}; skillCooldowns = {}; combo = 0; killTexts.length = 0; killParticles.length = 0; skillTrailParticles.length = 0;
     const starts = [
       { x: Math.floor(COLS * 0.5),  y: Math.floor(ROWS * 0.5),  dir: { x: 1, y: 0 } },
       { x: Math.floor(COLS * 0.15), y: Math.floor(ROWS * 0.15), dir: { x: 1, y: 0 } },
       { x: Math.floor(COLS * 0.85), y: Math.floor(ROWS * 0.85), dir: { x: -1, y: 0 } },
     ];
+    const cfg = endlessMode ? null : LEVELS[currentLevel - 1];
+    obstacles = cfg ? cfg.layout.filter(o=>o.x<COLS-2&&o.y<ROWS-2).map(o=>({...o,hp:1})) : [];
+    levelEaten = 0; levelKills = 0; levelStartedAt = performance.now();
     const defs = [
       { isPlayer: true, name: '你', color: '#2e8b57', headColor: '#1f6b41', strategy: 'nearest', auto: false },
-      ...INITIAL_OPPONENTS.map(p => ({ isPlayer: false, name: p.name, color: p.color, headColor: p.headColor, strategy: p.strategy, auto: true })),
+      ...AI_POOL.slice(0, cfg ? cfg.opponents : 2).map(p => ({ isPlayer: false, name: p.name, color: p.color, headColor: p.headColor, strategy: p.strategy, auto: true })),
     ];
     snakes = defs.map((def, i) => {
       const pos = starts[i];
@@ -1033,6 +1102,7 @@
     });
     refillFoods();
     updateHud();
+    renderSkills();
     lastStepTime = performance.now();
   }
 
@@ -1044,6 +1114,11 @@
       `<div class="row${s.isPlayer ? ' me' : ''}">${spriteMarkup('snake', s.isPlayer ? 'player' : friendKey(s), 28, `<span class="dot" style="background:${s.color}"></span>`)}<span class="name">${s.name}</span><span class="val">${s.score}</span></div>`
     ).join('');
     renderAmmo();
+    const next = save.level >= 20 ? LEVEL_EXP[19] : LEVEL_EXP[save.level];
+    const prev = LEVEL_EXP[save.level-1] || 0, within = Math.max(0, save.exp-prev), need=Math.max(1,next-prev);
+    expText.textContent = `${within}/${need}`; expBar.style.width = `${Math.min(100,within/need*100)}%`;
+    if(endlessMode){ levelHud.firstChild.textContent='无尽模式　'; levelCountEl.textContent='尽情吃！'; levelBar.style.width='100%'; }
+    else { const cfg=LEVELS[currentLevel-1]; levelHud.firstChild.textContent=`第 ${currentLevel} 关　吃了 `; levelCountEl.textContent=`${levelEaten}/${cfg.target}`; levelBar.style.width=`${Math.min(100,levelEaten/cfg.target*100)}%`; }
   }
 
   // 固定糖果弹药槽：第一颗就是下一发，刚装入的一格会弹一下亮一下。
@@ -1121,6 +1196,7 @@
       let nx = head.x + d.x, ny = head.y + d.y;
       let s = 0;
       if (nx < 0 || nx >= COLS || ny < 0 || ny >= ROWS) s += 1000;
+      if (obstacles.some(o=>o.x===nx&&o.y===ny)) s += 1000;
       for (let i = 0; i < snake.body.length - 1; i++) {
         if (snake.body[i].x === nx && snake.body[i].y === ny) { s += 500; break; }
       }
@@ -1159,12 +1235,12 @@
       let ny = snake.body[0].y + snake.dir.y;
 
       // 撞墙自动调头
-      if (nx < 0 || nx >= COLS || ny < 0 || ny >= ROWS) {
+      if (nx < 0 || nx >= COLS || ny < 0 || ny >= ROWS || obstacles.some(o=>o.x===nx&&o.y===ny)) {
         snake.dir = { x: -snake.dir.x, y: -snake.dir.y };
         snake.nextDir = { x: snake.dir.x, y: snake.dir.y };
         nx = snake.body[0].x + snake.dir.x;
         ny = snake.body[0].y + snake.dir.y;
-        if (nx < 0 || nx >= COLS || ny < 0 || ny >= ROWS) { nx = snake.body[0].x; ny = snake.body[0].y; }
+        if (nx < 0 || nx >= COLS || ny < 0 || ny >= ROWS || obstacles.some(o=>o.x===nx&&o.y===ny)) { nx = snake.body[0].x; ny = snake.body[0].y; }
       }
 
       const head = { x: nx, y: ny };
@@ -1176,11 +1252,12 @@
         snake.score += foods[idx].score;
         snake.grow += foods[idx].grow;
         if (snake.ammo.length < AMMO_MAX) {
-          snake.ammo.push(eaten.emoji);
+          if(!snake.isPlayer || isUnlocked('ammo',eaten.category)) snake.ammo.push(eaten.emoji);
           if (snake.isPlayer) ammoPopCategory = eaten.category;
         }
         if (foods[idx] === snake.targetFood) snake.targetFood = null;
         foods.splice(idx, 1);
+        if(snake.isPlayer){ playSound('eat'); levelEaten++; gainExp(2,'吃糖果'); if(performance.now()-lastFoodSave>2000){lastFoodSave=performance.now();saveGame();} if(!endlessMode && levelEaten>=LEVELS[currentLevel-1].target) completeLevel(); }
       }
       snake.contents.unshift(null);
 
@@ -1204,10 +1281,10 @@
     // 玩家自己永远不会因为撞击而死，所以只需要单向检测玩家头 -> 别人身体
     const player = snakes[0];
     if (player) {
+      // 磁铁只拉近附近糖果，避免一口气全盘吸光，也不会改变食物的正常刷新节奏。
+      if(skillActive('magnet')) for(const f of foods){const dx=player.body[0].x-f.x,dy=player.body[0].y-f.y;if(Math.hypot(dx,dy)<=5){f.x+=Math.sign(dx);f.y+=Math.sign(dy);}}
       const ph = player.body[0];
-      for (let i = snakes.length - 1; i >= 1; i--) {
-        if (snakes[i].body.some(s => s.x === ph.x && s.y === ph.y)) killOpponent(i);
-      }
+      if(!skillActive('ghost')) for (let i = snakes.length - 1; i >= 1; i--) if (snakes[i].body.some(s => s.x === ph.x && s.y === ph.y)) killOpponent(i);
     }
 
     refillFoods();
@@ -1224,7 +1301,7 @@
       ammoIndex = snake.ammo.findIndex(emoji => kindForEmoji(emoji).category === selectedAmmoCategory);
       kind = kindForEmoji(snake.ammo[ammoIndex]); level = ammoLevel(kind.category);
     }
-    const cooldown = snake.isPlayer ? (level.lv >= 5 ? 150 : level.lv >= 3 ? 300 : 500) : 180;
+    const cooldown = snake.isPlayer ? (level.lv >= 5 ? 120 : level.lv >= 3 ? 230 : 360) : 180;
     if (now - snake.lastShotAt < cooldown) return false;
     snake.lastShotAt = now;
     const emoji = snake.ammo.splice(ammoIndex, 1)[0];
@@ -1241,6 +1318,7 @@
     });
     // 复用糖果星星粒子，给每一发一个夸张可爱的「噗」。
     candyBursts.push({ x: head.x, y: head.y, born: now });
+    if(snake.isPlayer) playSound('shoot');
     updateHud();
     return true;
   }
@@ -1250,7 +1328,7 @@
   }
   function hurtTarget(target, hitIdx, b, gx, gy) {
     const now = performance.now(), rare = b.kind.weight <= 1 || b.kind.score >= 6;
-    const damage = b.fx.damage + (b.level >= 3 ? 1 : 0) + (b.level >= 5 ? 1 : 0) + (rare ? 1 : 0);
+    const damage = b.fx.damage + 1 + (b.level >= 3 ? 1 : 0) + (b.level >= 5 ? 1 : 0) + (rare ? 1 : 0);
     if (hitIdx === 0) { const index = snakes.indexOf(target); if (index >= 1) killOpponent(index); }
     else { target.body.splice(hitIdx, damage); target.contents.splice(hitIdx, damage); }
     addAmmoHit(b.kind.category); addAmmoParticles({x:gx,y:gy}, b.fx, b.level, 8 + b.level * 3);
@@ -1273,6 +1351,8 @@
         continue;
       }
       const gx = Math.floor(b.x), gy = Math.floor(b.y);
+      const block = obstacles.find(o=>o.x===gx&&o.y===gy);
+      if(block){ const damage=b.fx.damage+(b.level>=3?1:0); if(damage>=2){obstacles.splice(obstacles.indexOf(block),1);addAmmoParticles(block,b.fx,b.level,16);} bullets.splice(i,1); continue; }
       let hit = false;
       for (let s = snakes.length - 1; s >= 0; s--) {
         const target = snakes[s];
@@ -1340,6 +1420,8 @@
       }
       ctx.restore();
     }
+    // 软糖障碍放在棋盘底层，蛇和食物都仍然清楚；被重弹打碎时会消失并喷星星。
+    for(const o of obstacles){ const x=OFFX+o.x*CELL,y=OFFY+o.y*CELL;ctx.save();ctx.fillStyle='#ff95c5';ctx.shadowColor='#ff579e';ctx.shadowBlur=10;ctx.fillRect(x+7,y+7,CELL-14,CELL-14);ctx.fillStyle='#fff0a7';ctx.fillRect(x+13,y+13,CELL-26,9);ctx.restore(); }
   }
   function drawFoods() {
     drawCandyBursts();
@@ -1423,6 +1505,19 @@
     }
     ctx.save(); ctx.textAlign='center'; ctx.font='900 23px -apple-system,"PingFang SC",sans-serif';
     for (const d of ammoDamageTexts) { const t=(now-d.born)/800;ctx.globalAlpha=1-t;ctx.fillStyle=d.color;ctx.shadowColor='#fff';ctx.shadowBlur=5;ctx.fillText(d.text,OFFX+d.x*CELL,OFFY+(d.y-t*.8)*CELL); } ctx.restore();
+    // 击杀彩纸和连杀大字独立限额，激烈时也不会把 Canvas 画满。
+    while(killParticles.length && now-killParticles[0].born>killParticles[0].life)killParticles.shift();
+    for(const p of killParticles){const t=(now-p.born)/p.life;ctx.save();ctx.globalAlpha=1-t;ctx.font='18px serif';ctx.fillText(p.emoji,OFFX+(p.x+p.vx*t)*CELL,OFFY+(p.y+p.vy*t-p.vy*t*t)*CELL);ctx.restore();}
+    while(killTexts.length && now-killTexts[0].born>900)killTexts.shift();ctx.save();ctx.font='900 30px -apple-system,"PingFang SC",sans-serif';ctx.textAlign='center';for(const d of killTexts){const t=(now-d.born)/900;ctx.globalAlpha=1-t;ctx.fillStyle='#ff4f9a';ctx.strokeStyle='#fff7a8';ctx.lineWidth=7;const x=OFFX+d.x*CELL,y=OFFY+(d.y-t*1.4)*CELL;ctx.strokeText(d.text,x,y);ctx.fillText(d.text,x,y);}ctx.restore();
+  }
+
+  // 解锁后的尾迹沿着玩家尾巴轻轻飘；数量受同一粒子上限约束。
+  function drawTrail(){
+    if(!snakes || save.trail==='none') return; const p=snakes[0], tail=p.body[p.body.length-1], now=performance.now();
+    if(Math.random()<.24 && trailParticles.length<MAX_FX_PARTICLES) trailParticles.push({x:tail.x+.5,y:tail.y+.5,born:now,life:650+Math.random()*300,seed:Math.random()});
+    trailParticles=trailParticles.filter(a=>now-a.born<a.life); const icon={rainbow:'🌈',star:'⭐',heart:'♥',bubble:'●'}[save.trail];
+    ctx.save();ctx.textAlign='center';ctx.textBaseline='middle';ctx.font='22px sans-serif';for(const a of trailParticles){const t=(now-a.born)/a.life;ctx.globalAlpha=1-t;ctx.fillStyle=save.trail==='bubble'?'#75dfff':'#fff';ctx.fillText(icon,OFFX+a.x*CELL,OFFY+(a.y-t*.8)*CELL);}ctx.restore();
+    if(skillActive('rainbow')){if(Math.random()<.55&&skillTrailParticles.length<80)skillTrailParticles.push({x:tail.x+.5,y:tail.y+.5,born:now});while(skillTrailParticles.length&&now-skillTrailParticles[0].born>520)skillTrailParticles.shift();ctx.save();ctx.font='24px serif';for(const a of skillTrailParticles){const t=(now-a.born)/520;ctx.globalAlpha=1-t;ctx.fillText('🌈',OFFX+a.x*CELL,OFFY+(a.y-t*.9)*CELL);}ctx.restore();}
   }
 
   function drawNameTag(snake, headPt, color) {
@@ -1533,6 +1628,7 @@
     const skin = currentSkin;
     const headColor = snake.isPlayer ? skin.head(performance.now()) : snake.headColor;
 
+    if (snake.isPlayer && (skillActive('ghost') || skillActive('rainbow') || skillActive('giant'))) { ctx.save(); ctx.globalAlpha=skillActive('ghost')?.48:1; if(skillActive('giant'))ctx.shadowColor='#ffdf53',ctx.shadowBlur=25; }
     if (drawBody) {
       ctx.lineJoin = 'round';
       ctx.lineCap = 'round';
@@ -1544,7 +1640,7 @@
       // 珠子锚定在「每一节身体」和「相邻两节的中点」上：位置只取决于各节的插值坐标，
       // 不依赖整条蛇的总长度，所以移动时珠子跟着格子平滑前进，不会前后晃动或往回缩。
       // 从尾往头画，后画的压在前面；最后 3 节逐渐缩小成圆润的尾巴。
-      const n = pts.length, beadSize = CELL * 1.4;
+      const n = pts.length, beadSize = CELL * 1.4 * (snake.isPlayer&&skillActive('giant')?1.45:1);
       const taperAt = (j) => (j < 3 ? 0.6 + 0.4 * j / 3 : 1); // j = 离尾巴的节数（可为小数）
       for (let i = n - 1; i >= 1; i--) {
         const j = n - 1 - i;
@@ -1566,7 +1662,7 @@
       }
     }
 
-    if (!drawHead) return;
+    if (!drawHead) { if(snake.isPlayer && (skillActive('ghost') || skillActive('rainbow') || skillActive('giant')))ctx.restore(); return; }
 
     const head = pts[0];
     const nx = snake.dir.x, ny = snake.dir.y;
@@ -1582,12 +1678,12 @@
         ctx.rotate(Math.atan2(ny, nx));
         if (nx < 0) ctx.scale(1, -1);
       }
-      const size = CELL * 1.3;
+      const size = CELL * 1.3 * (snake.isPlayer&&skillActive('giant')?1.45:1);
       const sprite = snake.isPlayer ? `skin_${skin.id}_head` : ['ai_bear_head', 'ai_rabbit_head', 'ai_cat_head', 'ai_duck_head'][Math.max(0, AI_POOL.findIndex(p => p.name === snake.name)) % 4];
       drawSprite('snake', ATLAS_DATA.snake.sprites[sprite] ? sprite : (snake.isPlayer ? 'player' : friendKey(snake)), 0, 0, size);
       ctx.restore();
       drawNameTag(snake, head, snake.color);
-      return;
+      if(snake.isPlayer && (skillActive('ghost') || skillActive('rainbow') || skillActive('giant')))ctx.restore(); return;
     }
     ctx.save();
     if (snake.isPlayer) {
@@ -1666,11 +1762,12 @@
 
     // 名牌是白底，玩家头是白色，直接用会白字白底看不见，改用玩家本体的绿色
     drawNameTag(snake, head, snake.isPlayer ? snake.color : headColor);
+    if(snake.isPlayer && (skillActive('ghost') || skillActive('rainbow') || skillActive('giant')))ctx.restore();
   }
 
   function loop(now) {
-    if (!running) return;
-    const speed = spaceHeld ? BASE_SPEED / BOOST_DIVISOR : BASE_SPEED;
+    if (!running || paused) return;
+    const speed = (spaceHeld ? BASE_SPEED / BOOST_DIVISOR : BASE_SPEED) / (skillActive('rainbow') ? 2.5 : 1);
     let elapsed = now - lastStepTime;
     // 切到后台的标签页会被浏览器节流，requestAnimationFrame 可能几秒才回来一次；
     // 这时 elapsed 会暴涨，下面的 while 会把攒下的几十个 tick 在一帧里瞬间跑完——
@@ -1696,10 +1793,12 @@
     if (shaking) { ctx.save(); ctx.translate((Math.random()-.5)*7, (Math.random()-.5)*7); }
     drawBoard();
     drawFoods();
+    drawTrail();
     for (const snake of snakes) drawSnakeBody(snake, t);
     drawBullets();
     for (const snake of snakes) drawSnakeHead(snake, t);
     drawAmmoFx();
+    renderSkills();
     if (shaking) ctx.restore();
     requestAnimationFrame(loop);
   }
@@ -1728,8 +1827,24 @@
     requestAnimationFrame(loop);
   }
 
+  // 结算只暂停本局，按钮大、字少；第十关以后回到原来的无尽玩法。
+  function completeLevel(){
+    if(!running) return; running=false; const cfg=LEVELS[currentLevel-1], seconds=(performance.now()-levelStartedAt)/1000;
+    const fastStars=seconds<=cfg.stars[0]?2:seconds<=cfg.stars[1]?1:0;
+    const stars=Math.max(1,Math.min(3,1+fastStars+(levelKills>=cfg.killBonus?1:0)));
+    save.stars[currentLevel]=Math.max(save.stars[currentLevel]||0,stars); save.highestLevel=Math.max(save.highestLevel||0,currentLevel); gainExp(15+stars*5,'过关奖励'); saveGame(true);
+    const next=currentLevel<10?'下一关':'去无尽模式'; const el=document.createElement('div'); el.className='candy-pop'; el.innerHTML=`过关啦！<small>${'⭐'.repeat(stars)}　打败 ${levelKills} 条小蛇</small><button data-next>${next}</button><button data-replay>再玩一次</button>`; document.body.appendChild(el);
+    el.querySelector('[data-next]').onclick=()=>{el.remove();if(currentLevel>=10){endlessMode=true;}else currentLevel++;start();}; el.querySelector('[data-replay]').onclick=()=>{el.remove();start();};
+  }
+  function renderTrails(){ trailModal.innerHTML=TRAILS.map(t=>`<button class="trail${save.trail===t.id?' active':''}${isUnlocked('trail',t.id)?'':' locked'}" data-trail="${t.id}">${t.emoji} ${t.name}${isUnlocked('trail',t.id)?'':' Lv'+t.lv}</button>`).join(''); }
+  function openLevels(){ const el=document.createElement('div');el.className='candy-pop';el.innerHTML='<small>选一关，慢慢玩！</small><div class="level-grid">'+LEVELS.map(l=>`<button class="level-card${l.n>(save.highestLevel||0)+1?' locked':''}" data-level="${l.n}">第${l.n}关<br>${save.stars[l.n]?'⭐'.repeat(save.stars[l.n]):'🔒'}</button>`).join('')+'</div>';document.body.appendChild(el);el.onclick=e=>{const b=e.target.closest('[data-level]');if(!b||b.classList.contains('locked'))return;currentLevel=+b.dataset.level;endlessMode=false;el.remove();start();}; }
+  function confirmRestart(){ const el=document.createElement('div');el.className='candy-pop';el.innerHTML='要重新开始吗？<small>小蛇的成长会清掉哦</small><button data-yes>确定重新开始</button><button data-no>先不要</button>';document.body.appendChild(el);el.querySelector('[data-yes]').onclick=()=>{try{localStorage.removeItem('snakeSave')}catch(e){} save=defaultSave();currentLevel=1;endlessMode=false;currentSkin=SKINS[0];renderSkins();renderTrails();refreshStart();el.remove();};el.querySelector('[data-no]').onclick=()=>el.remove(); }
+  function refreshStart(){ const has=!!localStorage.getItem('snakeSave'); startBtn.textContent=has?`继续游戏（第 ${Math.min(10,(save.highestLevel||0)+1)} 关 · Lv ${save.level}）`:'开始游戏';restartBtn.classList.toggle('hidden',!has); }
+
   document.addEventListener('keydown', (e) => {
     const k = e.key.toLowerCase();
+    if (k === 'p') { togglePause(); e.preventDefault(); return; }
+    if (k === 'm') { toggleMute(); e.preventDefault(); return; }
     if (k === ' ') {
       // 空格现在只做加速，按住快跑、松开恢复，绝不再兼任发射。
       spaceHeld = true;
@@ -1737,6 +1852,7 @@
       return;
     }
     if (!snakes) return;
+    if (running && SKILL_DEFS.some(s=>s.key===k)) { activateSkill(SKILL_DEFS.find(s=>s.key===k).id); e.preventDefault(); return; }
     if (running && (k === 'q' || k === 'e')) { cycleAmmo(k === 'q' ? -1 : 1); e.preventDefault(); return; }
     if (running && /^[1-6]$/.test(k)) {
       const category = Object.keys(playerAmmoGroups(snakes[0]))[Number(k)-1];
@@ -1832,8 +1948,11 @@
     e.preventDefault();
     requestFire();
   });
+  skillBelt.addEventListener('pointerdown',e=>{const b=e.target.closest('[data-skill]');if(b){e.preventDefault();activateSkill(b.dataset.skill);}});
+  pauseBtn.addEventListener('click',togglePause); muteBtn.addEventListener('click',toggleMute);
 
-  startBtn.addEventListener('click', start);
+  startBtn.addEventListener('click', ()=>{currentLevel=Math.min(10,(save.highestLevel||0)+1);endlessMode=(save.highestLevel||0)>=10;start();});
+  restartBtn.addEventListener('click', confirmRestart); levelSelectBtn.addEventListener('click', openLevels);
   overlay.addEventListener('click', (e) => { if (e.target === overlay) start(); });
   autoBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleAuto(); });
 
@@ -1849,7 +1968,7 @@
   // 选中状态两边同步。方块皮肤的预览色块用方角，跟它实际长相对上。
   function renderSkins() {
     const html = SKINS.map(s => (
-      '<div class="skin' + (s.id === currentSkin.id ? ' active' : '') + '" data-skin="' + s.id + '">' +
+      '<div class="skin' + (s.id === currentSkin.id ? ' active' : '') + (isUnlocked('skin',s.id)?'':' locked') + '" data-skin="' + s.id + '">' +
       (atlasImages.snake && ATLAS_DATA.snake.sprites[`skin_${s.id}_head`]
         ? spriteMarkup('snake', `skin_${s.id}_head`, 42, '')
         : '<div class="skin-dot" style="background:' + s.css + (s.blocky ? ';border-radius:8px' : '') + '"></div>') +
@@ -1860,6 +1979,7 @@
   function selectSkin(id) {
     const s = SKINS.find(k => k.id === id);
     if (!s) return;
+    if(!isUnlocked('skin',id)){ const card=document.querySelector(`[data-skin="${id}"]`);if(card){card.classList.remove('shake');void card.offsetWidth;card.classList.add('shake');}return; }
     currentSkin = s;
     try { localStorage.setItem('snakeSkin', id); } catch (e) {}
     renderSkins();
@@ -1872,7 +1992,10 @@
       if (card) selectSkin(card.dataset.skin);
     });
   }
-  renderSkins();
+  muteBtn.textContent=muted?'🔇 M':'🔊 M'; renderSkills(); renderSkins();
+  renderTrails(); refreshStart();
+  trailModal.addEventListener('click',e=>{const b=e.target.closest('[data-trail]');if(!b||!isUnlocked('trail',b.dataset.trail))return;save.trail=b.dataset.trail;saveGame(true);renderTrails();});
+  window.addEventListener('beforeunload',()=>saveGame(true)); document.addEventListener('visibilitychange',()=>{if(document.hidden)saveGame(true);});
 
   resize();
   drawBoard();
