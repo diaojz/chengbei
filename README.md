@@ -180,8 +180,9 @@
 ## 本地预览
 
 ```bash
-python3 -m http.server 5173
-# 打开 http://localhost:5173
+npm ci
+npm run dev                          # 只含 Astro 新版页面
+npm run build && npx astro preview   # 完整站点（含 /classic/ 与旧独立页）
 ```
 
 ## 更新内容的地方
@@ -192,8 +193,9 @@ python3 -m http.server 5173
 - **images（第三栏画廊）**：`content/data.json`
 - **面试岗位集锦**：`content/ai-jobs/index.json`；页面与路由在 `src/pages/ai-jobs/`
 - **Writing**：当前已下架（`index.json` 里四篇标了 `hidden: true`，`data.json` 的 `writing` 为空）；恢复时去掉 `hidden` 即可
-- **SEO meta / title**：`index.html` 顶部
-- **logo 字母**：`index.html` 里 `<svg class="logo">` 节点
+- **SEO meta / title**：新版在 `src/layouts/BaseLayout.astro`（各页通过 props 传 title / description / image / type）；经典版在 `classic/index.html` 顶部
+- **RSS**：`src/pages/rss.xml.ts` 自动从文章索引生成 `/rss.xml`
+- **logo 字母**：`classic/index.html` 里 `<svg class="logo">` 节点（根目录 `index.html` 已删除）
 
 ## 发布更新
 
@@ -207,9 +209,13 @@ git push
 gh run watch --repo diaojz/chengbei
 ```
 
-## 改了 JS 必跑
+## 改了代码必跑
 
 ```bash
+npm run check                           # astro check + 全部测试
+python3 scripts/audit-site-images.py    # 构建后检查本地图片引用
+node scripts/content-manifest.mjs --write   # 改了 Markdown 正文时更新哈希基线
+# 经典版 js 语法校验：
 node -c js/app.js
 node -c js/i18n.js
 node -c js/posts.js
