@@ -4,7 +4,7 @@
 
 **Goal:** 为 chengbei.org 增加醒目的 Dify 十篇教程入口，并产出两套符合小红书规范的图文素材。
 
-**Architecture:** 复用现有 `content/series.json` 与 `#/series/dify` 路由，不复制文章数据；首页增加一张由系列数据渲染的重点卡片，系列页增加学习路线与逐篇收益。小红书素材独立写入 `/Users/diaoye/Documents/BD/App Store/xhs/20260914_dify-series-xhs/`。
+**Architecture:** 复用现有 `content/series.json` 与 `#/series/dify` 路由，不复制文章数据；首页增加一张由系列数据渲染的重点卡片，系列页增加学习路线与逐篇收益。小红书素材独立写入 `/Users/diaoye/Documents/diao/media/xhs/20260914_dify-series-xhs/`。
 
 **Tech Stack:** 原生 HTML/CSS/JavaScript、JSON、Markdown、Codex 原生 `image_gen`。
 
@@ -33,10 +33,10 @@
 ### Task 3: 编写两篇小红书文章
 
 **Files:**
-- Create: `/Users/diaoye/Documents/BD/App Store/xhs/20260914_dify-series-xhs/01-学Dify别急着拖节点/meta.json`
-- Create: `/Users/diaoye/Documents/BD/App Store/xhs/20260914_dify-series-xhs/01-学Dify别急着拖节点/文案.txt`
-- Create: `/Users/diaoye/Documents/BD/App Store/xhs/20260914_dify-series-xhs/02-Dify-Demo为什么不能上线/meta.json`
-- Create: `/Users/diaoye/Documents/BD/App Store/xhs/20260914_dify-series-xhs/02-Dify-Demo为什么不能上线/文案.txt`
+- Create: `/Users/diaoye/Documents/diao/media/xhs/20260914_dify-series-xhs/01-学Dify别急着拖节点/meta.json`
+- Create: `/Users/diaoye/Documents/diao/media/xhs/20260914_dify-series-xhs/01-学Dify别急着拖节点/文案.txt`
+- Create: `/Users/diaoye/Documents/diao/media/xhs/20260914_dify-series-xhs/02-Dify-Demo为什么不能上线/meta.json`
+- Create: `/Users/diaoye/Documents/diao/media/xhs/20260914_dify-series-xhs/02-Dify-Demo为什么不能上线/文案.txt`
 
 1. 从十篇教程提炼两个互补主题，正文控制在 500–800 字。
 2. 使用真实经验口吻，避免套路化 AI 文风。

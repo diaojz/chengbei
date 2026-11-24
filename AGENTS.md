@@ -2,6 +2,12 @@
 
 This file provides guidance to AI coding agents (Claude Code / Codex) working in this repository. `CLAUDE.md` only imports this file.
 
+> 隐私约定：文档里形如 `<Vultr 账户邮箱>` 的占位，真实值在本地 `.private/accounts.md`（已 .gitignore，不入库）；新增账号、邮箱、证件等个人信息同样只写进该文件。
+
+## 目录路由
+
+`src/` 站点源代码，`public/` 静态资源，`README.md` 构建与发布。
+
 ## 仓库定位
 
 城北个人站（[chengbei.org](https://chengbei.org)），独立 git 仓 `github.com/diaojz/chengbei`（**公开**）。当前默认站点为 **Astro + TypeScript + Markdown + Pagefind** 静态构建；经典版及独立旧页保留 HTML / CSS / JS。push 到 `main` 后由 GitHub Actions 安装依赖、测试、构建并部署 GitHub Pages。

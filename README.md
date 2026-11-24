@@ -130,7 +130,7 @@
 
 账号状态（2026-06-12 已全部开通，无需重复操作）：
 
-- 账号：diaojz@126.com，code = `chengbei`（代码里写死的子域名），邮箱已验证
+- 账号：<GoatCounter 账号邮箱>，code = `chengbei`（代码里写死的子域名），邮箱已验证
 - Settings 已勾选 "Allow adding visitor counts on your website"（counter API 开放，首页数字依赖它）
 - "Dashboard viewable by" = Anyone（公开看板）
 - 换账号时同步修改 `VisitStats.astro`、`BaseLayout.astro`、`js/stats.js` 及旧页 `data-goatcounter`。
