@@ -4,6 +4,7 @@ import path from 'node:path';
 const root = process.cwd();
 const out = path.join(root, 'dist');
 const legacyPaths = [
+  'ai-hardware-picks',
   'apple-dev-migration',
   'assets',
   'beelink-setup',

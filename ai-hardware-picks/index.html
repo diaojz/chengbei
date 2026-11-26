@@ -1,0 +1,759 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vibe Coding × 智能硬件 · 30 款好玩又能二次开发的 AI 硬件 · 城北</title>
+<meta name="description" content="面向 AI 培训的智能硬件选品清单：30 款近一年的新品与爆款，覆盖视觉识别、百元手搓机器人、AI 眼镜、智能家居和图形化编程，附价格、图片、开源链接与课程路线。">
+<meta property="og:title" content="Vibe Coding × 智能硬件 · 培训选品清单">
+<meta property="og:description" content="30 款好玩、接 AI 门槛低、能二次开发的智能硬件，附价格、链接与视觉识别能力对照。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chengbei.org/ai-hardware-picks/">
+<style>
+  :root{--bg:#ece7de;--card:#fbf8f3;--ink:#2a2620;--sub:#6b6358;--line:#d9d1c4;--accent:#d9572b;--green:#2f7d5b;--blue:#2c5c8a;--purple:#6b4fa0}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 -apple-system,"PingFang SC","Helvetica Neue",sans-serif}
+  .wrap{max-width:1280px;margin:0 auto;padding:40px 28px 80px}
+  header h1{font-size:2.4rem;margin:0 0 6px;letter-spacing:.5px}
+  header p{margin:0;color:var(--sub)}
+  .meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  .pill{font-size:.82rem;padding:3px 10px;border-radius:99px;background:#fff;border:1px solid var(--line);color:var(--sub)}
+  nav{position:sticky;top:0;z-index:5;background:rgba(236,231,222,.94);backdrop-filter:blur(6px);margin:22px -28px 0;padding:10px 28px;border-bottom:1px solid var(--line);display:flex;gap:8px;flex-wrap:wrap}
+  nav a{font-size:.88rem;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:99px;padding:4px 12px}
+  nav a:hover{border-color:var(--accent);color:var(--accent)}
+  h2{font-size:1.7rem;margin:50px 0 8px;display:flex;align-items:baseline;gap:12px;scroll-margin-top:70px}
+  h2 small{font-size:.92rem;color:var(--sub);font-weight:400}
+  .lead{margin:0 0 18px;color:var(--sub);font-size:.97rem;max-width:960px}
+  table{width:100%;border-collapse:collapse;background:var(--card);border-radius:14px;overflow:hidden;font-size:.93rem}
+  th,td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+  th{background:#f1ebe1;font-weight:600;white-space:nowrap}
+  tr:last-child td{border-bottom:none}
+  td a{color:var(--blue);text-decoration:none}
+  td.cat{color:var(--sub);white-space:nowrap}
+  .stars{color:var(--accent);letter-spacing:1px;white-space:nowrap}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:22px}
+  .grid.two{grid-template-columns:repeat(2,1fr)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;scroll-margin-top:70px}
+  .imgs{display:flex;height:230px;background:#fff;border-bottom:1px solid var(--line)}
+  .imgs img{flex:1;min-width:0;height:100%;object-fit:cover}
+  .imgs img.contain{object-fit:contain;padding:8px}
+  .body{padding:18px 20px 20px;display:flex;flex-direction:column;gap:10px;flex:1}
+  .top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+  .card h3{font-size:1.5rem;margin:0;line-height:1.3}
+  .tag{font-size:.75rem;padding:2px 9px;border-radius:99px;color:#fff;white-space:nowrap;margin-top:6px}
+  .tag.p{background:var(--accent)} .tag.s{background:var(--green)} .tag.d{background:var(--blue)} .tag.v{background:var(--purple)}
+  .kv{display:grid;grid-template-columns:64px 1fr;gap:4px 10px;font-size:.93rem}
+  .kv b{color:var(--sub);font-weight:500}
+  .price{font-weight:700;color:var(--accent)}
+  .why{font-size:.95rem;margin:0}
+  .why em{font-style:normal;background:#fbe3d6;padding:0 4px;border-radius:4px}
+  .links{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:6px}
+  .links a{font-size:.85rem;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:8px;padding:4px 10px}
+  .links a:hover{border-color:var(--accent);color:var(--accent)}
+  .levels{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:6px 0 20px}
+  .lv{background:#f3eefa;border:1px solid #dcd2ee;border-radius:14px;padding:14px 18px}
+  .lv b{color:var(--purple);font-size:.85rem}
+  .lv h4{margin:2px 0 4px;font-size:1.15rem}
+  .lv p{margin:0;font-size:.92rem;color:var(--sub)}
+  .yes{color:var(--green);font-weight:600} .no{color:#a09789}
+  .path{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+  .step .n{font-size:.85rem;color:var(--accent);font-weight:700}
+  .step h4{margin:4px 0 6px;font-size:1.25rem}
+  .step p{margin:0;font-size:.93rem;color:var(--sub)}
+  footer{margin-top:40px;font-size:.85rem;color:var(--sub)}
+  .back-home{display:inline-block;margin-bottom:18px;font-size:.88rem;color:var(--sub);text-decoration:none}
+  .back-home:hover{color:var(--accent)}
+  .pubdate{margin-top:8px;font-size:.85rem;color:var(--sub)}
+  .cb-watermark{position:fixed;left:18px;bottom:14px;z-index:300;font-family:ui-monospace,Menlo,monospace;font-size:.8rem;font-weight:600;letter-spacing:.5px;color:var(--sub);opacity:.5;pointer-events:none}
+  @media (max-width:900px){.grid.two,.levels,.path{grid-template-columns:1fr}.grid{grid-template-columns:1fr}table{display:block;overflow-x:auto}}
+  @media (max-width:600px){header h1{font-size:1.8rem}.cb-watermark{display:none}h2{flex-wrap:wrap;gap:4px 12px}nav{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch}nav a{white-space:nowrap;flex:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <a class="back-home" href="/">← 城北 · chengbei.org</a>
+  <h1>Vibe Coding × 智能硬件 · 培训选品清单</h1>
+  <p>选品标准：好玩、能吸引想转型的学员 / 接入 AI 的门槛低 / 能二次开发、方便讲课</p>
+  <div class="meta">
+    <span class="pill">数据截至 2026-11-25</span>
+    <span class="pill">共 30 款</span>
+    <span class="pill">价格以官方商店为准，下单前再核实</span>
+  </div>
+  <div class="pubdate">发布于 2026-11-25</div>
+</header>
+
+<nav>
+  <a href="#overview">总表</a>
+  <a href="#top">首选 4 款</a>
+  <a href="#vision">视觉识别专区</a>
+  <a href="#diy">百元手搓爆款</a>
+  <a href="#robot">玩具与机器人</a>
+  <a href="#wear">眼镜与可穿戴</a>
+  <a href="#home">桌面与智能家居</a>
+  <a href="#blocks">图形化编程入口</a>
+  <a href="#path">课程路线</a>
+</nav>
+
+<h2 id="overview">一张表看全 <small>推荐度按“培训适配”打分</small></h2>
+<table>
+  <thead><tr><th>类别</th><th>产品</th><th>时间</th><th>价格</th><th>门槛</th><th>好玩度</th><th>课上用途</th></tr></thead>
+  <tbody>
+    <tr><td class="cat">首选</td><td><a href="#mosaico">乐鑫 ESP-Mosaico</a></td><td>2026-10</td><td>$59 起（预售）</td><td>低</td><td class="stars">★★★★</td><td>主线课：学员人手一套</td></tr>
+    <tr><td class="cat">首选</td><td><a href="#buddy">Claude Desktop Buddy</a></td><td>2026-04</td><td>板子约 $20</td><td>很低</td><td class="stars">★★★★</td><td>开场课：30 分钟出效果</td></tr>
+    <tr><td class="cat">首选</td><td><a href="#hachimo">小米 HachimoDock</a></td><td>2026-10</td><td>复刻约 ¥150</td><td>中</td><td class="stars">★★★★★</td><td>进阶 / 结课作品</td></tr>
+    <tr><td class="cat">首选</td><td><a href="#stackchan">M5Stack StackChan</a></td><td>2026-01</td><td>$99 / $125</td><td>低</td><td class="stars">★★★★★</td><td>开场吸睛</td></tr>
+    <tr><td class="cat">视觉</td><td><a href="#huskylens">二哈识图 2（HuskyLens 2）</a></td><td>2025-10</td><td>¥499</td><td>很低</td><td class="stars">★★★★★</td><td>视觉课主力，内置 MCP</td></tr>
+    <tr><td class="cat">视觉</td><td><a href="#maixcam2">Sipeed MaixCAM2</a></td><td>2026-02 发货</td><td>$69 起</td><td>中</td><td class="stars">★★★★</td><td>本地跑视觉大模型</td></tr>
+    <tr><td class="cat">视觉</td><td><a href="#watcher">SenseCAP Watcher</a></td><td>2026 小智版</td><td>$99</td><td>低</td><td class="stars">★★★★</td><td>“会看会说”的桌面助手</td></tr>
+    <tr><td class="cat">视觉</td><td><a href="#recamera">Seeed reCamera</a></td><td>持续更新</td><td>$99.9 起</td><td>中</td><td class="stars">★★★</td><td>拖拽式视觉流程</td></tr>
+    <tr><td class="cat">视觉</td><td><a href="#grove">Grove Vision AI V2 + SenseCraft AI</a></td><td>平台 2026-11</td><td>$16–18</td><td>很低</td><td class="stars">★★★</td><td>零代码训练识别模型</td></tr>
+    <tr><td class="cat">视觉</td><td><a href="#pi">树莓派 AI Camera / AI HAT+ 2</a></td><td>2026-01</td><td>$70 / $200</td><td>中</td><td class="stars">★★★</td><td>有 Linux 基础的学员</td></tr>
+    <tr><td class="cat">视觉</td><td><a href="#sparkbot">乐鑫 ESP-SparkBot</a></td><td>开源</td><td>DIY 约 ¥60 起</td><td>中</td><td class="stars">★★★★</td><td>会认人的小机器人</td></tr>
+    <tr><td class="cat">视觉</td><td><a href="#xiaowai">小米 小歪 OpenDeskBot</a></td><td>2026-09</td><td>BOM 自选</td><td>中</td><td class="stars">★★★★★</td><td>“你看它，它就看你”</td></tr>
+    <tr><td class="cat">手搓</td><td><a href="#paper">纸壳 AI 机器人</a></td><td>2026-08 爆火</td><td>¥60–80</td><td>很低</td><td class="stars">★★★★★</td><td>人手一个，课堂必出片</td></tr>
+    <tr><td class="cat">手搓</td><td><a href="#otto">小智 Otto / ESP-Hi 机器狗</a></td><td>2026</td><td>百元内</td><td>低</td><td class="stars">★★★★</td><td>语音指挥机器人走路</td></tr>
+    <tr><td class="cat">手搓</td><td><a href="#mi4">小米开源四件套</a></td><td>2026-09</td><td>¥100–650</td><td>中</td><td class="stars">★★★★</td><td>机械臂台灯、记忆吧唧</td></tr>
+    <tr><td class="cat">机器人</td><td><a href="#cyberbrick">拓竹 CyberBrick</a></td><td>2025 TIME 最佳发明</td><td>$44.99 起</td><td>低</td><td class="stars">★★★★★</td><td>3D 打印 + 遥控玩具</td></tr>
+    <tr><td class="cat">机器人</td><td><a href="#bittle">Petoi Bittle X V2</a></td><td>在售</td><td>$319 起</td><td>低</td><td class="stars">★★★★★</td><td>能后空翻的机器狗</td></tr>
+    <tr><td class="cat">机器人</td><td><a href="#reachy">Reachy Mini</a></td><td>JS SDK 2026-09</td><td>$399 / $499</td><td>低</td><td class="stars">★★★★★</td><td>演示机</td></tr>
+    <tr><td class="cat">机器人</td><td><a href="#so101">LeRobot SO-101</a></td><td>持续更新</td><td>$122–480</td><td>高</td><td class="stars">★★★★</td><td>具身智能演示</td></tr>
+    <tr><td class="cat">机器人</td><td><a href="#unitree">宇树 R1 EDU</a></td><td>2026-04 开售</td><td>$10,500 起</td><td>高</td><td class="stars">★★★★★</td><td>天花板参考，不建议采购</td></tr>
+    <tr><td class="cat">可穿戴</td><td><a href="#rokid">Rokid AIUI Studio</a></td><td>2026-09</td><td>平台免费 / 眼镜 ¥3699</td><td>很低</td><td class="stars">★★★★</td><td>零硬件开发眼镜智能体</td></tr>
+    <tr><td class="cat">可穿戴</td><td><a href="#halo">Brilliant Labs Halo</a></td><td>2025-11 发货</td><td>$399</td><td>低</td><td class="stars">★★★★</td><td>眼镜上 vibe coding</td></tr>
+    <tr><td class="cat">可穿戴</td><td><a href="#mentra">Mentra Live</a></td><td>2026-02 发货</td><td>$449</td><td>中</td><td class="stars">★★★</td><td>开源眼镜 OS + 应用商店</td></tr>
+    <tr><td class="cat">可穿戴</td><td><a href="#omi">Omi 吊坠 / Omi Glass</a></td><td>持续更新</td><td>$89 起</td><td>中</td><td class="stars">★★★</td><td>“记住一切”的 AI 吊坠</td></tr>
+    <tr><td class="cat">家居</td><td><a href="#hav">Home Assistant Voice PE</a></td><td>2026-10 加 MCP</td><td>$59–69</td><td>中</td><td class="stars">★★★</td><td>让 Claude 控制全屋</td></tr>
+    <tr><td class="cat">家居</td><td><a href="#reterminal">Seeed reTerminal E1001</a></td><td>2025-09</td><td>$79</td><td>很低</td><td class="stars">★★★</td><td>AI 设计墨水屏看板</td></tr>
+    <tr><td class="cat">家居</td><td><a href="#modulellm">M5Stack Module LLM</a></td><td>2026-03 升级</td><td>见官方商店</td><td>中</td><td class="stars">★★★</td><td>完全离线的语音助手</td></tr>
+    <tr><td class="cat">家居</td><td><a href="#xiaozhi">小智 AI 生态</a></td><td>v2.6.0</td><td>¥118–299</td><td>低</td><td class="stars">★★★</td><td>讲 MCP 的最佳教具</td></tr>
+    <tr><td class="cat">家居</td><td><a href="#tuya">涂鸦 Cobuilder</a></td><td>2026 年中</td><td>未公开</td><td>很低</td><td class="stars">★★★</td><td>一句话出整套硬件方案</td></tr>
+    <tr><td class="cat">家居</td><td><a href="#unoq">Arduino UNO Q</a></td><td>Agent 模式 2026-08</td><td>$59 / $79</td><td>中</td><td class="stars">★★★</td><td>有基础学员</td></tr>
+  </tbody>
+</table>
+
+<!-- ================= 首选 ================= -->
+<h2 id="top">首选 4 款 <small>2026 年新品，专为 AI 编程工具设计</small></h2>
+<div class="grid two">
+
+  <article class="card" id="mosaico">
+    <div class="imgs"><img src="assets/mosaico.webp" alt="ESP-Mosaico 套件"></div>
+    <div class="body">
+      <div class="top"><h3>乐鑫 ESP-Mosaico</h3><span class="tag p">首选 · 主线课</span></div>
+      <div class="kv">
+        <b>发布</b><span>2026-10-20，上海</span>
+        <b>价格</b><span class="price">Vision Combo Kit $59，电池模块另加 $15（预售）</span>
+        <b>硬件</b><span>ESP32-S31，2.16 英寸 480×480 AMOLED 触屏，摄像头与交互模块，可像积木一样拼装</span>
+      </div>
+      <p class="why">好玩：说一句话，屏幕上就出现一个应用。讲课：模板仓库自带 <em>CLAUDE.md / AGENTS.md / MCP / skills</em>，Claude Code、Codex、Trae 拿到就能写代码、烧录，并根据真机反馈继续修改。注意：有评测者反映 MCP 要手动接一下。</p>
+      <div class="links">
+        <a href="https://www.espressif.com/en/news/ESP_Mosaico_Release" target="_blank">官方发布</a>
+        <a href="https://github.com/esp-mosaico/esp-mosaico-vibe" target="_blank">GitHub 模板</a>
+        <a href="https://blog.theembeddedrustacean.com/unboxing-esp-mosaico-chatcoding-vibecoding" target="_blank">开箱评测</a>
+        <a href="https://www.cnx-software.com/2026/10/21/esp-mosaico-an-esp32-s31-based-modular-development-platform-for-ai-assisted-hardware-creation/" target="_blank">CNX 详解</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="card" id="buddy">
+    <div class="imgs"><img src="assets/buddy.webp" alt="Claude Desktop Buddy 运行在 M5StickC Plus 上"></div>
+    <div class="body">
+      <div class="top"><h3>Claude Desktop Buddy</h3><span class="tag p">首选 · 开场课</span></div>
+      <div class="kv">
+        <b>发布</b><span>2026-04-16，Anthropic（实验性功能）</span>
+        <b>价格</b><span class="price">软件开源免费；M5StickC Plus2 约 $19.95</span>
+        <b>原理</b><span>Claude 桌面版开启开发者模式后，通过蓝牙（BLE，Nordic UART）用 JSON 和设备通信，不需要 API Key</span>
+      </div>
+      <p class="why">好玩：Claude 等你授权时，桌上的小设备会闪灯，<em>按实体按钮就批准</em>。讲课：学员每天都在用 AI，第一次看到它连上物理世界，冲击力很强；作者说代码基本是 Claude 一次生成的。</p>
+      <div class="links">
+        <a href="https://github.com/anthropics/claude-desktop-buddy" target="_blank">GitHub 源码</a>
+        <a href="https://shop.m5stack.com/products/m5stickc-plus2-esp32-mini-iot-development-kit" target="_blank">买 M5StickC Plus2</a>
+        <a href="https://x.com/felixrieseberg/status/2044920611215233397" target="_blank">作者发布推文</a>
+        <a href="https://www.chatprd.ai/how-i-ai/workflows/how-to-build-a-20-physical-ai-buddy-with-claude-code" target="_blank">$20 搭建教程</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="card" id="hachimo">
+    <div class="imgs"><img src="assets/hachimo1.webp" alt="HachimoDock 实拍"><img src="assets/hachimo2.webp" alt="HachimoDock 近景"></div>
+    <div class="body">
+      <div class="top"><h3>小米 HachimoDock（哈基米机）</h3><span class="tag p">首选 · 进阶</span></div>
+      <div class="kv">
+        <b>发布</b><span>2026-10-26，观猹大会（小米技术委孵化）</span>
+        <b>价格</b><span class="price">自己复刻硬件约 ¥150（模型 API、语音识别费用另算）</span>
+        <b>硬件</b><span>ESP32-P4，2.8 英寸 480×640 屏，按键 / 摇杆 / 语音 / 触屏四种交互</span>
+      </div>
+      <p class="why">好玩：AI 桌宠，可以<em>用语音给电脑上的 Codex、Claude Code 派任务</em>，屏幕上的表情显示任务进度；火到配件涨价。讲课：软件、物料清单、外壳模型、装配教程全部开源。许可证仅限非商业使用。</p>
+      <div class="links">
+        <a href="https://github.com/ai-maker-lab/HachimoDock" target="_blank">GitHub 源码</a>
+        <a href="https://oshwhub.com/eda_gqvzlprk/project_cnbmkbjc" target="_blank">立创开源（PCB/BOM）</a>
+        <a href="https://www.ithome.com/1/017/842.htm" target="_blank">IT之家报道</a>
+        <a href="https://post.smzdm.com/p/al397r7e/" target="_blank">复刻指南</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="card" id="stackchan">
+    <div class="imgs"><img class="contain" src="assets/stackchan.webp" alt="M5Stack StackChan"></div>
+    <div class="body">
+      <div class="top"><h3>M5Stack StackChan</h3><span class="tag p">首选 · 吸睛</span></div>
+      <div class="kv">
+        <b>发布</b><span>2026-01-13 众筹，2026-04 起发货</span>
+        <b>价格</b><span class="price">$99（不带遥控器）/ $125（带遥控器）</span>
+        <b>硬件</b><span>CoreS3（ESP32-S3），2 英寸触屏，摄像头，双麦克风，2 个舵机，12 颗 RGB 灯，NFC</span>
+      </div>
+      <p class="why">好玩：会转头、有表情、能聊天，<em>“可爱”对转型人群最有吸引力</em>。讲课：硬件 100% 开源，运行小智 AI，支持 UiFlow2 积木、Arduino、MicroPython、ESP-IDF。</p>
+      <div class="links">
+        <a href="https://shop.m5stack.com/products/stackchan-kawaii-co-created-open-source-ai-desktop-robot" target="_blank">官方商店 $99</a>
+        <a href="https://shop.m5stack.com/products/m5stackchan-ai-desktop-robot-kit-with-remote-control-esp32-s3" target="_blank">带遥控器 $125</a>
+        <a href="https://www.cnx-software.com/2026/01/13/m5stack-stackchan-is-a-cute-open-source-ai-desktop-robot/" target="_blank">CNX 详解</a>
+        <a href="https://robottesters.com/robots/stackchan/" target="_blank">评测</a>
+      </div>
+    </div>
+  </article>
+</div>
+
+<!-- ================= 视觉 ================= -->
+<h2 id="vision">视觉识别专区 <small>让硬件“看得见、看得懂”</small></h2>
+<p class="lead">视觉是最容易出效果的一类：学员举起一个杯子、比个手势，设备立刻有反应。按“看懂”的程度可以分三层，课上从左到右递进：</p>
+<div class="levels">
+  <div class="lv"><b>第 1 层 · 认得出</b><h4>本地识别</h4><p>人脸、手势、物体、二维码、颜色。设备上直接跑小模型，不联网、毫秒级出结果。</p></div>
+  <div class="lv"><b>第 2 层 · 教得会</b><h4>零代码训练</h4><p>对着新东西拍几张或输入名字，就训练出自己的识别模型，学员最有成就感的一步。</p></div>
+  <div class="lv"><b>第 3 层 · 看得懂</b><h4>接大模型 / MCP</h4><p>把画面交给视觉大模型理解场景（“桌上有人在喝咖啡”），再通过 MCP 让 AI 决定下一步动作。</p></div>
+</div>
+
+<table>
+  <thead><tr><th>产品</th><th>算力</th><th>预置能力</th><th>零代码训练</th><th>接大模型 / MCP</th><th>价格</th></tr></thead>
+  <tbody>
+    <tr><td><a href="#huskylens">二哈识图 2</a></td><td>6 TOPS（K230）</td><td>20+ 模型：人脸、物体、手势、姿态、分割</td><td class="yes">✓ 按键学习 / YOLO</td><td class="yes">✓ 内置 MCP 服务</td><td>¥499</td></tr>
+    <tr><td><a href="#maixcam2">MaixCAM2</a></td><td>3.2 TOPS（AX630C）</td><td>40+ 预装 AI 应用，YOLO</td><td class="yes">✓ MaixHub</td><td class="yes">✓ 本地跑 Qwen3-VL-2B</td><td>$69 起</td></tr>
+    <tr><td><a href="#watcher">SenseCAP Watcher</a></td><td>Himax HX6538</td><td>人、动物、手势等</td><td class="yes">✓ SenseCraft</td><td class="yes">✓ 小智版走 MCP</td><td>$99</td></tr>
+    <tr><td><a href="#recamera">reCamera 2002</a></td><td>1 TOPS</td><td>内置 YOLOv11</td><td class="yes">✓ SenseCraft</td><td>Node-RED 可接 API</td><td>$99.9 起</td></tr>
+    <tr><td><a href="#grove">Grove Vision AI V2</a></td><td>Cortex-M55 + Ethos-U55</td><td>400+ 预训练模型可选</td><td class="yes">✓ 输入名字即生成（beta）</td><td class="no">—</td><td>$16–18</td></tr>
+    <tr><td><a href="#pi">树莓派 AI HAT+ 2</a></td><td>40 TOPS（Hailo-10H）</td><td>YOLO 等视觉模型</td><td class="no">需写代码</td><td class="yes">✓ 可跑 1.5B 小模型</td><td>$200</td></tr>
+    <tr><td><a href="#sparkbot">ESP-SparkBot</a></td><td>ESP32-S3</td><td>人脸识别、移动检测、手势</td><td class="no">需写代码</td><td class="yes">✓ 接豆包 / DeepSeek 等</td><td>DIY ¥60 起</td></tr>
+    <tr><td><a href="#xiaowai">小歪 OpenDeskBot</a></td><td>ESP32-S3 + 电脑端</td><td>注视感知、认人、口型</td><td class="no">—</td><td class="yes">✓ 自带 API Key</td><td>BOM 自选</td></tr>
+  </tbody>
+</table>
+
+<div class="grid" style="margin-top:22px">
+
+  <article class="card" id="huskylens">
+    <div class="imgs"><img class="contain" src="assets/huskylens2.webp" alt="HuskyLens 2"><img src="assets/huskylens2-review.webp" alt="HuskyLens 2 识别表情"></div>
+    <div class="body">
+      <div class="top"><h3>二哈识图 2（HuskyLens 2）</h3><span class="tag v">视觉 · 主力</span></div>
+      <div class="kv">
+        <b>发布</b><span>2025-10-30，DFRobot；获 2026 Teach Award</span>
+        <b>价格</b><span class="price">¥499（DFRobot 官方商城）</span>
+        <b>硬件</b><span>K230 6 TOPS，2MP 摄像头，2.4 英寸触屏，可换显微 / 夜视镜头</span>
+      </div>
+      <p class="why">好玩：开机就能认人脸、表情、手势、物体，<em>按一下按键就“学会”新东西</em>。讲课：号称首个内置 MCP 服务的视觉传感器，把“看到了什么”结构化地告诉大模型。实测接 MCP 需要 Cherry Studio + API Key，且和电脑同一网络。</p>
+      <div class="links">
+        <a href="https://www.dfrobot.com.cn/goods-4198.html" target="_blank">官方商城 ¥499</a>
+        <a href="https://www.dfrobot.com/huskylens/huskylens2" target="_blank">产品主页</a>
+        <a href="https://www.gadgetify.com/huskylens-2-mcp-camera-review/" target="_blank">MCP 实测</a>
+        <a href="https://linuxgizmos.com/huskylens-2-expands-edge-ai-vision-with-mcp-integration-and-yolo-model-support/" target="_blank">规格详解</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="card" id="maixcam2">
+    <div class="imgs"><img class="contain" src="assets/maixcam2.webp" alt="MaixCAM2"></div>
+    <div class="body">
+      <div class="top"><h3>Sipeed MaixCAM2</h3><span class="tag v">视觉 · 本地大模型</span></div>
+      <div class="kv">
+        <b>发布</b><span>Kickstarter 众筹，2026-02 发货</span>
+        <b>价格</b><span class="price">众筹 $69 起；Newegg 4K 版 $82（内存涨价，4G 版可能涨）</span>
+        <b>硬件</b><span>AX630C，3.2 TOPS，最高 4K 摄像头，可加热成像 / ToF 模块</span>
+      </div>
+      <p class="why">好玩：<em>不联网就能跑视觉大模型 Qwen3-VL-2B</em>，对着画面问“这是什么”。讲课：40+ 预装 AI 应用，MaixPy（Python）+ MaixVision IDE，适合讲“云端 vs 本地”。</p>
+      <div class="links">
+        <a href="https://wiki.sipeed.com/hardware/en/maixcam/maixcam2.html" target="_blank">官方文档</a>
+        <a href="https://www.kickstarter.com/projects/sipeed/maixcam2-build-your-next-gen-4k-ai-camera" target="_blank">Kickstarter</a>
+        <a href="https://www.hackster.io/news/sipeed-s-69-ai-camera-packs-a-serious-punch-a27b0146e9da" target="_blank">Hackster 报道</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="card" id="watcher">
+    <div class="imgs"><img class="contain" src="assets/watcher.webp" alt="SenseCAP Watcher"></div>
+    <div class="body">
+      <div class="top"><h3>Seeed SenseCAP Watcher</h3><span class="tag v">视觉 · 桌面助手</span></div>
+      <div class="kv">
+        <b>更新</b><span>2026 推出“小智版”（Embedded World 2026 展出）</span>
+        <b>价格</b><span class="price">$99</span>
+        <b>硬件</b><span>ESP32-S3 + Himax AI 芯片，摄像头，412×412 圆屏</span>
+      </div>
+      <p class="why">好玩：<em>用一句话给它布置“盯梢”任务</em>，比如“看到猫上桌就提醒我”。讲课：小智版基于 MCP，可做日程提醒、控制家电，硬件开源。</p>
+      <div class="links">
+        <a href="https://wiki.seeedstudio.com/solutions/hello_watcher_llms/" target="_blank">官方 Wiki</a>
+        <a href="https://www.seeedstudio.com/blog/2026/02/28/seeed-studio-at-embedded-world/" target="_blank">小智版发布</a>
+        <a href="https://makezine.com/products/boards/seeed-studio-sensecap-watcher/" target="_blank">Make 评测</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="card" id="recamera">
+    <div class="imgs"><img src="assets/recamera.webp" alt="reCamera"></div>
+    <div class="body">
+      <div class="top"><h3>Seeed reCamera 2002</h3><span class="tag v">视觉 · 拖拽流程</span></div>
+      <div class="kv">
+        <b>价格</b><span class="price">2002 $99.90；Wi-Fi 版 2002w $109.90</span>
+        <b>硬件</b><span>1 TOPS，5MP 摄像头，Linux 系统，内置 YOLOv11</span>
+        <b>开发</b><span>Node-RED 拖拽连线，也可跑自定义模型</span>
+      </div>
+      <p class="why">讲课：<em>用拖拽方式把“识别 → 判断 → 动作”连起来</em>，适合讲清楚 AI 应用的数据流。开源，偏工程化。</p>
+      <div class="links">
+        <a href="https://www.seeedstudio.com/reCamera-2002-64GB-p-6252.html" target="_blank">官方商店</a>
+        <a href="https://www.seeedstudio.com/reCamera-2002w-64GB-p-6249.html" target="_blank">Wi-Fi 版</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="card" id="grove">
+    <div class="imgs"><img class="contain" src="assets/grovev2.webp" alt="Grove Vision AI V2"></div>
+    <div class="body">
+      <div class="top"><h3>Grove Vision AI V2 + SenseCraft AI</h3><span class="tag v">视觉 · 零代码</span></div>
+      <div class="kv">
+        <b>平台</b><span>SenseCraft AI 零代码平台，2026-11 上线</span>
+        <b>价格</b><span class="price">模块 $15.99–17.99（不含摄像头）；套件 $24–36</span>
+        <b>硬件</b><span>Cortex-M55 + Ethos-U55，可插到 XIAO、Arduino、树莓派</span>
+      </div>
+      <p class="why">好玩：<em>只输入物体名字，就能生成检测模型</em>（beta 功能）；也可从 400 个预训练模型里挑。讲课：全程在浏览器里操作，结果可通过 MQTT 推给其他设备。同一平台还支持 Watcher、reCamera。</p>
+      <div class="links">
+        <a href="https://www.seeedstudio.com/Grove-Vision-AI-Module-V2-p-5851.html" target="_blank">官方商店</a>
+        <a href="https://sensecraft.seeed.cc/en" target="_blank">SenseCraft 平台</a>
+        <a href="https://www.hackster.io/news/seeed-studio-promises-true-no-code-artificial-intelligence-development-with-sensecraft-ai-47022accf37e" target="_blank">零代码介绍</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="card" id="pi">
+    <div class="imgs"><img src="assets/pihat2.webp" alt="树莓派 AI HAT+ 2 实时 YOLO 识别"></div>
+    <div class="body">
+      <div class="top"><h3>树莓派 AI Camera / AI HAT+ 2</h3><span class="tag v">视觉 · Linux</span></div>
+      <div class="kv">
+        <b>发布</b><span>AI HAT+ 2 于 2026-01 发布</span>
+        <b>价格</b><span class="price">AI Camera $70；AI HAT+ 2 $200（首发 $130，因内存涨价上调）</span>
+        <b>硬件</b><span>Hailo-10H 40 TOPS，板载 8GB 内存，需配树莓派 5</span>
+      </div>
+      <p class="why">讲课：可以同时做视觉识别和跑小语言模型。评测结论是<em>只做视觉的话，$70 的 AI Camera 就够了</em>；HAT+ 2 跑 LLM 不比树莓派 CPU 快。</p>
+      <div class="links">
+        <a href="https://www.raspberrypi.com/products/ai-hat-plus-2/" target="_blank">AI HAT+ 2</a>
+        <a href="https://www.raspberrypi.com/products/ai-camera/" target="_blank">AI Camera</a>
+        <a href="https://www.jeffgeerling.com/blog/2026/raspberry-pi-ai-hat-2/" target="_blank">Jeff Geerling 评测</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="card" id="sparkbot">
+    <div class="imgs"><img src="assets/sparkbot.webp" alt="ESP-SparkBot"></div>
+    <div class="body">
+      <div class="top"><h3>乐鑫 ESP-SparkBot</h3><span class="tag v">视觉 · 认人机器人</span></div>
+      <div class="kv">
+        <b>来源</b><span>乐鑫官方开源（立创开源平台）</span>
+        <b>价格</b><span class="price">头部 DIY 约 ¥60；带履带底盘的完整版更贵</span>
+        <b>硬件</b><span>ESP32-S3，OV2640 摄像头，1.54 英寸屏，磁吸模块</span>
+      </div>
+      <p class="why">好玩：<em>能聊天、会认人</em>，还能摇骰子、玩 2048；磁吸一下变成遥控坦克，手机看实时画面。讲课：人脸识别在设备本地跑（ESP-WHO），对话接大模型。</p>
+      <div class="links">
+        <a href="https://oshwhub.com/esp-college/esp-sparkbot" target="_blank">立创开源</a>
+        <a href="https://www.szlcsc.com/info/15621.html" target="_blank">60 元复刻文章</a>
+        <a href="https://www.sohu.com/a/978812513_121143275" target="_blank">方案解析</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="card" id="xiaowai">
+    <div class="imgs"><img class="contain" src="assets/opendeskbot.webp" alt="小歪 OpenDeskBot"></div>
+    <div class="body">
+      <div class="top"><h3>小米 小歪 OpenDeskBot</h3><span class="tag v">视觉 · 注视感知</span></div>
+      <div class="kv">
+        <b>发布</b><span>2026-09，小米 AI 硬创团队开源</span>
+        <b>价格</b><span class="price">BOM 开源、按需选配（未见统一报价）</span>
+        <b>硬件</b><span>ESP32-S3，2 个舵机（点头 + 转头），屏幕表情，摄像头</span>
+      </div>
+      <p class="why">好玩：<em>不用喊唤醒词，你看它一眼，它就转头看你</em>；能叫出熟人名字，说话有口型。讲课：不经过任何云服务器，用学员自己的 API Key，适配 DeepSeek、Qwen、豆包、Kimi。</p>
+      <div class="links">
+        <a href="https://opendeskbot.github.io/Official-Website/" target="_blank">官网</a>
+        <a href="https://github.com/ai-maker-lab/OpenDeskBotV2" target="_blank">GitHub V2</a>
+        <a href="https://oshwhub.com/eda_hedwaytj/project_asxqsedb" target="_blank">立创开源</a>
+      </div>
+    </div>
+  </article>
+</div>
+
+<!-- ================= 手搓 ================= -->
+<h2 id="diy">百元手搓爆款 <small>成本低、出片快，适合人手一个</small></h2>
+<div class="grid">
+
+  <article class="card" id="paper">
+    <div class="imgs"><img src="assets/paperbot.webp" alt="纸壳 AI 机器人"></div>
+    <div class="body">
+      <div class="top"><h3>纸壳 AI 机器人</h3><span class="tag p">手搓 · 爆款</span></div>
+      <div class="kv">
+        <b>出处</b><span>小红书博主「Made by Z」，2026-08 发布，39 万赞</span>
+        <b>价格</b><span class="price">基础版材料 ¥60–80（不同路线 ¥55–180）</span>
+        <b>硬件</b><span>废纸板 + ESP32-C3 + 舵机 + 接近 / 触摸传感器</span>
+      </div>
+      <p class="why">好玩：手伸过去它转头看你，按它脑袋会露出委屈表情。10 月作者放出 AI 升级版，<em>接入小智就能聊天</em>。讲课：流程只有“接线 → 刷固件 → 连后台”三步，3 小时能做完。注意：网上“进群拿资料”的渠道真假混杂。</p>
+      <div class="links">
+        <a href="https://post.smzdm.com/p/arzr7dxz/" target="_blank">爆火始末</a>
+        <a href="https://post.smzdm.com/p/ad7mzvdd/" target="_blank">三条复刻路线</a>
+        <a href="https://post.smzdm.com/p/ae6vz5xm/" target="_blank">教程与成本</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="card" id="otto">
+    <div class="body">
+      <div class="top"><h3>小智 Otto 双足 / ESP-Hi 机器狗</h3><span class="tag p">手搓 · 会走路</span></div>
+      <div class="kv">
+        <b>来源</b><span>小智 AI 开源生态（xiaozhi-esp32）</span>
+        <b>价格</b><span class="price">百元以内</span>
+        <b>硬件</b><span>Otto：ESP32-S3 + 4 个 SG90 舵机 + 1.54 英寸圆屏；ESP-Hi：ESP32-C3 + 4 路舵机</span>
+      </div>
+      <p class="why">好玩：<em>说“向前走”“跳个舞”，机器人就动起来</em>。讲课：语音 → 大模型 → MCP 调用舵机，正好把“AI 调用工具”讲透。2026 年 11 月虹桥科技周黑客松就有团队用 Otto 改造了导游机器人。</p>
+      <div class="links">
+        <a href="https://github.com/78/xiaozhi-esp32" target="_blank">小智 GitHub</a>
+        <a href="https://blog.csdn.net/gitblog_00858/article/details/155731058" target="_blank">机器狗指南</a>
+        <a href="https://github.com/Dalaoyuan2020/hongqiao-techweek" target="_blank">黑客松案例</a>
+        <a href="https://post.smzdm.com/p/aqrqdk8v/" target="_blank">选购避坑</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="card" id="mi4">
+    <div class="body">
+      <div class="top"><h3>小米 AI 硬创开源四件套</h3><span class="tag p">手搓 · 创意</span></div>
+      <div class="kv">
+        <b>发布</b><span>2026-09-21 开源（实验项目，不卖成品）</span>
+        <b>价格</b><span class="price">DayoTag 约 ¥100；YareLampGo 约 ¥650</span>
+        <b>项目</b><span>YareLampGo 机械臂台灯、DayoTag 记忆吧唧、PetAgent 桌面伙伴、小歪桌面机器人</span>
+      </div>
+      <p class="why">好玩：<em>台灯会跟着语音转头，还有“逗猫模式”跟着逗猫棒摆动</em>；DayoTag 像个电子吧唧，记录你的口头禅和情绪变化。讲课：适合做“AI + 日常物件”的创意发散案例。</p>
+      <div class="links">
+        <a href="https://news.qq.com/rain/a/20260921A0BE6X00" target="_blank">开源公告</a>
+        <a href="https://finance.sina.com.cn/tech/roll/2026-09-21/doc-inisqzxu5625839.shtml" target="_blank">台灯报道</a>
+        <a href="https://www.rfidworld.com.cn/news/2610_B168706B64A5FB7B.html" target="_blank">四件套详情</a>
+      </div>
+    </div>
+  </article>
+</div>
+
+<!-- ================= 机器人 ================= -->
+<h2 id="robot">玩具与机器人</h2>
+<div class="grid">
+
+  <article class="card" id="cyberbrick">
+    <div class="imgs"><img src="assets/cyberbrick.webp" alt="CyberBrick 套件"></div>
+    <div class="body">
+      <div class="top"><h3>拓竹 CyberBrick</h3><span class="tag s">机器人 · 玩具</span></div>
+      <div class="kv">
+        <b>荣誉</b><span>入选 TIME 2025 年度最佳发明</span>
+        <b>价格</b><span class="price">入门套件 $44.99 起；旗舰套件约 $60（外壳需自己 3D 打印）</span>
+        <b>硬件</b><span>ESP32-C3 主控，遥控距离 100 米，一控多</span>
+      </div>
+      <p class="why">好玩：<em>打印一辆叉车、翻斗车，装上模块就能遥控</em>，MakerWorld 上有大量现成模型。讲课：App 配置 + MicroPython，可以让 AI 写 MicroPython 代码。评测吐槽编程界面比较简陋。</p>
+      <div class="links">
+        <a href="https://us.store.bambulab.com/products/cyberbrick-hardware-kit" target="_blank">官方商店</a>
+        <a href="https://makerworld.com/en/cyberbrick" target="_blank">MakerWorld 模型</a>
+        <a href="https://wiki.bambulab.com/en/makerworld/cyberbrick/intro" target="_blank">官方 Wiki</a>
+        <a href="https://www.makerhacks.com/bambu-lab-cyberbrick-review/" target="_blank">评测</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="card" id="bittle">
+    <div class="imgs"><img src="assets/bittle.webp" alt="Petoi Bittle X"></div>
+    <div class="body">
+      <div class="top"><h3>Petoi Bittle X V2 机器狗</h3><span class="tag s">机器人 · 机器狗</span></div>
+      <div class="kv">
+        <b>状态</b><span>在售，2026-11 仍有新评测</span>
+        <b>价格</b><span class="price">$319 起（散件 / 预装可选）</span>
+        <b>硬件</b><span>开源 OpenCat，内置语音模块，可选 AI 视觉模块</span>
+      </div>
+      <p class="why">好玩：<em>巴掌大，会后空翻</em>，35+ 中英文语音指令。讲课：积木（Petoi Coding Blocks）、Arduino、Python 都能编；社区有人接入 ChatGPT 实现自然对话。</p>
+      <div class="links">
+        <a href="https://www.petoi.com/products/petoi-robot-dog-bittle-x-voice-controlled" target="_blank">官方商店</a>
+        <a href="https://www.petoi.com/blogs/blog/talk-to-bittle-robot-dog-with-chatgpt" target="_blank">接 ChatGPT</a>
+        <a href="https://interestingengineering.com/innovation/bittle-x-robot-dog-by-petoi" target="_blank">报道</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="card" id="reachy">
+    <div class="imgs"><img src="assets/reachy.webp" alt="Reachy Mini"></div>
+    <div class="body">
+      <div class="top"><h3>Reachy Mini（Hugging Face）</h3><span class="tag d">演示机</span></div>
+      <div class="kv">
+        <b>更新</b><span>2026-09 推出 JS/WebRTC SDK，2026-10 推出手机 App 和 NFC“帽子”</span>
+        <b>价格</b><span class="price">Lite $399 / Wireless $499（2026-11 官网显示售罄）</span>
+        <b>开发</b><span>Python / JS SDK，有 MuJoCo 仿真，官方提供 AGENTS.md 给 Claude Code 读</span>
+      </div>
+      <p class="why">好玩：表情丰富的桌面机器人，<em>没有实物也能在仿真里开发</em>。价格高、常缺货，适合备一台做课堂演示。</p>
+      <div class="links">
+        <a href="https://huggingface.co/docs/reachy_mini/en/index" target="_blank">官方文档</a>
+        <a href="https://github.com/pollen-robotics/reachy_mini" target="_blank">GitHub</a>
+        <a href="https://github.com/pollen-robotics/reachy_mini/blob/main/AGENTS.md" target="_blank">AGENTS.md</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="card" id="so101">
+    <div class="imgs"><img src="assets/so101.webp" alt="SO-101 机械臂套件"></div>
+    <div class="body">
+      <div class="top"><h3>LeRobot SO-101 机械臂</h3><span class="tag d">演示机</span></div>
+      <div class="kv">
+        <b>定位</b><span>Hugging Face LeRobot 官方推荐的入门机械臂</span>
+        <b>价格</b><span class="price">自己打印：单臂约 $122，主从双臂约 $230；成品套件 $200–480</span>
+        <b>硬件</b><span>6 自由度，STS3215 总线舵机</span>
+      </div>
+      <p class="why">好玩：<em>手动示范约 50 次，AI 就学会抓取</em>，最直观的具身智能演示。门槛高，不适合零基础学员人手一台。</p>
+      <div class="links">
+        <a href="https://huggingface.co/docs/lerobot/so101" target="_blank">官方教程</a>
+        <a href="https://www.seeedstudio.com/SO-101-Imitation-Learning-Kit.html" target="_blank">Seeed 套件</a>
+        <a href="https://www.thebotscout.com/buying-guide/so-101-robot-arm/" target="_blank">选购指南</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="card" id="unitree">
+    <div class="body">
+      <div class="top"><h3>宇树 R1 EDU 人形机器人</h3><span class="tag d">天花板参考</span></div>
+      <div class="kv">
+        <b>开售</b><span>2026-04 全球开售，6 月底首批交付</span>
+        <b>价格</b><span class="price">EDU 版官方 $10,500 起；基础版 $4,900–5,900 但不开放 SDK</span>
+        <b>开发</b><span>EDU 版开放 SDK、ROS 2，可配 Jetson Orin</span>
+      </div>
+      <p class="why">讲课：只作为“行业天花板”放视频，让学员知道从桌面小机器人到人形机器人是一条路线。<em>注意基础版不能二次开发</em>，不建议培训采购。</p>
+      <div class="links">
+        <a href="https://blog.robozaps.com/b/unitree-r1-review" target="_blank">版本与价格</a>
+        <a href="https://www.westonrobot.com/platforms/humanoid/unitree-r1/" target="_blank">EDU 版说明</a>
+      </div>
+    </div>
+  </article>
+</div>
+
+<!-- ================= 可穿戴 ================= -->
+<h2 id="wear">眼镜与可穿戴</h2>
+<div class="grid">
+
+  <article class="card" id="rokid">
+    <div class="imgs"><img src="assets/rokid1.webp" alt="Rokid Glasses 2 发布会价格"></div>
+    <div class="body">
+      <div class="top"><h3>Rokid AI 眼镜 · AIUI Studio</h3><span class="tag s">可穿戴 · 零硬件</span></div>
+      <div class="kv">
+        <b>发布</b><span>AIUI Studio 2026-09（IFA）；Glasses 2 于 2026-10-27 发布</span>
+        <b>价格</b><span class="price">平台免费；Glasses 2 ¥3699（国补后 ¥3199）</span>
+        <b>开发</b><span>浏览器里开发智能体，自带硬件模拟器；灵珠平台可接私有大模型</span>
+      </div>
+      <p class="why">好玩：做一个“戴在脸上的智能体”。讲课：<em>没有眼镜也能开发和测试</em>，学员零硬件成本；备一副做现场演示即可。</p>
+      <div class="links">
+        <a href="https://ar.rokid.com" target="_blank">Rokid 开放平台</a>
+        <a href="https://news.qq.com/rain/a/20260907A07N9Q00" target="_blank">AIUI Studio 发布</a>
+        <a href="https://www.ithome.com/0/921/135.htm" target="_blank">自定义智能体</a>
+        <a href="https://www.ithome.com/1/018/475.htm" target="_blank">Glasses 2 价格</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="card" id="halo">
+    <div class="imgs"><img src="assets/halo.webp" alt="Brilliant Labs Halo"></div>
+    <div class="body">
+      <div class="top"><h3>Brilliant Labs Halo</h3><span class="tag s">可穿戴 · Vibe Mode</span></div>
+      <div class="kv">
+        <b>发布</b><span>2025-07 发布，2025-11 起发货</span>
+        <b>价格</b><span class="price">$399（2026-10 官网价，首发 $299）</span>
+        <b>硬件</b><span>40 克，彩色 micro-OLED 显示，骨传导，低功耗视觉传感器</span>
+      </div>
+      <p class="why">好玩：自带 <em>Vibe Mode，用自然语言直接给眼镜造应用</em>。讲课：设计文件和代码全部开源（Apache-2.0 / BSD-3），Lua 跑在 Zephyr 上，有 Flutter SDK。</p>
+      <div class="links">
+        <a href="https://brilliant.xyz" target="_blank">官网</a>
+        <a href="https://skarredghost.com/2025/07/31/brilliant-labs-halo/" target="_blank">发布详解</a>
+        <a href="https://oxivue.com/guides/brilliant-labs-halo-glasses" target="_blank">规格与价格</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="card" id="mentra">
+    <div class="imgs"><img class="contain" src="assets/mentra.webp" alt="Mentra Live"></div>
+    <div class="body">
+      <div class="top"><h3>Mentra Live</h3><span class="tag s">可穿戴 · 开源 OS</span></div>
+      <div class="kv">
+        <b>发布</b><span>2026-01 发布，2026-02 起发货</span>
+        <b>价格</b><span class="price">$449（官网仅发美国地址）</span>
+        <b>硬件</b><span>无显示屏，12MP 摄像头，三麦克风，43 克</span>
+      </div>
+      <p class="why">讲课：MentraOS 开源，<em>TypeScript SDK 开放摄像头、麦克风</em>，有自己的小程序商店；同一套 SDK 还支持 Even Realities G1/G2 等眼镜。国内买不方便。</p>
+      <div class="links">
+        <a href="https://www.engadget.com/wearables/mentras-first-smart-glasses-are-open-source-and-come-with-their-own-app-store-150021126.html" target="_blank">Engadget 报道</a>
+        <a href="https://oxivue.com/guides/open-source-smart-glasses" target="_blank">开源眼镜对比</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="card" id="omi">
+    <div class="imgs"><img src="assets/omi.webp" alt="Omi 吊坠"></div>
+    <div class="body">
+      <div class="top"><h3>Omi 吊坠 / Omi Glass</h3><span class="tag s">可穿戴 · 记忆</span></div>
+      <div class="kv">
+        <b>状态</b><span>持续更新，DevKit 2 与 Glass Dev Kit 在售</span>
+        <b>价格</b><span class="price">吊坠约 $89 起；固件开发套件 $59.99</span>
+        <b>开源</b><span>MIT 协议，硬件、固件、App、后端全在一个仓库</span>
+      </div>
+      <p class="why">好玩：<em>挂在胸前，自动转写对话、生成待办和记忆</em>。讲课：1000+ 应用，有 Webhook、REST API 和 MCP 服务，学员可以给它写插件。注意隐私问题要在课上讲清楚。</p>
+      <div class="links">
+        <a href="https://github.com/BasedHardware/omi" target="_blank">GitHub</a>
+        <a href="https://www.omi.me/products/omi-glass-dev-kit" target="_blank">Glass Dev Kit</a>
+        <a href="https://www.layer3labs.io/guides/omi-ai-review" target="_blank">评测</a>
+      </div>
+    </div>
+  </article>
+</div>
+
+<!-- ================= 家居 ================= -->
+<h2 id="home">桌面与智能家居</h2>
+<div class="grid">
+
+  <article class="card" id="hav">
+    <div class="imgs"><img src="assets/havoice.webp" alt="Home Assistant Voice PE"></div>
+    <div class="body">
+      <div class="top"><h3>Home Assistant Voice PE</h3><span class="tag s">家居 · MCP</span></div>
+      <div class="kv">
+        <b>更新</b><span>2026.10 版加入“一键连接 AI”（基于 MCP）</span>
+        <b>价格</b><span class="price">$59–69 / €59</span>
+        <b>硬件</b><span>ESP32-S3，双麦克风，配合 Home Assistant 使用</span>
+      </div>
+      <p class="why">好玩：<em>让 Claude、ChatGPT 直接读取和控制家里的设备</em>。讲课：也能全程本地（Whisper + Ollama），适合讲“隐私 vs 便利”。纯本地方案对电脑配置要求较高。</p>
+      <div class="links">
+        <a href="https://www.home-assistant.io/voice-pe/" target="_blank">官方页面</a>
+        <a href="https://www.privacysmarthome.com/guides/home-assistant-2026-8-local-ai-voice-ready-replace-cloud-2026/" target="_blank">本地 AI 指南</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="card" id="reterminal">
+    <div class="imgs"><img src="assets/reterminal.webp" alt="reTerminal E1001"></div>
+    <div class="body">
+      <div class="top"><h3>Seeed reTerminal E1001 墨水屏</h3><span class="tag s">家居 · 零代码 UI</span></div>
+      <div class="kv">
+        <b>发布</b><span>2025-09，现有 E1001–E1004 四款</span>
+        <b>价格</b><span class="price">E1001 黑白 7.5 英寸 $79；E1002 彩色 $109</span>
+        <b>硬件</b><span>ESP32-S3，续航约 3 个月</span>
+      </div>
+      <p class="why">好玩：<em>用 AI 零代码设计一块桌面看板</em>（天气、日程、待办）。讲课：默认固件 SenseCraft HMI（现名 Seeedash），也能刷 TRMNL 用 400+ 插件，或接 Home Assistant。</p>
+      <div class="links">
+        <a href="https://www.seeedstudio.com/reTerminal-E1001-p-6534.html" target="_blank">官方商店</a>
+        <a href="https://wiki.seeedstudio.com/reterminal_e10xx_main_page/" target="_blank">官方 Wiki</a>
+        <a href="https://github.com/Seeed-Projects/OSHW-reTerminal-Series-E-D" target="_blank">GitHub</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="card" id="modulellm">
+    <div class="imgs"><img class="contain" src="assets/modulellm.webp" alt="M5Stack Module LLM"></div>
+    <div class="body">
+      <div class="top"><h3>M5Stack Module LLM</h3><span class="tag s">家居 · 离线</span></div>
+      <div class="kv">
+        <b>更新</b><span>2026-03 模型升级，配调试转接板</span>
+        <b>价格</b><span class="price">见 M5Stack 官方商店</span>
+        <b>硬件</b><span>AX630C 3.2 TOPS，离线跑唤醒词、语音识别、大模型、语音合成</span>
+      </div>
+      <p class="why">讲课：<em>完全不联网的语音助手</em>，支持 UiFlow2 积木和 OpenAI 兼容接口，能和 StackChan 等 M5Stack 设备组合。注意：启动大模型时电流突增，供电不足会让主机重启。</p>
+      <div class="links">
+        <a href="https://shop.m5stack.com/products/m5stack-llm-large-language-model-module-kit-ax630c" target="_blank">官方商店</a>
+        <a href="https://docs.m5stack.com/en/module/Module-LLM" target="_blank">官方文档</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="card" id="xiaozhi">
+    <div class="imgs"><img src="assets/xiaozhi-lichuang.webp" alt="立创实战派 ESP32-S3"><img class="contain" src="assets/xiaozhi-mcp.webp" alt="小智 MCP 架构图"></div>
+    <div class="body">
+      <div class="top"><h3>小智 AI 生态（xiaozhi-esp32）</h3><span class="tag s">家居 · MCP 教具</span></div>
+      <div class="kv">
+        <b>版本</b><span>固件 v2.6.0，支持 MCP 2026-07-28 规范；GitHub 3 万+ star</span>
+        <b>价格</b><span class="price">立创实战派 ¥148；正点原子 ¥118 起；乐鑫 S3-BOX-3 ¥299</span>
+        <b>硬件</b><span>ESP32 全系，已适配 70+ 款开发板</span>
+      </div>
+      <p class="why">讲课：<em>设备端 MCP 控制 LED、舵机、GPIO，云端 MCP 控制智能家居、发邮件</em>，很适合讲清楚“AI 怎么调用工具”。网页一键刷固件，零代码即可开聊。</p>
+      <div class="links">
+        <a href="https://github.com/78/xiaozhi-esp32" target="_blank">GitHub 源码</a>
+        <a href="https://xiaozhi.dev/docs/development/" target="_blank">开发文档</a>
+        <a href="https://xiaozhi.me/xz-docs/docs/dev-boards/xiaozhi-ai-supports-dev-board/" target="_blank">支持开发板与购买</a>
+        <a href="https://item.szlcsc.com/43285221.html" target="_blank">立创商城</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="card" id="tuya">
+    <div class="imgs"><img class="contain" src="assets/tuya.webp" alt="涂鸦 Cobuilder 界面"></div>
+    <div class="body">
+      <div class="top"><h3>涂鸦 Cobuilder / TuyaOpen IDE</h3><span class="tag s">家居 · 零代码</span></div>
+      <div class="kv">
+        <b>发布</b><span>Cobuilder 于 2026 涂鸦全球开发者大会（欧洲）发布；TuyaOpen IDE 2026-07</span>
+        <b>价格</b><span class="price">未公开，需要先注册试用</span>
+        <b>硬件</b><span>T5 系列开发板（Wi-Fi 6 + BLE 5.4）</span>
+      </div>
+      <p class="why">好玩：<em>说一句话，从产品定义、App 界面、智能体到固件全部生成</em>，并编译烧录。讲课：TuyaOpen IDE 提供 Claude Code / Codex 可直接用的 skill。官方也提醒生成结果不等于能量产。</p>
+      <div class="links">
+        <a href="https://www.tuya.com/cobuilder" target="_blank">Cobuilder 官网</a>
+        <a href="https://tuyaopen.ai/docs/ide/vibe-coding" target="_blank">Vibe Coding 文档</a>
+        <a href="https://dev.to/tuyadeveloper/led-strip-tetris-zero-code-hardware-game-with-tuyaopen-claude-code-tutorial-49kd" target="_blank">Claude Code 俄罗斯方块教程</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="card" id="unoq">
+    <div class="imgs"><img src="assets/unoq.webp" alt="Arduino UNO Q"></div>
+    <div class="body">
+      <div class="top"><h3>Arduino UNO Q + App Lab</h3><span class="tag s">家居 · 有基础学员</span></div>
+      <div class="kv">
+        <b>发布</b><span>App Lab 的 Agentic Mode 于 2026-08 上线</span>
+        <b>价格</b><span class="price">2GB $59 / 4GB $79（2026-07 涨价后）</span>
+        <b>硬件</b><span>高通 QRB2210（Linux）+ STM32（实时控制），一块板两个“大脑”</span>
+      </div>
+      <p class="why">讲课：IDE 内置 AI 写代码的智能体模式，板子上还能跑 Gemma、Qwen 等本地小模型，可以讲<em>“不联网的 AI 硬件”</em>。偏传统嵌入式，学习曲线较陡。</p>
+      <div class="links">
+        <a href="https://store.arduino.cc/products/uno-q" target="_blank">官方商店</a>
+        <a href="https://circuitdigest.com/microcontroller-projects/arduino-uno-q-getting-started" target="_blank">Agent 模式教程</a>
+        <a href="https://blog.arduino.cc/2026/10/08/one-year-of-uno-q-built-together-open-by-design/" target="_blank">一周年回顾</a>
+      </div>
+    </div>
+  </article>
+</div>
+
+<!-- ================= 图形化 ================= -->
+<h2 id="blocks">图形化编程入口 <small>零基础学员先拖积木，再过渡到 AI 写代码</small></h2>
+<table>
+  <thead><tr><th>工具</th><th>搭配硬件</th><th>AI 相关能力</th><th>链接</th></tr></thead>
+  <tbody>
+    <tr><td>Mixly 3.0（米思齐）</td><td>AiTall V3 等小智图形化开发板、Arduino、ESP32</td><td>积木里直接调用小智语音对话，通过 MCP 控制本地设备</td><td><a href="https://zhuanlan.zhihu.com/p/2025537375909029869" target="_blank">AiTall 介绍</a></td></tr>
+    <tr><td>UiFlow2（M5Stack）</td><td>StackChan、Module LLM、M5 全系</td><td>网页积木，可调用离线大模型模块（语音识别 / 对话 / 合成）</td><td><a href="https://docs.m5stack.com/en/uiflow2/uiflow_web" target="_blank">官方文档</a></td></tr>
+    <tr><td>SenseCraft AI（Seeed）</td><td>Grove Vision AI V2、Watcher、reCamera、XIAO</td><td>浏览器零代码训练视觉模型，输入名字即生成检测模型（beta）</td><td><a href="https://sensecraft.seeed.cc/en" target="_blank">平台</a></td></tr>
+    <tr><td>Seeedash（原 SenseCraft HMI）</td><td>reTerminal E 系列墨水屏</td><td>AI 辅助的零代码界面设计</td><td><a href="https://sensecraft-hmi-docs.seeed.cc/en/supported_hardware/" target="_blank">文档</a></td></tr>
+    <tr><td>二哈识图 2 屏幕操作</td><td>HuskyLens 2</td><td>不用电脑，按键即可学习新物体 / 人脸</td><td><a href="https://www.dfrobot.com/huskylens/huskylens2" target="_blank">产品页</a></td></tr>
+    <tr><td>Petoi Coding Blocks</td><td>Bittle X 机器狗</td><td>积木编排动作，可切换到 Python / Arduino</td><td><a href="https://www.petoi.com/" target="_blank">官网</a></td></tr>
+    <tr><td>CyberBrick App</td><td>拓竹 CyberBrick</td><td>App 配置遥控逻辑，进阶写 MicroPython</td><td><a href="https://wiki.bambulab.com/en/makerworld/cyberbrick/intro" target="_blank">Wiki</a></td></tr>
+    <tr><td>慧编程 mBlock</td><td>55+ 款主控硬件</td><td>语音、图像、文字识别积木（资料较旧，是否接入新大模型需核实）</td><td><a href="https://www.mblock.cc/zh-cn/blog/mblock/6259" target="_blank">介绍</a></td></tr>
+  </tbody>
+</table>
+
+<h2 id="path">建议的课程路线</h2>
+<div class="path">
+  <div class="step"><div class="n">STEP 1 · 开场</div><h4>AI 动起来了</h4><p>Claude Desktop Buddy 或 StackChan，30 分钟让学员看到 AI 连上物理世界。</p></div>
+  <div class="step"><div class="n">STEP 2 · 看得见</div><h4>视觉识别</h4><p>二哈识图 2 或 SenseCraft 零代码训练，从“认得出”走到“接大模型看得懂”。</p></div>
+  <div class="step"><div class="n">STEP 3 · 自己做</div><h4>手搓一个</h4><p>纸壳机器人 / 小智 Otto 人手一个，或用 ESP-Mosaico 让 AI 写应用，顺带讲 MCP。</p></div>
+  <div class="step"><div class="n">STEP 4 · 结课</div><h4>作品级项目</h4><p>复刻 HachimoDock / 小歪，或在 Rokid AIUI Studio 做眼镜智能体。</p></div>
+</div>
+
+<footer>图片来源：各产品官方页、GitHub 仓库、CNX Software、IT之家、什么值得买等，仅用于内部选品参考。价格会变，采购前请以官方商店为准。</footer>
+</div>
+<div class="cb-watermark">chengbei.org · 2026-11-25</div>
+<script data-goatcounter="https://chengbei.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>

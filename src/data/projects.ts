@@ -13,6 +13,7 @@ export type Project = {
 };
 
 export const projects: Project[] = [
+  { titleZh: 'Vibe Coding × 智能硬件选品', titleEn: 'Vibe Coding × Hardware Picks', href: '/ai-hardware-picks/', cover: '/assets/img/project-covers/hardware.webp', date: '2026-11-25', kind: '专题', descriptionZh: '30 款好玩、接 AI 门槛低、能二次开发的智能硬件，附价格、链接与视觉识别对照。', descriptionEn: '30 fun, AI-ready and hackable gadgets with prices, links and a vision-AI comparison.', featured: true },
   { titleZh: '面试岗位集锦', titleEn: 'AI Job Interview Field Guide', href: '/ai-jobs/', cover: '/assets/img/project-covers/jobs.webp', date: '2026-09-20', kind: '专题', descriptionZh: '基于可复核公开招聘样本，持续拆解 AI 岗位、能力边界与面试准备。', descriptionEn: 'An evidence-led, growing guide to AI roles, skill boundaries and interview preparation.', featured: true },
   { titleZh: 'AI 就业直播合规与增长手册', titleEn: 'AI Career Livestream Compliance Guide', href: '/livestream-compliance/', cover: '/assets/img/project-covers/livestream.webp', date: '2026-09-10', kind: '课程', descriptionZh: '直播违禁表达、就业与薪资承诺边界、选题、话术和开播自检。', descriptionEn: 'Compliance boundaries, topics, scripts and a pre-flight checklist for AI career livestreams.', featured: true },
   { titleZh: '一个人的 Mac 直播间', titleEn: 'A Solo Mac Livestream Setup', href: '/mac-livestream-setup/', cover: '/assets/img/project-covers/mac-studio.webp', date: '2026-08-31', kind: '专题', descriptionZh: '从调研、踩坑到跑通视频号直播的一次真实搭建记录。', descriptionEn: 'A field log of building a Mac-based livestream workflow.', featured: true },

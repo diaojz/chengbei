@@ -42,3 +42,7 @@ A single beautifully designed cobalt-blue desktop microphone with an ivory circu
 
 所有项目必须在 src/data/projects.ts 绑定 cover 字段。首页和项目列表共用该字段；不要使用数组序号来关联封面。封面为概念插画或原有配图，不应描述成产品界面截图。图片统一静态 WebP，声明宽高，首屏之后懒加载，不使用循环动画。正式路径与项目对应关系以数据文件为准。
 
+
+### hardware.webp（2026-11-25 新增）
+
+Codex 原生 image_gen 生成，沿用同一风格：3:2 编辑式 3D 静物，象牙白陶瓷小方块桌面机器人（深色屏上两个钴蓝圆点眼睛）、暖橙摄像头模块、钴蓝小电路板、三卷整齐盘起的细线、背景纸板小机器人。主题是用 AI 编程玩转智能硬件。无文字、标识、人物或 UI。

@@ -41,6 +41,7 @@ window.I18N = {
     ],
     artifacts: [
       // 按创作日期倒排（最新在前）；无日期的外链项目排在最后
+      { label: 'Vibe Coding × 智能硬件 · 30 款好玩又能二次开发的 AI 硬件', href: '/ai-hardware-picks/', date: '2026-11-25' },
       { label: 'AI 编程 Agent 生态地图 · 调查、时间线与主流组合', href: '#/p/ai-coding-agent-landscape-2026', date: '2026-10-09' },
       { label: '面试岗位集锦 · AI 岗位 JD、能力要求与面试准备', href: '/ai-jobs/', date: '2026-09-20' },
       { label: 'MCP Python SDK 2.0 迁移指南 · 别把它当成一次改名升级', href: '#/p/mcp-python-sdk-v2-migration', date: '2026-08-31' },
@@ -127,6 +128,7 @@ window.I18N = {
     ],
     artifacts: [
       // Sorted by creation date, newest first; dateless external items last
+      { label: 'Vibe Coding × Hardware · 30 hackable AI gadgets for hands-on teaching', href: '/ai-hardware-picks/', date: '2026-11-25' },
       { label: 'AI Coding Agent Landscape · survey data, timeline, and common setups', href: '#/p/ai-coding-agent-landscape-2026', date: '2026-10-09' },
       { label: 'AI Job Interview Field Guide · JDs, skills and interview preparation', href: '/ai-jobs/', date: '2026-09-20' },
       { label: 'MCP Python SDK 2.0 Migration Guide · Not Just a Rename', href: '#/p/mcp-python-sdk-v2-migration', date: '2026-08-31' },

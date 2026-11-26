@@ -16,6 +16,7 @@
 
 | 项目 | 地址 | 说明 |
 |---|---|---|
+| Vibe Coding × 智能硬件选品 | /ai-hardware-picks/ | 2026-11-25 · 面向 AI 培训的 30 款智能硬件：视觉识别专区（能力对照表）、百元手搓、机器人、AI 眼镜、智能家居、图形化编程入口 · 图片为各官方页/媒体来源的压缩 webp · 站内独立页 |
 | 面试岗位集锦 | /ai-jobs/ | 2026-09-20 · 已建档 10 个 AI 岗位的详情与面试准备页；AI 产品经理已有 25 条去重样本，其余岗位均明确标注研究状态与样本边界。 |
 | 一个人的 Mac 直播间 | /mac-livestream-setup/ | 2026-08-31 · 从0搭建个人直播间实录：调研→制定计划→两次被B站账号权限推翻（5000粉门槛+Mac客户端无开播）→改道微信视频号跑通 · Codex 生封面图 + Figma 流程图 · 站内独立页 |
 | AI 原生 SDLC 六阶段闭环 | #/p/ai-native-sdlc-playbook | 2026-08-26 · Claude 官方《The AI-native SDLC playbook》中文通俗解读 · Plan/Design/Build/Test/Deploy/Maintain 六阶段怎么重做一遍 · 随笔文章，非独立页 |

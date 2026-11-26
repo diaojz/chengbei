@@ -11,8 +11,8 @@ new Script(outputText).runInNewContext(context);
 const projects = context.exports.projects;
 
 test('每个已上线项目都有独立封面，引用文件存在且确为 WebP', async () => {
-  assert.equal(projects.length, 16);
-  assert.equal(new Set(projects.map((project) => project.cover)).size, 16);
+  assert.equal(projects.length, 17);
+  assert.equal(new Set(projects.map((project) => project.cover)).size, 17);
   for (const project of projects) {
     assert.ok(project.cover.startsWith('/assets/img/'), project.titleZh);
     const bytes = await readFile(project.cover.slice(1));
