@@ -52,6 +52,8 @@
 6. `</body>` 前加 GoatCounter 计数脚本（抄首页那行 `data-goatcounter`）
 7. `js/i18n.js` zh / en 两个 `artifacts` 数组加入口 + 更新本 README 的 Ships 表
 8. 页面若依赖 mermaid 等本地库：改用站点共享 `/lib/`（绝对路径 `<script src="/lib/mermaid.min.js">`），不要每页塞一份副本
+9. **把 `<slug>` 加进 `scripts/copy-legacy.mjs` 的 `legacyPaths`**——Astro 构建只复制登记过的旧站目录，漏了线上 404；页内图片放 `<slug>/assets/` 并压成 WebP（参考：`ai-hardware-picks` 31 张图压到约 1MB）
+10. 项目页卡片：`src/data/projects.ts` 加一条（`cover` 必填且不可与其他项目重复，WebP 720×480 放 `assets/img/project-covers/`，生成方式记入该目录 README），同步把 `tests/project-covers.test.mjs` 里写死的项目数 +1；收尾跑 `npm run check && npm run build`
 
 ---
 
